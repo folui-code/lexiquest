@@ -247,6 +247,9 @@ const App = {
   },
 
   vault(filter = "all") {
+    if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
+      Leaderboard.syncProfilePull();
+    }
     const el = $("#screen-vault");
     const list = VOCAB.filter((c) => { const m = Store.mastery(c.id); return filter === "all" || (filter === "weak" && m > 0 && m < 3) || (filter === "new" && m === 0) || (filter === "mastered" && m >= 3); });
     el.innerHTML = `<button class="back-btn" id="vault-back">← Home</button>

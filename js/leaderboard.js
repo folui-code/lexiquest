@@ -143,7 +143,16 @@ const Leaderboard = {
           if (typeof App !== "undefined") {
             if (App.renderTop) App.renderTop();
             if (App.renderHome) App.renderHome();
+            if ($("#screen-vault") && $("#screen-vault").classList.contains("active") && App.vault) {
+              App.vault();
+            }
           }
+        }
+      } else {
+        // Cloud profile not found or empty, but local device has existing progress!
+        // Immediately push local progress so other devices (e.g. phone) can get it!
+        if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
+          this.syncProfilePush();
         }
       }
     } catch (e) {
@@ -164,7 +173,22 @@ const Leaderboard = {
       const role = auth.role || "student";
       const xp = Store.d.xp || 0;
       const streak = Store.d.streak || 0;
-      const words = JSON.stringify(Store.d.words || {});
+
+      // Compact only active words that have been encountered
+      const activeWords = {};
+      const allWords = Store.d.words || {};
+      for (const id in allWords) {
+        if (allWords[id] && allWords[id].seen) {
+          activeWords[id] = {
+            reps: allWords[id].reps || 0,
+            seen: allWords[id].seen || 0,
+            ok: allWords[id].ok || 0,
+            bad: allWords[id].bad || 0,
+            ef: allWords[id].ef || 2.5
+          };
+        }
+      }
+      const words = JSON.stringify(activeWords);
 
       const params = new URLSearchParams({
         action: "sync_push",
