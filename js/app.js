@@ -49,18 +49,19 @@ const App = {
           </div>
         </div>
 
+        ${a.role === "staff" ? `
         <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);text-align:left">
           <details style="font-size:0.8rem;color:var(--muted)">
-            <summary style="color:var(--gold);cursor:pointer;font-weight:600">📊 Google Sheets Leaderboard URL</summary>
+            <summary style="color:var(--gold);cursor:pointer;font-weight:600">⚙️ Teacher / Admin Settings: Cloud Backend URL</summary>
             <div style="margin-top:8px">
-              <p style="margin-bottom:6px">Paste your published Google Apps Script Web App URL below:</p>
+              <p style="margin-bottom:6px">Default is your school Google Sheet Web App. Only modify if updating deployments:</p>
               <div style="display:flex;gap:6px">
                 <input id="input-lb-url" type="text" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(localStorage.getItem("hpccss_leaderboard_url") || Leaderboard.API_URL || "")}" style="flex:1;font-size:0.75rem;padding:6px 10px;margin:0" />
                 <button class="btn secondary" id="btn-save-lb-url" style="padding:6px 12px;font-size:0.8rem">Save</button>
               </div>
             </div>
           </details>
-        </div>
+        </div>` : ""}
       </div>
     `);
 
