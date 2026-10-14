@@ -39,7 +39,7 @@ const Leaderboard = {
 
     try {
       const target = `${url}${url.includes("?") ? "&" : "?"}action=get&mode=${encodeURIComponent(mode)}&_t=${now}`;
-      const resp = await fetch(target, { method: "GET" });
+      const resp = await fetch(target, { method: "GET", cache: "no-store" });
       if (!resp.ok) return null;
       const data = await resp.json();
       if (data && data.leaderboard) {
@@ -59,24 +59,28 @@ const Leaderboard = {
     if (!url) return;
 
     const auth = (Store && Store.d && Store.d.auth) || {};
-    const name = (Store && Store.d && Store.d.name) || auth.name || "Scholar";
+    const rawHash = auth.emailHash || "";
+    const emailHash = (typeof window !== "undefined" && window.HPCCSS_CANONICAL_MAP && window.HPCCSS_CANONICAL_MAP[rawHash]) || rawHash;
+    const officialName = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[emailHash])
+                      || (Store && Store.d && Store.d.name)
+                      || auth.name
+                      || "Scholar";
     const role = auth.role || "student";
-    const emailHash = auth.emailHash || "";
 
     try {
       const params = new URLSearchParams({
         action: "submit",
         mode: mode,
-        name: name,
+        name: officialName,
         score: String(score),
         role: role,
         hash: emailHash
       });
 
-      const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}`;
+      const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}&_t=${Date.now()}`;
       
-      // Fire submission
-      const resp = await fetch(target, { method: "GET" });
+      // Fire submission with cache no-store
+      const resp = await fetch(target, { method: "GET", cache: "no-store" });
       if (resp.ok) {
         const data = await resp.json();
         if (data && data.leaderboard) {
@@ -92,25 +96,35 @@ const Leaderboard = {
     }
 
     // Also push Word Vault & XP progress in background
-    this.syncProfilePush();
+    await this.syncProfilePush();
   },
 
   // Pull student's cross-device Word Vault & XP record from Google Sheets
   async syncProfilePull() {
     const auth = (Store && Store.d && Store.d.auth) || {};
-    const emailHash = auth.emailHash || "";
-    if (!emailHash) return;
+    const rawHash = auth.emailHash || "";
+    if (!rawHash) return;
+    const emailHash = (typeof window !== "undefined" && window.HPCCSS_CANONICAL_MAP && window.HPCCSS_CANONICAL_MAP[rawHash]) || rawHash;
     const url = this.API_URL;
     if (!url) return;
 
     try {
       const target = `${url}${url.includes("?") ? "&" : "?"}action=sync_pull&hash=${encodeURIComponent(emailHash)}&_t=${Date.now()}`;
-      const resp = await fetch(target, { method: "GET" });
+      const resp = await fetch(target, { method: "GET", cache: "no-store" });
       if (!resp.ok) return;
       const data = await resp.json();
       if (data && data.profile) {
         const p = data.profile;
         let changed = false;
+
+        // Ensure official roster name is enforced locally
+        if (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[emailHash]) {
+          const off = window.HPCCSS_ROSTER[emailHash];
+          if (Store.d.name !== off) {
+            Store.d.name = off;
+            changed = true;
+          }
+        }
 
         // Take higher XP and streak
         if (p.xp && p.xp > Store.d.xp) {
@@ -122,7 +136,7 @@ const Leaderboard = {
           changed = true;
         }
 
-        // Merge Word Vault mastery data
+        // Merge Word Vault mastery data across devices
         if (p.words && typeof p.words === "object") {
           Store.d.words = Store.d.words || {};
           for (const id in p.words) {
@@ -131,9 +145,22 @@ const Leaderboard = {
             if (!lw) {
               Store.d.words[id] = rw;
               changed = true;
-            } else if ((rw.reps || 0) > (lw.reps || 0) || (rw.seen || 0) > (lw.seen || 0)) {
-              Store.d.words[id] = Object.assign({}, lw, rw);
-              changed = true;
+            } else {
+              const maxSeen = Math.max(lw.seen || 0, rw.seen || 0);
+              const maxReps = Math.max(lw.reps || 0, rw.reps || 0);
+              const maxOk = Math.max(lw.ok || 0, rw.ok || 0);
+              const maxBad = Math.max(lw.bad || 0, rw.bad || 0);
+              const ef = rw.ef || lw.ef || 2.5;
+              if (maxSeen > (lw.seen || 0) || maxReps > (lw.reps || 0)) {
+                Store.d.words[id] = Object.assign({}, lw, rw, {
+                  seen: maxSeen,
+                  reps: maxReps,
+                  ok: maxOk,
+                  bad: maxBad,
+                  ef: ef
+                });
+                changed = true;
+              }
             }
           }
         }
@@ -150,9 +177,8 @@ const Leaderboard = {
         }
       } else {
         // Cloud profile not found or empty, but local device has existing progress!
-        // Immediately push local progress so other devices (e.g. phone) can get it!
         if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
-          this.syncProfilePush();
+          await this.syncProfilePush();
         }
       }
     } catch (e) {
@@ -163,13 +189,17 @@ const Leaderboard = {
   // Push student's cross-device Word Vault & XP record to Google Sheets
   async syncProfilePush() {
     const auth = (Store && Store.d && Store.d.auth) || {};
-    const emailHash = auth.emailHash || "";
-    if (!emailHash) return;
+    const rawHash = auth.emailHash || "";
+    if (!rawHash) return;
+    const emailHash = (typeof window !== "undefined" && window.HPCCSS_CANONICAL_MAP && window.HPCCSS_CANONICAL_MAP[rawHash]) || rawHash;
     const url = this.API_URL;
     if (!url) return;
 
     try {
-      const name = (Store && Store.d && Store.d.name) || auth.name || "Scholar";
+      const officialName = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[emailHash])
+                        || (Store && Store.d && Store.d.name)
+                        || auth.name
+                        || "Scholar";
       const role = auth.role || "student";
       const xp = Store.d.xp || 0;
       const streak = Store.d.streak || 0;
@@ -193,15 +223,15 @@ const Leaderboard = {
       const params = new URLSearchParams({
         action: "sync_push",
         hash: emailHash,
-        name: name,
+        name: officialName,
         role: role,
         xp: String(xp),
         streak: String(streak),
         words: words
       });
 
-      const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}`;
-      await fetch(target, { method: "GET" });
+      const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}&_t=${Date.now()}`;
+      await fetch(target, { method: "GET", cache: "no-store" });
     } catch (e) {
       console.warn("[Leaderboard] Cloud profile push note:", e);
     }

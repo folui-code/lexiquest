@@ -12,98 +12,92 @@ const App = {
     Store.load();
     $("#btn-logo").onclick = () => showScreen("home");
     $("#btn-mute").onclick = () => { Store.d.muted = !Store.d.muted; Store.save(); this.renderTop(); Sfx.click(); };
-    $("#btn-user").onclick = () => {
-      const a = Store.d.auth;
-      if (!a) return Auth.renderAuthModal();
-      modal(`
-        <div style="text-align:center;padding:12px 6px">
-          <div style="font-size:3rem">🎓</div>
-          <h2 style="margin:8px 0 4px">${esc(Store.d.name)}</h2>
-          <p class="muted" style="font-size:0.88rem;margin-bottom:16px">Role: <b style="color:var(--cyan)">${esc((a.role || "student").toUpperCase())}</b> (${esc(a.domain)})</p>
-          <div style="display:flex;gap:10px;justify-content:center;margin-bottom:12px">
-            <button class="btn small" id="btn-modal-logout" style="border-color:var(--red);color:#fca5a5">🚪 Switch / Logout</button>
-            <button class="btn small primary" id="btn-modal-close-acc">Back</button>
-          </div>
-
-          <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);text-align:left">
-            <details style="font-size:0.8rem;color:var(--muted)">
-              <summary style="color:var(--gold);cursor:pointer;font-weight:600">📊 Google Sheets Leaderboard URL</summary>
-              <div style="margin-top:8px">
-                <p style="margin-bottom:6px">Paste your published Google Apps Script Web App URL below:</p>
-                <div style="display:flex;gap:6px">
-                  <input id="input-lb-url" type="text" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(localStorage.getItem("hpccss_leaderboard_url") || Leaderboard.API_URL || "")}" style="flex:1;font-size:0.75rem;padding:6px 10px;margin:0" />
-                  <button class="btn secondary" id="btn-save-lb-url" style="padding:6px 12px;font-size:0.8rem">Save</button>
-                </div>
-              </div>
-            </details>
-          </div>
-        </div>
-      `);
-      $("#btn-modal-logout").onclick = () => Auth.logout();
-      $("#btn-modal-close-acc").onclick = closeModal;
-      const saveLbBtn = $("#btn-save-lb-url");
-      if (saveLbBtn) {
-        saveLbBtn.onclick = () => {
-          const val = ($("#input-lb-url").value || "").trim();
-          Leaderboard.setApiUrl(val);
-          toast("✅ Leaderboard Web App URL saved!");
-          this.renderScoreboard(this.currentSbTab || "rush");
-        };
-      }
-    };
+    $("#btn-user").onclick = () => this.showAccountModal();
+    $("#player-name").onclick = () => this.showAccountModal();
     $("#mode-rush").onclick = () => { Sfx.click(); Rush.intro(); };
     $("#mode-wordle").onclick = () => { Sfx.click(); Wordle.intro(); };
     $("#mode-matrix").onclick = () => { Sfx.click(); Matrix.intro(); };
     $("#btn-vault").onclick = () => this.vault();
     $("#btn-chest").onclick = () => this.openChest();
-    $("#player-name").onclick = () => Auth.renderAuthModal();
     this.renderHome();
 
     // Enforce HPCCSS authentication and whitelist check
     await Auth.checkAuth();
   },
 
-  askName() {
-    modal(`<h2>👋 Welcome to <span class="grad-text">LexiQuest</span></h2>
-      <p>Master <b>${VOCAB.length} academic words &amp; expressions</b> across three game modes. Play every day to keep your 🔥 streak alive!</p>
-      <form id="name-form" onsubmit="return false;" style="margin-top:14px">
-        <label for="name-input" class="muted" style="display:block;margin-bottom:6px;font-size:0.85rem">Enter your name or nickname:</label>
-        <input id="name-input" maxlength="16" placeholder="e.g. Alex, Chris (or leave blank for Scholar)" value="${esc(Store.d.name || '')}" autocomplete="name" />
-        <div class="modal-actions">
-          <button type="submit" class="btn primary" id="name-go">Let's go →</button>
-          <button type="button" class="btn secondary" id="name-skip">Play as Guest</button>
+  showAccountModal() {
+    const a = Store.d.auth;
+    if (!a) return Auth.renderAuthModal();
+    const hash = a.emailHash || "";
+    const officialName = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[hash]) || Store.d.name || a.name || "Scholar";
+    modal(`
+      <div style="text-align:center;padding:12px 6px">
+        <div style="font-size:3rem">🎓</div>
+        <h2 style="margin:8px 0 4px">${esc(officialName)}</h2>
+        <div style="display:inline-block;padding:3px 10px;border-radius:12px;background:rgba(56,189,248,0.15);border:1px solid var(--cyan);color:var(--cyan);font-size:0.78rem;font-weight:700;margin-bottom:12px">
+          ✅ OFFICIAL HPCCSS ACCOUNT (${esc((a.role || "student").toUpperCase())})
         </div>
-      </form>`);
+        <p class="muted" style="font-size:0.85rem;line-height:1.4;margin-bottom:16px;text-align:left;background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:8px;border:1px solid var(--line)">
+          🔒 <b>Display Name Locked:</b> Names are strictly bound to your official school roster to ensure consistent records and verified school leaderboards across all your devices.
+        </p>
 
-    const saveAndProceed = (nameVal) => {
-      const v = (nameVal || "").trim() || Store.d.name || "Scholar";
-      Store.d.name = v;
-      Store.save();
-      closeModal();
-      this.renderHome();
-      toast(`✨ Welcome, <b>${esc(v)}</b>! Choose a mode below.`);
-      Sfx.levelup();
-    };
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          <button class="btn primary" id="btn-modal-sync" style="font-size:0.9rem;padding:10px 16px">🔄 Sync Cloud Data Now (Phone &amp; Mac)</button>
+          <div style="display:flex;gap:10px;justify-content:center">
+            <button class="btn small" id="btn-modal-logout" style="border-color:var(--red);color:#fca5a5">🚪 Switch / Logout</button>
+            <button class="btn small secondary" id="btn-modal-close-acc">Close</button>
+          </div>
+        </div>
 
-    const form = $("#name-form");
-    if (form) {
-      form.onsubmit = (e) => {
-        e.preventDefault();
-        saveAndProceed($("#name-input").value);
+        <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);text-align:left">
+          <details style="font-size:0.8rem;color:var(--muted)">
+            <summary style="color:var(--gold);cursor:pointer;font-weight:600">📊 Google Sheets Leaderboard URL</summary>
+            <div style="margin-top:8px">
+              <p style="margin-bottom:6px">Paste your published Google Apps Script Web App URL below:</p>
+              <div style="display:flex;gap:6px">
+                <input id="input-lb-url" type="text" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(localStorage.getItem("hpccss_leaderboard_url") || Leaderboard.API_URL || "")}" style="flex:1;font-size:0.75rem;padding:6px 10px;margin:0" />
+                <button class="btn secondary" id="btn-save-lb-url" style="padding:6px 12px;font-size:0.8rem">Save</button>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    `);
+
+    const syncBtn = $("#btn-modal-sync");
+    if (syncBtn) {
+      syncBtn.onclick = async () => {
+        syncBtn.textContent = "⏳ Syncing...";
+        syncBtn.disabled = true;
+        if (typeof Leaderboard !== "undefined") {
+          if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
+            await Leaderboard.syncProfilePush();
+          }
+          await Leaderboard.syncProfilePull();
+        }
+        syncBtn.textContent = "✅ Synced!";
+        toast("✅ Progress synced with Google Cloud!");
+        setTimeout(() => {
+          closeModal();
+          this.renderHome();
+        }, 600);
       };
     }
-    const skipBtn = $("#name-skip");
-    if (skipBtn) {
-      skipBtn.onclick = () => saveAndProceed("Scholar");
+    $("#btn-modal-logout").onclick = () => Auth.logout();
+    $("#btn-modal-close-acc").onclick = closeModal;
+    const saveLbBtn = $("#btn-save-lb-url");
+    if (saveLbBtn) {
+      saveLbBtn.onclick = () => {
+        const val = ($("#input-lb-url").value || "").trim();
+        Leaderboard.setApiUrl(val);
+        toast("✅ Leaderboard Web App URL saved!");
+        this.renderScoreboard(this.currentSbTab || "rush");
+      };
     }
+  },
 
-    const input = $("#name-input");
-    if (input) {
-      setTimeout(() => {
-        input.focus();
-        input.select();
-      }, 80);
-    }
+  askName() {
+    // Prohibited: Custom nicknames are disabled. Official school names are locked.
   },
 
   renderTop() {
@@ -253,10 +247,35 @@ const App = {
     const el = $("#screen-vault");
     const list = VOCAB.filter((c) => { const m = Store.mastery(c.id); return filter === "all" || (filter === "weak" && m > 0 && m < 3) || (filter === "new" && m === 0) || (filter === "mastered" && m >= 3); });
     el.innerHTML = `<button class="back-btn" id="vault-back">← Home</button>
-      <div class="vault-head"><div><h1>📚 Word Vault</h1><p class="muted">Tap any word to study its card. ★ = mastery level.</p></div>
-      <div class="vault-filter">${["all", "new", "weak", "mastered"].map((f) => `<button class="btn small ${f === filter ? "on" : ""}" id="vf-${f}" data-f="${f}">${f[0].toUpperCase() + f.slice(1)}</button>`).join("")}</div></div>
+      <div class="vault-head">
+        <div>
+          <h1>📚 Word Vault</h1>
+          <p class="muted">Tap any word to study its card. ★ = mastery level.</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+          <button class="btn small" id="vault-sync-btn" title="Sync with Google Cloud" style="font-size:0.75rem;padding:6px 12px;border-color:var(--cyan);color:var(--cyan)">🔄 Cloud Sync</button>
+          <div class="vault-filter">${["all", "new", "weak", "mastered"].map((f) => `<button class="btn small ${f === filter ? "on" : ""}" id="vf-${f}" data-f="${f}">${f[0].toUpperCase() + f.slice(1)}</button>`).join("")}</div>
+        </div>
+      </div>
       <div class="vault-grid">${list.map((c) => `<button class="vword" id="vw-${c.id}" data-id="${c.id}"><b>${esc(c.word)}</b><small>${esc(c.pos)}</small>${stars(c.id)}</button>`).join("") || `<p class="muted">Nothing here yet. Go play!</p>`}</div>`;
     $("#vault-back").onclick = () => showScreen("home");
+    const syncBtn = $("#vault-sync-btn");
+    if (syncBtn) {
+      syncBtn.onclick = async () => {
+        syncBtn.textContent = "⏳ Syncing...";
+        syncBtn.disabled = true;
+        if (typeof Leaderboard !== "undefined") {
+          if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
+            await Leaderboard.syncProfilePush();
+          }
+          await Leaderboard.syncProfilePull();
+        }
+        syncBtn.textContent = "🔄 Cloud Sync";
+        syncBtn.disabled = false;
+        toast("✅ Word Vault synced with Google Cloud!");
+        this.vault(filter);
+      };
+    }
     $$(".vault-filter [data-f]").forEach((b) => (b.onclick = () => this.vault(b.dataset.f)));
     $$(".vword").forEach((b) => (b.onclick = () => {
       const id = +b.dataset.id;

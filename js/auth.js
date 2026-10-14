@@ -137,29 +137,34 @@ const Auth = {
     }
 
     // Success! Student or staff member is authenticated via real Google login
-    const nickname = ($("#auth-nickname-input") ? $("#auth-nickname-input").value.trim() : "") || payload.given_name || email.split("@")[0].toUpperCase();
-    const hash = await this.sha256(email);
+    const rawHash = await this.sha256(email);
+    const canonicalHash = (window.HPCCSS_CANONICAL_MAP && window.HPCCSS_CANONICAL_MAP[rawHash]) || rawHash;
+    const officialName = (window.HPCCSS_ROSTER && (window.HPCCSS_ROSTER[canonicalHash] || window.HPCCSS_ROSTER[rawHash]))
+                      || payload.name
+                      || payload.given_name
+                      || email.split("@")[0].toUpperCase();
 
     Store.d.auth = {
-      emailHash: hash,
+      emailHash: canonicalHash,
+      rawHash: rawHash,
       domain: email.split("@")[1],
       role: res.role,
-      name: nickname,
+      name: officialName,
       picture: payload.picture || "",
       verifiedAt: Date.now()
     };
-    Store.d.name = nickname;
+    Store.d.name = officialName;
     Store.save();
 
     if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
-      Leaderboard.syncProfilePull();
+      await Leaderboard.syncProfilePull();
     }
 
     closeModal();
     App.renderHome();
     Sfx.fanfare();
     Fx.confetti(150);
-    toast(`🎓 Welcome, <b>${esc(nickname)}</b> (${res.role.toUpperCase()})!`);
+    toast(`🎓 Welcome, <b>${esc(officialName)}</b> (${res.role.toUpperCase()})!`);
   },
 
   // Setup Google Identity Services Button
@@ -196,6 +201,12 @@ const Auth = {
 
   // Renders the Google Sign-In & Verification Gate Modal
   renderAuthModal() {
+    if (Store.d && Store.d.auth && Store.d.auth.emailHash) {
+      if (typeof App !== "undefined" && App.showAccountModal) {
+        return App.showAccountModal();
+      }
+    }
+
     const isPlaceholderId = this.CLIENT_ID.startsWith("YOUR_GOOGLE_CLIENT_ID");
 
     const html = `
@@ -213,23 +224,10 @@ const Auth = {
           </p>
           <ul style="font-size:0.8rem;color:var(--muted);padding-left:18px;line-height:1.5">
             <li>Must physically sign in with an official school Google account.</li>
-            <li>Typing someone else's email is impossible and rejected.</li>
             <li>Accepts only: <code>@student / @teacher / @staff / @hpccss.edu.hk</code>.</li>
-            <li>Student IDs and classes are protected by SHA-256 one-way encryption.</li>
+            <li><b>Official School Name:</b> Verified automatically from the school roster. Custom nicknames are disabled.</li>
+            <li>Cross-device Word Vault progress is linked directly to your Google account.</li>
           </ul>
-        </div>
-
-        <div style="margin-bottom:16px;text-align:left">
-          <label for="auth-nickname-input" class="muted" style="font-size:0.85rem;display:block;margin-bottom:6px">
-            Leaderboard Nickname (optional):
-          </label>
-          <input 
-            id="auth-nickname-input" 
-            type="text" 
-            maxlength="16"
-            placeholder="e.g. Alex, Chris (or auto from Google)"
-            style="width:100%"
-          />
         </div>
 
         <!-- Official Google Sign-In Button Container -->
@@ -316,8 +314,12 @@ const Auth = {
       return false;
     }
 
+    const rawHash = Store.d.auth.rawHash || Store.d.auth.emailHash;
+    const canonicalHash = (window.HPCCSS_CANONICAL_MAP && (window.HPCCSS_CANONICAL_MAP[rawHash] || window.HPCCSS_CANONICAL_MAP[Store.d.auth.emailHash])) || Store.d.auth.emailHash;
+    Store.d.auth.emailHash = canonicalHash;
+
     if (window.HPCCSS_HASH_WHITELIST && window.HPCCSS_HASH_WHITELIST.size > 0) {
-      if (!window.HPCCSS_HASH_WHITELIST.has(Store.d.auth.emailHash)) {
+      if (!window.HPCCSS_HASH_WHITELIST.has(rawHash) && !window.HPCCSS_HASH_WHITELIST.has(canonicalHash)) {
         Store.d.auth = null;
         Store.save();
         this.renderAuthModal();
@@ -325,8 +327,19 @@ const Auth = {
       }
     }
 
+    // Force official roster name from school list
+    const officialName = (window.HPCCSS_ROSTER && (window.HPCCSS_ROSTER[canonicalHash] || window.HPCCSS_ROSTER[rawHash])) || Store.d.auth.name;
+    if (officialName) {
+      Store.d.name = officialName;
+      Store.d.auth.name = officialName;
+      Store.save();
+      if (typeof App !== "undefined" && App.renderHome) {
+        App.renderHome();
+      }
+    }
+
     if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
-      Leaderboard.syncProfilePull();
+      await Leaderboard.syncProfilePull();
     }
     return true;
   },
