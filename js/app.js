@@ -20,14 +20,36 @@ const App = {
           <div style="font-size:3rem">🎓</div>
           <h2 style="margin:8px 0 4px">${esc(Store.d.name)}</h2>
           <p class="muted" style="font-size:0.88rem;margin-bottom:16px">Role: <b style="color:var(--cyan)">${esc((a.role || "student").toUpperCase())}</b> (${esc(a.domain)})</p>
-          <div style="display:flex;gap:10px;justify-content:center">
+          <div style="display:flex;gap:10px;justify-content:center;margin-bottom:12px">
             <button class="btn small" id="btn-modal-logout" style="border-color:var(--red);color:#fca5a5">🚪 Switch / Logout</button>
             <button class="btn small primary" id="btn-modal-close-acc">Back</button>
+          </div>
+
+          <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);text-align:left">
+            <details style="font-size:0.8rem;color:var(--muted)">
+              <summary style="color:var(--gold);cursor:pointer;font-weight:600">📊 Google Sheets Leaderboard URL</summary>
+              <div style="margin-top:8px">
+                <p style="margin-bottom:6px">Paste your published Google Apps Script Web App URL below:</p>
+                <div style="display:flex;gap:6px">
+                  <input id="input-lb-url" type="text" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(localStorage.getItem("hpccss_leaderboard_url") || Leaderboard.API_URL || "")}" style="flex:1;font-size:0.75rem;padding:6px 10px;margin:0" />
+                  <button class="btn secondary" id="btn-save-lb-url" style="padding:6px 12px;font-size:0.8rem">Save</button>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       `);
       $("#btn-modal-logout").onclick = () => Auth.logout();
       $("#btn-modal-close-acc").onclick = closeModal;
+      const saveLbBtn = $("#btn-save-lb-url");
+      if (saveLbBtn) {
+        saveLbBtn.onclick = () => {
+          const val = ($("#input-lb-url").value || "").trim();
+          Leaderboard.setApiUrl(val);
+          toast("✅ Leaderboard Web App URL saved!");
+          this.renderScoreboard(this.currentSbTab || "rush");
+        };
+      }
     };
     $("#mode-rush").onclick = () => { Sfx.click(); Rush.intro(); };
     $("#mode-wordle").onclick = () => { Sfx.click(); Wordle.intro(); };
@@ -150,6 +172,28 @@ const App = {
     const listEl = $("#sb-list");
     if (!listEl) return;
 
+    const renderList = (rows) => {
+      const sorted = [...rows].sort((a, b) => b.s - a.s);
+      const userName = (Store.d.name || "").toLowerCase().trim();
+
+      listEl.innerHTML = sorted.slice(0, 8).map((entry, idx) => {
+        const rank = idx + 1;
+        const rankClass = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : rank === 3 ? "rank-3" : "";
+        const isUser = userName && entry.n.toLowerCase().includes(userName);
+        const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
+
+        return `
+          <div class="scoreboard-row ${rankClass} ${isUser ? "is-user" : ""}">
+            <div class="sb-player-info">
+              <span class="sb-rank-badge">${medal}</span>
+              <span class="sb-player-name">${esc(entry.n)} ${isUser ? '<span style="color:var(--cyan);font-size:0.75rem">(You)</span>' : ''}</span>
+            </div>
+            <div class="sb-score-val">${fmt(entry.s)} <span style="font-size:0.75rem;color:var(--muted);font-weight:500">pts</span></div>
+          </div>
+        `;
+      }).join("");
+    };
+
     let rows = Store.d.lb && Store.d.lb[mode] ? [...Store.d.lb[mode]] : [];
 
     // Fallback seed demo records if leaderboard has few entries yet
@@ -178,27 +222,16 @@ const App = {
       rows = defaults[mode] || [];
     }
 
-    // Sort descending by score
-    rows.sort((a, b) => b.s - a.s);
+    renderList(rows);
 
-    const userName = (Store.d.name || "").toLowerCase().trim();
-
-    listEl.innerHTML = rows.slice(0, 8).map((entry, idx) => {
-      const rank = idx + 1;
-      const rankClass = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : rank === 3 ? "rank-3" : "";
-      const isUser = userName && entry.n.toLowerCase().includes(userName);
-      const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
-
-      return `
-        <div class="scoreboard-row ${rankClass} ${isUser ? "is-user" : ""}">
-          <div class="sb-player-info">
-            <span class="sb-rank-badge">${medal}</span>
-            <span class="sb-player-name">${esc(entry.n)} ${isUser ? '<span style="color:var(--cyan);font-size:0.75rem">(You)</span>' : ''}</span>
-          </div>
-          <div class="sb-score-val">${fmt(entry.s)} <span style="font-size:0.75rem;color:var(--muted);font-weight:500">pts</span></div>
-        </div>
-      `;
-    }).join("");
+    // Fetch live scores from Google Sheets if configured
+    if (typeof Leaderboard !== "undefined" && Leaderboard.getTopScores) {
+      Leaderboard.getTopScores(mode).then((cloudRows) => {
+        if (cloudRows && cloudRows.length > 0 && this.currentSbTab === mode) {
+          renderList(cloudRows);
+        }
+      });
+    }
   },
 
   openChest() {

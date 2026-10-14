@@ -332,6 +332,9 @@ function showResults({ mode, emoji, title, score, stats, review = [], replay, xp
   const isBest = Store.setBest(mode, score);
   const myT = Store.addLB(mode, score);
   Store.addXP(xp); Store.recordPlay();
+  if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) {
+    Leaderboard.submitScore(mode, score);
+  }
   const lb = Store.d.lb[mode] || [];
   const el = $("#screen-results");
   el.innerHTML = `<div class="results">
