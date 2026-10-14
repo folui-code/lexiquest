@@ -217,6 +217,17 @@ function showScreen(id) {
   scrollTo({ top: 0, behavior: "smooth" });
   if (id === "home") App.renderHome();
 }
+
+function stars(id) {
+  const m = (typeof Store !== "undefined" && Store.mastery) ? Store.mastery(id) : 0;
+  let html = '<div class="stars">';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="${i <= m ? 'on' : ''}">★</span>`;
+  }
+  html += '</div>';
+  return html;
+}
+
 let currentUtterance = null;
 function pronounce(text, rate = 0.9) {
   if (!("speechSynthesis" in window)) {
