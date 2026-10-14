@@ -55,12 +55,19 @@
   font-family: var(--font-h); font-weight: 800; font-size: clamp(1.2rem, 3vw, 1.5rem);
   color: var(--text); user-select: none; transition: transform .15s, border-color .15s, background .15s;
 }
+.cr-slot.word-slot {
+  width: auto; min-width: clamp(72px, 14vw, 135px); padding: 0 14px;
+  height: clamp(44px, 6.2vw, 52px); font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-weight: 700; border-radius: 14px; white-space: nowrap;
+}
 .cr-slot.punct { width: auto; min-width: 14px; height: auto; border: none; background: transparent; font-size: 1.4rem; color: var(--muted); }
 .cr-slot.active { border-color: var(--cyan); box-shadow: 0 0 16px -2px #22d3ee99; transform: translateY(-2px); }
 .cr-slot.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--emerald); color: #a7f3d0; animation: pop .25s; }
 .cr-slot.hint-slot { border-color: #fbbf2488; background: rgba(251, 191, 36, 0.08); }
 .cr-slot.hint-slot:not(.correct) .cr-char { color: #fde68a; opacity: 0.85; }
 .cr-slot.error { background: rgba(251, 113, 133, 0.25); border-color: var(--red); color: #fecdd3; animation: shake .3s; }
+.cr-slot.has-content { cursor: pointer; }
+.cr-slot.has-content:hover { border-color: rgba(251, 113, 133, 0.5); }
 
 .cr-hint-badge {
   position: absolute; top: -7px; right: -5px; font-size: 0.55rem; font-weight: 900;
@@ -69,20 +76,47 @@
 
 .cr-actions { display: flex; gap: 10px; justify-content: center; margin-top: 6px; }
 
-/* On-screen virtual keyboard with zero-lag touch optimization */
-.cr-keyboard, .w-keyboard {
-  max-width: 580px;
-  margin: 12px auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  touch-action: manipulation;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
+/* Scrambled Tile Bank */
+.cr-tile-bank-wrap {
+  width: 100%; max-width: 660px; margin: 12px auto 0;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
-.cr-kb-row, .w-kb-row { display: flex; gap: 5px; justify-content: center; }
-.cr-key, .w-key {
+.cr-tiles-bank {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;
+  padding: 12px 14px; border-radius: 18px; background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed var(--line); min-height: 58px; width: 100%; box-sizing: border-box;
+  touch-action: manipulation; user-select: none; -webkit-user-select: none;
+}
+.cr-tile {
+  min-width: clamp(38px, 6vw, 48px); height: clamp(44px, 6.5vw, 50px); padding: 0 10px;
+  border-radius: 12px; background: linear-gradient(145deg, #1e293b, #0f172a);
+  border: 1.5px solid rgba(56, 189, 248, 0.4); color: #f8fafc;
+  font-family: var(--font-h); font-weight: 800; font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); transform: translateZ(0);
+  transition: transform 0.08s ease, opacity 0.15s ease, background 0.1s ease, border-color 0.1s ease;
+}
+.cr-tile:hover:not(.used) { border-color: var(--cyan); background: linear-gradient(145deg, #334155, #1e293b); transform: translateY(-2px) translateZ(0); }
+.cr-tile:active:not(.used) { transform: scale(0.92) translateZ(0); }
+.cr-tile.word-tile {
+  min-width: clamp(75px, 15vw, 120px); padding: 0 16px; border-radius: 999px;
+  font-size: clamp(0.92rem, 2.2vw, 1.12rem); font-weight: 700;
+  border-color: rgba(167, 139, 250, 0.45); background: linear-gradient(145deg, #2e1065, #1e1b4b); color: #f5f3ff;
+}
+.cr-tile.word-tile:hover:not(.used) { border-color: var(--violet); background: linear-gradient(145deg, #4c1d95, #2e1065); }
+.cr-tile.used {
+  opacity: 0.18; pointer-events: none; cursor: default;
+  border-color: rgba(255, 255, 255, 0.08); box-shadow: none; transform: scale(0.88);
+}
+
+/* Wordle on-screen keyboard */
+.w-keyboard {
+  max-width: 580px; margin: 12px auto 0; display: flex; flex-direction: column; gap: 6px;
+  touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+}
+.w-kb-row { display: flex; gap: 5px; justify-content: center; }
+.w-key {
   height: 48px; min-width: 34px; flex: 1; border-radius: 8px;
   background: rgba(255,255,255,0.08); border: 1px solid var(--line);
   font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: var(--text);
@@ -92,8 +126,8 @@
   cursor: pointer; transform: translateZ(0);
   transition: transform .05s ease, background .08s ease;
 }
-.cr-key:active, .w-key:active { transform: scale(0.92) translateZ(0); background: rgba(255,255,255,0.22); }
-.cr-key.wide, .w-key.wide { flex: 1.5; font-size: 0.82rem; }
+.w-key:active { transform: scale(0.92) translateZ(0); background: rgba(255,255,255,0.22); }
+.w-key.wide { flex: 1.5; font-size: 0.82rem; }
 
 /* =========================================================
    MODE 2: LEXIWORDLE
