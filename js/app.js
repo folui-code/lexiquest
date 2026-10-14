@@ -222,7 +222,11 @@ const App = {
       <div class="vault-grid">${list.map((c) => `<button class="vword" id="vw-${c.id}" data-id="${c.id}"><b>${esc(c.word)}</b><small>${esc(c.pos)}</small>${stars(c.id)}</button>`).join("") || `<p class="muted">Nothing here yet. Go play!</p>`}</div>`;
     $("#vault-back").onclick = () => showScreen("home");
     $$(".vault-filter [data-f]").forEach((b) => (b.onclick = () => this.vault(b.dataset.f)));
-    $$(".vword").forEach((b) => (b.onclick = () => showWord(VOCAB[+b.dataset.id])));
+    $$(".vword").forEach((b) => (b.onclick = () => {
+      const id = +b.dataset.id;
+      const card = VOCAB.find((x) => x.id === id) || VOCAB[id];
+      if (card) showWord(card);
+    }));
     if (!$("#screen-vault").classList.contains("active")) showScreen("vault");
   }
 };

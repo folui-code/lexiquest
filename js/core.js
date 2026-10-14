@@ -217,24 +217,55 @@ function showScreen(id) {
   scrollTo({ top: 0, behavior: "smooth" });
   if (id === "home") App.renderHome();
 }
+let currentUtterance = null;
 function pronounce(text, rate = 0.9) {
   if (!("speechSynthesis" in window)) {
     toast("Speech synthesis not supported on this browser.");
     return;
   }
-  window.speechSynthesis.cancel(); // Stop any ongoing speech
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.rate = rate; // Slightly slower for clear academic pronunciation
-  utter.pitch = 1.0;
-  
-  // Try to pick a natural English voice (UK or US)
-  const voices = window.speechSynthesis.getVoices();
-  const enVoice = voices.find(v => v.lang.startsWith("en-GB") || v.name.includes("British")) ||
-                  voices.find(v => v.lang.startsWith("en-US")) ||
-                  voices.find(v => v.lang.startsWith("en"));
-  if (enVoice) utter.voice = enVoice;
+  try {
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.resume();
+  } catch (e) {}
 
-  window.speechSynthesis.speak(utter);
+  setTimeout(() => {
+    try {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US";
+      utter.rate = rate;
+      utter.pitch = 1.0;
+
+      const voices = window.speechSynthesis.getVoices() || [];
+      const enVoice = voices.find(v => v.lang && (v.lang.startsWith("en-GB") || v.lang.startsWith("en_GB") || (v.name && v.name.includes("British")))) ||
+                      voices.find(v => v.lang && (v.lang.startsWith("en-US") || v.lang.startsWith("en_US") || (v.name && v.name.includes("Samantha")))) ||
+                      voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en"));
+      if (enVoice) {
+        utter.voice = enVoice;
+        utter.lang = enVoice.lang;
+      }
+
+      currentUtterance = utter;
+      utter.onend = () => { currentUtterance = null; };
+      utter.onerror = (e) => {
+        console.warn("TTS notice:", e);
+        currentUtterance = null;
+      };
+
+      window.speechSynthesis.speak(utter);
+    } catch (err) {
+      console.warn("Pronounce failed:", err);
+    }
+  }, 40);
+}
+
+// Pre-warm speech synthesis voices on startup
+if (typeof window !== "undefined" && "speechSynthesis" in window) {
+  window.speechSynthesis.getVoices();
+  if ("onvoiceschanged" in window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+  }
 }
 
 function wordCardHTML(c) {
@@ -246,21 +277,23 @@ function wordCardHTML(c) {
           <span class="pos">${esc(c.pos)}</span>
           <div style="display:flex;align-items:center;gap:12px;margin:2px 0 8px">
             <h2 style="font-size:1.8rem;margin:0">${esc(c.word)}</h2>
-            <button class="pill icon-btn" id="btn-speak-word" title="Listen to pronunciation" style="padding:6px 10px;font-size:1.1rem;background:rgba(34,211,238,0.15);border-color:var(--cyan);color:var(--cyan)">
-              🔊
+            <button class="pill icon-btn" id="btn-speak-word" title="Listen to pronunciation" style="padding:6px 12px;font-size:1.2rem;background:rgba(34,211,238,0.18);border:1px solid var(--cyan);color:var(--cyan);cursor:pointer">
+              🔊 Listen
             </button>
           </div>
         </div>
       </div>
       <p style="font-size:1rem;color:#cbd5e1;line-height:1.5">${esc(c.meaning)}</p>
       <div class="syn">${c.synonyms.map((s) => `<span>${esc(s)}</span>`).join("")}</div>
-      <div style="position:relative;margin:12px 0 16px">
+      <div style="margin:14px 0 16px">
         <blockquote>
           ${ctx}
         </blockquote>
-        <button class="btn small" id="btn-speak-sentence" title="Listen to context sentence" style="padding:4px 10px;font-size:0.8rem;background:rgba(255,255,255,0.06);position:absolute;bottom:8px;right:8px">
-          🔊 Read Sentence
-        </button>
+        <div style="display:flex;justify-content:flex-end;margin-top:6px">
+          <button class="btn small" id="btn-speak-sentence" title="Listen to context sentence" style="padding:5px 12px;font-size:0.82rem;background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3);cursor:pointer">
+            🔊 Read Example Sentence
+          </button>
+        </div>
       </div>
       ${stars(c.id)}
     </div>
@@ -268,22 +301,25 @@ function wordCardHTML(c) {
 }
 
 function showWord(c) {
+  if (!c) return;
   modal(`${wordCardHTML(c)}<div style="margin-top:18px;display:flex;justify-content:space-between;align-items:center"><span class="muted" style="font-size:0.82rem">💡 Tap 🔊 to hear native pronunciation</span><button class="btn small" id="btn-close-word">Got it</button></div>`);
   $("#btn-close-word").onclick = closeModal;
   
   const speakWordBtn = $("#btn-speak-word");
   if (speakWordBtn) {
-    speakWordBtn.onclick = () => {
+    speakWordBtn.onclick = (e) => {
+      e.stopPropagation();
       pronounce(c.word, 0.88);
-      speakWordBtn.style.transform = "scale(1.2)";
+      speakWordBtn.style.transform = "scale(1.15)";
       setTimeout(() => { if (speakWordBtn) speakWordBtn.style.transform = ""; }, 250);
     };
   }
 
   const speakSentenceBtn = $("#btn-speak-sentence");
   if (speakSentenceBtn) {
-    speakSentenceBtn.onclick = () => {
-      const fullSentence = c.context.replace(/___/g, c.word);
+    speakSentenceBtn.onclick = (e) => {
+      e.stopPropagation();
+      const fullSentence = c.raw_sentence || (c.context ? c.context.replace(/___/g, c.word) : c.word);
       pronounce(fullSentence, 0.95);
       speakSentenceBtn.style.transform = "scale(1.08)";
       setTimeout(() => { if (speakSentenceBtn) speakSentenceBtn.style.transform = ""; }, 250);
