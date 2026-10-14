@@ -319,12 +319,17 @@ const Rush = {
     });
     if (curGroup.length) wordGroups.push(curGroup);
 
+    // Calculate maximum word length to adaptively scale letter slots to fit phone screens
+    const maxWordLen = Math.max(...wordGroups.map(g => g.length), 1);
+    container.style.setProperty("--wlen", maxWordLen);
+
     let html = [];
     wordGroups.forEach((group, gIdx) => {
       if (gIdx > 0) {
         html.push(`<div class="cr-space-sep"></div>`);
       }
-      let groupHtml = `<div class="cr-word-group">`;
+      const wordLen = group.length;
+      let groupHtml = `<div class="cr-word-group" style="--wlen:${wordLen}">`;
       group.forEach((s) => {
         if (!s.isLetter) {
           groupHtml += `<div class="cr-slot punct" data-idx="${s.id}">${esc(s.ch)}</div>`;
@@ -388,7 +393,7 @@ const Rush = {
       if (gIdx > 0) {
         html.push(`<div class="cr-tile-group-sep"></div>`);
       }
-      let groupHtml = `<div class="cr-tile-group">`;
+      let groupHtml = `<div class="cr-tile-group" style="--tlen:${group.length}">`;
       group.forEach(t => {
         let cls = "cr-tile";
         if (t.used) cls += " used";
