@@ -23,7 +23,7 @@ const Rush = {
         <ul>
           <li>⏳ You start with <b>${this.START}s</b> on the clock</li>
           <li>📝 Read the context sentence &amp; deduce the missing academic expression</li>
-          <li>🧩 <b>Unscramble the tiles</b> in order: letter tiles for words, word tiles for phrases</li>
+          <li>🧩 <b>Unscramble the tiles:</b> Scrambled word-by-word with the 1st letter hint pre-pressed</li>
           <li>💻 <b>Desktop:</b> Click tiles or type on your physical keyboard</li>
           <li>📱 <b>Phone:</b> Tap the scrambled tiles — fast, tactile, zero typing lag!</li>
           <li>💡 <b>Hint (−2s):</b> Autoplaces the next tile · <b>⌫ Undo:</b> Returns last tile</li>
@@ -202,122 +202,135 @@ const Rush = {
     const words = trimmed.split(/\s+/);
     this.isPhrase = words.length > 1;
 
-    if (this.isPhrase) {
-      // Phrasal mode: slots and tiles are individual words
-      words.forEach((w, idx) => {
-        const cleanWord = w.replace(/^[“"'(]+|[”"')]+$/g, "");
-        this.slots.push({
-          id: idx,
-          ch: cleanWord,
-          norm: cleanWord.toUpperCase(),
-          isLetter: true,
-          isWord: true,
-          typedCh: null,
-          tileId: null,
-          correct: false,
-          isHint: false,
-          hasError: false
-        });
+    let globalSlotId = 0;
+    let globalTileId = 0;
 
-        this.tiles.push({
-          id: idx,
-          val: cleanWord,
-          norm: cleanWord.toUpperCase(),
-          type: "word",
-          used: false
-        });
-      });
-    } else {
-      // Single word mode: slots and tiles are letters
-      const chars = [...trimmed.toUpperCase()];
-      chars.forEach((ch, idx) => {
-        const isLetter = /[A-Z]/.test(ch);
-        this.slots.push({
-          id: idx,
+    words.forEach((w, wIdx) => {
+      const chars = [...w.toUpperCase()];
+      const wordLetterTiles = [];
+      let firstLetterSlot = null;
+
+      chars.forEach((ch) => {
+        const isLetter = /[A-Z0-9]/.test(ch);
+        const slot = {
+          id: globalSlotId++,
+          wIdx: wIdx,
           ch: ch,
           norm: ch,
           isLetter: isLetter,
-          isWord: false,
           typedCh: isLetter ? null : ch,
           tileId: null,
           correct: !isLetter,
           isHint: false,
           hasError: false
-        });
+        };
+        this.slots.push(slot);
 
         if (isLetter) {
-          this.tiles.push({
-            id: idx,
+          const tile = {
+            id: globalTileId++,
+            wIdx: wIdx,
             val: ch,
             norm: ch,
-            type: "letter",
-            used: false
-          });
+            used: false,
+            isHint: false
+          };
+          wordLetterTiles.push(tile);
+          if (!firstLetterSlot) {
+            firstLetterSlot = slot;
+          }
         }
       });
-    }
 
-    // Scramble tiles
-    this.scrambleTiles();
+      // Scramble letter tiles for this word
+      const scrambled = this.scrambleWordTiles(wordLetterTiles);
+
+      // Pre-fill the first letter of this word as a hint
+      // Its virtual keyboard key will be pre-pressed and cannot be clicked
+      if (firstLetterSlot && wordLetterTiles.length > 0) {
+        const hintTile = scrambled.find(t => t.val === firstLetterSlot.norm && !t.used);
+        if (hintTile) {
+          hintTile.used = true;
+          hintTile.isHint = true;
+          firstLetterSlot.typedCh = hintTile.val;
+          firstLetterSlot.tileId = hintTile.id;
+          firstLetterSlot.correct = true;
+          firstLetterSlot.isHint = true;
+        }
+      }
+
+      this.tiles.push(...scrambled);
+    });
+
+    // Advance cursor to first unsolved slot
+    this.advanceCursorToStart();
 
     // Render slots & tiles
     this.renderSlots();
     this.renderTiles();
   },
 
-  scrambleTiles() {
+  advanceCursorToStart() {
+    const firstUnsolved = this.slots.findIndex(s => s.isLetter && !s.correct);
+    this.activeIdx = firstUnsolved !== -1 ? firstUnsolved : 0;
+  },
+
+  scrambleWordTiles(wordTiles) {
+    if (wordTiles.length <= 1) return [...wordTiles];
+    if (wordTiles.length === 2) {
+      // e.g. "AT" -> "T A"
+      return [wordTiles[1], wordTiles[0]];
+    }
+    const originalStr = wordTiles.map(t => t.val).join("");
+    const firstVal = wordTiles[0].val;
+    let arr = [...wordTiles];
     let attempts = 0;
-    const original = this.tiles.map(t => t.val).join(" ");
     do {
-      shuffle(this.tiles);
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
       attempts++;
-    } while (this.tiles.length > 2 && attempts < 10 && this.tiles.map(t => t.val).join(" ") === original);
+    } while (attempts < 30 && (arr.map(t => t.val).join("") === originalStr || arr[0].val === firstVal));
+
+    // Ensure scrambled word tiles do not match original string or start with original first letter
+    if (arr.map(t => t.val).join("") === originalStr || arr[0].val === firstVal) {
+      arr.push(arr.shift());
+    }
+    return arr;
   },
 
   renderSlots() {
     const container = $("#r-slots");
     if (!container) return;
 
+    // Group slots by wIdx
+    const wordGroups = [];
+    let curGroup = [];
+    let lastWIdx = null;
+
+    this.slots.forEach((s) => {
+      if (lastWIdx !== null && s.wIdx !== lastWIdx) {
+        if (curGroup.length) wordGroups.push(curGroup);
+        curGroup = [];
+      }
+      lastWIdx = s.wIdx;
+      curGroup.push(s);
+    });
+    if (curGroup.length) wordGroups.push(curGroup);
+
     let html = [];
-    if (this.isPhrase) {
-      this.slots.forEach((s, idx) => {
-        const isActive = idx === this.activeIdx;
-        const isDone = s.correct && s.typedCh !== null;
-        const isHint = s.isHint;
-        const display = s.typedCh || "";
-
-        let cls = "cr-slot word-slot";
-        if (isActive) cls += " active";
-        if (isDone) cls += " correct";
-        if (isHint) cls += " hint-slot";
-        if (s.hasError) cls += " error";
-        if (display) cls += " has-content";
-
-        html.push(`
-          <div class="${cls}" data-idx="${idx}" title="${display ? "Tap to remove" : ""}">
-            <span class="cr-char">${esc(display || "· · ·")}</span>
-            ${isHint ? '<span class="cr-hint-badge">HINT</span>' : ''}
-          </div>
-        `);
-      });
-    } else {
-      let curWord = [];
-      this.slots.forEach((s, idx) => {
-        if (s.ch === " ") {
-          if (curWord.length) {
-            html.push(`<div class="cr-word-group">${curWord.join("")}</div>`);
-            curWord = [];
-          }
-          html.push(`<div class="cr-space-sep"></div>`);
-          return;
-        }
-
+    wordGroups.forEach((group, gIdx) => {
+      if (gIdx > 0) {
+        html.push(`<div class="cr-space-sep"></div>`);
+      }
+      let groupHtml = `<div class="cr-word-group">`;
+      group.forEach((s) => {
         if (!s.isLetter) {
-          curWord.push(`<div class="cr-slot punct" data-idx="${idx}">${esc(s.ch)}</div>`);
+          groupHtml += `<div class="cr-slot punct" data-idx="${s.id}">${esc(s.ch)}</div>`;
           return;
         }
-
-        const isActive = idx === this.activeIdx;
+        const isActive = s.id === this.activeIdx;
         const isDone = s.correct && s.typedCh !== null;
         const isHint = s.isHint;
         const display = s.typedCh || "";
@@ -327,21 +340,22 @@ const Rush = {
         if (isDone) cls += " correct";
         if (isHint) cls += " hint-slot";
         if (s.hasError) cls += " error";
-        if (display) cls += " has-content";
+        if (display && !isHint) cls += " has-content";
 
-        curWord.push(`
-          <div class="${cls}" data-idx="${idx}" title="${display ? "Tap to remove" : ""}">
+        groupHtml += `
+          <div class="${cls}" data-idx="${s.id}" title="${display && !isHint ? "Tap to remove" : ""}">
             <span class="cr-char">${esc(display)}</span>
             ${isHint ? '<span class="cr-hint-badge">HINT</span>' : ''}
           </div>
-        `);
+        `;
       });
-      if (curWord.length) html.push(`<div class="cr-word-group">${curWord.join("")}</div>`);
-    }
+      groupHtml += `</div>`;
+      html.push(groupHtml);
+    });
 
     container.innerHTML = html.join("");
 
-    // Clicking any filled slot returns the tile back to the scrambled pool!
+    // Clicking any non-hint filled slot returns the tile back to the bank
     $$("#r-slots .cr-slot[data-idx]").forEach(slotEl => {
       slotEl.onclick = () => {
         const idx = +slotEl.dataset.idx;
@@ -354,11 +368,38 @@ const Rush = {
     const container = $("#r-tiles");
     if (!container) return;
 
-    container.innerHTML = this.tiles.map(t => {
-      let cls = `cr-tile ${t.type === "word" ? "word-tile" : ""}`;
-      if (t.used) cls += " used";
-      return `<button class="${cls}" data-tid="${t.id}" ${t.used ? "disabled" : ""}>${esc(t.val)}</button>`;
-    }).join("");
+    // Group tiles by wIdx so scrambled words are neatly arranged
+    const wordGroups = [];
+    let curGroup = [];
+    let lastWIdx = null;
+
+    this.tiles.forEach(t => {
+      if (lastWIdx !== null && t.wIdx !== lastWIdx) {
+        if (curGroup.length) wordGroups.push(curGroup);
+        curGroup = [];
+      }
+      lastWIdx = t.wIdx;
+      curGroup.push(t);
+    });
+    if (curGroup.length) wordGroups.push(curGroup);
+
+    let html = [];
+    wordGroups.forEach((group, gIdx) => {
+      if (gIdx > 0) {
+        html.push(`<div class="cr-tile-group-sep"></div>`);
+      }
+      let groupHtml = `<div class="cr-tile-group">`;
+      group.forEach(t => {
+        let cls = "cr-tile";
+        if (t.used) cls += " used";
+        if (t.isHint) cls += " hint-tile";
+        groupHtml += `<button class="${cls}" data-tid="${t.id}" ${t.used ? "disabled" : ""}>${esc(t.val)}</button>`;
+      });
+      groupHtml += `</div>`;
+      html.push(groupHtml);
+    });
+
+    container.innerHTML = html.join("");
 
     // Zero-lag touch listeners
     $$("#r-tiles .cr-tile:not(.used)").forEach(btn => {
@@ -382,10 +423,11 @@ const Rush = {
     const tile = this.tiles.find(t => t.id === tileId);
     if (!tile || tile.used) return;
 
-    // Check against active slot
     if (this.activeIdx < 0 || this.activeIdx >= this.slots.length) return;
     const slot = this.slots[this.activeIdx];
+    if (!slot || !slot.isLetter || slot.correct) return;
 
+    // Matching condition: same letter character
     if (tile.norm === slot.norm) {
       tile.used = true;
       slot.typedCh = tile.val;
@@ -415,7 +457,7 @@ const Rush = {
   unpickSlot(idx) {
     if (this.locked || this.over) return;
     const slot = this.slots[idx];
-    if (!slot || slot.typedCh === null) return;
+    if (!slot || slot.typedCh === null || slot.isHint) return; // hints cannot be unpicked!
 
     if (slot.tileId !== null) {
       const tile = this.tiles.find(t => t.id === slot.tileId);
@@ -425,7 +467,6 @@ const Rush = {
     slot.tileId = null;
     slot.correct = false;
     slot.hasError = false;
-    slot.isHint = false;
     this.activeIdx = idx;
     Sfx.click();
 
@@ -436,9 +477,13 @@ const Rush = {
   handleBackspace() {
     if (this.locked || this.over) return;
 
-    // Find previous filled slot
+    // Find previous filled non-hint slot
     let targetIdx = this.activeIdx - 1;
-    while (targetIdx >= 0 && (!this.slots[targetIdx].isLetter || this.slots[targetIdx].typedCh === null)) {
+    while (targetIdx >= 0) {
+      const s = this.slots[targetIdx];
+      if (s.isLetter && !s.isHint && s.typedCh !== null) {
+        break;
+      }
       targetIdx--;
     }
 
@@ -457,41 +502,40 @@ const Rush = {
     if (this.locked || this.over) return;
     const key = rawKey.toUpperCase();
 
-    if (this.isPhrase) {
-      // Match available unused word tile starting with key or equals key
-      const unused = this.tiles.filter(t => !t.used);
-      const match = unused.find(t => t.norm.startsWith(key)) || unused.find(t => t.norm.includes(key));
+    if (this.activeIdx < 0 || this.activeIdx >= this.slots.length) return;
+    const slot = this.slots[this.activeIdx];
+    if (!slot || !slot.isLetter || slot.correct) return;
+
+    if (key === slot.norm) {
+      // Match unused tile for this letter (prefer same word group first)
+      const match = this.tiles.find(t => !t.used && t.wIdx === slot.wIdx && t.norm === key)
+                 || this.tiles.find(t => !t.used && t.norm === key);
       if (match) {
         this.pickTile(match.id);
-      } else {
-        Sfx.wrong();
-      }
-    } else {
-      // Single word mode: find unused letter tile
-      const unused = this.tiles.filter(t => !t.used);
-      const match = unused.find(t => t.norm === key);
-      if (match) {
-        this.pickTile(match.id);
-      } else {
-        Sfx.wrong();
-        if (this.slots[this.activeIdx]) {
-          this.slots[this.activeIdx].hasError = true;
-          this.renderSlots();
-          setTimeout(() => {
-            if (!this.locked && !this.over && this.slots[this.activeIdx]) {
-              this.slots[this.activeIdx].hasError = false;
-              this.renderSlots();
-            }
-          }, 400);
-        }
+        return;
       }
     }
+
+    // Wrong key typed
+    slot.hasError = true;
+    Sfx.wrong();
+    this.renderSlots();
+    setTimeout(() => {
+      if (!this.locked && !this.over && slot.hasError) {
+        slot.hasError = false;
+        this.renderSlots();
+      }
+    }, 400);
   },
 
   advanceCursor() {
     let next = this.activeIdx + 1;
     while (next < this.slots.length && (!this.slots[next].isLetter || (this.slots[next].correct && this.slots[next].typedCh !== null))) {
       next++;
+    }
+    if (next >= this.slots.length) {
+      const firstUnsolved = this.slots.findIndex(s => s.isLetter && !s.correct);
+      next = firstUnsolved !== -1 ? firstUnsolved : this.slots.length;
     }
     this.activeIdx = next;
   },
@@ -505,10 +549,12 @@ const Rush = {
 
     const slot = this.slots[targetIdx];
     // Find unused tile matching this slot
-    const tile = this.tiles.find(t => !t.used && (t.id === slot.id || t.norm === slot.norm));
+    const tile = this.tiles.find(t => !t.used && t.wIdx === slot.wIdx && t.norm === slot.norm)
+              || this.tiles.find(t => !t.used && t.norm === slot.norm);
 
     if (tile) {
       tile.used = true;
+      tile.isHint = true;
       slot.typedCh = tile.val;
       slot.tileId = tile.id;
       slot.correct = true;

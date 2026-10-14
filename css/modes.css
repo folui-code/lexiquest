@@ -97,17 +97,38 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); transform: translateZ(0);
   transition: transform 0.08s ease, opacity 0.15s ease, background 0.1s ease, border-color 0.1s ease;
 }
-.cr-tile:hover:not(.used) { border-color: var(--cyan); background: linear-gradient(145deg, #334155, #1e293b); transform: translateY(-2px) translateZ(0); }
-.cr-tile:active:not(.used) { transform: scale(0.92) translateZ(0); }
-.cr-tile.word-tile {
-  min-width: clamp(75px, 15vw, 120px); padding: 0 16px; border-radius: 999px;
-  font-size: clamp(0.92rem, 2.2vw, 1.12rem); font-weight: 700;
-  border-color: rgba(167, 139, 250, 0.45); background: linear-gradient(145deg, #2e1065, #1e1b4b); color: #f5f3ff;
+.cr-tile:hover:not(.used) {
+  border-color: #38bdf8;
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
 }
-.cr-tile.word-tile:hover:not(.used) { border-color: var(--violet); background: linear-gradient(145deg, #4c1d95, #2e1065); }
+.cr-tile:active:not(.used) {
+  transform: translateY(1px) scale(0.96) translateZ(0);
+}
+.cr-tile-group {
+  display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center;
+}
+.cr-tile-group-sep {
+  width: 16px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+}
+.cr-tile-group-sep::after {
+  content: "•"; color: var(--muted); opacity: 0.55; font-size: 1.25rem; line-height: 1;
+}
 .cr-tile.used {
-  opacity: 0.18; pointer-events: none; cursor: default;
-  border-color: rgba(255, 255, 255, 0.08); box-shadow: none; transform: scale(0.88);
+  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  transform: scale(0.92) translateY(2px) translateZ(0);
+  pointer-events: none; cursor: default;
+}
+.cr-tile.hint-tile {
+  background: rgba(251, 191, 36, 0.07) !important;
+  border-color: rgba(251, 191, 36, 0.28) !important;
+  color: rgba(251, 191, 36, 0.55) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35) !important;
+  transform: scale(0.92) translateY(2px) translateZ(0);
+  pointer-events: none; cursor: default;
 }
 
 /* Wordle on-screen keyboard */
