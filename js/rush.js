@@ -103,13 +103,28 @@ const Rush = {
     $("#r-hint-btn").onclick = () => this.useHintLetter();
     $("#r-skip-btn").onclick = () => this.skipCard();
 
+    const triggerKey = (k) => {
+      if (k === "BACK") this.handleBackspace();
+      else if (k === "SPACE") this.handleSpace();
+      else this.handleKey(k);
+    };
+
     $$("#r-keyboard .cr-key").forEach(btn => {
-      btn.onclick = () => {
-        const k = btn.dataset.k;
-        if (k === "BACK") this.handleBackspace();
-        else if (k === "SPACE") this.handleSpace();
-        else this.handleKey(k);
+      let lastTap = 0;
+      const onAction = (e) => {
+        const now = Date.now();
+        if (now - lastTap < 60) return;
+        lastTap = now;
+        if (e.cancelable) e.preventDefault();
+        triggerKey(btn.dataset.k);
       };
+
+      btn.addEventListener("pointerdown", onAction, { passive: false });
+      btn.addEventListener("click", (e) => {
+        if (Date.now() - lastTap > 250) {
+          triggerKey(btn.dataset.k);
+        }
+      });
     });
 
     this.keyHandler = (e) => {
@@ -280,7 +295,42 @@ const Rush = {
 
   renderSlots() {
     const container = $("#r-slots");
-    // Group slots by words (split by space)
+    const existingSlots = container.querySelectorAll(".cr-slot[data-idx]");
+
+    // High performance in-place DOM update if slots already built
+    if (existingSlots.length > 0 && existingSlots.length === this.slots.filter(s => s.ch !== " ").length) {
+      existingSlots.forEach(el => {
+        const idx = +el.dataset.idx;
+        const s = this.slots[idx];
+        if (!s) return;
+        const isActive = idx === this.activeIdx;
+        const isDone = s.correct && s.typedCh;
+        const isHint = s.isHint;
+        const displayChar = s.typedCh || (isHint ? s.ch : "");
+
+        let cls = "cr-slot";
+        if (isActive) cls += " active";
+        if (isDone) cls += " correct";
+        if (isHint) cls += " hint-slot";
+        if (s.hasError) cls += " error";
+        if (el.className !== cls) el.className = cls;
+
+        const charEl = el.querySelector(".cr-char");
+        if (charEl && charEl.textContent !== displayChar) {
+          charEl.textContent = displayChar;
+        }
+
+        const badge = el.querySelector(".cr-hint-badge");
+        if (isHint && !isDone) {
+          if (!badge) el.insertAdjacentHTML("beforeend", '<span class="cr-hint-badge">HINT</span>');
+        } else if (badge) {
+          badge.remove();
+        }
+      });
+      return;
+    }
+
+    // Initial card setup: build slot elements
     let wordsHtml = [];
     let curWordHtml = [];
 
@@ -296,7 +346,7 @@ const Rush = {
 
       if (!s.isLetter) {
         // Punctuation like dash or dot
-        curWordHtml.push(`<div class="cr-slot punct">${esc(s.ch)}</div>`);
+        curWordHtml.push(`<div class="cr-slot punct" data-idx="${idx}">${esc(s.ch)}</div>`);
         return;
       }
 

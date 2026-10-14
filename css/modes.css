@@ -69,17 +69,30 @@
 
 .cr-actions { display: flex; gap: 10px; justify-content: center; margin-top: 6px; }
 
-/* On-screen virtual keyboard */
-.cr-keyboard, .w-keyboard { max-width: 580px; margin: 12px auto 0; display: flex; flex-direction: column; gap: 6px; }
+/* On-screen virtual keyboard with zero-lag touch optimization */
+.cr-keyboard, .w-keyboard {
+  max-width: 580px;
+  margin: 12px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 .cr-kb-row, .w-kb-row { display: flex; gap: 5px; justify-content: center; }
 .cr-key, .w-key {
   height: 48px; min-width: 34px; flex: 1; border-radius: 8px;
   background: rgba(255,255,255,0.08); border: 1px solid var(--line);
   font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: var(--text);
   display: flex; align-items: center; justify-content: center;
-  transition: transform .1s, background .15s; user-select: none;
+  user-select: none; -webkit-user-select: none;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  cursor: pointer; transform: translateZ(0);
+  transition: transform .05s ease, background .08s ease;
 }
-.cr-key:active, .w-key:active { transform: scale(0.94); background: rgba(255,255,255,0.18); }
+.cr-key:active, .w-key:active { transform: scale(0.92) translateZ(0); background: rgba(255,255,255,0.22); }
 .cr-key.wide, .w-key.wide { flex: 1.5; font-size: 0.82rem; }
 
 /* =========================================================

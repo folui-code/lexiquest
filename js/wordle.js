@@ -113,13 +113,28 @@ const Wordle = {
     $("#wordle-quit").onclick = () => this.intro();
     $("#wordle-clue-btn").onclick = () => this.toggleClue();
 
+    const triggerWordleKey = (k) => {
+      if (k === "ENTER") this.submitGuess();
+      else if (k === "BACK") this.removeLetter();
+      else this.addLetter(k);
+    };
+
     $$("#w-keyboard .w-key").forEach(b => {
-      b.onclick = () => {
-        const k = b.dataset.k;
-        if (k === "ENTER") this.submitGuess();
-        else if (k === "BACK") this.removeLetter();
-        else this.addLetter(k);
+      let lastTap = 0;
+      const onAction = (e) => {
+        const now = Date.now();
+        if (now - lastTap < 60) return;
+        lastTap = now;
+        if (e.cancelable) e.preventDefault();
+        triggerWordleKey(b.dataset.k);
       };
+
+      b.addEventListener("pointerdown", onAction, { passive: false });
+      b.addEventListener("click", (e) => {
+        if (Date.now() - lastTap > 250) {
+          triggerWordleKey(b.dataset.k);
+        }
+      });
     });
 
     this.keyHandler = (e) => {
