@@ -9,9 +9,14 @@
    =================================================================== */
 
 const Auth = {
-  // Google OAuth 2.0 Web Client ID
-  // Note: Can be overridden at runtime via localStorage or config
-  CLIENT_ID: localStorage.getItem("hpccss_google_client_id") || "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+  // Official Google OAuth 2.0 Web Client ID for HPCCSS
+  CLIENT_ID: (() => {
+    try {
+      const stored = (localStorage.getItem("hpccss_google_client_id") || "").trim().replace(/\.+$/, "");
+      if (stored && stored.endsWith(".apps.googleusercontent.com")) return stored;
+    } catch (e) {}
+    return "638611300630-3bm0se6f2kkh9h8tcq5o33sd228djm67.apps.googleusercontent.com";
+  })(),
 
   ALLOWED_DOMAINS: [
     "student.hpccss.edu.hk",
@@ -265,7 +270,7 @@ const Auth = {
     const saveClientBtn = $("#btn-save-client-id");
     if (saveClientBtn) {
       saveClientBtn.onclick = () => {
-        const val = ($("#input-custom-client-id").value || "").trim();
+        const val = ($("#input-custom-client-id").value || "").trim().replace(/\.+$/, "");
         if (val) {
           localStorage.setItem("hpccss_google_client_id", val);
           this.CLIENT_ID = val;
