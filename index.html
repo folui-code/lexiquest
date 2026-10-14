@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>LexiQuest — HPCCSS Academic Vocabulary Arena</title>
+  <meta name="description" content="LexiQuest: An academic English vocabulary arena for HPCCSS students." />
+  <meta name="theme-color" content="#070b1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/modes.css" />
+  <!-- Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <header class="topbar" id="topbar">
+    <button class="logo" id="btn-logo" title="Home">Lexi<span>Quest</span></button>
+    <div class="top-stats">
+      <div class="pill streak-pill" id="streak-pill" title="Daily streak">🔥 <b id="streak-count">0</b></div>
+      <div class="pill xp-pill" id="xp-pill" title="Rank &amp; XP">
+        <span id="rank-name">Novice Scribe</span>
+        <div class="xp-bar"><i id="xp-fill"></i></div>
+      </div>
+      <button class="pill icon-btn" id="btn-user" title="Account / Switch Account">👤</button>
+      <button class="pill icon-btn" id="btn-mute" title="Sound on/off">🔊</button>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <h1>Hey <span id="player-name" class="grad-text">Scholar</span>, ready to level up?</h1>
+        <p id="streak-msg" class="streak-msg"></p>
+      </div>
+
+      <div class="card daily" id="daily-card">
+        <div class="daily-head">
+          <h2>🎯 Daily Quests</h2>
+          <span class="muted" id="daily-reset"></span>
+        </div>
+        <div id="daily-list" class="daily-list"></div>
+        <button class="chest" id="btn-chest" disabled>🎁 <span>Complete all quests to open the chest</span></button>
+      </div>
+
+      <h2 class="section-title">Game Modes</h2>
+      <div class="modes">
+        <button class="mode-card rush" id="mode-rush">
+          <div class="mode-icon">⚡</div>
+          <h3>Cryptic Rush</h3>
+          <p>The clock is ticking! Deduce the missing academic word from context and type the spelling. Correct answers add time!</p>
+          <div class="mode-foot"><span class="tag">Speed · Spelling</span><span class="best" id="best-rush">Best —</span></div>
+        </button>
+        <button class="mode-card wordle" id="mode-wordle">
+          <div class="mode-icon">🟩</div>
+          <h3>LexiWordle</h3>
+          <p>Guess the secret academic word in 6 tries. Green, yellow and gray tiles guide your deduction. Daily + Practice!</p>
+          <div class="mode-foot"><span class="tag">Deduction · Logic</span><span class="best" id="best-wordle">Daily —</span></div>
+        </button>
+        <button class="mode-card matrix" id="mode-matrix">
+          <div class="mode-icon">🧩</div>
+          <h3>Semantic Matrix</h3>
+          <p>16 academic items, 4 hidden groups. Find the connections before you run out of lives.</p>
+          <div class="mode-foot"><span class="tag">Meaning · Polysemy</span><span class="best" id="best-matrix">Daily —</span></div>
+        </button>
+      </div>
+
+      <div class="home-row">
+        <button class="card vault-card" id="btn-vault">
+          <h2>📚 Word Vault</h2>
+          <p class="muted">Track your mastery for every word</p>
+          <div class="vault-progress"><div class="bar"><i id="vault-fill"></i></div><b id="vault-text">0 / 49</b></div>
+        </button>
+        <div class="card ach-card">
+          <h2>🏆 Achievements <span class="muted" id="ach-count"></span></h2>
+          <div class="ach-grid" id="ach-grid"></div>
+        </div>
+      </div>
+
+      <!-- Constantly visible / pinned Arena Scoreboard -->
+      <section class="card scoreboard-card" id="main-scoreboard">
+        <div class="scoreboard-head">
+          <div class="scoreboard-title-group">
+            <span class="scoreboard-icon">👑</span>
+            <div>
+              <h2>HPCCSS Hall of Fame</h2>
+              <p class="muted">Top scores across the school arena</p>
+            </div>
+          </div>
+          <div class="scoreboard-tabs" id="sb-tabs">
+            <button class="sb-tab active" data-tab="rush">⚡ Cryptic Rush</button>
+            <button class="sb-tab" data-tab="wordle">🟩 Wordle</button>
+            <button class="sb-tab" data-tab="matrix">🧩 Matrix</button>
+          </div>
+        </div>
+        <div class="scoreboard-body" id="sb-list">
+          <!-- Populated by App.renderScoreboard() -->
+        </div>
+      </section>
+    </section>
+
+    <section id="screen-rush" class="screen"></section>
+    <section id="screen-wordle" class="screen"></section>
+    <section id="screen-matrix" class="screen"></section>
+    <section id="screen-vault" class="screen"></section>
+    <section id="screen-results" class="screen"></section>
+  </main>
+
+  <div id="modal" class="modal hidden"></div>
+  <div id="toasts" class="toasts"></div>
+  <canvas id="fx-canvas"></canvas>
+
+  <script src="data/whitelist_hashes.js"></script>
+  <script src="data/vocab.js"></script>
+  <script src="data/groups.js"></script>
+  <script src="data/wordle_dict.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/rush.js"></script>
+  <script src="js/wordle.js"></script>
+  <script src="js/matrix.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
