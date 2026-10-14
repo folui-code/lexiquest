@@ -311,10 +311,59 @@ function wordCardHTML(c) {
   `;
 }
 
-function showWord(c) {
+function showWord(c, list = (window.VOCAB || [])) {
   if (!c) return;
-  modal(`${wordCardHTML(c)}<div style="margin-top:18px;display:flex;justify-content:space-between;align-items:center"><span class="muted" style="font-size:0.82rem">💡 Tap 🔊 to hear native pronunciation</span><button class="btn small" id="btn-close-word">Got it</button></div>`);
+  const wordList = list && list.length ? list : (window.VOCAB || []);
+  let curIdx = wordList.findIndex(item => item.id === c.id);
+  if (curIdx === -1) curIdx = 0;
+
+  const hasPrev = curIdx > 0;
+  const hasNext = curIdx < wordList.length - 1;
+
+  const navHtml = `
+    <div style="margin-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="btn small" id="btn-prev-word" ${hasPrev ? "" : "disabled"} style="padding:6px 14px;font-size:0.85rem;${hasPrev ? "" : "opacity:0.35;cursor:default"}">
+          ◀ Prev
+        </button>
+        <span class="muted" style="font-size:0.8rem;font-family:var(--font-n);padding:0 6px">${curIdx + 1} / ${wordList.length}</span>
+        <button class="btn small" id="btn-next-word" ${hasNext ? "" : "disabled"} style="padding:6px 14px;font-size:0.85rem;${hasNext ? "" : "opacity:0.35;cursor:default"}">
+          Next ▶
+        </button>
+      </div>
+      <button class="btn small primary" id="btn-close-word" style="padding:6px 16px">Got it</button>
+    </div>
+  `;
+
+  modal(`${wordCardHTML(c)}${navHtml}`);
   $("#btn-close-word").onclick = closeModal;
+
+  if (hasPrev) {
+    const prevBtn = $("#btn-prev-word");
+    if (prevBtn) prevBtn.onclick = () => showWord(wordList[curIdx - 1], wordList);
+  }
+  if (hasNext) {
+    const nextBtn = $("#btn-next-word");
+    if (nextBtn) nextBtn.onclick = () => showWord(wordList[curIdx + 1], wordList);
+  }
+
+  // Keyboard navigation for desktop: Left/Right arrows
+  const arrowHandler = (e) => {
+    if (!$("#modal") || $("#modal").classList.contains("hidden")) {
+      window.removeEventListener("keydown", arrowHandler);
+      return;
+    }
+    if (e.key === "ArrowLeft" && hasPrev) {
+      e.preventDefault();
+      window.removeEventListener("keydown", arrowHandler);
+      showWord(wordList[curIdx - 1], wordList);
+    } else if (e.key === "ArrowRight" && hasNext) {
+      e.preventDefault();
+      window.removeEventListener("keydown", arrowHandler);
+      showWord(wordList[curIdx + 1], wordList);
+    }
+  };
+  window.addEventListener("keydown", arrowHandler);
   
   const speakWordBtn = $("#btn-speak-word");
   if (speakWordBtn) {

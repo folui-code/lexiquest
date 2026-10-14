@@ -258,7 +258,7 @@ const App = {
     $$(".vword").forEach((b) => (b.onclick = () => {
       const id = +b.dataset.id;
       const card = VOCAB.find((x) => x.id === id) || VOCAB[id];
-      if (card) showWord(card);
+      if (card) showWord(card, list);
     }));
     if (!$("#screen-vault").classList.contains("active")) showScreen("vault");
   }
