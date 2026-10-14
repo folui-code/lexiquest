@@ -151,6 +151,10 @@ const Auth = {
     Store.d.name = nickname;
     Store.save();
 
+    if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
+      Leaderboard.syncProfilePull();
+    }
+
     closeModal();
     App.renderHome();
     Sfx.fanfare();
@@ -319,6 +323,10 @@ const Auth = {
         this.renderAuthModal();
         return false;
       }
+    }
+
+    if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
+      Leaderboard.syncProfilePull();
     }
     return true;
   },

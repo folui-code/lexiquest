@@ -1,13 +1,19 @@
 /* ===================================================================
-   HPCCSS LexiQuest — Live Cloud Leaderboard Connector
+   HPCCSS LexiQuest — Live Cloud Leaderboard & Cross-Device Sync Connector
    - Synchronizes school-wide Hall of Fame scores via Google Sheets
-   - Submits game runs upon completion
+   - Automatically saves and restores student Word Vault mastery across devices
    - Caches responses locally to keep game snappy and offline-friendly
    =================================================================== */
 
 const Leaderboard = {
-  // Published Google Apps Script Web App URL
-  API_URL: localStorage.getItem("hpccss_leaderboard_url") || "",
+  // Official HPCCSS Google Apps Script Web App URL
+  API_URL: (() => {
+    try {
+      const stored = (localStorage.getItem("hpccss_leaderboard_url") || "").trim();
+      if (stored.startsWith("https://script.google.com/")) return stored;
+    } catch (e) {}
+    return "https://script.google.com/macros/s/AKfycbyopBjXA9bDALuzKIGd5NJSMLpqkJNPkBsVnVc9sLT4GMh7SveVum3ZPenaNgR7T9wt/exec";
+  })(),
 
   cache: null,
   lastFetch: 0,
@@ -23,7 +29,7 @@ const Leaderboard = {
   },
 
   async getTopScores(mode = "rush") {
-    const url = this.API_URL || localStorage.getItem("hpccss_leaderboard_url");
+    const url = this.API_URL;
     if (!url) return null;
 
     const now = Date.now();
@@ -49,7 +55,7 @@ const Leaderboard = {
 
   async submitScore(mode, score) {
     if (!score || score <= 0) return;
-    const url = this.API_URL || localStorage.getItem("hpccss_leaderboard_url");
+    const url = this.API_URL;
     if (!url) return;
 
     const auth = (Store && Store.d && Store.d.auth) || {};
@@ -69,7 +75,7 @@ const Leaderboard = {
 
       const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}`;
       
-      // Fire-and-forget submission via GET to prevent CORS preflight delay
+      // Fire submission
       const resp = await fetch(target, { method: "GET" });
       if (resp.ok) {
         const data = await resp.json();
@@ -83,6 +89,97 @@ const Leaderboard = {
       }
     } catch (e) {
       console.warn("[Leaderboard] Error submitting score to Google Sheet:", e);
+    }
+
+    // Also push Word Vault & XP progress in background
+    this.syncProfilePush();
+  },
+
+  // Pull student's cross-device Word Vault & XP record from Google Sheets
+  async syncProfilePull() {
+    const auth = (Store && Store.d && Store.d.auth) || {};
+    const emailHash = auth.emailHash || "";
+    if (!emailHash) return;
+    const url = this.API_URL;
+    if (!url) return;
+
+    try {
+      const target = `${url}${url.includes("?") ? "&" : "?"}action=sync_pull&hash=${encodeURIComponent(emailHash)}&_t=${Date.now()}`;
+      const resp = await fetch(target, { method: "GET" });
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (data && data.profile) {
+        const p = data.profile;
+        let changed = false;
+
+        // Take higher XP and streak
+        if (p.xp && p.xp > Store.d.xp) {
+          Store.d.xp = p.xp;
+          changed = true;
+        }
+        if (p.streak && p.streak > Store.d.streak) {
+          Store.d.streak = p.streak;
+          changed = true;
+        }
+
+        // Merge Word Vault mastery data
+        if (p.words && typeof p.words === "object") {
+          Store.d.words = Store.d.words || {};
+          for (const id in p.words) {
+            const rw = p.words[id];
+            const lw = Store.d.words[id];
+            if (!lw) {
+              Store.d.words[id] = rw;
+              changed = true;
+            } else if ((rw.reps || 0) > (lw.reps || 0) || (rw.seen || 0) > (lw.seen || 0)) {
+              Store.d.words[id] = Object.assign({}, lw, rw);
+              changed = true;
+            }
+          }
+        }
+
+        if (changed) {
+          Store.save();
+          if (typeof App !== "undefined") {
+            if (App.renderTop) App.renderTop();
+            if (App.renderHome) App.renderHome();
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[Leaderboard] Cloud profile pull note:", e);
+    }
+  },
+
+  // Push student's cross-device Word Vault & XP record to Google Sheets
+  async syncProfilePush() {
+    const auth = (Store && Store.d && Store.d.auth) || {};
+    const emailHash = auth.emailHash || "";
+    if (!emailHash) return;
+    const url = this.API_URL;
+    if (!url) return;
+
+    try {
+      const name = (Store && Store.d && Store.d.name) || auth.name || "Scholar";
+      const role = auth.role || "student";
+      const xp = Store.d.xp || 0;
+      const streak = Store.d.streak || 0;
+      const words = JSON.stringify(Store.d.words || {});
+
+      const params = new URLSearchParams({
+        action: "sync_push",
+        hash: emailHash,
+        name: name,
+        role: role,
+        xp: String(xp),
+        streak: String(streak),
+        words: words
+      });
+
+      const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}`;
+      await fetch(target, { method: "GET" });
+    } catch (e) {
+      console.warn("[Leaderboard] Cloud profile push note:", e);
     }
   }
 };

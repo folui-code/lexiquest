@@ -1,20 +1,19 @@
 /**
  * ===================================================================
- * HPCCSS LexiQuest — Real-time Google Sheets Leaderboard & Activity Log
+ * HPCCSS LexiQuest — Real-time Google Sheets Leaderboard & Cross-Device Sync
  * ===================================================================
  * 
- * Instructions to deploy:
- * 1. Open your Google Sheet (or create a new one: sheets.new).
+ * Features:
+ * 1. "Leaderboard" sheet: Live top-10 Hall of Fame per mode.
+ * 2. "PlayLogs" sheet: Chronological audit trail of all student game attempts.
+ * 3. "UserProfiles" sheet: Cross-device synchronization of Word Vault mastery, XP & streaks.
+ * 
+ * Instructions to update your deployment:
+ * 1. Open your Google Sheet.
  * 2. Click "Extensions" -> "Apps Script".
- * 3. Delete any code in the editor and paste this entire file.
- * 4. Click "Deploy" (top right) -> "New deployment".
- * 5. Select type: "Web app" (click gear icon next to "Select type").
- * 6. Set Description: "LexiQuest Leaderboard API"
- * 7. Set "Execute as": "Me" (your school account)
- * 8. Set "Who has access": "Anyone"  <-- CRITICAL so students can submit scores
- * 9. Click "Deploy" and authorize permissions.
- * 10. Copy the "Web app URL" (ends in /exec).
- * 11. Paste that URL into LexiQuest (or configure it in js/leaderboard.js).
+ * 3. Replace all code with this file.
+ * 4. Click "Deploy" -> "Manage deployments" -> Click the Pencil (Edit) icon.
+ * 5. Change "Version" to "New version" -> Click "Deploy".
  * ===================================================================
  */
 
@@ -39,7 +38,16 @@ function setupSheets() {
     logSheet.setFrozenRows(1);
   }
 
-  return { lbSheet, logSheet };
+  // 3. UserProfiles Sheet (cross-device Word Vault mastery & XP)
+  let profileSheet = ss.getSheetByName("UserProfiles");
+  if (!profileSheet) {
+    profileSheet = ss.insertSheet("UserProfiles");
+    profileSheet.appendRow(["Email Hash", "Player Name", "Role", "XP", "Streak", "Words Data", "Last Updated"]);
+    profileSheet.getRange("A1:G1").setFontWeight("bold").setBackground("#1e293b").setFontColor("#fbbf24");
+    profileSheet.setFrozenRows(1);
+  }
+
+  return { lbSheet, logSheet, profileSheet };
 }
 
 function doGet(e) {
@@ -61,9 +69,36 @@ function doPost(e) {
 }
 
 function handleRequest(params) {
-  const { lbSheet, logSheet } = setupSheets();
+  const { lbSheet, logSheet, profileSheet } = setupSheets();
   const action = params.action || "get";
   const mode = (params.mode || "rush").toLowerCase();
+
+  // Action: Pull student profile for cross-device Word Vault sync
+  if (action === "sync_pull") {
+    const hash = String(params.hash || "").trim();
+    const profile = getUserProfile(profileSheet, hash);
+    const output = {
+      status: "success",
+      profile: profile
+    };
+    return ContentService.createTextOutput(JSON.stringify(output))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // Action: Push student profile for cross-device Word Vault sync
+  if (action === "sync_push") {
+    const hash = String(params.hash || "").trim();
+    const name = String(params.name || "").trim().substring(0, 30);
+    const role = String(params.role || "student").trim();
+    const xp = parseInt(params.xp, 10) || 0;
+    const streak = parseInt(params.streak, 10) || 0;
+    const wordsJson = String(params.words || "{}");
+
+    saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson);
+    const output = { status: "success" };
+    return ContentService.createTextOutput(JSON.stringify(output))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 
   // Action: Submit a score
   if (action === "submit") {
@@ -94,11 +129,43 @@ function handleRequest(params) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function getUserProfile(profileSheet, hash) {
+  if (!hash) return null;
+  const data = profileSheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]).toLowerCase() === hash.toLowerCase()) {
+      let words = {};
+      try { words = JSON.parse(data[i][5]); } catch (e) {}
+      return {
+        hash: data[i][0],
+        name: data[i][1],
+        role: data[i][2],
+        xp: Number(data[i][3]) || 0,
+        streak: Number(data[i][4]) || 0,
+        words: words
+      };
+    }
+  }
+  return null;
+}
+
+function saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson) {
+  if (!hash) return;
+  const data = profileSheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]).toLowerCase() === hash.toLowerCase()) {
+      profileSheet.getRange(i + 1, 2, 1, 6).setValues([[name, role, xp, streak, wordsJson, new Date()]]);
+      return;
+    }
+  }
+  profileSheet.appendRow([hash, name, role, xp, streak, wordsJson, new Date()]);
+}
+
 function updateLeaderboard(lbSheet, logSheet, targetMode) {
   const data = logSheet.getDataRange().getValues();
   if (data.length <= 1) return;
 
-  // Filter logs for the target mode, group by player name (keep their max score)
+  // Filter logs for target mode, keep max score per student
   const scoresByPlayer = {};
   for (let i = 1; i < data.length; i++) {
     const rowMode = String(data[i][1]).toLowerCase();
