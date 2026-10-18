@@ -300,6 +300,7 @@ const Blitz = {
         <div class="blitz-actions-row">
           <button class="btn primary" id="btn-blitz-again">⚡ Blitz Again</button>
           <button class="btn secondary" id="btn-blitz-units">📖 Other Units</button>
+          <button class="btn" id="btn-blitz-hof">👑 Hall of Fame</button>
           <button class="btn" id="btn-blitz-home">🏠 Home</button>
         </div>
 
@@ -340,6 +341,14 @@ const Blitz = {
 
     $("#btn-blitz-again").onclick = () => this.start(this.currentUnit);
     $("#btn-blitz-units").onclick = () => this.intro();
+    $("#btn-blitz-hof").onclick = () => {
+      showScreen("home");
+      if (typeof App !== "undefined" && App.renderScoreboard) {
+        App.renderScoreboard("blitz");
+        const sb = $("#main-scoreboard");
+        if (sb) sb.scrollIntoView({ behavior: "smooth" });
+      }
+    };
     $("#btn-blitz-home").onclick = () => showScreen("home");
   }
 };
