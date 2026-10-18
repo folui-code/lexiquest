@@ -1,6 +1,7 @@
 /* ===================================================================
    HPCCSS LexiQuest — Grammar & Usage (3rd Edition Book B) Curriculum
    28 Units Total | Units 1–6 Active (50 authentic MC questions per unit)
+   Balanced Answer Distribution (A: 25%, B: 25%, C: 25%, D: 25%)
    =================================================================== */
 
 window.GRAMMAR_UNITS = [
@@ -154,15 +155,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "am thinking",
-          "is_correct": false,
-          "explanation": "'Think' expressing an opinion is a stative verb and cannot be used in the continuous form."
-        },
-        {
-          "key": "B",
           "text": "think",
           "is_correct": true,
           "explanation": "When 'think' means 'believe' or 'have an opinion', it acts as a stative verb requiring Present Simple."
+        },
+        {
+          "key": "B",
+          "text": "am thinking",
+          "is_correct": false,
+          "explanation": "'Think' expressing an opinion is a stative verb and cannot be used in the continuous form."
         },
         {
           "key": "C",
@@ -184,9 +185,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "works",
+          "text": "has worked",
           "is_correct": false,
-          "explanation": "Present Simple expresses permanent routines, whereas 'this week' denotes a temporary situation."
+          "explanation": "Present Perfect incorrectly implies an action that began in the past rather than a current temporary state."
         },
         {
           "key": "B",
@@ -202,9 +203,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "has worked",
+          "text": "works",
           "is_correct": false,
-          "explanation": "Present Perfect incorrectly implies an action that began in the past rather than a current temporary state."
+          "explanation": "Present Simple expresses permanent routines, whereas 'this week' denotes a temporary situation."
         }
       ]
     },
@@ -214,27 +215,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has found",
-          "is_correct": false,
-          "explanation": "Present Perfect cannot be used with explicit past time expressions like 'three days ago'."
-        },
-        {
-          "key": "B",
-          "text": "found",
-          "is_correct": true,
-          "explanation": "Past Simple is required when an action occurred at a specific finished time in the past ('three days ago')."
-        },
-        {
-          "key": "C",
           "text": "had found",
           "is_correct": false,
           "explanation": "Past Perfect requires another past reference event to show sequence, which is absent here."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "was finding",
           "is_correct": false,
           "explanation": "Past Continuous is ungrammatical for instantaneous completion verbs like 'find'."
+        },
+        {
+          "key": "C",
+          "text": "has found",
+          "is_correct": false,
+          "explanation": "Present Perfect cannot be used with explicit past time expressions like 'three days ago'."
+        },
+        {
+          "key": "D",
+          "text": "found",
+          "is_correct": true,
+          "explanation": "Past Simple is required when an action occurred at a specific finished time in the past ('three days ago')."
         }
       ]
     },
@@ -244,9 +245,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "have moved",
+          "text": "were moving",
           "is_correct": false,
-          "explanation": "In a time clause introduced by 'since', the verb must be in the Past Simple, not Present Perfect."
+          "explanation": "Past Continuous cannot mark the specific starting point of a duration introduced by 'since'."
         },
         {
           "key": "B",
@@ -262,9 +263,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "were moving",
+          "text": "have moved",
           "is_correct": false,
-          "explanation": "Past Continuous cannot mark the specific starting point of a duration introduced by 'since'."
+          "explanation": "In a time clause introduced by 'since', the verb must be in the Past Simple, not Present Perfect."
         }
       ]
     },
@@ -274,27 +275,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "lost",
-          "is_correct": false,
-          "explanation": "Past Simple emphasizes a past finished event without directly linking its current effect to the present state."
-        },
-        {
-          "key": "B",
           "text": "have lost",
           "is_correct": true,
           "explanation": "Present Perfect is used when a past action has a direct, present consequence ('cannot open the door now')."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "had lost",
           "is_correct": false,
           "explanation": "Past Perfect is ungrammatical because the main result clause is in the present tense ('cannot')."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "was losing",
           "is_correct": false,
           "explanation": "Past Continuous is incorrect for an event that has already occurred and produced a result."
+        },
+        {
+          "key": "D",
+          "text": "lost",
+          "is_correct": false,
+          "explanation": "Past Simple emphasizes a past finished event without directly linking its current effect to the present state."
         }
       ]
     },
@@ -304,27 +305,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has worked",
-          "is_correct": false,
-          "explanation": "Present Perfect cannot be used for actions completed within a finished past period ('from 2016 to 2018')."
-        },
-        {
-          "key": "B",
           "text": "worked",
           "is_correct": true,
           "explanation": "Past Simple is used for actions that took place within a completed, specific timeframe in the past."
         },
         {
-          "key": "C",
-          "text": "has been working",
+          "key": "B",
+          "text": "has worked",
           "is_correct": false,
-          "explanation": "Present Perfect Continuous implies he still works there, contradicting the finished past dates."
+          "explanation": "Present Perfect cannot be used for actions completed within a finished past period ('from 2016 to 2018')."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "works",
           "is_correct": false,
           "explanation": "Present Simple implies a current routine, which contradicts the past timeframe."
+        },
+        {
+          "key": "D",
+          "text": "has been working",
+          "is_correct": false,
+          "explanation": "Present Perfect Continuous implies he still works there, contradicting the finished past dates."
         }
       ]
     },
@@ -334,9 +335,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has written",
-          "is_correct": true,
-          "explanation": "Present Perfect Simple is required when stating 'how many' completed accomplishments or items produced 'so far'."
+          "text": "wrote",
+          "is_correct": false,
+          "explanation": "Past Simple is incorrect because 'so far' refers to a period continuing up to the present."
         },
         {
           "key": "B",
@@ -346,15 +347,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "wrote",
-          "is_correct": false,
-          "explanation": "Past Simple is incorrect because 'so far' refers to a period continuing up to the present."
-        },
-        {
-          "key": "D",
           "text": "writes",
           "is_correct": false,
           "explanation": "Present Simple expresses habit rather than accumulated accomplishments up to now."
+        },
+        {
+          "key": "D",
+          "text": "has written",
+          "is_correct": true,
+          "explanation": "Present Perfect Simple is required when stating 'how many' completed accomplishments or items produced 'so far'."
         }
       ]
     },
@@ -364,27 +365,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "are waiting",
-          "is_correct": false,
-          "explanation": "Present Continuous cannot express duration extending from the past up to the present."
-        },
-        {
-          "key": "B",
-          "text": "have been waiting",
-          "is_correct": true,
-          "explanation": "Present Perfect Continuous is used to emphasize the continuous duration of an action that began in the past and continues now."
-        },
-        {
-          "key": "C",
           "text": "waited",
           "is_correct": false,
           "explanation": "Past Simple implies the waiting is completely finished, contradicting 'still no sign'."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "had waited",
           "is_correct": false,
           "explanation": "Past Perfect requires a past anchor point, whereas the context is anchored in the present ('is still')."
+        },
+        {
+          "key": "C",
+          "text": "are waiting",
+          "is_correct": false,
+          "explanation": "Present Continuous cannot express duration extending from the past up to the present."
+        },
+        {
+          "key": "D",
+          "text": "have been waiting",
+          "is_correct": true,
+          "explanation": "Present Perfect Continuous is used to emphasize the continuous duration of an action that began in the past and continues now."
         }
       ]
     },
@@ -394,27 +395,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "knew",
+          "is_correct": false,
+          "explanation": "Past Simple implies they no longer know each other, contradicting the duration up to present."
+        },
+        {
+          "key": "B",
           "text": "have been knowing",
           "is_correct": false,
           "explanation": "'Know' is a stative verb of thought/relationship and cannot be used in continuous tenses."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "have known",
           "is_correct": true,
           "explanation": "Stative verbs like 'know' must use Present Perfect Simple instead of Present Perfect Continuous to express state duration up to present."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "know",
           "is_correct": false,
           "explanation": "Present Simple cannot express a duration that started in the past with 'for' or 'since'."
-        },
-        {
-          "key": "D",
-          "text": "knew",
-          "is_correct": false,
-          "explanation": "Past Simple implies they no longer know each other, contradicting the duration up to present."
         }
       ]
     },
@@ -424,27 +425,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "tried",
-          "is_correct": false,
-          "explanation": "Simple past does not properly represent the ongoing background action interrupted by the fall."
-        },
-        {
-          "key": "B",
-          "text": "was trying",
-          "is_correct": true,
-          "explanation": "Past Continuous is used with 'while' to show a longer background action interrupted by a shorter Past Simple event."
-        },
-        {
-          "key": "C",
           "text": "has tried",
           "is_correct": false,
           "explanation": "Present Perfect is ungrammatical in a story narrative anchored entirely in the past."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "had been trying",
           "is_correct": false,
           "explanation": "Past Perfect Continuous is unnecessary when describing simultaneous interruption using 'while'."
+        },
+        {
+          "key": "C",
+          "text": "tried",
+          "is_correct": false,
+          "explanation": "Simple past does not properly represent the ongoing background action interrupted by the fall."
+        },
+        {
+          "key": "D",
+          "text": "was trying",
+          "is_correct": true,
+          "explanation": "Past Continuous is used with 'while' to show a longer background action interrupted by a shorter Past Simple event."
         }
       ]
     },
@@ -466,15 +467,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "has gone",
-          "is_correct": false,
-          "explanation": "Present Perfect cannot be used within a past narrative context."
-        },
-        {
-          "key": "D",
           "text": "was going",
           "is_correct": false,
           "explanation": "Past Continuous implies she was in the process of leaving at that exact moment rather than already gone."
+        },
+        {
+          "key": "D",
+          "text": "has gone",
+          "is_correct": false,
+          "explanation": "Present Perfect cannot be used within a past narrative context."
         }
       ]
     },
@@ -484,9 +485,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has been collecting",
+          "text": "was collecting",
           "is_correct": false,
-          "explanation": "Present Perfect Continuous cannot be anchored to a past event ('decided')."
+          "explanation": "Past Continuous does not express duration spanning 'for years' prior to a completed past point."
         },
         {
           "key": "B",
@@ -502,9 +503,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "was collecting",
+          "text": "has been collecting",
           "is_correct": false,
-          "explanation": "Past Continuous does not express duration spanning 'for years' prior to a completed past point."
+          "explanation": "Present Perfect Continuous cannot be anchored to a past event ('decided')."
         }
       ]
     },
@@ -514,27 +515,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "is arriving",
+          "is_correct": false,
+          "explanation": "Present Continuous is ungrammatical inside an 'as soon as' punctual time clause."
+        },
+        {
+          "key": "B",
           "text": "will arrive",
           "is_correct": false,
           "explanation": "Future auxiliary 'will' cannot be used inside time clauses introduced by 'as soon as'."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "arrives",
           "is_correct": true,
           "explanation": "In adverbial clauses of time referring to the future, Present Simple must be used instead of 'will'."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "arrived",
           "is_correct": false,
           "explanation": "Past Simple is incorrect because the action takes place tomorrow."
-        },
-        {
-          "key": "D",
-          "text": "is arriving",
-          "is_correct": false,
-          "explanation": "Present Continuous is ungrammatical inside an 'as soon as' punctual time clause."
         }
       ]
     },
@@ -544,27 +545,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will show",
-          "is_correct": false,
-          "explanation": "Modal 'will' cannot be used in conditional 'if'-clauses referring to future time."
-        },
-        {
-          "key": "B",
-          "text": "shows",
-          "is_correct": true,
-          "explanation": "In conditional clauses introduced by 'if', Present Simple is used for future references."
-        },
-        {
-          "key": "C",
           "text": "showed",
           "is_correct": false,
           "explanation": "Past Simple changes the context into a hypothetical second conditional, contradicting main clause 'will give'."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "is showing",
           "is_correct": false,
           "explanation": "Present Continuous is inappropriate for a punctual event in a conditional clause."
+        },
+        {
+          "key": "C",
+          "text": "shows",
+          "is_correct": true,
+          "explanation": "In conditional clauses introduced by 'if', Present Simple is used for future references."
+        },
+        {
+          "key": "D",
+          "text": "will show",
+          "is_correct": false,
+          "explanation": "Modal 'will' cannot be used in conditional 'if'-clauses referring to future time."
         }
       ]
     },
@@ -574,15 +575,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will return",
-          "is_correct": false,
-          "explanation": "Future Simple does not emphasize completion before a future deadline marked by 'by then'."
-        },
-        {
-          "key": "B",
           "text": "will have returned",
           "is_correct": true,
           "explanation": "Future Perfect ('will have + past participle') expresses an action that will be completed not later than a specified future time ('by then')."
+        },
+        {
+          "key": "B",
+          "text": "will return",
+          "is_correct": false,
+          "explanation": "Future Simple does not emphasize completion before a future deadline marked by 'by then'."
         },
         {
           "key": "C",
@@ -604,27 +605,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will have",
+          "text": "will have had",
           "is_correct": false,
-          "explanation": "Future Simple fails to emphasize that the meeting will be actively in progress at that future time."
+          "explanation": "Future Perfect implies the meeting is already completed, contradicting 'don't visit then'."
         },
         {
           "key": "B",
-          "text": "will be having",
-          "is_correct": true,
-          "explanation": "Future Continuous ('will be + -ing') expresses an action that will be in progress at a specific moment in the future."
-        },
-        {
-          "key": "C",
           "text": "have",
           "is_correct": false,
           "explanation": "Present Simple fails to reflect an action in progress at a future moment."
         },
         {
+          "key": "C",
+          "text": "will be having",
+          "is_correct": true,
+          "explanation": "Future Continuous ('will be + -ing') expresses an action that will be in progress at a specific moment in the future."
+        },
+        {
           "key": "D",
-          "text": "will have had",
+          "text": "will have",
           "is_correct": false,
-          "explanation": "Future Perfect implies the meeting is already completed, contradicting 'don't visit then'."
+          "explanation": "Future Simple fails to emphasize that the meeting will be actively in progress at that future time."
         }
       ]
     },
@@ -634,27 +635,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "am going to have",
-          "is_correct": false,
-          "explanation": "'Be going to' implies a decision made prior to speaking, not an immediate restaurant order."
-        },
-        {
-          "key": "B",
-          "text": "will have",
-          "is_correct": true,
-          "explanation": "'Will' is used when making a decision at the moment of speaking."
-        },
-        {
-          "key": "C",
           "text": "have",
           "is_correct": false,
           "explanation": "Present Simple cannot be used to declare instant decisions."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "will be having",
           "is_correct": false,
           "explanation": "Future Continuous is ungrammatical for placing an immediate order."
+        },
+        {
+          "key": "C",
+          "text": "am going to have",
+          "is_correct": false,
+          "explanation": "'Be going to' implies a decision made prior to speaking, not an immediate restaurant order."
+        },
+        {
+          "key": "D",
+          "text": "will have",
+          "is_correct": true,
+          "explanation": "'Will' is used when making a decision at the moment of speaking."
         }
       ]
     },
@@ -694,27 +695,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will rain",
-          "is_correct": false,
-          "explanation": "'Will' expresses general beliefs, whereas clear present visual evidence requires 'be going to'."
-        },
-        {
-          "key": "B",
-          "text": "is going to rain",
-          "is_correct": true,
-          "explanation": "'Be going to' is required when we can see present visual evidence ('dark grey clouds') that something will happen."
-        },
-        {
-          "key": "C",
           "text": "rains",
           "is_correct": false,
           "explanation": "Present Simple cannot be used for immediate weather predictions based on visual clues."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "will have rained",
           "is_correct": false,
           "explanation": "Future Perfect implies finished past rain in the future, which is contextually invalid."
+        },
+        {
+          "key": "C",
+          "text": "will rain",
+          "is_correct": false,
+          "explanation": "'Will' expresses general beliefs, whereas clear present visual evidence requires 'be going to'."
+        },
+        {
+          "key": "D",
+          "text": "is going to rain",
+          "is_correct": true,
+          "explanation": "'Be going to' is required when we can see present visual evidence ('dark grey clouds') that something will happen."
         }
       ]
     },
@@ -724,9 +725,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "have",
+          "text": "had",
           "is_correct": false,
-          "explanation": "Present Simple implies a regular habit, not a specific future personal arrangement."
+          "explanation": "Past Simple contradicts the future time frame 'this coming Saturday'."
         },
         {
           "key": "B",
@@ -736,15 +737,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "will have had",
+          "text": "have",
           "is_correct": false,
-          "explanation": "Future Perfect is ungrammatical when inviting someone to an arrangement."
+          "explanation": "Present Simple implies a regular habit, not a specific future personal arrangement."
         },
         {
           "key": "D",
-          "text": "had",
+          "text": "will have had",
           "is_correct": false,
-          "explanation": "Past Simple contradicts the future time frame 'this coming Saturday'."
+          "explanation": "Future Perfect is ungrammatical when inviting someone to an arrangement."
         }
       ]
     },
@@ -754,27 +755,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "get",
+          "text": "have got",
           "is_correct": false,
-          "explanation": "Present Simple expresses static facts, whereas ongoing trends require Present Continuous."
+          "explanation": "Present Perfect Simple fails to convey the active, developing process."
         },
         {
           "key": "B",
-          "text": "are getting",
-          "is_correct": true,
-          "explanation": "Present Continuous is used to describe changing or developing situations."
-        },
-        {
-          "key": "C",
           "text": "got",
           "is_correct": false,
           "explanation": "Past Simple implies the temperature change is completely finished."
         },
         {
-          "key": "D",
-          "text": "have got",
+          "key": "C",
+          "text": "get",
           "is_correct": false,
-          "explanation": "Present Perfect Simple fails to convey the active, developing process."
+          "explanation": "Present Simple expresses static facts, whereas ongoing trends require Present Continuous."
+        },
+        {
+          "key": "D",
+          "text": "are getting",
+          "is_correct": true,
+          "explanation": "Present Continuous is used to describe changing or developing situations."
         }
       ]
     },
@@ -790,21 +791,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "saw",
+          "is_correct": false,
+          "explanation": "Past Simple contradicts the future time marker 'tomorrow morning'."
+        },
+        {
+          "key": "C",
           "text": "am seeing",
           "is_correct": true,
           "explanation": "When 'see' means 'visiting/meeting' as a dynamic arrangement, Present Continuous is correctly used."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "have seen",
           "is_correct": false,
           "explanation": "Present Perfect implies the appointment is already completed in the past."
-        },
-        {
-          "key": "D",
-          "text": "saw",
-          "is_correct": false,
-          "explanation": "Past Simple contradicts the future time marker 'tomorrow morning'."
         }
       ]
     },
@@ -814,21 +815,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has",
-          "is_correct": false,
-          "explanation": "Present Simple expresses static possession, but 'having lunch' is an action occurring 'right now'."
-        },
-        {
-          "key": "B",
           "text": "is having",
           "is_correct": true,
           "explanation": "When 'have' describes an action (like eating), it can be used in Present Continuous."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "had",
           "is_correct": false,
           "explanation": "Past Simple contradicts 'right now'."
+        },
+        {
+          "key": "C",
+          "text": "has",
+          "is_correct": false,
+          "explanation": "Present Simple expresses static possession, but 'having lunch' is an action occurring 'right now'."
         },
         {
           "key": "D",
@@ -844,27 +845,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "made",
-          "is_correct": false,
-          "explanation": "Past Simple cannot be paired with time adverbials that include the present like 'so far'."
-        },
-        {
-          "key": "B",
           "text": "has made",
           "is_correct": true,
           "explanation": "Present Perfect Simple is used with 'so far' to report cumulative results up to now."
         },
         {
-          "key": "C",
-          "text": "has been making",
-          "is_correct": false,
-          "explanation": "Present Perfect Continuous cannot be used when expressing the total quantity produced."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "makes",
           "is_correct": false,
           "explanation": "Present Simple expresses general routine rather than accumulated output to date."
+        },
+        {
+          "key": "C",
+          "text": "made",
+          "is_correct": false,
+          "explanation": "Past Simple cannot be paired with time adverbials that include the present like 'so far'."
+        },
+        {
+          "key": "D",
+          "text": "has been making",
+          "is_correct": false,
+          "explanation": "Present Perfect Continuous cannot be used when expressing the total quantity produced."
         }
       ]
     },
@@ -874,21 +875,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has received",
-          "is_correct": false,
-          "explanation": "Present Perfect cannot be used with explicit past time markers like 'yesterday'."
-        },
-        {
-          "key": "B",
           "text": "received",
           "is_correct": true,
           "explanation": "When providing specific details about news introduced in Present Perfect, switch to Past Simple for past details."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "had received",
           "is_correct": false,
           "explanation": "Past Perfect is unnecessary when simply recounting a past detailed action with 'yesterday'."
+        },
+        {
+          "key": "C",
+          "text": "has received",
+          "is_correct": false,
+          "explanation": "Present Perfect cannot be used with explicit past time markers like 'yesterday'."
         },
         {
           "key": "D",
@@ -904,27 +905,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "have replied",
+          "text": "reply",
           "is_correct": false,
-          "explanation": "Since it is now afternoon, 'this morning' is a completed past period requiring Past Simple."
+          "explanation": "Present Simple expresses general habit, not specific actions finished earlier today."
         },
         {
           "key": "B",
-          "text": "replied",
-          "is_correct": true,
-          "explanation": "Past Simple is used because 'this morning' represents a finished period of time when speaking in the afternoon."
-        },
-        {
-          "key": "C",
           "text": "have been replying",
           "is_correct": false,
           "explanation": "Present Perfect Continuous cannot be used for a completed past period in the afternoon."
         },
         {
+          "key": "C",
+          "text": "replied",
+          "is_correct": true,
+          "explanation": "Past Simple is used because 'this morning' represents a finished period of time when speaking in the afternoon."
+        },
+        {
           "key": "D",
-          "text": "reply",
+          "text": "have replied",
           "is_correct": false,
-          "explanation": "Present Simple expresses general habit, not specific actions finished earlier today."
+          "explanation": "Since it is now afternoon, 'this morning' is a completed past period requiring Past Simple."
         }
       ]
     },
@@ -934,27 +935,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "left",
+          "text": "is leaving",
           "is_correct": false,
-          "explanation": "Past Simple states a past fact, whereas 'already' linking to present availability requires Present Perfect."
+          "explanation": "Present Continuous implies he is currently departing, contradicting 'already'."
         },
         {
           "key": "B",
-          "text": "has left",
-          "is_correct": true,
-          "explanation": "Present Perfect is used with 'already' to emphasize a past action with present connection."
-        },
-        {
-          "key": "C",
           "text": "had left",
           "is_correct": false,
           "explanation": "Past Perfect requires a past reference context, but 'cannot reach' is present."
         },
         {
+          "key": "C",
+          "text": "has left",
+          "is_correct": true,
+          "explanation": "Present Perfect is used with 'already' to emphasize a past action with present connection."
+        },
+        {
           "key": "D",
-          "text": "is leaving",
+          "text": "left",
           "is_correct": false,
-          "explanation": "Present Continuous implies he is currently departing, contradicting 'already'."
+          "explanation": "Past Simple states a past fact, whereas 'already' linking to present availability requires Present Perfect."
         }
       ]
     },
@@ -964,9 +965,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "have told",
+          "text": "told",
           "is_correct": false,
-          "explanation": "While possible, Present Perfect Continuous is preferred when emphasizing repeated nagging over a duration."
+          "explanation": "Past Simple implies the telling is finished, contradicting 'for weeks' leading to present frustration."
         },
         {
           "key": "B",
@@ -976,15 +977,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "told",
-          "is_correct": false,
-          "explanation": "Past Simple implies the telling is finished, contradicting 'for weeks' leading to present frustration."
-        },
-        {
-          "key": "D",
           "text": "tell",
           "is_correct": false,
           "explanation": "Present Simple fails to reflect the continuous duration starting in the past."
+        },
+        {
+          "key": "D",
+          "text": "have told",
+          "is_correct": false,
+          "explanation": "While possible, Present Perfect Continuous is preferred when emphasizing repeated nagging over a duration."
         }
       ]
     },
@@ -994,9 +995,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "had",
+          "text": "have been taking",
           "is_correct": false,
-          "explanation": "Past Simple fails to show that taking a shower was actively in progress at ten o'clock."
+          "explanation": "Present Perfect Continuous cannot be anchored in last night's past context."
         },
         {
           "key": "B",
@@ -1006,15 +1007,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "have been taking",
-          "is_correct": false,
-          "explanation": "Present Perfect Continuous cannot be anchored in last night's past context."
-        },
-        {
-          "key": "D",
           "text": "took",
           "is_correct": false,
           "explanation": "Past Simple implies a completed simple action rather than an ongoing interruption."
+        },
+        {
+          "key": "D",
+          "text": "had",
+          "is_correct": false,
+          "explanation": "Past Simple fails to show that taking a shower was actively in progress at ten o'clock."
         }
       ]
     },
@@ -1024,15 +1025,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was noticing",
+          "text": "had noticed",
           "is_correct": false,
-          "explanation": "'Notice' is a stative verb of perception and acts as an instantaneous interrupting event."
+          "explanation": "Past Perfect incorrectly implies he noticed the connection prior to starting the inspection."
         },
         {
           "key": "B",
-          "text": "noticed",
-          "is_correct": true,
-          "explanation": "Past Simple is used for a shorter action that interrupts a longer ongoing Past Continuous action ('was inspecting')."
+          "text": "was noticing",
+          "is_correct": false,
+          "explanation": "'Notice' is a stative verb of perception and acts as an instantaneous interrupting event."
         },
         {
           "key": "C",
@@ -1042,9 +1043,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "had noticed",
-          "is_correct": false,
-          "explanation": "Past Perfect incorrectly implies he noticed the connection prior to starting the inspection."
+          "text": "noticed",
+          "is_correct": true,
+          "explanation": "Past Simple is used for a shorter action that interrupts a longer ongoing Past Continuous action ('was inspecting')."
         }
       ]
     },
@@ -1054,27 +1055,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "wrote",
-          "is_correct": false,
-          "explanation": "Past Simple fails to express completed accumulation prior to a past deadline marked by 'by the time'."
-        },
-        {
-          "key": "B",
-          "text": "had written",
-          "is_correct": true,
-          "explanation": "Past Perfect Simple is used to state completed accumulation by a specific past time point."
-        },
-        {
-          "key": "C",
           "text": "had been writing",
           "is_correct": false,
           "explanation": "Past Perfect Continuous cannot be used when specifying the exact number of completed items."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "wrote",
+          "is_correct": false,
+          "explanation": "Past Simple fails to express completed accumulation prior to a past deadline marked by 'by the time'."
+        },
+        {
+          "key": "C",
           "text": "has written",
           "is_correct": false,
           "explanation": "Present Perfect cannot be anchored to a past timeframe ('turned twenty')."
+        },
+        {
+          "key": "D",
+          "text": "had written",
+          "is_correct": true,
+          "explanation": "Past Perfect Simple is used to state completed accumulation by a specific past time point."
         }
       ]
     },
@@ -1084,21 +1085,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "have been waiting",
-          "is_correct": false,
-          "explanation": "Present Perfect Continuous cannot be anchored to a past finished event ('located')."
-        },
-        {
-          "key": "B",
           "text": "had been waiting",
           "is_correct": true,
           "explanation": "Past Perfect Continuous is used for an ongoing action continuing up to a specific past moment."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "were waiting",
           "is_correct": false,
           "explanation": "Past Continuous does not emphasize continuous duration prior to a past event as effectively as Past Perfect Continuous."
+        },
+        {
+          "key": "C",
+          "text": "have been waiting",
+          "is_correct": false,
+          "explanation": "Present Perfect Continuous cannot be anchored to a past finished event ('located')."
         },
         {
           "key": "D",
@@ -1114,9 +1115,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "am not telling",
+          "text": "don't tell",
           "is_correct": false,
-          "explanation": "Present Continuous expresses fixed arrangements, not spoken promises."
+          "explanation": "Present Simple expresses habit, not future commitment."
         },
         {
           "key": "B",
@@ -1126,15 +1127,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "don't tell",
-          "is_correct": false,
-          "explanation": "Present Simple expresses habit, not future commitment."
-        },
-        {
-          "key": "D",
           "text": "am not going to tell",
           "is_correct": false,
           "explanation": "'Be going to' expresses prior intentions rather than spontaneous promises."
+        },
+        {
+          "key": "D",
+          "text": "am not telling",
+          "is_correct": false,
+          "explanation": "Present Continuous expresses fixed arrangements, not spoken promises."
         }
       ]
     },
@@ -1150,15 +1151,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "Will you be going",
-          "is_correct": true,
-          "explanation": "'Will you be doing...?' is politely used to ask about people's plans when we want them to do a favor for us."
-        },
-        {
-          "key": "C",
           "text": "Do you go",
           "is_correct": false,
           "explanation": "Present Simple asks about regular habits, not plans for 'this afternoon'."
+        },
+        {
+          "key": "C",
+          "text": "Will you be going",
+          "is_correct": true,
+          "explanation": "'Will you be doing...?' is politely used to ask about people's plans when we want them to do a favor for us."
         },
         {
           "key": "D",
@@ -1174,27 +1175,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "read",
-          "is_correct": false,
-          "explanation": "Present Simple cannot express future completion."
-        },
-        {
-          "key": "B",
           "text": "will have read",
           "is_correct": true,
           "explanation": "Future Perfect is used to say that something will be completed by a certain time in the future."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "will be reading",
           "is_correct": false,
           "explanation": "Future Continuous implies reading is still in progress, contradicting 'by then'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "am reading",
           "is_correct": false,
           "explanation": "Present Continuous cannot express completion prior to a future point."
+        },
+        {
+          "key": "D",
+          "text": "read",
+          "is_correct": false,
+          "explanation": "Present Simple cannot express future completion."
         }
       ]
     },
@@ -1210,21 +1211,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "lay",
+          "is_correct": false,
+          "explanation": "Past Simple incorrectly implies the geographical position has changed."
+        },
+        {
+          "key": "C",
           "text": "lies",
           "is_correct": true,
           "explanation": "Present Simple is used to state geographical facts or permanent truths."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "has lain",
           "is_correct": false,
           "explanation": "Present Perfect implies a past state with present relevance rather than a permanent fact."
-        },
-        {
-          "key": "D",
-          "text": "lay",
-          "is_correct": false,
-          "explanation": "Past Simple incorrectly implies the geographical position has changed."
         }
       ]
     },
@@ -1234,9 +1235,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is belonging",
+          "text": "was belonging",
           "is_correct": false,
-          "explanation": "'Belong' is a stative verb of ownership and cannot be used in continuous forms."
+          "explanation": "Stative verbs cannot be used in Past Continuous."
         },
         {
           "key": "B",
@@ -1252,9 +1253,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "was belonging",
+          "text": "is belonging",
           "is_correct": false,
-          "explanation": "Stative verbs cannot be used in Past Continuous."
+          "explanation": "'Belong' is a stative verb of ownership and cannot be used in continuous forms."
         }
       ]
     },
@@ -1264,15 +1265,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is containing",
+          "text": "contained",
           "is_correct": false,
-          "explanation": "'Contain' is a stative verb and cannot be used in the continuous form."
+          "explanation": "Past Simple implies it no longer contains the documents, which is not stated."
         },
         {
           "key": "B",
-          "text": "contains",
-          "is_correct": true,
-          "explanation": "Stative verbs describing inclusion or content take Present Simple."
+          "text": "is containing",
+          "is_correct": false,
+          "explanation": "'Contain' is a stative verb and cannot be used in the continuous form."
         },
         {
           "key": "C",
@@ -1282,9 +1283,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "contained",
-          "is_correct": false,
-          "explanation": "Past Simple implies it no longer contains the documents, which is not stated."
+          "text": "contains",
+          "is_correct": true,
+          "explanation": "Stative verbs describing inclusion or content take Present Simple."
         }
       ]
     },
@@ -1294,27 +1295,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "won",
-          "is_correct": false,
-          "explanation": "Past Simple cannot be used in the main clause paired with a 'since' clause."
-        },
-        {
-          "key": "B",
           "text": "has won",
           "is_correct": true,
           "explanation": "Present Perfect Simple is used in the main clause to describe accumulated victories 'since' a past event."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "has been winning",
           "is_correct": false,
           "explanation": "Present Perfect Continuous cannot express completed count achievements ('three championships')."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "had won",
           "is_correct": false,
           "explanation": "Past Perfect requires a past anchor point rather than a connection to present."
+        },
+        {
+          "key": "D",
+          "text": "won",
+          "is_correct": false,
+          "explanation": "Past Simple cannot be used in the main clause paired with a 'since' clause."
         }
       ]
     },
@@ -1324,27 +1325,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "updated",
+          "text": "had updated",
           "is_correct": false,
-          "explanation": "Past Simple fails to show the longer background action in progress."
+          "explanation": "Past Perfect implies updating finished before the power went out."
         },
         {
           "key": "B",
-          "text": "was updating",
-          "is_correct": true,
-          "explanation": "'While' introduces a longer ongoing action in the Past Continuous interrupted by a shorter Past Simple event."
-        },
-        {
-          "key": "C",
           "text": "has updated",
           "is_correct": false,
           "explanation": "Present Perfect cannot be used in a past context."
         },
         {
-          "key": "D",
-          "text": "had updated",
+          "key": "C",
+          "text": "updated",
           "is_correct": false,
-          "explanation": "Past Perfect implies updating finished before the power went out."
+          "explanation": "Past Simple fails to show the longer background action in progress."
+        },
+        {
+          "key": "D",
+          "text": "was updating",
+          "is_correct": true,
+          "explanation": "'While' introduces a longer ongoing action in the Past Continuous interrupted by a shorter Past Simple event."
         }
       ]
     },
@@ -1354,27 +1355,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will stop",
-          "is_correct": false,
-          "explanation": "Future auxiliary 'will' cannot be used in time clauses introduced by 'until'."
-        },
-        {
-          "key": "B",
           "text": "stops",
           "is_correct": true,
           "explanation": "Adverbial time clauses (introduced by 'until') use Present Simple to refer to future time."
         },
         {
-          "key": "C",
-          "text": "stopped",
-          "is_correct": false,
-          "explanation": "Past Simple is incorrect for a future condition."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "is stopping",
           "is_correct": false,
           "explanation": "Present Continuous is ungrammatical inside an 'until' time clause."
+        },
+        {
+          "key": "C",
+          "text": "will stop",
+          "is_correct": false,
+          "explanation": "Future auxiliary 'will' cannot be used in time clauses introduced by 'until'."
+        },
+        {
+          "key": "D",
+          "text": "stopped",
+          "is_correct": false,
+          "explanation": "Past Simple is incorrect for a future condition."
         }
       ]
     },
@@ -1384,27 +1385,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "lives",
+          "is_correct": false,
+          "explanation": "Present Simple is ungrammatical for deceased historical figures."
+        },
+        {
+          "key": "B",
           "text": "has lived",
           "is_correct": false,
           "explanation": "Present Perfect cannot be used for a finished past residence that has no connection to present."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "lived",
           "is_correct": true,
           "explanation": "Past Simple is used for completed historical periods in the past."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "has been living",
           "is_correct": false,
           "explanation": "Present Perfect Continuous implies he still lives there today."
-        },
-        {
-          "key": "D",
-          "text": "lives",
-          "is_correct": false,
-          "explanation": "Present Simple is ungrammatical for deceased historical figures."
         }
       ]
     },
@@ -1414,27 +1415,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will visit",
-          "is_correct": false,
-          "explanation": "'Will' expresses spontaneous decisions, whereas 'Yes, I have decided' indicates a prior intention requiring 'be going to'."
-        },
-        {
-          "key": "B",
-          "text": "am going to visit",
-          "is_correct": true,
-          "explanation": "'Be going to' is used to express prior intentions formed before the moment of speaking."
-        },
-        {
-          "key": "C",
           "text": "visited",
           "is_correct": false,
           "explanation": "Past Simple contradicts future holiday plans."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "visit",
           "is_correct": false,
           "explanation": "Present Simple expresses habit, not future personal intentions."
+        },
+        {
+          "key": "C",
+          "text": "am going to visit",
+          "is_correct": true,
+          "explanation": "'Be going to' is used to express prior intentions formed before the moment of speaking."
+        },
+        {
+          "key": "D",
+          "text": "will visit",
+          "is_correct": false,
+          "explanation": "'Will' expresses spontaneous decisions, whereas 'Yes, I have decided' indicates a prior intention requiring 'be going to'."
         }
       ]
     },
@@ -1456,15 +1457,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "will have given",
-          "is_correct": false,
-          "explanation": "Future Perfect implies the presentation is already finished, contradicting 'do not call then'."
-        },
-        {
-          "key": "D",
           "text": "gave",
           "is_correct": false,
           "explanation": "Past Simple contradicts the future time window."
+        },
+        {
+          "key": "D",
+          "text": "will have given",
+          "is_correct": false,
+          "explanation": "Future Perfect implies the presentation is already finished, contradicting 'do not call then'."
         }
       ]
     },
@@ -1474,27 +1475,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is attending",
-          "is_correct": false,
-          "explanation": "Present Continuous implies a temporary routine, whereas 'every Monday' indicates a permanent habit."
-        },
-        {
-          "key": "B",
           "text": "attends",
           "is_correct": true,
           "explanation": "Present Simple is used to describe repeated habitual actions or routines."
         },
         {
-          "key": "C",
-          "text": "has attended",
-          "is_correct": false,
-          "explanation": "Present Perfect expresses completed past events up to now, not regular weekly schedules."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "attended",
           "is_correct": false,
           "explanation": "Past Simple implies she no longer attends choir practice."
+        },
+        {
+          "key": "C",
+          "text": "is attending",
+          "is_correct": false,
+          "explanation": "Present Continuous implies a temporary routine, whereas 'every Monday' indicates a permanent habit."
+        },
+        {
+          "key": "D",
+          "text": "has attended",
+          "is_correct": false,
+          "explanation": "Present Perfect expresses completed past events up to now, not regular weekly schedules."
         }
       ]
     },
@@ -1504,9 +1505,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "look",
+          "text": "was looking",
           "is_correct": false,
-          "explanation": "Present Simple expresses general facts, not actions taking place 'right now'."
+          "explanation": "Past Continuous contradicts the present time marker 'right now'."
         },
         {
           "key": "B",
@@ -1522,9 +1523,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "was looking",
+          "text": "look",
           "is_correct": false,
-          "explanation": "Past Continuous contradicts the present time marker 'right now'."
+          "explanation": "Present Simple expresses general facts, not actions taking place 'right now'."
         }
       ]
     },
@@ -1534,9 +1535,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "interviewed",
+          "text": "has interviewed",
           "is_correct": false,
-          "explanation": "While common in informal speech, formal grammar prefers Past Perfect after 'after' to clearly mark prior sequence."
+          "explanation": "Present Perfect cannot be used in a past tense narrative."
         },
         {
           "key": "B",
@@ -1546,9 +1547,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "has interviewed",
+          "text": "interviewed",
           "is_correct": false,
-          "explanation": "Present Perfect cannot be used in a past tense narrative."
+          "explanation": "While common in informal speech, formal grammar prefers Past Perfect after 'after' to clearly mark prior sequence."
         },
         {
           "key": "D",
@@ -1564,21 +1565,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is revolving",
-          "is_correct": false,
-          "explanation": "Present Continuous implies a temporary or changing phenomenon."
-        },
-        {
-          "key": "B",
           "text": "revolves",
           "is_correct": true,
           "explanation": "Present Simple is used to state universal scientific truths and facts."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "has revolved",
           "is_correct": false,
           "explanation": "Present Perfect focuses on present results rather than universal truths."
+        },
+        {
+          "key": "C",
+          "text": "is revolving",
+          "is_correct": false,
+          "explanation": "Present Continuous implies a temporary or changing phenomenon."
         },
         {
           "key": "D",
@@ -1594,27 +1595,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is",
-          "is_correct": false,
-          "explanation": "Tense agreement requires past tense 'was' to align with past reporting verb 'believed'."
-        },
-        {
-          "key": "B",
-          "text": "was",
-          "is_correct": true,
-          "explanation": "Past Simple 'was' correctly maintains tense sequence following the past verb 'believed'."
-        },
-        {
-          "key": "C",
           "text": "has been",
           "is_correct": false,
           "explanation": "Present Perfect breaks past narrative tense agreement."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "is",
+          "is_correct": false,
+          "explanation": "Tense agreement requires past tense 'was' to align with past reporting verb 'believed'."
+        },
+        {
+          "key": "C",
           "text": "will be",
           "is_correct": false,
           "explanation": "'Will' cannot follow past reporting verb 'believed' (would be required)."
+        },
+        {
+          "key": "D",
+          "text": "was",
+          "is_correct": true,
+          "explanation": "Past Simple 'was' correctly maintains tense sequence following the past verb 'believed'."
         }
       ]
     },
@@ -1624,21 +1625,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "writes",
+          "is_correct": false,
+          "explanation": "Present Simple cannot express future cumulative completion."
+        },
+        {
+          "key": "B",
           "text": "will write",
           "is_correct": false,
           "explanation": "Future Simple does not emphasize completion relative to a future deadline."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "will have written",
           "is_correct": true,
           "explanation": "Future Perfect is used to state that an action will be completed prior to a specific future time ('By December this year')."
-        },
-        {
-          "key": "C",
-          "text": "writes",
-          "is_correct": false,
-          "explanation": "Present Simple cannot express future cumulative completion."
         },
         {
           "key": "D",
@@ -1656,27 +1657,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "discussing about",
+          "is_correct": false,
+          "explanation": "'Discuss' is transitive and does not take 'about'[cite: 192, 195]."
+        },
+        {
+          "key": "B",
           "text": "discuss about",
           "is_correct": false,
           "explanation": "'Discuss' is a transitive verb that takes a direct object without the preposition 'about'[cite: 192, 195]."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "discuss",
           "is_correct": true,
           "explanation": "'Discuss' is a transitive verb and takes a direct object directly without adding 'about'[cite: 192, 195]."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "talk",
           "is_correct": false,
           "explanation": "'Talk' is an intransitive verb and requires 'about' when taking an object."
-        },
-        {
-          "key": "D",
-          "text": "discussing about",
-          "is_correct": false,
-          "explanation": "'Discuss' is transitive and does not take 'about'[cite: 192, 195]."
         }
       ]
     },
@@ -1686,27 +1687,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "suffered",
-          "is_correct": true,
-          "explanation": "'Suffer' is used transitively without 'from' when referring to experiencing injuries, losses, or pain directly."
-        },
-        {
-          "key": "B",
           "text": "suffered from",
           "is_correct": false,
           "explanation": "'Suffer from' is used for illnesses or chronic medical conditions, not for sustaining direct injuries."
         },
         {
-          "key": "C",
-          "text": "was suffered",
-          "is_correct": false,
-          "explanation": "Active voice is required as the driver experienced the injuries."
+          "key": "B",
+          "text": "suffered",
+          "is_correct": true,
+          "explanation": "'Suffer' is used transitively without 'from' when referring to experiencing injuries, losses, or pain directly."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "suffering from",
           "is_correct": false,
           "explanation": "'Suffering from' is used for suffering from a disease or condition."
+        },
+        {
+          "key": "D",
+          "text": "was suffered",
+          "is_correct": false,
+          "explanation": "Active voice is required as the driver experienced the injuries."
         }
       ]
     },
@@ -1716,15 +1717,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "suffering",
+          "text": "suffer of",
           "is_correct": false,
-          "explanation": "'Suffer' requires 'from' when referring to an illness or disease."
+          "explanation": "The correct preposition after 'suffer' for diseases is 'from', not 'of'."
         },
         {
           "key": "B",
-          "text": "suffering from",
-          "is_correct": true,
-          "explanation": "'Suffer from' is the correct intransitive phrasal pattern when referring to illness or disease."
+          "text": "suffering",
+          "is_correct": false,
+          "explanation": "'Suffer' requires 'from' when referring to an illness or disease."
         },
         {
           "key": "C",
@@ -1734,9 +1735,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "suffer of",
-          "is_correct": false,
-          "explanation": "The correct preposition after 'suffer' for diseases is 'from', not 'of'."
+          "text": "suffering from",
+          "is_correct": true,
+          "explanation": "'Suffer from' is the correct intransitive phrasal pattern when referring to illness or disease."
         }
       ]
     },
@@ -1752,15 +1753,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "investigating",
-          "is_correct": true,
-          "explanation": "'Investigate' is transitive and takes a direct object directly[cite: 193, 196]."
-        },
-        {
-          "key": "C",
           "text": "looking",
           "is_correct": false,
           "explanation": "'Look' requires 'into' to mean investigate."
+        },
+        {
+          "key": "C",
+          "text": "investigating",
+          "is_correct": true,
+          "explanation": "'Investigate' is transitive and takes a direct object directly[cite: 193, 196]."
         },
         {
           "key": "D",
@@ -1776,9 +1777,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "raise",
+          "text": "be raised of",
           "is_correct": false,
-          "explanation": "'Raise' is a transitive verb and requires an explicit direct object."
+          "explanation": "Ungrammatical structure."
         },
         {
           "key": "B",
@@ -1788,15 +1789,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "raising",
+          "text": "raise",
           "is_correct": false,
-          "explanation": "Transitive 'raise' cannot be used intransitively."
+          "explanation": "'Raise' is a transitive verb and requires an explicit direct object."
         },
         {
           "key": "D",
-          "text": "be raised of",
+          "text": "raising",
           "is_correct": false,
-          "explanation": "Ungrammatical structure."
+          "explanation": "Transitive 'raise' cannot be used intransitively."
         }
       ]
     },
@@ -1806,27 +1807,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "rise",
-          "is_correct": false,
-          "explanation": "'Rise' is intransitive and cannot take the object 'its fares'."
-        },
-        {
-          "key": "B",
           "text": "raise",
           "is_correct": true,
           "explanation": "'Raise' is a transitive verb taking the direct object 'its fares'."
         },
         {
-          "key": "C",
-          "text": "rising",
-          "is_correct": false,
-          "explanation": "Intransitive 'rise' cannot take a direct object."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "rose",
           "is_correct": false,
           "explanation": "Past tense of intransitive 'rise' cannot take an object."
+        },
+        {
+          "key": "C",
+          "text": "rise",
+          "is_correct": false,
+          "explanation": "'Rise' is intransitive and cannot take the object 'its fares'."
+        },
+        {
+          "key": "D",
+          "text": "rising",
+          "is_correct": false,
+          "explanation": "Intransitive 'rise' cannot take a direct object."
         }
       ]
     },
@@ -1836,27 +1837,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "lacked of",
-          "is_correct": false,
-          "explanation": "The verb 'lack' is transitive and takes a direct object without 'of'."
-        },
-        {
-          "key": "B",
-          "text": "lacked",
-          "is_correct": true,
-          "explanation": "As a verb, 'lack' is transitive and directly precedes its object without 'of'."
-        },
-        {
-          "key": "C",
           "text": "was lacked",
           "is_correct": false,
           "explanation": "'Lack' describes a state and cannot be passivized."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "is lacking of",
           "is_correct": false,
           "explanation": "Verb 'lack' does not take preposition 'of'."
+        },
+        {
+          "key": "C",
+          "text": "lacked of",
+          "is_correct": false,
+          "explanation": "The verb 'lack' is transitive and takes a direct object without 'of'."
+        },
+        {
+          "key": "D",
+          "text": "lacked",
+          "is_correct": true,
+          "explanation": "As a verb, 'lack' is transitive and directly precedes its object without 'of'."
         }
       ]
     },
@@ -1866,9 +1867,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "comprises of",
+          "text": "comprising of",
           "is_correct": false,
-          "explanation": "Active verb 'comprise' is transitive and takes an object directly without 'of'."
+          "explanation": "Active 'comprise' does not take 'of'."
         },
         {
           "key": "B",
@@ -1884,9 +1885,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "comprising of",
+          "text": "comprises of",
           "is_correct": false,
-          "explanation": "Active 'comprise' does not take 'of'."
+          "explanation": "Active verb 'comprise' is transitive and takes an object directly without 'of'."
         }
       ]
     },
@@ -1896,15 +1897,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "consists",
-          "is_correct": false,
-          "explanation": "'Consist' is intransitive and must be followed by 'of'."
-        },
-        {
-          "key": "B",
           "text": "consists of",
           "is_correct": true,
           "explanation": "'Consist' is an intransitive verb requiring the preposition 'of'."
+        },
+        {
+          "key": "B",
+          "text": "is consisted of",
+          "is_correct": false,
+          "explanation": "'Consist of' is static and not used in passive voice."
         },
         {
           "key": "C",
@@ -1914,9 +1915,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "is consisted of",
+          "text": "consists",
           "is_correct": false,
-          "explanation": "'Consist of' is static and not used in passive voice."
+          "explanation": "'Consist' is intransitive and must be followed by 'of'."
         }
       ]
     },
@@ -1926,9 +1927,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "regretted for",
+          "text": "regretting for",
           "is_correct": false,
-          "explanation": "'Regret' is a transitive verb that takes a direct object without 'for'."
+          "explanation": "'Regret' does not take the preposition 'for'."
         },
         {
           "key": "B",
@@ -1938,15 +1939,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "was regretted",
+          "text": "regretted for",
           "is_correct": false,
-          "explanation": "Active voice is required for the person feeling regret."
+          "explanation": "'Regret' is a transitive verb that takes a direct object without 'for'."
         },
         {
           "key": "D",
-          "text": "regretting for",
+          "text": "was regretted",
           "is_correct": false,
-          "explanation": "'Regret' does not take the preposition 'for'."
+          "explanation": "Active voice is required for the person feeling regret."
         }
       ]
     },
@@ -1956,27 +1957,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "apply",
-          "is_correct": false,
-          "explanation": "'Apply' is intransitive when meaning seeking a job and requires 'for'."
-        },
-        {
-          "key": "B",
-          "text": "apply for",
-          "is_correct": true,
-          "explanation": "'Apply for' is the correct verb-preposition combination when seeking a job or position[cite: 192, 198]."
-        },
-        {
-          "key": "C",
           "text": "apply to for",
           "is_correct": false,
           "explanation": "Double preposition error."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "applying",
           "is_correct": false,
           "explanation": "Requires infinitive 'apply for' after 'wish to'."
+        },
+        {
+          "key": "C",
+          "text": "apply",
+          "is_correct": false,
+          "explanation": "'Apply' is intransitive when meaning seeking a job and requires 'for'."
+        },
+        {
+          "key": "D",
+          "text": "apply for",
+          "is_correct": true,
+          "explanation": "'Apply for' is the correct verb-preposition combination when seeking a job or position[cite: 192, 198]."
         }
       ]
     },
@@ -1986,27 +1987,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "attended to",
-          "is_correct": false,
-          "explanation": "'Attend' meaning 'be present at' is a transitive verb and takes no preposition 'to'."
-        },
-        {
-          "key": "B",
-          "text": "attended",
-          "is_correct": true,
-          "explanation": "'Attend' (meaning be present at) is transitive and takes a direct object without 'to'."
-        },
-        {
-          "key": "C",
           "text": "were attended",
           "is_correct": false,
           "explanation": "Active voice is required for the people attending."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "attending to",
           "is_correct": false,
           "explanation": "'Attend to' means deal with or pay attention to, not be present at a meeting."
+        },
+        {
+          "key": "C",
+          "text": "attended",
+          "is_correct": true,
+          "explanation": "'Attend' (meaning be present at) is transitive and takes a direct object without 'to'."
+        },
+        {
+          "key": "D",
+          "text": "attended to",
+          "is_correct": false,
+          "explanation": "'Attend' meaning 'be present at' is a transitive verb and takes no preposition 'to'."
         }
       ]
     },
@@ -2016,27 +2017,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "married with",
-          "is_correct": false,
-          "explanation": "'Marry' is a transitive verb taking a direct object without 'with'."
-        },
-        {
-          "key": "B",
           "text": "married",
           "is_correct": true,
           "explanation": "'Marry' is transitive and directly takes the person as object without 'with'."
         },
         {
-          "key": "C",
-          "text": "got married with",
+          "key": "B",
+          "text": "married with",
           "is_correct": false,
-          "explanation": "'Get married' takes 'to', not 'with'."
+          "explanation": "'Marry' is a transitive verb taking a direct object without 'with'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "was married with",
           "is_correct": false,
           "explanation": "Takes preposition 'to', not 'with'."
+        },
+        {
+          "key": "D",
+          "text": "got married with",
+          "is_correct": false,
+          "explanation": "'Get married' takes 'to', not 'with'."
         }
       ]
     },
@@ -2046,15 +2047,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "considered of",
+          "text": "considering of",
           "is_correct": false,
-          "explanation": "'Consider' is transitive and takes a direct object or gerund without 'of'."
+          "explanation": "Ungrammatical combination."
         },
         {
           "key": "B",
-          "text": "considered",
-          "is_correct": true,
-          "explanation": "'Consider' is transitive and directly takes a gerund object without any preposition."
+          "text": "considered of",
+          "is_correct": false,
+          "explanation": "'Consider' is transitive and takes a direct object or gerund without 'of'."
         },
         {
           "key": "C",
@@ -2064,9 +2065,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "considering of",
-          "is_correct": false,
-          "explanation": "Ungrammatical combination."
+          "text": "considered",
+          "is_correct": true,
+          "explanation": "'Consider' is transitive and directly takes a gerund object without any preposition."
         }
       ]
     },
@@ -2082,21 +2083,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to",
-          "is_correct": false,
-          "explanation": "The source of the loan takes 'from', not 'to'."
-        },
-        {
-          "key": "C",
           "text": "for",
           "is_correct": false,
           "explanation": "'Request' as a verb takes a direct object ('a loan') and source preposition 'from'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "with",
           "is_correct": false,
           "explanation": "Incorrect preposition."
+        },
+        {
+          "key": "D",
+          "text": "to",
+          "is_correct": false,
+          "explanation": "The source of the loan takes 'from', not 'to'."
         }
       ]
     },
@@ -2106,27 +2107,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "bragged",
+          "is_correct": false,
+          "explanation": "Requires continuous form with 'about' after 'is always'."
+        },
+        {
+          "key": "B",
           "text": "bragging",
           "is_correct": false,
           "explanation": "'Brag' is an intransitive verb requiring 'about' when followed by its object."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "bragging about",
           "is_correct": true,
           "explanation": "'Brag about' is the correct verb + preposition combination."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "bragging of for",
           "is_correct": false,
           "explanation": "Redundant preposition combination."
-        },
-        {
-          "key": "D",
-          "text": "bragged",
-          "is_correct": false,
-          "explanation": "Requires continuous form with 'about' after 'is always'."
         }
       ]
     },
@@ -2136,27 +2137,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "bear with",
-          "is_correct": false,
-          "explanation": "'Bear' meaning 'endure/stand' is transitive and takes an object directly without 'with'."
-        },
-        {
-          "key": "B",
-          "text": "bear",
-          "is_correct": true,
-          "explanation": "'Bear' (meaning tolerate/endure) takes a direct object directly without 'with'."
-        },
-        {
-          "key": "C",
           "text": "bear of",
           "is_correct": false,
           "explanation": "'Bear' does not take 'of'."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "bear with",
+          "is_correct": false,
+          "explanation": "'Bear' meaning 'endure/stand' is transitive and takes an object directly without 'with'."
+        },
+        {
+          "key": "C",
           "text": "bearing with",
           "is_correct": false,
           "explanation": "'Bear with' means be patient with a person, not endure a loss."
+        },
+        {
+          "key": "D",
+          "text": "bear",
+          "is_correct": true,
+          "explanation": "'Bear' (meaning tolerate/endure) takes a direct object directly without 'with'."
         }
       ]
     },
@@ -2166,27 +2167,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "opposed to",
-          "is_correct": false,
-          "explanation": "Active verb 'oppose' is transitive and takes an object without 'to'."
-        },
-        {
-          "key": "B",
           "text": "opposed",
           "is_correct": true,
           "explanation": "Transitive verb 'oppose' takes a direct object directly."
         },
         {
-          "key": "C",
-          "text": "objected",
+          "key": "B",
+          "text": "opposed to",
           "is_correct": false,
-          "explanation": "Intransitive verb 'object' requires 'to'."
+          "explanation": "Active verb 'oppose' is transitive and takes an object without 'to'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "opposing to",
           "is_correct": false,
           "explanation": "'Oppose' does not take 'to'."
+        },
+        {
+          "key": "D",
+          "text": "objected",
+          "is_correct": false,
+          "explanation": "Intransitive verb 'object' requires 'to'."
         }
       ]
     },
@@ -2196,9 +2197,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "objected",
+          "text": "objecting",
           "is_correct": false,
-          "explanation": "'Object' is an intransitive verb requiring 'to' before an object."
+          "explanation": "Requires 'to' and proper tense form."
         },
         {
           "key": "B",
@@ -2214,9 +2215,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "objecting",
+          "text": "objected",
           "is_correct": false,
-          "explanation": "Requires 'to' and proper tense form."
+          "explanation": "'Object' is an intransitive verb requiring 'to' before an object."
         }
       ]
     },
@@ -2226,9 +2227,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "listened",
+          "text": "listened of",
           "is_correct": false,
-          "explanation": "'Listen' is an intransitive verb and requires 'to' when taking an object."
+          "explanation": "'Listen' takes 'to', not 'of'."
         },
         {
           "key": "B",
@@ -2238,15 +2239,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "listened of",
-          "is_correct": false,
-          "explanation": "'Listen' takes 'to', not 'of'."
-        },
-        {
-          "key": "D",
           "text": "heard to",
           "is_correct": false,
           "explanation": "Transitive 'hear' does not take 'to'."
+        },
+        {
+          "key": "D",
+          "text": "listened",
+          "is_correct": false,
+          "explanation": "'Listen' is an intransitive verb and requires 'to' when taking an object."
         }
       ]
     },
@@ -2256,9 +2257,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "losing for",
+          "text": "looking",
           "is_correct": false,
-          "explanation": "Ungrammatical form."
+          "explanation": "'Look' requires 'for' when taking a search target object."
         },
         {
           "key": "B",
@@ -2268,15 +2269,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "looking",
-          "is_correct": false,
-          "explanation": "'Look' requires 'for' when taking a search target object."
-        },
-        {
-          "key": "D",
           "text": "losing",
           "is_correct": false,
           "explanation": "'Lose' means misplace, not search for."
+        },
+        {
+          "key": "D",
+          "text": "losing for",
+          "is_correct": false,
+          "explanation": "Ungrammatical form."
         }
       ]
     },
@@ -2292,15 +2293,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to",
-          "is_correct": true,
-          "explanation": "'Complain to someone' specifies the recipient of the complaint."
-        },
-        {
-          "key": "C",
           "text": "at",
           "is_correct": false,
           "explanation": "Incorrect preposition for person receiving complaint."
+        },
+        {
+          "key": "C",
+          "text": "to",
+          "is_correct": true,
+          "explanation": "'Complain to someone' specifies the recipient of the complaint."
         },
         {
           "key": "D",
@@ -2316,9 +2317,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "on",
+          "text": "to",
           "is_correct": false,
-          "explanation": "'Agree on' is used for agreeing upon a plan or decision, whereas agreeing with a person/opinion takes 'with'."
+          "explanation": "'Agree to' is used for agreeing to a proposal or recommendation."
         },
         {
           "key": "B",
@@ -2328,9 +2329,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "to",
+          "text": "on",
           "is_correct": false,
-          "explanation": "'Agree to' is used for agreeing to a proposal or recommendation."
+          "explanation": "'Agree on' is used for agreeing upon a plan or decision, whereas agreeing with a person/opinion takes 'with'."
         },
         {
           "key": "D",
@@ -2346,21 +2347,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "at",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
+        },
+        {
+          "key": "B",
           "text": "with",
           "is_correct": false,
           "explanation": "'Agree with' applies to people or opinions."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "on",
           "is_correct": true,
           "explanation": "'Agree on a plan/date' is used when multiple people reach a joint decision or consensus."
-        },
-        {
-          "key": "C",
-          "text": "at",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
         },
         {
           "key": "D",
@@ -2376,21 +2377,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to",
-          "is_correct": true,
-          "explanation": "'Agree to recommendations/proposals' means consenting to implement or accept them."
-        },
-        {
-          "key": "B",
           "text": "with",
           "is_correct": false,
           "explanation": "'Agree with' is used for sharing an opinion."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "on",
           "is_correct": false,
           "explanation": "'Agree on' is used for reaching a joint consensus."
+        },
+        {
+          "key": "C",
+          "text": "to",
+          "is_correct": true,
+          "explanation": "'Agree to recommendations/proposals' means consenting to implement or accept them."
         },
         {
           "key": "D",
@@ -2412,15 +2413,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "about",
-          "is_correct": false,
-          "explanation": "Standard formal English uses 'decide on a date'."
-        },
-        {
-          "key": "C",
           "text": "to",
           "is_correct": false,
           "explanation": "'Decide' takes a to-infinitive verb, but before a noun phrase like 'a date', 'on' is required."
+        },
+        {
+          "key": "C",
+          "text": "about",
+          "is_correct": false,
+          "explanation": "Standard formal English uses 'decide on a date'."
         },
         {
           "key": "D",
@@ -2448,13 +2449,13 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "at",
+          "text": "with",
           "is_correct": false,
           "explanation": "Incorrect preposition."
         },
         {
           "key": "D",
-          "text": "with",
+          "text": "at",
           "is_correct": false,
           "explanation": "Incorrect preposition."
         }
@@ -2466,9 +2467,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "in",
-          "is_correct": true,
-          "explanation": "'Believe in' means to accept the existence of something."
+          "text": "at",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
         },
         {
           "key": "B",
@@ -2484,9 +2485,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "at",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
+          "text": "in",
+          "is_correct": true,
+          "explanation": "'Believe in' means to accept the existence of something."
         }
       ]
     },
@@ -2496,27 +2497,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "with",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
+        },
+        {
+          "key": "B",
           "text": "for",
           "is_correct": true,
           "explanation": "'Wait' is an intransitive verb and requires 'for' before an object."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to",
           "is_correct": false,
           "explanation": "'Wait' takes 'for' when referring to a person or target."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "on",
           "is_correct": false,
           "explanation": "'Wait on' means serve, not wait for someone's arrival."
-        },
-        {
-          "key": "D",
-          "text": "with",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
         }
       ]
     },
@@ -2526,15 +2527,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to",
-          "is_correct": true,
-          "explanation": "'Speak' is an intransitive verb that requires 'to' (or 'with') when addressing a person."
-        },
-        {
-          "key": "B",
           "text": "about",
           "is_correct": false,
           "explanation": "'Speak about' refers to a topic, not a person being addressed."
+        },
+        {
+          "key": "B",
+          "text": "at",
+          "is_correct": false,
+          "explanation": "Incorrect preposition in this context."
         },
         {
           "key": "C",
@@ -2544,9 +2545,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "at",
-          "is_correct": false,
-          "explanation": "Incorrect preposition in this context."
+          "text": "to",
+          "is_correct": true,
+          "explanation": "'Speak' is an intransitive verb that requires 'to' (or 'with') when addressing a person."
         }
       ]
     },
@@ -2556,27 +2557,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "advocating on",
-          "is_correct": false,
-          "explanation": "'Advocate' is a transitive verb that takes a direct object without 'on'."
-        },
-        {
-          "key": "B",
-          "text": "advocating",
-          "is_correct": true,
-          "explanation": "'Advocate' is transitive and directly takes its gerund or noun object without 'on'."
-        },
-        {
-          "key": "C",
           "text": "advocating for of",
           "is_correct": false,
           "explanation": "Ungrammatical preposition cluster."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "advocating on",
+          "is_correct": false,
+          "explanation": "'Advocate' is a transitive verb that takes a direct object without 'on'."
+        },
+        {
+          "key": "C",
           "text": "advocate on",
           "is_correct": false,
           "explanation": "'Advocate' takes a direct object without 'on'."
+        },
+        {
+          "key": "D",
+          "text": "advocating",
+          "is_correct": true,
+          "explanation": "'Advocate' is transitive and directly takes its gerund or noun object without 'on'."
         }
       ]
     },
@@ -2586,15 +2587,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "by",
-          "is_correct": true,
-          "explanation": "'Abide by' is the standard phrasal combination meaning comply with rules."
-        },
-        {
-          "key": "B",
           "text": "with",
           "is_correct": false,
           "explanation": "'Abide' takes 'by', not 'with'."
+        },
+        {
+          "key": "B",
+          "text": "for",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
         },
         {
           "key": "C",
@@ -2604,9 +2605,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "for",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
+          "text": "by",
+          "is_correct": true,
+          "explanation": "'Abide by' is the standard phrasal combination meaning comply with rules."
         }
       ]
     },
@@ -2616,9 +2617,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "on",
-          "is_correct": true,
-          "explanation": "'Focus' is an intransitive verb requiring 'on' before its object."
+          "text": "to",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
         },
         {
           "key": "B",
@@ -2634,9 +2635,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
+          "text": "on",
+          "is_correct": true,
+          "explanation": "'Focus' is an intransitive verb requiring 'on' before its object."
         }
       ]
     },
@@ -2646,27 +2647,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "for",
-          "is_correct": false,
-          "explanation": "'Endorse' is a transitive verb that takes a direct object without 'for'."
-        },
-        {
-          "key": "B",
           "text": "no preposition needed (endorsing)",
           "is_correct": true,
           "explanation": "'Endorse' is a transitive verb and takes its object directly without 'for'."
         },
         {
-          "key": "C",
-          "text": "to",
+          "key": "B",
+          "text": "for",
           "is_correct": false,
-          "explanation": "'Endorse' does not take 'to'."
+          "explanation": "'Endorse' is a transitive verb that takes a direct object without 'for'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "with",
           "is_correct": false,
           "explanation": "Incorrect preposition."
+        },
+        {
+          "key": "D",
+          "text": "to",
+          "is_correct": false,
+          "explanation": "'Endorse' does not take 'to'."
         }
       ]
     },
@@ -2676,27 +2677,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "realize on that",
-          "is_correct": false,
-          "explanation": "'Realize' is a transitive verb taking a clause directly without 'on'."
-        },
-        {
-          "key": "B",
           "text": "realize that",
           "is_correct": true,
           "explanation": "'Realize' takes a that-clause directly as object without 'on'."
         },
         {
-          "key": "C",
-          "text": "realize about that",
+          "key": "B",
+          "text": "realize on that",
           "is_correct": false,
-          "explanation": "'Realize' takes direct clause without 'about'."
+          "explanation": "'Realize' is a transitive verb taking a clause directly without 'on'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "realizing on",
           "is_correct": false,
           "explanation": "'Realize' does not take 'on'."
+        },
+        {
+          "key": "D",
+          "text": "realize about that",
+          "is_correct": false,
+          "explanation": "'Realize' takes direct clause without 'about'."
         }
       ]
     },
@@ -2712,9 +2713,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "of",
+          "text": "in",
           "is_correct": false,
-          "explanation": "'Packed' takes 'with', not 'of'."
+          "explanation": "Incorrect preposition."
         },
         {
           "key": "C",
@@ -2724,9 +2725,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "in",
+          "text": "of",
           "is_correct": false,
-          "explanation": "Incorrect preposition."
+          "explanation": "'Packed' takes 'with', not 'of'."
         }
       ]
     },
@@ -2736,9 +2737,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "upon",
-          "is_correct": true,
-          "explanation": "'Incumbent upon/on someone' is a standard formal expression."
+          "text": "to",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
         },
         {
           "key": "B",
@@ -2748,15 +2749,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "to",
+          "text": "with",
           "is_correct": false,
           "explanation": "Incorrect preposition."
         },
         {
           "key": "D",
-          "text": "with",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
+          "text": "upon",
+          "is_correct": true,
+          "explanation": "'Incumbent upon/on someone' is a standard formal expression."
         }
       ]
     },
@@ -2766,21 +2767,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "criticizing for of",
+          "is_correct": false,
+          "explanation": "Ungrammatical combination."
+        },
+        {
+          "key": "B",
           "text": "criticizing about",
           "is_correct": false,
           "explanation": "'Criticize' is transitive and takes a direct object without 'about'."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "criticizing",
           "is_correct": true,
           "explanation": "'Criticize' is a transitive verb that directly takes its object without 'about'."
-        },
-        {
-          "key": "C",
-          "text": "criticizing for of",
-          "is_correct": false,
-          "explanation": "Ungrammatical combination."
         },
         {
           "key": "D",
@@ -2796,25 +2797,25 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "for",
+          "is_correct": false,
+          "explanation": "Incorrect preposition."
+        },
+        {
+          "key": "B",
           "text": "about",
           "is_correct": true,
           "explanation": "'Concerned about' is the standard adjective phrase expressing worry."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "with",
           "is_correct": false,
           "explanation": "'Concerned about' is used for worry."
         },
         {
-          "key": "C",
-          "text": "at",
-          "is_correct": false,
-          "explanation": "Incorrect preposition."
-        },
-        {
           "key": "D",
-          "text": "for",
+          "text": "at",
           "is_correct": false,
           "explanation": "Incorrect preposition."
         }
@@ -2832,21 +2833,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "in",
-          "is_correct": false,
-          "explanation": "'Lead' takes 'to', whereas 'result' takes 'in'."
-        },
-        {
-          "key": "C",
           "text": "into",
           "is_correct": false,
           "explanation": "'Lead to' is standard."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "for",
           "is_correct": false,
           "explanation": "Incorrect preposition."
+        },
+        {
+          "key": "D",
+          "text": "in",
+          "is_correct": false,
+          "explanation": "'Lead' takes 'to', whereas 'result' takes 'in'."
         }
       ]
     },
@@ -2856,27 +2857,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "belonged to",
-          "is_correct": true,
-          "explanation": "'Belong' is an intransitive verb taking 'to'."
-        },
-        {
-          "key": "B",
-          "text": "were belonging to",
-          "is_correct": false,
-          "explanation": "Stative verb 'belong' is not used in continuous tenses."
-        },
-        {
-          "key": "C",
           "text": "belonged",
           "is_correct": false,
           "explanation": "'Belong' requires 'to' before an object."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "was belong to",
           "is_correct": false,
           "explanation": "Ungrammatical structure."
+        },
+        {
+          "key": "C",
+          "text": "belonged to",
+          "is_correct": true,
+          "explanation": "'Belong' is an intransitive verb taking 'to'."
+        },
+        {
+          "key": "D",
+          "text": "were belonging to",
+          "is_correct": false,
+          "explanation": "Stative verb 'belong' is not used in continuous tenses."
         }
       ]
     },
@@ -2886,9 +2887,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "explore into",
+          "text": "explore of",
           "is_correct": false,
-          "explanation": "'Explore' is transitive and takes a direct object without 'into'."
+          "explanation": "Transitive verbs do not take the preposition 'of'."
         },
         {
           "key": "B",
@@ -2898,15 +2899,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "be explored",
+          "text": "explore into",
           "is_correct": false,
-          "explanation": "Travelers actively explore lands, active voice required."
+          "explanation": "'Explore' is transitive and takes a direct object without 'into'."
         },
         {
           "key": "D",
-          "text": "explore of",
+          "text": "be explored",
           "is_correct": false,
-          "explanation": "Transitive verbs do not take the preposition 'of'."
+          "explanation": "Travelers actively explore lands, active voice required."
         }
       ]
     },
@@ -2916,21 +2917,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "discuss about",
-          "is_correct": false,
-          "explanation": "'Discuss' is transitive and does NOT take 'about'."
-        },
-        {
-          "key": "B",
           "text": "discuss",
           "is_correct": true,
           "explanation": "'Discuss' is a transitive verb taking a direct object without prepositions."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "discuss of",
           "is_correct": false,
           "explanation": "Common student error; no preposition after 'discuss'."
+        },
+        {
+          "key": "C",
+          "text": "discuss about",
+          "is_correct": false,
+          "explanation": "'Discuss' is transitive and does NOT take 'about'."
         },
         {
           "key": "D",
@@ -2946,15 +2947,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "caused",
-          "is_correct": true,
-          "explanation": "'Cause' is a transitive verb that takes 'panic' as its direct object."
-        },
-        {
-          "key": "B",
           "text": "was occurred",
           "is_correct": false,
           "explanation": "'Occur' is intransitive and cannot be used in the passive voice."
+        },
+        {
+          "key": "B",
+          "text": "was arisen",
+          "is_correct": false,
+          "explanation": "'Arise' is intransitive and has no passive form."
         },
         {
           "key": "C",
@@ -2964,9 +2965,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "was arisen",
-          "is_correct": false,
-          "explanation": "'Arise' is intransitive and has no passive form."
+          "text": "caused",
+          "is_correct": true,
+          "explanation": "'Cause' is a transitive verb that takes 'panic' as its direct object."
         }
       ]
     },
@@ -2976,27 +2977,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "be occurred",
+          "is_correct": false,
+          "explanation": "'Occur' is intransitive; passive form is invalid."
+        },
+        {
+          "key": "B",
           "text": "happen to",
           "is_correct": false,
           "explanation": "'Happen' does not take 'to' when referring to the event occurring."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "happen",
           "is_correct": true,
           "explanation": "'Happen' is strictly intransitive and takes no preposition or object."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "was happened",
           "is_correct": false,
           "explanation": "Intransitive verbs cannot be made passive."
-        },
-        {
-          "key": "D",
-          "text": "be occurred",
-          "is_correct": false,
-          "explanation": "'Occur' is intransitive; passive form is invalid."
         }
       ]
     },
@@ -3006,27 +3007,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "be boarded",
+          "is_correct": false,
+          "explanation": "Passengers actively board the plane."
+        },
+        {
+          "key": "B",
           "text": "board into",
           "is_correct": false,
           "explanation": "'Board' is transitive and does not take 'into'."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "board",
           "is_correct": true,
           "explanation": "'Board' is a transitive verb meaning get onto a plane/ship/train without prepositions."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "board to",
           "is_correct": false,
           "explanation": "No preposition after transitive 'board'."
-        },
-        {
-          "key": "D",
-          "text": "be boarded",
-          "is_correct": false,
-          "explanation": "Passengers actively board the plane."
         }
       ]
     },
@@ -3042,9 +3043,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "compete",
+          "text": "compete against with",
           "is_correct": false,
-          "explanation": "'Compete' cannot take a direct object; it requires 'with'."
+          "explanation": "Redundant double preposition."
         },
         {
           "key": "C",
@@ -3054,9 +3055,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "compete against with",
+          "text": "compete",
           "is_correct": false,
-          "explanation": "Redundant double preposition."
+          "explanation": "'Compete' cannot take a direct object; it requires 'with'."
         }
       ]
     },
@@ -3066,9 +3067,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "lay",
+          "text": "laid",
           "is_correct": false,
-          "explanation": "'Lay' is transitive requiring an object (e.g. lay an egg), or past tense of 'lie'."
+          "explanation": "'Laid' is the past tense of transitive 'lay'."
         },
         {
           "key": "B",
@@ -3078,9 +3079,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "laid",
+          "text": "lay",
           "is_correct": false,
-          "explanation": "'Laid' is the past tense of transitive 'lay'."
+          "explanation": "'Lay' is transitive requiring an object (e.g. lay an egg), or past tense of 'lie'."
         },
         {
           "key": "D",
@@ -3096,9 +3097,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "disappear",
-          "is_correct": true,
-          "explanation": "'Disappear' is strictly intransitive and takes no object or passive form."
+          "text": "disappear of",
+          "is_correct": false,
+          "explanation": "No preposition required."
         },
         {
           "key": "B",
@@ -3108,15 +3109,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "was disappeared",
-          "is_correct": false,
-          "explanation": "'Disappear' has no passive form."
+          "text": "disappear",
+          "is_correct": true,
+          "explanation": "'Disappear' is strictly intransitive and takes no object or passive form."
         },
         {
           "key": "D",
-          "text": "disappear of",
+          "text": "was disappeared",
           "is_correct": false,
-          "explanation": "No preposition required."
+          "explanation": "'Disappear' has no passive form."
         }
       ]
     },
@@ -3158,27 +3159,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will have been reviewed",
-          "is_correct": true,
-          "explanation": "'By the end of this month' requires the Future Perfect Passive ('will have been + past participle') to express completion prior to a future deadline."
-        },
-        {
-          "key": "B",
           "text": "will have reviewed",
           "is_correct": false,
           "explanation": "Active Future Perfect incorrectly implies that the financial reports perform the reviewing action themselves."
         },
         {
-          "key": "C",
-          "text": "have been reviewed",
-          "is_correct": false,
-          "explanation": "Present Perfect Passive refers to actions completed up to the present, not a future deadline."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "will be reviewing",
           "is_correct": false,
           "explanation": "Future Continuous active form is grammatically incorrect because reports cannot perform active continuous actions."
+        },
+        {
+          "key": "C",
+          "text": "will have been reviewed",
+          "is_correct": true,
+          "explanation": "'By the end of this month' requires the Future Perfect Passive ('will have been + past participle') to express completion prior to a future deadline."
+        },
+        {
+          "key": "D",
+          "text": "have been reviewed",
+          "is_correct": false,
+          "explanation": "Present Perfect Passive refers to actions completed up to the present, not a future deadline."
         }
       ]
     },
@@ -3188,21 +3189,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "was dying",
+          "is_correct": false,
+          "explanation": "Past continuous active implies an incomplete process in progress rather than a completed death last night."
+        },
+        {
+          "key": "B",
           "text": "was died",
           "is_correct": false,
           "explanation": "'Die' is an intransitive verb and cannot be used in the passive voice."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "died",
           "is_correct": true,
           "explanation": "'Die' is intransitive, so it must be used in the active voice even when describing a subject receiving an event."
-        },
-        {
-          "key": "C",
-          "text": "was dying",
-          "is_correct": false,
-          "explanation": "Past continuous active implies an incomplete process in progress rather than a completed death last night."
         },
         {
           "key": "D",
@@ -3218,27 +3219,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is lacked",
-          "is_correct": false,
-          "explanation": "Stative transitive verbs like 'lack' refer to states rather than actions and cannot be passivized."
-        },
-        {
-          "key": "B",
-          "text": "lacks",
-          "is_correct": true,
-          "explanation": "'Lack' is a stative verb that must remain in the active voice."
-        },
-        {
-          "key": "C",
           "text": "is lacking of",
           "is_correct": false,
           "explanation": "The verb 'lack' takes a direct object and does not use the preposition 'of'."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "has been lacked",
           "is_correct": false,
           "explanation": "Stative verbs like 'lack' cannot be used in passive tenses."
+        },
+        {
+          "key": "C",
+          "text": "lacks",
+          "is_correct": true,
+          "explanation": "'Lack' is a stative verb that must remain in the active voice."
+        },
+        {
+          "key": "D",
+          "text": "is lacked",
+          "is_correct": false,
+          "explanation": "Stative transitive verbs like 'lack' refer to states rather than actions and cannot be passivized."
         }
       ]
     },
@@ -3248,15 +3249,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "has been sold",
-          "is_correct": false,
-          "explanation": "While passive 'have been sold' is possible if 'copies' is the subject, with 'novel' as subject the active form carries passive meaning."
-        },
-        {
-          "key": "B",
           "text": "has sold",
           "is_correct": true,
           "explanation": "Verbs like 'sell' can operate actively with passive meaning when 'book/novel' is the subject (e.g., 'This novel has sold X copies')."
+        },
+        {
+          "key": "B",
+          "text": "has been sold",
+          "is_correct": false,
+          "explanation": "While passive 'have been sold' is possible if 'copies' is the subject, with 'novel' as subject the active form carries passive meaning."
         },
         {
           "key": "C",
@@ -3278,27 +3279,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "that she holds",
+          "is_correct": false,
+          "explanation": "When starting with the personal subject ('The singer'), 'to-infinitive' must be used, not a 'that' clause."
+        },
+        {
+          "key": "B",
           "text": "to hold",
           "is_correct": false,
           "explanation": "Active simple infinitive 'to hold' implies the singer holds something directly, but passive reporting structure with future sense requires passive or progressive infinitive."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to be holding",
           "is_correct": true,
           "explanation": "The personal passive reporting structure ('Subject + is understood + to be holding') correctly reports a future planned event."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "holding",
           "is_correct": false,
           "explanation": "Reporting structures like 'is understood' require a to-infinitive complement, not a gerund."
-        },
-        {
-          "key": "D",
-          "text": "that she holds",
-          "is_correct": false,
-          "explanation": "When starting with the personal subject ('The singer'), 'to-infinitive' must be used, not a 'that' clause."
         }
       ]
     },
@@ -3314,15 +3315,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "steal",
-          "is_correct": false,
-          "explanation": "'Have something + past participle' requires a past participle, not a bare infinitive."
-        },
-        {
-          "key": "C",
           "text": "stealing",
           "is_correct": false,
           "explanation": "A gerund cannot be used in the 'have something done' causative structure."
+        },
+        {
+          "key": "C",
+          "text": "steal",
+          "is_correct": false,
+          "explanation": "'Have something + past participle' requires a past participle, not a bare infinitive."
         },
         {
           "key": "D",
@@ -3368,15 +3369,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was occurred",
-          "is_correct": false,
-          "explanation": "'Occur' is an intransitive verb and cannot be used in the passive voice."
-        },
-        {
-          "key": "B",
           "text": "occurred",
           "is_correct": true,
           "explanation": "Intransitive verbs like 'occur' must be used in the active voice."
+        },
+        {
+          "key": "B",
+          "text": "has occurred",
+          "is_correct": false,
+          "explanation": "Present perfect cannot be used in a clause anchored in past time ('while technicians were installing')."
         },
         {
           "key": "C",
@@ -3386,9 +3387,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "has occurred",
+          "text": "was occurred",
           "is_correct": false,
-          "explanation": "Present perfect cannot be used in a clause anchored in past time ('while technicians were installing')."
+          "explanation": "'Occur' is an intransitive verb and cannot be used in the passive voice."
         }
       ]
     },
@@ -3398,27 +3399,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "been made",
+          "is_correct": false,
+          "explanation": "'Used to' cannot be followed directly by a past participle without 'be'."
+        },
+        {
+          "key": "B",
           "text": "be made",
           "is_correct": true,
           "explanation": "The passive form after 'used to' is 'used to be + past participle'."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "make",
           "is_correct": false,
           "explanation": "Active 'make' incorrectly implies that the garments performed the manufacturing."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "being made",
           "is_correct": false,
           "explanation": "'Used to' takes a bare infinitive ('be'), not a gerund ('being')."
-        },
-        {
-          "key": "D",
-          "text": "been made",
-          "is_correct": false,
-          "explanation": "'Used to' cannot be followed directly by a past participle without 'be'."
         }
       ]
     },
@@ -3428,21 +3429,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is believed",
-          "is_correct": true,
-          "explanation": "Impersonal passive reporting uses the structure 'It + is/was + past participle + that-clause'."
-        },
-        {
-          "key": "B",
           "text": "believes",
           "is_correct": false,
           "explanation": "Active 'believes' lacks a subject agent performing the believing."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "is believing",
           "is_correct": false,
           "explanation": "'Believe' is a stative verb and is not used in continuous forms here."
+        },
+        {
+          "key": "C",
+          "text": "is believed",
+          "is_correct": true,
+          "explanation": "Impersonal passive reporting uses the structure 'It + is/was + past participle + that-clause'."
         },
         {
           "key": "D",
@@ -3458,27 +3459,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is suited",
+          "text": "has been suited",
           "is_correct": false,
-          "explanation": "Stative verbs like 'suit' describing fitness or appearance cannot be passivized."
+          "explanation": "Stative verbs cannot take passive voice forms."
         },
         {
           "key": "B",
-          "text": "suits",
-          "is_correct": true,
-          "explanation": "'Suit' is a stative verb meaning 'look good on' and must remain in the active voice."
-        },
-        {
-          "key": "C",
           "text": "is suiting",
           "is_correct": false,
           "explanation": "Stative verbs cannot be used in continuous tenses."
         },
         {
+          "key": "C",
+          "text": "suits",
+          "is_correct": true,
+          "explanation": "'Suit' is a stative verb meaning 'look good on' and must remain in the active voice."
+        },
+        {
           "key": "D",
-          "text": "has been suited",
+          "text": "is suited",
           "is_correct": false,
-          "explanation": "Stative verbs cannot take passive voice forms."
+          "explanation": "Stative verbs like 'suit' describing fitness or appearance cannot be passivized."
         }
       ]
     },
@@ -3488,27 +3489,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was decorating",
-          "is_correct": false,
-          "explanation": "Past Continuous active incorrectly implies the stage was decorating something else."
-        },
-        {
-          "key": "B",
           "text": "was being decorated",
           "is_correct": true,
           "explanation": "Past Continuous Passive ('was being + past participle') describes an action in progress in the past."
         },
         {
-          "key": "C",
-          "text": "had decorated",
-          "is_correct": false,
-          "explanation": "Active Past Perfect implies the stage performed the action."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "is being decorated",
           "is_correct": false,
           "explanation": "Present Continuous Passive is invalid in a past time context ('When we arrived')."
+        },
+        {
+          "key": "C",
+          "text": "was decorating",
+          "is_correct": false,
+          "explanation": "Past Continuous active incorrectly implies the stage was decorating something else."
+        },
+        {
+          "key": "D",
+          "text": "had decorated",
+          "is_correct": false,
+          "explanation": "Active Past Perfect implies the stage performed the action."
         }
       ]
     },
@@ -3518,27 +3519,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is not noticed",
-          "is_correct": true,
-          "explanation": "Dynamic verbs like 'notice' can be passivized ('is not noticed')."
-        },
-        {
-          "key": "B",
           "text": "is not resembled",
           "is_correct": false,
           "explanation": "'Resemble' is a stative verb and cannot be used in the passive voice."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "does not resemble",
           "is_correct": false,
           "explanation": "Active verb breaks grammar when followed by 'by many people'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "is not resembling",
           "is_correct": false,
           "explanation": "'Resemble' is a stative verb and cannot be used in continuous form."
+        },
+        {
+          "key": "D",
+          "text": "is not noticed",
+          "is_correct": true,
+          "explanation": "Dynamic verbs like 'notice' can be passivized ('is not noticed')."
         }
       ]
     },
@@ -3548,9 +3549,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "by",
+          "text": "of",
           "is_correct": false,
-          "explanation": "'By' is used for the human agent, whereas contents/materials filling a container take 'with'."
+          "explanation": "'Full' takes 'of' (adjective phrase), but passive verb 'filled' takes 'with'."
         },
         {
           "key": "B",
@@ -3560,15 +3561,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "of",
-          "is_correct": false,
-          "explanation": "'Full' takes 'of' (adjective phrase), but passive verb 'filled' takes 'with'."
-        },
-        {
-          "key": "D",
           "text": "in",
           "is_correct": false,
           "explanation": "'In' is ungrammatical with 'filled' when specifying contents."
+        },
+        {
+          "key": "D",
+          "text": "by",
+          "is_correct": false,
+          "explanation": "'By' is used for the human agent, whereas contents/materials filling a container take 'with'."
         }
       ]
     },
@@ -3578,27 +3579,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "certified",
-          "is_correct": true,
-          "explanation": "The causative structure 'get + object + past participle' indicates arranging a service."
+          "text": "certifying",
+          "is_correct": false,
+          "explanation": "'Get something done' does not take a gerund/participle."
         },
         {
           "key": "B",
-          "text": "certify",
-          "is_correct": false,
-          "explanation": "'Get something done' requires a past participle, not a bare verb."
-        },
-        {
-          "key": "C",
           "text": "to certify",
           "is_correct": false,
           "explanation": "In 'get + object + past participle', a to-infinitive cannot be placed after the object in passive context."
         },
         {
+          "key": "C",
+          "text": "certified",
+          "is_correct": true,
+          "explanation": "The causative structure 'get + object + past participle' indicates arranging a service."
+        },
+        {
           "key": "D",
-          "text": "certifying",
+          "text": "certify",
           "is_correct": false,
-          "explanation": "'Get something done' does not take a gerund/participle."
+          "explanation": "'Get something done' requires a past participle, not a bare verb."
         }
       ]
     },
@@ -3608,9 +3609,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was found",
-          "is_correct": true,
-          "explanation": "Past Simple Passive ('was found') accurately describes a completed past discovery."
+          "text": "found",
+          "is_correct": false,
+          "explanation": "Active 'found' incorrectly implies the document performed the finding."
         },
         {
           "key": "B",
@@ -3620,15 +3621,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "found",
-          "is_correct": false,
-          "explanation": "Active 'found' incorrectly implies the document performed the finding."
-        },
-        {
-          "key": "D",
           "text": "has found",
           "is_correct": false,
           "explanation": "Active Present Perfect is ungrammatical with an inanimate object subject."
+        },
+        {
+          "key": "D",
+          "text": "was found",
+          "is_correct": true,
+          "explanation": "Past Simple Passive ('was found') accurately describes a completed past discovery."
         }
       ]
     },
@@ -3638,9 +3639,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will perform",
+          "text": "will be performing",
           "is_correct": false,
-          "explanation": "Active voice incorrectly implies the audit performs the action."
+          "explanation": "Future Continuous active is ungrammatical when the audit is the receiver of the action."
         },
         {
           "key": "B",
@@ -3650,15 +3651,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "will be performing",
-          "is_correct": false,
-          "explanation": "Future Continuous active is ungrammatical when the audit is the receiver of the action."
-        },
-        {
-          "key": "D",
           "text": "will have performed",
           "is_correct": false,
           "explanation": "Active Future Perfect is ungrammatical here."
+        },
+        {
+          "key": "D",
+          "text": "will perform",
+          "is_correct": false,
+          "explanation": "Active voice incorrectly implies the audit performs the action."
         }
       ]
     },
@@ -3668,21 +3669,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to cross",
-          "is_correct": false,
-          "explanation": "Simple infinitive fails to express a completed action in past time relative to the present report."
-        },
-        {
-          "key": "B",
           "text": "to have crossed",
           "is_correct": true,
           "explanation": "The personal passive structure 'Subject + is reported + to have + past participle' expresses a past action prior to reporting."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "crossing",
           "is_correct": false,
           "explanation": "'Is reported' requires a to-infinitive complement, not a gerund."
+        },
+        {
+          "key": "C",
+          "text": "to cross",
+          "is_correct": false,
+          "explanation": "Simple infinitive fails to express a completed action in past time relative to the present report."
         },
         {
           "key": "D",
@@ -3698,9 +3699,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "reads",
-          "is_correct": true,
-          "explanation": "Verbs like 'read' can be used actively with passive meaning to describe quality or style."
+          "text": "has been read",
+          "is_correct": false,
+          "explanation": "Present perfect passive describes completion rather than an inherent quality of the writing."
         },
         {
           "key": "B",
@@ -3710,15 +3711,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "is reading",
-          "is_correct": false,
-          "explanation": "Continuous active form incorrectly implies the manual is actively reading something else."
+          "text": "reads",
+          "is_correct": true,
+          "explanation": "Verbs like 'read' can be used actively with passive meaning to describe quality or style."
         },
         {
           "key": "D",
-          "text": "has been read",
+          "text": "is reading",
           "is_correct": false,
-          "explanation": "Present perfect passive describes completion rather than an inherent quality of the writing."
+          "explanation": "Continuous active form incorrectly implies the manual is actively reading something else."
         }
       ]
     },
@@ -3728,15 +3729,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "were injured",
-          "is_correct": true,
-          "explanation": "Past Simple Passive ('were injured') correctly describes past injuries in an incident report."
+          "text": "have been injured",
+          "is_correct": false,
+          "explanation": "Present perfect cannot be used with specific past time markers like 'yesterday'."
         },
         {
           "key": "B",
-          "text": "injured",
-          "is_correct": false,
-          "explanation": "Active 'injured' incorrectly implies the staff members injured someone else."
+          "text": "were injured",
+          "is_correct": true,
+          "explanation": "Past Simple Passive ('were injured') correctly describes past injuries in an incident report."
         },
         {
           "key": "C",
@@ -3746,9 +3747,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "have been injured",
+          "text": "injured",
           "is_correct": false,
-          "explanation": "Present perfect cannot be used with specific past time markers like 'yesterday'."
+          "explanation": "Active 'injured' incorrectly implies the staff members injured someone else."
         }
       ]
     },
@@ -3764,21 +3765,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "used to be grown",
-          "is_correct": true,
-          "explanation": "'Used to be grown' is the correct passive form of 'used to'."
-        },
-        {
-          "key": "C",
           "text": "was used to grow",
           "is_correct": false,
           "explanation": "'Was used to grow' means 'was utilized in order to grow', changing the intended meaning."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "was used to growing",
           "is_correct": false,
           "explanation": "'Be used to doing' means 'accustomed to', which is logically invalid for rice."
+        },
+        {
+          "key": "D",
+          "text": "used to be grown",
+          "is_correct": true,
+          "explanation": "'Used to be grown' is the correct passive form of 'used to'."
         }
       ]
     },
@@ -3788,9 +3789,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "by",
+          "text": "with",
           "is_correct": false,
-          "explanation": "'By' introduces the human agent, not the physical location of recovery."
+          "explanation": "'With' specifies instruments or materials, not locations."
         },
         {
           "key": "B",
@@ -3800,15 +3801,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "with",
-          "is_correct": false,
-          "explanation": "'With' specifies instruments or materials, not locations."
-        },
-        {
-          "key": "D",
           "text": "through",
           "is_correct": false,
           "explanation": "'Through' implies process or medium rather than origin point."
+        },
+        {
+          "key": "D",
+          "text": "by",
+          "is_correct": false,
+          "explanation": "'By' introduces the human agent, not the physical location of recovery."
         }
       ]
     },
@@ -3818,15 +3819,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will be made",
-          "is_correct": true,
-          "explanation": "Future Simple Passive ('will be made') correctly pairs with negative 'No decision'."
-        },
-        {
-          "key": "B",
           "text": "will make",
           "is_correct": false,
           "explanation": "Active voice incorrectly suggests 'decision' performs the making."
+        },
+        {
+          "key": "B",
+          "text": "will have made",
+          "is_correct": false,
+          "explanation": "Active Future Perfect is ungrammatical."
         },
         {
           "key": "C",
@@ -3836,9 +3837,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "will have made",
-          "is_correct": false,
-          "explanation": "Active Future Perfect is ungrammatical."
+          "text": "will be made",
+          "is_correct": true,
+          "explanation": "Future Simple Passive ('will be made') correctly pairs with negative 'No decision'."
         }
       ]
     },
@@ -3878,15 +3879,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was given",
-          "is_correct": true,
-          "explanation": "Past Simple Passive ('was given') is used when the recipient/object is the subject."
-        },
-        {
-          "key": "B",
           "text": "gave",
           "is_correct": false,
           "explanation": "Active 'gave' incorrectly implies the watch gave something."
+        },
+        {
+          "key": "B",
+          "text": "was given",
+          "is_correct": true,
+          "explanation": "Past Simple Passive ('was given') is used when the recipient/object is the subject."
         },
         {
           "key": "C",
@@ -3908,15 +3909,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "were lost",
-          "is_correct": true,
-          "explanation": "Past Simple Passive ('were lost') describes completed past loss."
-        },
-        {
-          "key": "B",
           "text": "were disappeared",
           "is_correct": false,
           "explanation": "'Disappear' is an intransitive verb and cannot be passivized."
+        },
+        {
+          "key": "B",
+          "text": "were lost",
+          "is_correct": true,
+          "explanation": "Past Simple Passive ('were lost') describes completed past loss."
         },
         {
           "key": "C",
@@ -3938,15 +3939,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "be put",
-          "is_correct": true,
-          "explanation": "In formal reporting recommendations ('It is recommended that...'), the subjunctive passive 'be put' is used."
-        },
-        {
-          "key": "B",
           "text": "is putting",
           "is_correct": false,
           "explanation": "Active continuous form is ungrammatical."
+        },
+        {
+          "key": "B",
+          "text": "be put",
+          "is_correct": true,
+          "explanation": "In formal reporting recommendations ('It is recommended that...'), the subjunctive passive 'be put' is used."
         },
         {
           "key": "C",
@@ -3968,9 +3969,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is going to be knocked",
-          "is_correct": true,
-          "explanation": "'Be going to be + past participle' correctly forms future passive plans."
+          "text": "is knocking",
+          "is_correct": false,
+          "explanation": "Active continuous form is ungrammatical."
         },
         {
           "key": "B",
@@ -3980,15 +3981,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "is knocking",
-          "is_correct": false,
-          "explanation": "Active continuous form is ungrammatical."
-        },
-        {
-          "key": "D",
           "text": "will have knocked",
           "is_correct": false,
           "explanation": "Active Future Perfect is ungrammatical."
+        },
+        {
+          "key": "D",
+          "text": "is going to be knocked",
+          "is_correct": true,
+          "explanation": "'Be going to be + past participle' correctly forms future passive plans."
         }
       ]
     },
@@ -3998,21 +3999,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to have lost",
-          "is_correct": true,
-          "explanation": "'Subject + are said + to have + past participle' describes a past completed event."
-        },
-        {
-          "key": "B",
           "text": "to lose",
           "is_correct": false,
           "explanation": "Simple infinitive implies present or general habit rather than past loss."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "losing",
           "is_correct": false,
           "explanation": "Passive reporting structure takes a to-infinitive, not a gerund."
+        },
+        {
+          "key": "C",
+          "text": "to have lost",
+          "is_correct": true,
+          "explanation": "'Subject + are said + to have + past participle' describes a past completed event."
         },
         {
           "key": "D",
@@ -4028,27 +4029,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is finished",
-          "is_correct": true,
-          "explanation": "In conversation, 'be + finished' functions like perfect passive/state to express completion ('is finished' = 'has finished')."
-        },
-        {
-          "key": "B",
           "text": "is finishing",
           "is_correct": false,
           "explanation": "Continuous form implies work is currently performing the finishing."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "finishes",
           "is_correct": false,
           "explanation": "Simple present active implies habitual schedule."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "has been finishing",
           "is_correct": false,
           "explanation": "Present perfect continuous active is ungrammatical for work."
+        },
+        {
+          "key": "D",
+          "text": "is finished",
+          "is_correct": true,
+          "explanation": "In conversation, 'be + finished' functions like perfect passive/state to express completion ('is finished' = 'has finished')."
         }
       ]
     },
@@ -4058,21 +4059,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "by",
-          "is_correct": false,
-          "explanation": "'By' is reserved for the human creator/agent, not ingredients."
-        },
-        {
-          "key": "B",
           "text": "with",
           "is_correct": true,
           "explanation": "'With' is used in passive structures to list ingredients or materials."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "from",
           "is_correct": false,
           "explanation": "'Made from' is used when materials undergo complete chemical transformation; 'with' lists basic ingredients."
+        },
+        {
+          "key": "C",
+          "text": "by",
+          "is_correct": false,
+          "explanation": "'By' is reserved for the human creator/agent, not ingredients."
         },
         {
           "key": "D",
@@ -4088,9 +4089,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was found",
-          "is_correct": true,
-          "explanation": "Past Simple Passive ('was found') accurately pairs with past time marker 'an hour ago'."
+          "text": "was being found",
+          "is_correct": false,
+          "explanation": "Past continuous passive is ungrammatical for instantaneous acts like finding."
         },
         {
           "key": "B",
@@ -4106,9 +4107,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "was being found",
-          "is_correct": false,
-          "explanation": "Past continuous passive is ungrammatical for instantaneous acts like finding."
+          "text": "was found",
+          "is_correct": true,
+          "explanation": "Past Simple Passive ('was found') accurately pairs with past time marker 'an hour ago'."
         }
       ]
     },
@@ -4118,21 +4119,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "has been designed",
+          "is_correct": false,
+          "explanation": "Present perfect passive cannot be used with specific past years."
+        },
+        {
+          "key": "B",
           "text": "was designed",
           "is_correct": true,
           "explanation": "Past Simple Passive ('was designed') is used with historical date markers ('in 2015')."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "designed",
           "is_correct": false,
           "explanation": "Active voice incorrectly implies the logo designed the person."
-        },
-        {
-          "key": "C",
-          "text": "has been designed",
-          "is_correct": false,
-          "explanation": "Present perfect passive cannot be used with specific past years."
         },
         {
           "key": "D",
@@ -4148,21 +4149,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "to remove",
+          "is_correct": false,
+          "explanation": "A to-infinitive cannot serve as passive complement in 'get something done'."
+        },
+        {
+          "key": "B",
           "text": "removed",
           "is_correct": true,
           "explanation": "'Get + object + past participle' expresses arranging a professional medical/dental service."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "remove",
           "is_correct": false,
           "explanation": "'Get something done' requires a past participle, not a base verb."
-        },
-        {
-          "key": "C",
-          "text": "to remove",
-          "is_correct": false,
-          "explanation": "A to-infinitive cannot serve as passive complement in 'get something done'."
         },
         {
           "key": "D",
@@ -4190,15 +4191,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "are presenting",
-          "is_correct": false,
-          "explanation": "Active continuous form is ungrammatical."
-        },
-        {
-          "key": "D",
           "text": "will have presented",
           "is_correct": false,
           "explanation": "Active Future Perfect is ungrammatical."
+        },
+        {
+          "key": "D",
+          "text": "are presenting",
+          "is_correct": false,
+          "explanation": "Active continuous form is ungrammatical."
         }
       ]
     },
@@ -4220,15 +4221,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "is understanding",
-          "is_correct": false,
-          "explanation": "'Understand' is stative and not used in continuous passives here."
-        },
-        {
-          "key": "D",
           "text": "has understood",
           "is_correct": false,
           "explanation": "Active voice lacks an agent subject."
+        },
+        {
+          "key": "D",
+          "text": "is understanding",
+          "is_correct": false,
+          "explanation": "'Understand' is stative and not used in continuous passives here."
         }
       ]
     },
@@ -4238,9 +4239,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "cleaned",
-          "is_correct": true,
-          "explanation": "'Have + object + past participle' indicates arranging professional cleaning."
+          "text": "to clean",
+          "is_correct": false,
+          "explanation": "To-infinitive cannot be used in 'have something done'."
         },
         {
           "key": "B",
@@ -4256,9 +4257,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to clean",
-          "is_correct": false,
-          "explanation": "To-infinitive cannot be used in 'have something done'."
+          "text": "cleaned",
+          "is_correct": true,
+          "explanation": "'Have + object + past participle' indicates arranging professional cleaning."
         }
       ]
     },
@@ -4268,9 +4269,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will be held",
-          "is_correct": true,
-          "explanation": "Future Simple Passive ('will be held') specifies event location and time."
+          "text": "holds",
+          "is_correct": false,
+          "explanation": "Active simple present is ungrammatical."
         },
         {
           "key": "B",
@@ -4286,9 +4287,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "holds",
-          "is_correct": false,
-          "explanation": "Active simple present is ungrammatical."
+          "text": "will be held",
+          "is_correct": true,
+          "explanation": "Future Simple Passive ('will be held') specifies event location and time."
         }
       ]
     },
@@ -4334,21 +4335,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "have implicated",
-          "is_correct": false,
-          "explanation": "Active voice implies figures did the implicating."
-        },
-        {
-          "key": "C",
           "text": "be implicating",
           "is_correct": false,
           "explanation": "Active continuous does not fit the passive meaning."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "implicate",
           "is_correct": false,
           "explanation": "Active base verb lacks passive aspect."
+        },
+        {
+          "key": "D",
+          "text": "have implicated",
+          "is_correct": false,
+          "explanation": "Active voice implies figures did the implicating."
         }
       ]
     },
@@ -4364,21 +4365,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "has widely believed",
+          "is_correct": false,
+          "explanation": "Active perfect fails to match impersonal passive structure."
+        },
+        {
+          "key": "C",
           "text": "is widely believing",
           "is_correct": false,
           "explanation": "Impersonal passive requires past participle."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "widely believes",
           "is_correct": false,
           "explanation": "'It' cannot actively believe."
-        },
-        {
-          "key": "D",
-          "text": "has widely believed",
-          "is_correct": false,
-          "explanation": "Active perfect fails to match impersonal passive structure."
         }
       ]
     },
@@ -4388,9 +4389,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was struck",
-          "is_correct": true,
-          "explanation": "Past simple passive: was + struck (past participle of strike)."
+          "text": "struck",
+          "is_correct": false,
+          "explanation": "Active voice would mean the tree struck lightning."
         },
         {
           "key": "B",
@@ -4400,9 +4401,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "struck",
-          "is_correct": false,
-          "explanation": "Active voice would mean the tree struck lightning."
+          "text": "was struck",
+          "is_correct": true,
+          "explanation": "Past simple passive: was + struck (past participle of strike)."
         },
         {
           "key": "D",
@@ -4424,21 +4425,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "for practicing",
+          "is_correct": false,
+          "explanation": "Passive 'make' takes to-infinitive, not preposition."
+        },
+        {
+          "key": "C",
           "text": "practice",
           "is_correct": false,
           "explanation": "Bare infinitive is used in active voice, but passive requires to-infinitive."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "practiced",
           "is_correct": false,
           "explanation": "Past tense cannot follow passive auxiliary."
-        },
-        {
-          "key": "D",
-          "text": "for practicing",
-          "is_correct": false,
-          "explanation": "Passive 'make' takes to-infinitive, not preposition."
         }
       ]
     },
@@ -4448,27 +4449,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "was brought about",
-          "is_correct": true,
-          "explanation": "Passive form of phrasal verb: was + brought about + by."
-        },
-        {
-          "key": "B",
           "text": "brought about",
           "is_correct": false,
           "explanation": "Active voice is incorrect because postponement is the receiver of the action."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "was brought about to",
           "is_correct": false,
           "explanation": "Agent takes 'by', not 'to'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "was bring about",
           "is_correct": false,
           "explanation": "Passive requires past participle 'brought'."
+        },
+        {
+          "key": "D",
+          "text": "was brought about",
+          "is_correct": true,
+          "explanation": "Passive form of phrasal verb: was + brought about + by."
         }
       ]
     },
@@ -4478,27 +4479,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "will be officially opened",
-          "is_correct": true,
-          "explanation": "Future simple passive: will be + past participle."
+          "text": "will have officially opened",
+          "is_correct": false,
+          "explanation": "Active future perfect."
         },
         {
           "key": "B",
-          "text": "will officially open",
-          "is_correct": false,
-          "explanation": "Laboratory cannot open itself; passive voice required."
-        },
-        {
-          "key": "C",
           "text": "will be officially opening",
           "is_correct": false,
           "explanation": "Active continuous aspect."
         },
         {
-          "key": "D",
-          "text": "will have officially opened",
+          "key": "C",
+          "text": "will officially open",
           "is_correct": false,
-          "explanation": "Active future perfect."
+          "explanation": "Laboratory cannot open itself; passive voice required."
+        },
+        {
+          "key": "D",
+          "text": "will be officially opened",
+          "is_correct": true,
+          "explanation": "Future simple passive: will be + past participle."
         }
       ]
     },
@@ -4508,27 +4509,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "be locked",
-          "is_correct": true,
-          "explanation": "Modal passive form: must + be + past participle."
+          "text": "be locking",
+          "is_correct": false,
+          "explanation": "Active continuous form."
         },
         {
           "key": "B",
-          "text": "lock",
-          "is_correct": false,
-          "explanation": "Test papers cannot actively lock themselves."
-        },
-        {
-          "key": "C",
           "text": "have locked",
           "is_correct": false,
           "explanation": "Active modal perfect."
         },
         {
-          "key": "D",
-          "text": "be locking",
+          "key": "C",
+          "text": "lock",
           "is_correct": false,
-          "explanation": "Active continuous form."
+          "explanation": "Test papers cannot actively lock themselves."
+        },
+        {
+          "key": "D",
+          "text": "be locked",
+          "is_correct": true,
+          "explanation": "Modal passive form: must + be + past participle."
         }
       ]
     },
@@ -4538,27 +4539,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "were brought",
-          "is_correct": true,
-          "explanation": "Past simple passive: were + brought."
-        },
-        {
-          "key": "B",
           "text": "brought",
           "is_correct": false,
           "explanation": "Active voice implies miners brought someone else."
         },
         {
-          "key": "C",
-          "text": "were bringing",
-          "is_correct": false,
-          "explanation": "Active past continuous."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "had brought",
           "is_correct": false,
           "explanation": "Active past perfect."
+        },
+        {
+          "key": "C",
+          "text": "were brought",
+          "is_correct": true,
+          "explanation": "Past simple passive: were + brought."
+        },
+        {
+          "key": "D",
+          "text": "were bringing",
+          "is_correct": false,
+          "explanation": "Active past continuous."
         }
       ]
     },
@@ -4568,9 +4569,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "is delivered",
-          "is_correct": true,
-          "explanation": "Present simple passive expressing routine schedule."
+          "text": "is being deliver",
+          "is_correct": false,
+          "explanation": "Ungrammatical verb form."
         },
         {
           "key": "B",
@@ -4580,15 +4581,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "is delivering",
-          "is_correct": false,
-          "explanation": "Active continuous aspect."
+          "text": "is delivered",
+          "is_correct": true,
+          "explanation": "Present simple passive expressing routine schedule."
         },
         {
           "key": "D",
-          "text": "is being deliver",
+          "text": "is delivering",
           "is_correct": false,
-          "explanation": "Ungrammatical verb form."
+          "explanation": "Active continuous aspect."
         }
       ]
     },
@@ -4598,27 +4599,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "had witnessed",
+          "is_correct": false,
+          "explanation": "Active past perfect."
+        },
+        {
+          "key": "B",
           "text": "was witnessed",
           "is_correct": true,
           "explanation": "Past simple passive: was + witnessed."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "witnessed",
           "is_correct": false,
           "explanation": "Rescue did not witness; it was witnessed."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "was witnessing",
           "is_correct": false,
           "explanation": "Active past continuous."
-        },
-        {
-          "key": "D",
-          "text": "had witnessed",
-          "is_correct": false,
-          "explanation": "Active past perfect."
         }
       ]
     },
@@ -4690,15 +4691,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to be working",
-          "is_correct": true,
-          "explanation": "The continuous infinitive 'to be working' shows an ongoing action happening at the same time as entering."
-        },
-        {
-          "key": "B",
           "text": "to work",
           "is_correct": false,
           "explanation": "Simple infinitive fails to capture the continuous, ongoing nature of the action at that specific moment."
+        },
+        {
+          "key": "B",
+          "text": "to have worked",
+          "is_correct": false,
+          "explanation": "Perfect infinitive indicates an action completed before entering, rather than one in progress."
         },
         {
           "key": "C",
@@ -4708,9 +4709,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to have worked",
-          "is_correct": false,
-          "explanation": "Perfect infinitive indicates an action completed before entering, rather than one in progress."
+          "text": "to be working",
+          "is_correct": true,
+          "explanation": "The continuous infinitive 'to be working' shows an ongoing action happening at the same time as entering."
         }
       ]
     },
@@ -4720,9 +4721,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to not store",
+          "text": "not storing",
           "is_correct": false,
-          "explanation": "Placing 'not' after 'to' creates a split infinitive; standard formal grammar requires 'not to store'."
+          "explanation": "'Warn' followed by an object requires a negative to-infinitive complement."
         },
         {
           "key": "B",
@@ -4732,15 +4733,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "don't store",
+          "text": "to not store",
           "is_correct": false,
-          "explanation": "An imperative form 'don't' cannot serve as an infinitive object complement."
+          "explanation": "Placing 'not' after 'to' creates a split infinitive; standard formal grammar requires 'not to store'."
         },
         {
           "key": "D",
-          "text": "not storing",
+          "text": "don't store",
           "is_correct": false,
-          "explanation": "'Warn' followed by an object requires a negative to-infinitive complement."
+          "explanation": "An imperative form 'don't' cannot serve as an infinitive object complement."
         }
       ]
     },
@@ -4750,9 +4751,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "for",
+          "text": "to",
           "is_correct": false,
-          "explanation": "'For' is used for impersonal situations, whereas adjectives describing personal character traits take 'of'."
+          "explanation": "'To' cannot introduce the personal pronoun performing the action in this adjective evaluation pattern."
         },
         {
           "key": "B",
@@ -4762,9 +4763,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "to",
+          "text": "for",
           "is_correct": false,
-          "explanation": "'To' cannot introduce the personal pronoun performing the action in this adjective evaluation pattern."
+          "explanation": "'For' is used for impersonal situations, whereas adjectives describing personal character traits take 'of'."
         },
         {
           "key": "D",
@@ -4780,15 +4781,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to eat it",
-          "is_correct": false,
-          "explanation": "Including the object pronoun 'it' is redundant because the main subject ('the soup') acts as the object of 'eat'."
-        },
-        {
-          "key": "B",
           "text": "to eat",
           "is_correct": true,
           "explanation": "The 'too... to' structure omits redundant object pronouns referring back to the main subject."
+        },
+        {
+          "key": "B",
+          "text": "to eat it",
+          "is_correct": false,
+          "explanation": "Including the object pronoun 'it' is redundant because the main subject ('the soup') acts as the object of 'eat'."
         },
         {
           "key": "C",
@@ -4816,21 +4817,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "to be feeling",
+          "is_correct": false,
+          "explanation": "Simple continuous infinitive refers only to the present moment, ignoring 'for the past few days'."
+        },
+        {
+          "key": "C",
           "text": "to have been feeling",
           "is_correct": true,
           "explanation": "The perfect continuous infinitive 'to have been feeling' expresses an ongoing state starting in the past up to now."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "feeling",
           "is_correct": false,
           "explanation": "'Seem' takes a to-infinitive complement, not a direct gerund."
-        },
-        {
-          "key": "D",
-          "text": "to be feeling",
-          "is_correct": false,
-          "explanation": "Simple continuous infinitive refers only to the present moment, ignoring 'for the past few days'."
         }
       ]
     },
@@ -4840,27 +4841,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "disclosing",
+          "text": "to be disclosed",
           "is_correct": false,
-          "explanation": "'Refuse' strictly requires a to-infinitive object, not a gerund."
+          "explanation": "Active voice is required because 'the government official' performs the disclosure."
         },
         {
           "key": "B",
-          "text": "to disclose",
-          "is_correct": true,
-          "explanation": "'Refuse' is followed by a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "disclose",
           "is_correct": false,
           "explanation": "'Refuse' cannot take a bare infinitive."
         },
         {
-          "key": "D",
-          "text": "to be disclosed",
+          "key": "C",
+          "text": "disclosing",
           "is_correct": false,
-          "explanation": "Active voice is required because 'the government official' performs the disclosure."
+          "explanation": "'Refuse' strictly requires a to-infinitive object, not a gerund."
+        },
+        {
+          "key": "D",
+          "text": "to disclose",
+          "is_correct": true,
+          "explanation": "'Refuse' is followed by a to-infinitive."
         }
       ]
     },
@@ -4870,27 +4871,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "navigate",
-          "is_correct": false,
-          "explanation": "Question words following 'show' require a to-infinitive, not a bare verb."
-        },
-        {
-          "key": "B",
-          "text": "to navigate",
-          "is_correct": true,
-          "explanation": "The pattern 'verb + object + question word + to-infinitive' is grammatically correct."
-        },
-        {
-          "key": "C",
           "text": "navigating",
           "is_correct": false,
           "explanation": "Question words in this structure take a to-infinitive, not a gerund."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "should navigate",
           "is_correct": false,
           "explanation": "A modal structure requires a subject pronoun (e.g., 'how they should navigate')."
+        },
+        {
+          "key": "C",
+          "text": "navigate",
+          "is_correct": false,
+          "explanation": "Question words following 'show' require a to-infinitive, not a bare verb."
+        },
+        {
+          "key": "D",
+          "text": "to navigate",
+          "is_correct": true,
+          "explanation": "The pattern 'verb + object + question word + to-infinitive' is grammatically correct."
         }
       ]
     },
@@ -4930,27 +4931,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "finding",
-          "is_correct": false,
-          "explanation": "Present participle implies simultaneous action rather than an unexpected subsequent result."
-        },
-        {
-          "key": "B",
-          "text": "to find",
-          "is_correct": true,
-          "explanation": "The to-infinitive can function as an adverbial expressing an unexpected subsequent fact/result."
-        },
-        {
-          "key": "C",
           "text": "found",
           "is_correct": false,
           "explanation": "A finite past verb creates an ungrammatical sentence without a conjunction."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "finding",
+          "is_correct": false,
+          "explanation": "Present participle implies simultaneous action rather than an unexpected subsequent result."
+        },
+        {
+          "key": "C",
           "text": "to have found",
           "is_correct": false,
           "explanation": "Perfect infinitive incorrectly places the finding before the waking up."
+        },
+        {
+          "key": "D",
+          "text": "to find",
+          "is_correct": true,
+          "explanation": "The to-infinitive can function as an adverbial expressing an unexpected subsequent fact/result."
         }
       ]
     },
@@ -4960,21 +4961,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "rectify",
+          "is_correct": false,
+          "explanation": "'Attempt' cannot take a bare infinitive."
+        },
+        {
+          "key": "B",
           "text": "rectifying",
           "is_correct": false,
           "explanation": "'Attempt' takes a to-infinitive, not a gerund."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to rectify",
           "is_correct": true,
           "explanation": "'Attempt' is followed by a to-infinitive."
-        },
-        {
-          "key": "C",
-          "text": "rectify",
-          "is_correct": false,
-          "explanation": "'Attempt' cannot take a bare infinitive."
         },
         {
           "key": "D",
@@ -4990,9 +4991,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "of",
+          "text": "to",
           "is_correct": false,
-          "explanation": "'Of' is used for personal qualities, whereas 'essential' describes an impersonal situation."
+          "explanation": "'To' cannot introduce the subject noun before the infinitive in this pattern."
         },
         {
           "key": "B",
@@ -5002,15 +5003,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "to",
-          "is_correct": false,
-          "explanation": "'To' cannot introduce the subject noun before the infinitive in this pattern."
-        },
-        {
-          "key": "D",
           "text": "with",
           "is_correct": false,
           "explanation": "'With' is ungrammatical in dummy 'it' evaluation structures."
+        },
+        {
+          "key": "D",
+          "text": "of",
+          "is_correct": false,
+          "explanation": "'Of' is used for personal qualities, whereas 'essential' describes an impersonal situation."
         }
       ]
     },
@@ -5020,15 +5021,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to surround",
-          "is_correct": false,
-          "explanation": "Active form incorrectly implies the celebrity surrounds someone else."
-        },
-        {
-          "key": "B",
           "text": "to be surrounded",
           "is_correct": true,
           "explanation": "Simple passive infinitive 'to be surrounded' reflects the passive state of the subject at that time."
+        },
+        {
+          "key": "B",
+          "text": "to surround",
+          "is_correct": false,
+          "explanation": "Active form incorrectly implies the celebrity surrounds someone else."
         },
         {
           "key": "C",
@@ -5050,15 +5051,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "making",
-          "is_correct": false,
-          "explanation": "'(Can't) afford' is followed by a to-infinitive, not a gerund."
-        },
-        {
-          "key": "B",
           "text": "to make",
           "is_correct": true,
           "explanation": "'(Can't) afford' strictly requires a to-infinitive."
+        },
+        {
+          "key": "B",
+          "text": "to making",
+          "is_correct": false,
+          "explanation": "'Afford' takes a simple to-infinitive, not a preposition 'to' followed by a gerund."
         },
         {
           "key": "C",
@@ -5068,9 +5069,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to making",
+          "text": "making",
           "is_correct": false,
-          "explanation": "'Afford' takes a simple to-infinitive, not a preposition 'to' followed by a gerund."
+          "explanation": "'(Can't) afford' is followed by a to-infinitive, not a gerund."
         }
       ]
     },
@@ -5080,27 +5081,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to be",
-          "is_correct": false,
-          "explanation": "Simple infinitive fails to indicate an action/state in progress in past time relative to the claiming."
-        },
-        {
-          "key": "B",
           "text": "to have been",
           "is_correct": true,
           "explanation": "The perfect infinitive 'to have been' correctly refers to a past state prior to the time of claiming."
         },
         {
-          "key": "C",
-          "text": "being",
-          "is_correct": false,
-          "explanation": "'Claim' takes a to-infinitive, not a gerund."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "to be being",
           "is_correct": false,
           "explanation": "Double continuous infinitive structure is ungrammatical."
+        },
+        {
+          "key": "C",
+          "text": "to be",
+          "is_correct": false,
+          "explanation": "Simple infinitive fails to indicate an action/state in progress in past time relative to the claiming."
+        },
+        {
+          "key": "D",
+          "text": "being",
+          "is_correct": false,
+          "explanation": "'Claim' takes a to-infinitive, not a gerund."
         }
       ]
     },
@@ -5110,27 +5111,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "improve",
-          "is_correct": false,
-          "explanation": "After the verb 'to be', an infinitive complement requires 'to'."
-        },
-        {
-          "key": "B",
-          "text": "to improve",
-          "is_correct": true,
-          "explanation": "After the verb 'to be', a to-infinitive is used to state plans, goals, or instructions."
-        },
-        {
-          "key": "C",
           "text": "improved",
           "is_correct": false,
           "explanation": "Past participle implies a finished passive state rather than an active goal."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "to improving",
           "is_correct": false,
           "explanation": "'To' is an infinitive marker here and cannot be followed by a gerund."
+        },
+        {
+          "key": "C",
+          "text": "to improve",
+          "is_correct": true,
+          "explanation": "After the verb 'to be', a to-infinitive is used to state plans, goals, or instructions."
+        },
+        {
+          "key": "D",
+          "text": "improve",
+          "is_correct": false,
+          "explanation": "After the verb 'to be', an infinitive complement requires 'to'."
         }
       ]
     },
@@ -5140,9 +5141,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to win",
-          "is_correct": true,
-          "explanation": "The phrase 'only + to-infinitive' expresses a subsequent outcome or result."
+          "text": "won",
+          "is_correct": false,
+          "explanation": "A past tense verb cannot follow the adverb 'only' without a subject."
         },
         {
           "key": "B",
@@ -5152,15 +5153,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "won",
-          "is_correct": false,
-          "explanation": "A past tense verb cannot follow the adverb 'only' without a subject."
-        },
-        {
-          "key": "D",
           "text": "to have won",
           "is_correct": false,
           "explanation": "Perfect infinitive is unnecessary as winning happens subsequent to the hard work."
+        },
+        {
+          "key": "D",
+          "text": "to win",
+          "is_correct": true,
+          "explanation": "The phrase 'only + to-infinitive' expresses a subsequent outcome or result."
         }
       ]
     },
@@ -5170,21 +5171,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "remaining quiet",
-          "is_correct": false,
-          "explanation": "'Instruct + object' takes a to-infinitive, not a gerund."
-        },
-        {
-          "key": "B",
           "text": "to remain quiet",
           "is_correct": true,
           "explanation": "'Instruct + object' is followed by a to-infinitive."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "remain quiet",
           "is_correct": false,
           "explanation": "Requires 'to' before the verb root."
+        },
+        {
+          "key": "C",
+          "text": "remaining quiet",
+          "is_correct": false,
+          "explanation": "'Instruct + object' takes a to-infinitive, not a gerund."
         },
         {
           "key": "D",
@@ -5200,27 +5201,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "informing",
-          "is_correct": false,
-          "explanation": "Adjectives expressing emotion (e.g., sorry) take a to-infinitive, not a gerund."
-        },
-        {
-          "key": "B",
           "text": "to inform",
           "is_correct": true,
           "explanation": "Emotion adjectives like 'sorry' are followed by a to-infinitive."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "inform",
           "is_correct": false,
           "explanation": "Requires the infinitive marker 'to'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "to have informed",
           "is_correct": false,
           "explanation": "Perfect infinitive implies informing occurred previously, whereas it is happening now."
+        },
+        {
+          "key": "D",
+          "text": "informing",
+          "is_correct": false,
+          "explanation": "Adjectives expressing emotion (e.g., sorry) take a to-infinitive, not a gerund."
         }
       ]
     },
@@ -5230,27 +5231,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "seeking",
-          "is_correct": false,
-          "explanation": "Question words following 'explain' require a to-infinitive."
-        },
-        {
-          "key": "B",
           "text": "to seek",
           "is_correct": true,
           "explanation": "Follows the pattern 'verb + question word + to-infinitive'."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "seek",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "should seek",
           "is_correct": false,
           "explanation": "Missing a subject pronoun before the modal verb."
+        },
+        {
+          "key": "D",
+          "text": "seeking",
+          "is_correct": false,
+          "explanation": "Question words following 'explain' require a to-infinitive."
         }
       ]
     },
@@ -5266,21 +5267,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "to paying",
+          "is_correct": false,
+          "explanation": "'Promise' takes a simple to-infinitive, not preposition 'to' + gerund."
+        },
+        {
+          "key": "C",
           "text": "to pay",
           "is_correct": true,
           "explanation": "'Promise' is followed by a to-infinitive."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "pay",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
-        },
-        {
-          "key": "D",
-          "text": "to paying",
-          "is_correct": false,
-          "explanation": "'Promise' takes a simple to-infinitive, not preposition 'to' + gerund."
         }
       ]
     },
@@ -5320,27 +5321,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "for",
-          "is_correct": false,
-          "explanation": "'Rude' describes personal character traits, requiring 'of'."
-        },
-        {
-          "key": "B",
-          "text": "of",
-          "is_correct": true,
-          "explanation": "Follows the structure 'It is + adj of personal quality + of + object + to-infinitive'."
-        },
-        {
-          "key": "C",
           "text": "to",
           "is_correct": false,
           "explanation": "'To' cannot introduce the personal pronoun performing the action here."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "about",
           "is_correct": false,
           "explanation": "Ungrammatical in dummy 'it' evaluation structures."
+        },
+        {
+          "key": "C",
+          "text": "of",
+          "is_correct": true,
+          "explanation": "Follows the structure 'It is + adj of personal quality + of + object + to-infinitive'."
+        },
+        {
+          "key": "D",
+          "text": "for",
+          "is_correct": false,
+          "explanation": "'Rude' describes personal character traits, requiring 'of'."
         }
       ]
     },
@@ -5350,27 +5351,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "arresting",
-          "is_correct": false,
-          "explanation": "'Threaten' takes a to-infinitive, not a gerund."
-        },
-        {
-          "key": "B",
-          "text": "to arrest",
-          "is_correct": true,
-          "explanation": "'Threaten' is followed by a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "arrest",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "to be arresting",
           "is_correct": false,
           "explanation": "Progressive infinitive is inappropriate here."
+        },
+        {
+          "key": "C",
+          "text": "arresting",
+          "is_correct": false,
+          "explanation": "'Threaten' takes a to-infinitive, not a gerund."
+        },
+        {
+          "key": "D",
+          "text": "to arrest",
+          "is_correct": true,
+          "explanation": "'Threaten' is followed by a to-infinitive."
         }
       ]
     },
@@ -5380,27 +5381,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to navigate it",
-          "is_correct": false,
-          "explanation": "Redundant pronoun 'it' referring back to 'the mountain road' must be omitted."
-        },
-        {
-          "key": "B",
           "text": "to navigate",
           "is_correct": true,
           "explanation": "Follows 'too + adj + for + object + to-infinitive' without redundant pronouns."
         },
         {
-          "key": "C",
-          "text": "for navigating",
-          "is_correct": false,
-          "explanation": "Result structure with 'too' requires a to-infinitive."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "not to navigate",
           "is_correct": false,
           "explanation": "Creates an incorrect double negative."
+        },
+        {
+          "key": "C",
+          "text": "to navigate it",
+          "is_correct": false,
+          "explanation": "Redundant pronoun 'it' referring back to 'the mountain road' must be omitted."
+        },
+        {
+          "key": "D",
+          "text": "for navigating",
+          "is_correct": false,
+          "explanation": "Result structure with 'too' requires a to-infinitive."
         }
       ]
     },
@@ -5410,9 +5411,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to be",
-          "is_correct": true,
-          "explanation": "Simple passive infinitive 'to be renovated' correctly expresses a scheduled future action."
+          "text": "be",
+          "is_correct": false,
+          "explanation": "Missing the infinitive marker 'to'."
         },
         {
           "key": "B",
@@ -5422,15 +5423,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "to have been",
-          "is_correct": false,
-          "explanation": "Perfect infinitive implies past completion, contradicting 'next month'."
+          "text": "to be",
+          "is_correct": true,
+          "explanation": "Simple passive infinitive 'to be renovated' correctly expresses a scheduled future action."
         },
         {
           "key": "D",
-          "text": "be",
+          "text": "to have been",
           "is_correct": false,
-          "explanation": "Missing the infinitive marker 'to'."
+          "explanation": "Perfect infinitive implies past completion, contradicting 'next month'."
         }
       ]
     },
@@ -5440,21 +5441,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "comprehending",
-          "is_correct": false,
-          "explanation": "'Fail' takes a to-infinitive, not a gerund."
-        },
-        {
-          "key": "B",
           "text": "to comprehend",
           "is_correct": true,
           "explanation": "'Fail' is followed by a to-infinitive."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "comprehend",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
+        },
+        {
+          "key": "C",
+          "text": "comprehending",
+          "is_correct": false,
+          "explanation": "'Fail' takes a to-infinitive, not a gerund."
         },
         {
           "key": "D",
@@ -5470,9 +5471,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "knowing",
+          "text": "know",
           "is_correct": false,
-          "explanation": "Adjectives expressing emotion or desire (anxious) take a to-infinitive."
+          "explanation": "Missing the infinitive marker 'to'."
         },
         {
           "key": "B",
@@ -5482,15 +5483,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "know",
-          "is_correct": false,
-          "explanation": "Missing the infinitive marker 'to'."
-        },
-        {
-          "key": "D",
           "text": "to have known",
           "is_correct": false,
           "explanation": "Perfect infinitive implies past knowledge, contradicting her current eager waiting."
+        },
+        {
+          "key": "D",
+          "text": "knowing",
+          "is_correct": false,
+          "explanation": "Adjectives expressing emotion or desire (anxious) take a to-infinitive."
         }
       ]
     },
@@ -5500,15 +5501,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to drag",
+          "text": "to be dragged",
           "is_correct": false,
-          "explanation": "Active voice is incorrect because the victim was dragged."
+          "explanation": "Simple passive implies present/general action, not a completed past event."
         },
         {
           "key": "B",
-          "text": "to have been dragged",
-          "is_correct": true,
-          "explanation": "Perfect passive infinitive 'to have been dragged' correctly expresses a past completed passive event."
+          "text": "to drag",
+          "is_correct": false,
+          "explanation": "Active voice is incorrect because the victim was dragged."
         },
         {
           "key": "C",
@@ -5518,9 +5519,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to be dragged",
-          "is_correct": false,
-          "explanation": "Simple passive implies present/general action, not a completed past event."
+          "text": "to have been dragged",
+          "is_correct": true,
+          "explanation": "Perfect passive infinitive 'to have been dragged' correctly expresses a past completed passive event."
         }
       ]
     },
@@ -5530,27 +5531,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "regulate",
-          "is_correct": false,
-          "explanation": "Question word requires a to-infinitive."
-        },
-        {
-          "key": "B",
           "text": "to regulate",
           "is_correct": true,
           "explanation": "Follows the pattern 'verb + object + question word + to-infinitive'."
         },
         {
-          "key": "C",
-          "text": "regulating",
+          "key": "B",
+          "text": "regulate",
           "is_correct": false,
-          "explanation": "Question words take infinitives, not gerunds."
+          "explanation": "Question word requires a to-infinitive."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "to regulating",
           "is_correct": false,
           "explanation": "Incorrect prepositional structure."
+        },
+        {
+          "key": "D",
+          "text": "regulating",
+          "is_correct": false,
+          "explanation": "Question words take infinitives, not gerunds."
         }
       ]
     },
@@ -5560,9 +5561,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "playing",
+          "text": "of playing",
           "is_correct": false,
-          "explanation": "Dummy 'it' evaluation structures take a to-infinitive."
+          "explanation": "Preposition 'of' is invalid after 'dangerous' in impersonal situations."
         },
         {
           "key": "B",
@@ -5578,9 +5579,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "of playing",
+          "text": "playing",
           "is_correct": false,
-          "explanation": "Preposition 'of' is invalid after 'dangerous' in impersonal situations."
+          "explanation": "Dummy 'it' evaluation structures take a to-infinitive."
         }
       ]
     },
@@ -5590,27 +5591,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "knowing nothing",
+          "text": "to have known nothing",
           "is_correct": false,
-          "explanation": "'Pretend' takes a to-infinitive, not a gerund."
+          "explanation": "Simple infinitive correctly reflects the state at the time of confrontation."
         },
         {
           "key": "B",
-          "text": "to know nothing",
-          "is_correct": true,
-          "explanation": "'Pretend' is followed by a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "know nothing",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
         },
         {
+          "key": "C",
+          "text": "to know nothing",
+          "is_correct": true,
+          "explanation": "'Pretend' is followed by a to-infinitive."
+        },
+        {
           "key": "D",
-          "text": "to have known nothing",
+          "text": "knowing nothing",
           "is_correct": false,
-          "explanation": "Simple infinitive correctly reflects the state at the time of confrontation."
+          "explanation": "'Pretend' takes a to-infinitive, not a gerund."
         }
       ]
     },
@@ -5620,9 +5621,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "inspect",
+          "text": "to be inspected",
           "is_correct": false,
-          "explanation": "'Arrange for + object' requires a to-infinitive."
+          "explanation": "Active form is required because 'a specialist' performs the inspection."
         },
         {
           "key": "B",
@@ -5632,15 +5633,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "inspecting",
+          "text": "inspect",
           "is_correct": false,
-          "explanation": "Gerund is invalid in this verb pattern."
+          "explanation": "'Arrange for + object' requires a to-infinitive."
         },
         {
           "key": "D",
-          "text": "to be inspected",
+          "text": "inspecting",
           "is_correct": false,
-          "explanation": "Active form is required because 'a specialist' performs the inspection."
+          "explanation": "Gerund is invalid in this verb pattern."
         }
       ]
     },
@@ -5650,15 +5651,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "hearing",
+          "text": "to have heard",
           "is_correct": false,
-          "explanation": "Adjectives expressing emotion (glad) take a to-infinitive."
+          "explanation": "Simple infinitive is standard for present reactions to news."
         },
         {
           "key": "B",
-          "text": "to hear",
-          "is_correct": true,
-          "explanation": "'Glad' is followed by a to-infinitive."
+          "text": "hearing",
+          "is_correct": false,
+          "explanation": "Adjectives expressing emotion (glad) take a to-infinitive."
         },
         {
           "key": "C",
@@ -5668,9 +5669,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to have heard",
-          "is_correct": false,
-          "explanation": "Simple infinitive is standard for present reactions to news."
+          "text": "to hear",
+          "is_correct": true,
+          "explanation": "'Glad' is followed by a to-infinitive."
         }
       ]
     },
@@ -5686,21 +5687,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "to be reached",
+          "is_correct": false,
+          "explanation": "Active voice is required as 'he' reached the summit."
+        },
+        {
+          "key": "C",
           "text": "to reach",
           "is_correct": true,
           "explanation": "'Manage' is followed by a to-infinitive."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "reach",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
-        },
-        {
-          "key": "D",
-          "text": "to be reached",
-          "is_correct": false,
-          "explanation": "Active voice is required as 'he' reached the summit."
         }
       ]
     },
@@ -5710,21 +5711,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to understand them",
-          "is_correct": false,
-          "explanation": "Redundant pronoun 'them' referring back to 'the instructions' must be omitted."
-        },
-        {
-          "key": "B",
           "text": "to understand",
           "is_correct": true,
           "explanation": "Follows 'too + adj + for + object + to-infinitive'."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "understanding",
           "is_correct": false,
           "explanation": "Requires a to-infinitive complement."
+        },
+        {
+          "key": "C",
+          "text": "to understand them",
+          "is_correct": false,
+          "explanation": "Redundant pronoun 'them' referring back to 'the instructions' must be omitted."
         },
         {
           "key": "D",
@@ -5740,9 +5741,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "hold",
-          "is_correct": true,
-          "explanation": "The 'be + to-infinitive' structure is used for official plans and schedules."
+          "text": "held",
+          "is_correct": false,
+          "explanation": "Past participle is ungrammatical here."
         },
         {
           "key": "B",
@@ -5752,9 +5753,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "held",
-          "is_correct": false,
-          "explanation": "Past participle is ungrammatical here."
+          "text": "hold",
+          "is_correct": true,
+          "explanation": "The 'be + to-infinitive' structure is used for official plans and schedules."
         },
         {
           "key": "D",
@@ -5770,15 +5771,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "for",
+          "text": "with",
           "is_correct": false,
-          "explanation": "Personal quality adjectives take a direct to-infinitive when modifying the subject."
+          "explanation": "Ungrammatical."
         },
         {
           "key": "B",
-          "text": "to",
-          "is_correct": true,
-          "explanation": "Adjectives describing personal qualities take 'Subject + be + adj + to-infinitive'."
+          "text": "for",
+          "is_correct": false,
+          "explanation": "Personal quality adjectives take a direct to-infinitive when modifying the subject."
         },
         {
           "key": "C",
@@ -5788,9 +5789,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "with",
-          "is_correct": false,
-          "explanation": "Ungrammatical."
+          "text": "to",
+          "is_correct": true,
+          "explanation": "Adjectives describing personal qualities take 'Subject + be + adj + to-infinitive'."
         }
       ]
     },
@@ -5800,15 +5801,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "seeing",
+          "text": "to be seen",
           "is_correct": false,
-          "explanation": "'Claim' takes a to-infinitive, not a gerund."
+          "explanation": "Passive form is logically incorrect here."
         },
         {
           "key": "B",
-          "text": "to have seen",
-          "is_correct": true,
-          "explanation": "Perfect infinitive 'to have seen' refers to a past action prior to claiming."
+          "text": "seeing",
+          "is_correct": false,
+          "explanation": "'Claim' takes a to-infinitive, not a gerund."
         },
         {
           "key": "C",
@@ -5818,9 +5819,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to be seen",
-          "is_correct": false,
-          "explanation": "Passive form is logically incorrect here."
+          "text": "to have seen",
+          "is_correct": true,
+          "explanation": "Perfect infinitive 'to have seen' refers to a past action prior to claiming."
         }
       ]
     },
@@ -5830,27 +5831,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "to adjusting",
+          "is_correct": false,
+          "explanation": "'To' is an infinitive marker here and cannot be followed by a gerund."
+        },
+        {
+          "key": "B",
           "text": "adjust",
           "is_correct": false,
           "explanation": "Question word requires a to-infinitive."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to adjust",
           "is_correct": true,
           "explanation": "Follows the pattern 'question word + to-infinitive'."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "adjusting",
           "is_correct": false,
           "explanation": "Question words take infinitives, not gerunds."
-        },
-        {
-          "key": "D",
-          "text": "to adjusting",
-          "is_correct": false,
-          "explanation": "'To' is an infinitive marker here and cannot be followed by a gerund."
         }
       ]
     },
@@ -5860,21 +5861,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "making",
+          "is_correct": false,
+          "explanation": "'Appear' requires a to-infinitive."
+        },
+        {
+          "key": "B",
           "text": "to be making",
           "is_correct": true,
           "explanation": "Continuous infinitive 'to be making' reflects ongoing progress occurring now."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to make",
           "is_correct": false,
           "explanation": "Simple infinitive fails to capture the ongoing developing state."
-        },
-        {
-          "key": "C",
-          "text": "making",
-          "is_correct": false,
-          "explanation": "'Appear' requires a to-infinitive."
         },
         {
           "key": "D",
@@ -5896,15 +5897,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to meet",
-          "is_correct": true,
-          "explanation": "Follows 'It is + adj + for + object + to-infinitive'."
-        },
-        {
-          "key": "C",
           "text": "meet",
           "is_correct": false,
           "explanation": "Missing the infinitive marker 'to'."
+        },
+        {
+          "key": "C",
+          "text": "to meet",
+          "is_correct": true,
+          "explanation": "Follows 'It is + adj + for + object + to-infinitive'."
         },
         {
           "key": "D",
@@ -5950,15 +5951,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "finding",
+          "text": "to have found",
           "is_correct": false,
-          "explanation": "Participle alone does not form the 'only to-infinitive' result construction."
+          "explanation": "Perfect form is unnecessary as finding happens subsequent to rushing."
         },
         {
           "key": "B",
-          "text": "to find",
-          "is_correct": true,
-          "explanation": "'Only + to-infinitive' expresses an unexpected subsequent result."
+          "text": "finding",
+          "is_correct": false,
+          "explanation": "Participle alone does not form the 'only to-infinitive' result construction."
         },
         {
           "key": "C",
@@ -5968,9 +5969,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to have found",
-          "is_correct": false,
-          "explanation": "Perfect form is unnecessary as finding happens subsequent to rushing."
+          "text": "to find",
+          "is_correct": true,
+          "explanation": "'Only + to-infinitive' expresses an unexpected subsequent result."
         }
       ]
     },
@@ -5980,15 +5981,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "living",
-          "is_correct": false,
-          "explanation": "'Would prefer' takes a to-infinitive, unlike simple 'prefer' which can take a gerund."
-        },
-        {
-          "key": "B",
           "text": "to live",
           "is_correct": true,
           "explanation": "'Would prefer' is followed by a to-infinitive."
+        },
+        {
+          "key": "B",
+          "text": "living",
+          "is_correct": false,
+          "explanation": "'Would prefer' takes a to-infinitive, unlike simple 'prefer' which can take a gerund."
         },
         {
           "key": "C",
@@ -6016,15 +6017,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to be disinfected",
-          "is_correct": true,
-          "explanation": "Simple passive infinitive 'to be disinfected' correctly expresses the passive requirement."
-        },
-        {
-          "key": "C",
           "text": "to have disinfected",
           "is_correct": false,
           "explanation": "Active perfect infinitive is grammatically incorrect here."
+        },
+        {
+          "key": "C",
+          "text": "to be disinfected",
+          "is_correct": true,
+          "explanation": "Simple passive infinitive 'to be disinfected' correctly expresses the passive requirement."
         },
         {
           "key": "D",
@@ -6040,9 +6041,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "giving",
+          "text": "give",
           "is_correct": false,
-          "explanation": "'Offer' takes a to-infinitive, not a gerund."
+          "explanation": "Missing the infinitive marker 'to'."
         },
         {
           "key": "B",
@@ -6052,9 +6053,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "give",
+          "text": "giving",
           "is_correct": false,
-          "explanation": "Missing the infinitive marker 'to'."
+          "explanation": "'Offer' takes a to-infinitive, not a gerund."
         },
         {
           "key": "D",
@@ -6070,15 +6071,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "submitting",
+          "text": "to submitting",
           "is_correct": false,
-          "explanation": "'Remind + object' takes a to-infinitive, not a gerund."
+          "explanation": "Incorrect prepositional structure."
         },
         {
           "key": "B",
-          "text": "to submit",
-          "is_correct": true,
-          "explanation": "'Remind + object' is followed by a to-infinitive."
+          "text": "submitting",
+          "is_correct": false,
+          "explanation": "'Remind + object' takes a to-infinitive, not a gerund."
         },
         {
           "key": "C",
@@ -6088,9 +6089,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to submitting",
-          "is_correct": false,
-          "explanation": "Incorrect prepositional structure."
+          "text": "to submit",
+          "is_correct": true,
+          "explanation": "'Remind + object' is followed by a to-infinitive."
         }
       ]
     },
@@ -6100,9 +6101,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "holding",
+          "text": "hold",
           "is_correct": false,
-          "explanation": "'Adjective + enough' takes a to-infinitive."
+          "explanation": "Missing the infinitive marker 'to'."
         },
         {
           "key": "B",
@@ -6112,15 +6113,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "hold",
-          "is_correct": false,
-          "explanation": "Missing the infinitive marker 'to'."
-        },
-        {
-          "key": "D",
           "text": "for holding",
           "is_correct": false,
           "explanation": "'Enough' takes a to-infinitive, not 'for + gerund'."
+        },
+        {
+          "key": "D",
+          "text": "holding",
+          "is_correct": false,
+          "explanation": "'Adjective + enough' takes a to-infinitive."
         }
       ]
     },
@@ -6130,27 +6131,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to find",
-          "is_correct": false,
-          "explanation": "Active infinitive is incorrect as the hiker was found by others."
-        },
-        {
-          "key": "B",
           "text": "to have been found",
           "is_correct": true,
           "explanation": "Perfect passive infinitive 'to have been found' expresses a completed past passive rescue."
         },
         {
-          "key": "C",
-          "text": "finding",
-          "is_correct": false,
-          "explanation": "Passive reporting verbs take to-infinitives, not gerunds."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "to be found",
           "is_correct": false,
           "explanation": "Simple passive implies present/future action, failing to capture the completed past event."
+        },
+        {
+          "key": "C",
+          "text": "to find",
+          "is_correct": false,
+          "explanation": "Active infinitive is incorrect as the hiker was found by others."
+        },
+        {
+          "key": "D",
+          "text": "finding",
+          "is_correct": false,
+          "explanation": "Passive reporting verbs take to-infinitives, not gerunds."
         }
       ]
     }
@@ -6162,27 +6163,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "had better to",
-          "is_correct": false,
-          "explanation": "'Had better' is followed by a bare infinitive, not an infinitive with 'to'."
-        },
-        {
-          "key": "B",
           "text": "had better",
           "is_correct": true,
           "explanation": "'Had better' is a modal-like structure that takes a bare infinitive."
         },
         {
-          "key": "C",
-          "text": "had better than",
-          "is_correct": false,
-          "explanation": "'Had better' does not require the word 'than' when giving strong advice."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "would better",
           "is_correct": false,
           "explanation": "The correct idiomatic expression for advice is 'had better', not 'would better'."
+        },
+        {
+          "key": "C",
+          "text": "had better to",
+          "is_correct": false,
+          "explanation": "'Had better' is followed by a bare infinitive, not an infinitive with 'to'."
+        },
+        {
+          "key": "D",
+          "text": "had better than",
+          "is_correct": false,
+          "explanation": "'Had better' does not require the word 'than' when giving strong advice."
         }
       ]
     },
@@ -6192,27 +6193,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "run",
-          "is_correct": false,
-          "explanation": "In the passive voice, the verb 'make' requires a to-infinitive rather than a bare infinitive."
-        },
-        {
-          "key": "B",
-          "text": "to run",
-          "is_correct": true,
-          "explanation": "When 'make' is used in the passive voice, it must be followed by a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "running",
           "is_correct": false,
           "explanation": "The passive form of 'make' does not take a gerund object."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "run",
+          "is_correct": false,
+          "explanation": "In the passive voice, the verb 'make' requires a to-infinitive rather than a bare infinitive."
+        },
+        {
+          "key": "C",
           "text": "ran",
           "is_correct": false,
           "explanation": "A past tense verb form cannot follow 'were made'."
+        },
+        {
+          "key": "D",
+          "text": "to run",
+          "is_correct": true,
+          "explanation": "When 'make' is used in the passive voice, it must be followed by a to-infinitive."
         }
       ]
     },
@@ -6222,27 +6223,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to bring",
-          "is_correct": false,
-          "explanation": "The modal structure 'need not' takes a bare infinitive, so adding 'to' is ungrammatical."
-        },
-        {
-          "key": "B",
           "text": "bring",
           "is_correct": true,
           "explanation": "'Need not' functions as a modal auxiliary verb and is directly followed by a bare infinitive."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "bringing",
           "is_correct": false,
           "explanation": "Modal auxiliary verbs like 'need not' cannot be followed by a gerund."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "brought",
           "is_correct": false,
           "explanation": "Modal auxiliary verbs must be followed by the base form of the verb."
+        },
+        {
+          "key": "D",
+          "text": "to bring",
+          "is_correct": false,
+          "explanation": "The modal structure 'need not' takes a bare infinitive, so adding 'to' is ungrammatical."
         }
       ]
     },
@@ -6252,9 +6253,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to sneak",
+          "text": "sneaked",
           "is_correct": false,
-          "explanation": "Active verbs of perception like 'notice' take a bare infinitive or gerund, not a to-infinitive."
+          "explanation": "A finite past tense verb cannot serve as the object complement after 'noticed'."
         },
         {
           "key": "B",
@@ -6264,9 +6265,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "sneaked",
+          "text": "to sneak",
           "is_correct": false,
-          "explanation": "A finite past tense verb cannot serve as the object complement after 'noticed'."
+          "explanation": "Active verbs of perception like 'notice' take a bare infinitive or gerund, not a to-infinitive."
         },
         {
           "key": "D",
@@ -6282,9 +6283,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "enter",
+          "text": "entered",
           "is_correct": false,
-          "explanation": "In the passive voice, perception verbs like 'see' require a to-infinitive."
+          "explanation": "A past participle cannot be used as the infinitive complement of a passive perception verb."
         },
         {
           "key": "B",
@@ -6294,15 +6295,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "entered",
-          "is_correct": false,
-          "explanation": "A past participle cannot be used as the infinitive complement of a passive perception verb."
-        },
-        {
-          "key": "D",
           "text": "to entering",
           "is_correct": false,
           "explanation": "'To' in this passive structure is part of an infinitive and cannot be followed by a gerund."
+        },
+        {
+          "key": "D",
+          "text": "enter",
+          "is_correct": false,
+          "explanation": "In the passive voice, perception verbs like 'see' require a to-infinitive."
         }
       ]
     },
@@ -6312,27 +6313,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "inspect",
-          "is_correct": true,
-          "explanation": "The causative structure 'have + person' takes a bare infinitive when the person performs the action."
-        },
-        {
-          "key": "B",
-          "text": "to inspect",
-          "is_correct": false,
-          "explanation": "Causative 'have' with a active personal object does not take a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "inspected",
           "is_correct": false,
           "explanation": "The past participle 'inspected' is only used when the object is a thing ('have servers inspected')."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "inspecting",
           "is_correct": false,
           "explanation": "Causative 'have + person' takes a bare infinitive, not a gerund/participle."
+        },
+        {
+          "key": "C",
+          "text": "inspect",
+          "is_correct": true,
+          "explanation": "The causative structure 'have + person' takes a bare infinitive when the person performs the action."
+        },
+        {
+          "key": "D",
+          "text": "to inspect",
+          "is_correct": false,
+          "explanation": "Causative 'have' with a active personal object does not take a to-infinitive."
         }
       ]
     },
@@ -6342,27 +6343,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "accept / work",
-          "is_correct": true,
-          "explanation": "'Would rather ... than' connects two bare infinitives in parallel comparison."
-        },
-        {
-          "key": "B",
-          "text": "to accept / to work",
-          "is_correct": false,
-          "explanation": "'Would rather' takes bare infinitives; adding 'to' breaks the structure."
-        },
-        {
-          "key": "C",
           "text": "accepting / working",
           "is_correct": false,
           "explanation": "'Would rather' cannot be followed by gerund forms."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "accept / work",
+          "is_correct": true,
+          "explanation": "'Would rather ... than' connects two bare infinitives in parallel comparison."
+        },
+        {
+          "key": "C",
           "text": "accept / working",
           "is_correct": false,
           "explanation": "The structures on both sides of 'than' must be parallel bare infinitives."
+        },
+        {
+          "key": "D",
+          "text": "to accept / to work",
+          "is_correct": false,
+          "explanation": "'Would rather' takes bare infinitives; adding 'to' breaks the structure."
         }
       ]
     },
@@ -6372,27 +6373,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "feel",
-          "is_correct": true,
-          "explanation": "The fixed expression 'cannot/could not help but' is followed by a bare infinitive."
-        },
-        {
-          "key": "B",
-          "text": "to feel",
-          "is_correct": false,
-          "explanation": "'Cannot help but' requires a bare infinitive, not a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "feeling",
           "is_correct": false,
           "explanation": "While 'cannot help' takes a gerund, adding 'but' ('cannot help but') changes the requirement to a bare infinitive."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "feel",
+          "is_correct": true,
+          "explanation": "The fixed expression 'cannot/could not help but' is followed by a bare infinitive."
+        },
+        {
+          "key": "C",
           "text": "felt",
           "is_correct": false,
           "explanation": "A past tense verb cannot follow 'could not help but'."
+        },
+        {
+          "key": "D",
+          "text": "to feel",
+          "is_correct": false,
+          "explanation": "'Cannot help but' requires a bare infinitive, not a to-infinitive."
         }
       ]
     },
@@ -6402,15 +6403,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "wear",
+          "text": "to wearing",
           "is_correct": false,
-          "explanation": "Unlike other modal verbs, 'ought' must be followed by 'to'."
+          "explanation": "'Ought to' is followed by a base verb, not a gerund."
         },
         {
           "key": "B",
-          "text": "to wear",
-          "is_correct": true,
-          "explanation": "'Ought' is an exception among modal verbs and always requires a to-infinitive."
+          "text": "wear",
+          "is_correct": false,
+          "explanation": "Unlike other modal verbs, 'ought' must be followed by 'to'."
         },
         {
           "key": "C",
@@ -6420,9 +6421,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to wearing",
-          "is_correct": false,
-          "explanation": "'Ought to' is followed by a base verb, not a gerund."
+          "text": "to wear",
+          "is_correct": true,
+          "explanation": "'Ought' is an exception among modal verbs and always requires a to-infinitive."
         }
       ]
     },
@@ -6438,15 +6439,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "Why not",
-          "is_correct": true,
-          "explanation": "'Why not' is followed directly by a bare infinitive to make a suggestion."
-        },
-        {
-          "key": "C",
           "text": "Why don't",
           "is_correct": false,
           "explanation": "'Why don't' requires a subject noun/pronoun (e.g., 'Why don't you') before the verb."
+        },
+        {
+          "key": "C",
+          "text": "Why not",
+          "is_correct": true,
+          "explanation": "'Why not' is followed directly by a bare infinitive to make a suggestion."
         },
         {
           "key": "D",
@@ -6462,9 +6463,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "go",
+          "text": "had gone",
           "is_correct": false,
-          "explanation": "A present simple bare infinitive does not convey a past completed deduction."
+          "explanation": "Modals cannot be followed directly by a past perfect auxiliary 'had'."
         },
         {
           "key": "B",
@@ -6474,15 +6475,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "have gone",
-          "is_correct": true,
-          "explanation": "The modal perfect structure ('must + have + past participle') expresses a strong logical deduction about a past event without 'to'."
+          "text": "go",
+          "is_correct": false,
+          "explanation": "A present simple bare infinitive does not convey a past completed deduction."
         },
         {
           "key": "D",
-          "text": "had gone",
-          "is_correct": false,
-          "explanation": "Modals cannot be followed directly by a past perfect auxiliary 'had'."
+          "text": "have gone",
+          "is_correct": true,
+          "explanation": "The modal perfect structure ('must + have + past participle') expresses a strong logical deduction about a past event without 'to'."
         }
       ]
     },
@@ -6492,27 +6493,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "verify",
-          "is_correct": false,
-          "explanation": "A simple bare infinitive refers to present or future obligation, not a past mistake."
-        },
-        {
-          "key": "B",
-          "text": "have verified",
-          "is_correct": true,
-          "explanation": "'Should + have + past participle' expresses criticism or unfulfilled obligation in the past."
-        },
-        {
-          "key": "C",
           "text": "to have verified",
           "is_correct": false,
           "explanation": "The modal verb 'should' takes a bare perfect infinitive without 'to'."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "verify",
+          "is_correct": false,
+          "explanation": "A simple bare infinitive refers to present or future obligation, not a past mistake."
+        },
+        {
+          "key": "C",
           "text": "verified",
           "is_correct": false,
           "explanation": "A main modal verb cannot be followed directly by a past tense form."
+        },
+        {
+          "key": "D",
+          "text": "have verified",
+          "is_correct": true,
+          "explanation": "'Should + have + past participle' expresses criticism or unfulfilled obligation in the past."
         }
       ]
     },
@@ -6528,21 +6529,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "discussing",
+          "is_correct": false,
+          "explanation": "A gerund breaks parallel structure with the preceding infinitive 'to assemble'."
+        },
+        {
+          "key": "C",
           "text": "to discussing",
           "is_correct": false,
           "explanation": "'And' joins two infinitives; 'to discussing' uses an incorrect prepositional form."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "discussed",
           "is_correct": false,
           "explanation": "Parallelism requires an infinitive form to match 'to assemble'."
-        },
-        {
-          "key": "D",
-          "text": "discussing",
-          "is_correct": false,
-          "explanation": "A gerund breaks parallel structure with the preceding infinitive 'to assemble'."
         }
       ]
     },
@@ -6552,27 +6553,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "understand",
-          "is_correct": true,
-          "explanation": "'Help' can be followed by an object and either a bare infinitive or a to-infinitive."
-        },
-        {
-          "key": "B",
-          "text": "understanding",
-          "is_correct": false,
-          "explanation": "'Help + object' does not take a gerund complement."
-        },
-        {
-          "key": "C",
           "text": "understood",
           "is_correct": false,
           "explanation": "Past tense forms cannot serve as the object complement of 'help'."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "to understanding",
           "is_correct": false,
           "explanation": "If 'to' is used after 'help', it must be part of an infinitive ('to understand'), not followed by a gerund."
+        },
+        {
+          "key": "C",
+          "text": "understand",
+          "is_correct": true,
+          "explanation": "'Help' can be followed by an object and either a bare infinitive or a to-infinitive."
+        },
+        {
+          "key": "D",
+          "text": "understanding",
+          "is_correct": false,
+          "explanation": "'Help + object' does not take a gerund complement."
         }
       ]
     },
@@ -6582,27 +6583,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "wait",
-          "is_correct": true,
-          "explanation": "The structure 'can/could do nothing but' takes a bare infinitive."
-        },
-        {
-          "key": "B",
           "text": "to wait",
           "is_correct": false,
           "explanation": "'Could do nothing but' takes a bare infinitive, so 'to' must be omitted."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "waiting",
           "is_correct": false,
           "explanation": "'Could do nothing but' cannot be followed by a gerund."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "waited",
           "is_correct": false,
           "explanation": "A past tense verb cannot follow the structure 'could do nothing but'."
+        },
+        {
+          "key": "D",
+          "text": "wait",
+          "is_correct": true,
+          "explanation": "The structure 'can/could do nothing but' takes a bare infinitive."
         }
       ]
     },
@@ -6612,27 +6613,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "enter",
-          "is_correct": true,
-          "explanation": "The causative verb 'let' is followed by object + bare infinitive."
+          "text": "entered",
+          "is_correct": false,
+          "explanation": "A past participle cannot follow 'let + object' in active contexts."
         },
         {
           "key": "B",
-          "text": "to enter",
-          "is_correct": false,
-          "explanation": "'Let' takes a bare infinitive; 'to enter' is ungrammatical after 'let'."
-        },
-        {
-          "key": "C",
           "text": "entering",
           "is_correct": false,
           "explanation": "'Let + object' does not take a gerund."
         },
         {
+          "key": "C",
+          "text": "enter",
+          "is_correct": true,
+          "explanation": "The causative verb 'let' is followed by object + bare infinitive."
+        },
+        {
           "key": "D",
-          "text": "entered",
+          "text": "to enter",
           "is_correct": false,
-          "explanation": "A past participle cannot follow 'let + object' in active contexts."
+          "explanation": "'Let' takes a bare infinitive; 'to enter' is ungrammatical after 'let'."
         }
       ]
     },
@@ -6642,9 +6643,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "drop",
-          "is_correct": true,
-          "explanation": "The modal auxiliary verb 'may' is followed by the bare infinitive form."
+          "text": "dropped",
+          "is_correct": false,
+          "explanation": "Modals must be followed by base verb forms."
         },
         {
           "key": "B",
@@ -6660,9 +6661,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "dropped",
-          "is_correct": false,
-          "explanation": "Modals must be followed by base verb forms."
+          "text": "drop",
+          "is_correct": true,
+          "explanation": "The modal auxiliary verb 'may' is followed by the bare infinitive form."
         }
       ]
     },
@@ -6672,27 +6673,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "wait",
-          "is_correct": true,
-          "explanation": "When 'except' joins infinitive structures after 'do nothing', it takes a bare infinitive."
+          "text": "to waiting",
+          "is_correct": false,
+          "explanation": "This prepositional gerund combination is ungrammatical here."
         },
         {
           "key": "B",
-          "text": "waited",
-          "is_correct": false,
-          "explanation": "A past tense verb cannot follow 'do nothing except'."
-        },
-        {
-          "key": "C",
           "text": "waiting",
           "is_correct": false,
           "explanation": "'Except' following an auxiliary do-structure takes a bare infinitive rather than a gerund."
         },
         {
-          "key": "D",
-          "text": "to waiting",
+          "key": "C",
+          "text": "waited",
           "is_correct": false,
-          "explanation": "This prepositional gerund combination is ungrammatical here."
+          "explanation": "A past tense verb cannot follow 'do nothing except'."
+        },
+        {
+          "key": "D",
+          "text": "wait",
+          "is_correct": true,
+          "explanation": "When 'except' joins infinitive structures after 'do nothing', it takes a bare infinitive."
         }
       ]
     },
@@ -6702,27 +6703,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "ask",
-          "is_correct": true,
-          "explanation": "When 'dare' functions as a modal verb in the negative ('dare not'), it is followed by a bare infinitive."
+          "text": "asked",
+          "is_correct": false,
+          "explanation": "Modal verbs must be followed by base verb forms."
         },
         {
           "key": "B",
-          "text": "to ask",
-          "is_correct": false,
-          "explanation": "Modal 'dare not' does not take a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "asking",
           "is_correct": false,
           "explanation": "Modal verbs cannot be followed by gerunds."
         },
         {
+          "key": "C",
+          "text": "ask",
+          "is_correct": true,
+          "explanation": "When 'dare' functions as a modal verb in the negative ('dare not'), it is followed by a bare infinitive."
+        },
+        {
           "key": "D",
-          "text": "asked",
+          "text": "to ask",
           "is_correct": false,
-          "explanation": "Modal verbs must be followed by base verb forms."
+          "explanation": "Modal 'dare not' does not take a to-infinitive."
         }
       ]
     },
@@ -6732,27 +6733,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "roar",
-          "is_correct": true,
-          "explanation": "Active perception verbs ('hear + object') take a bare infinitive to describe a complete event."
-        },
-        {
-          "key": "B",
           "text": "to roar",
           "is_correct": false,
           "explanation": "Active perception verbs take bare infinitives or gerunds, not to-infinitives."
         },
         {
-          "key": "C",
-          "text": "roared",
-          "is_correct": false,
-          "explanation": "Past tense verb forms cannot function as object complements after 'heard'."
+          "key": "B",
+          "text": "roar",
+          "is_correct": true,
+          "explanation": "Active perception verbs ('hear + object') take a bare infinitive to describe a complete event."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "to be roaring",
           "is_correct": false,
           "explanation": "Active perception verbs do not take continuous infinitives with 'to'."
+        },
+        {
+          "key": "D",
+          "text": "roared",
+          "is_correct": false,
+          "explanation": "Past tense verb forms cannot function as object complements after 'heard'."
         }
       ]
     },
@@ -6768,15 +6769,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "deteriorated",
-          "is_correct": false,
-          "explanation": "The modal 'could' cannot be followed directly by a past participle without 'have'."
-        },
-        {
-          "key": "C",
           "text": "to have deteriorated",
           "is_correct": false,
           "explanation": "Modal auxiliary verbs like 'could' do not take 'to'."
+        },
+        {
+          "key": "C",
+          "text": "deteriorated",
+          "is_correct": false,
+          "explanation": "The modal 'could' cannot be followed directly by a past participle without 'have'."
         },
         {
           "key": "D",
@@ -6792,15 +6793,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "intend",
-          "is_correct": true,
-          "explanation": "The auxiliary verb 'do/does' used for emphasis is followed by a bare infinitive."
-        },
-        {
-          "key": "B",
           "text": "to intend",
           "is_correct": false,
           "explanation": "Emphatic auxiliary 'does' takes a bare infinitive, not a to-infinitive."
+        },
+        {
+          "key": "B",
+          "text": "intend",
+          "is_correct": true,
+          "explanation": "The auxiliary verb 'do/does' used for emphasis is followed by a bare infinitive."
         },
         {
           "key": "C",
@@ -6822,15 +6823,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "fill in",
-          "is_correct": false,
-          "explanation": "When 'need' is negated with 'don't' (functioning as a main verb), it requires a to-infinitive."
-        },
-        {
-          "key": "B",
           "text": "to fill in",
           "is_correct": true,
           "explanation": "'Don't need' acts as a main verb structure and requires a to-infinitive complement."
+        },
+        {
+          "key": "B",
+          "text": "filled in",
+          "is_correct": false,
+          "explanation": "A past participle is ungrammatical in this active personal obligation context."
         },
         {
           "key": "C",
@@ -6840,9 +6841,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "filled in",
+          "text": "fill in",
           "is_correct": false,
-          "explanation": "A past participle is ungrammatical in this active personal obligation context."
+          "explanation": "When 'need' is negated with 'don't' (functioning as a main verb), it requires a to-infinitive."
         }
       ]
     },
@@ -6852,15 +6853,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "weep",
-          "is_correct": true,
-          "explanation": "Active causative 'make + object' is followed by a bare infinitive."
+          "text": "wept",
+          "is_correct": false,
+          "explanation": "A past tense verb cannot follow active causative 'make'."
         },
         {
           "key": "B",
-          "text": "to weep",
-          "is_correct": false,
-          "explanation": "Active causative 'make' does not take a to-infinitive."
+          "text": "weep",
+          "is_correct": true,
+          "explanation": "Active causative 'make + object' is followed by a bare infinitive."
         },
         {
           "key": "C",
@@ -6870,9 +6871,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "wept",
+          "text": "to weep",
           "is_correct": false,
-          "explanation": "A past tense verb cannot follow active causative 'make'."
+          "explanation": "Active causative 'make' does not take a to-infinitive."
         }
       ]
     },
@@ -6888,15 +6889,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "have arrived",
-          "is_correct": true,
-          "explanation": "'Needn't + have + past participle' indicates that a past action was performed but was unnecessary."
-        },
-        {
-          "key": "C",
           "text": "to have arrived",
           "is_correct": false,
           "explanation": "Modal 'needn't' takes a bare perfect infinitive without 'to'."
+        },
+        {
+          "key": "C",
+          "text": "have arrived",
+          "is_correct": true,
+          "explanation": "'Needn't + have + past participle' indicates that a past action was performed but was unnecessary."
         },
         {
           "key": "D",
@@ -6912,9 +6913,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "disclose",
-          "is_correct": true,
-          "explanation": "'Would rather not' is directly followed by a bare infinitive."
+          "text": "disclosing",
+          "is_correct": false,
+          "explanation": "'Would rather not' cannot take a gerund."
         },
         {
           "key": "B",
@@ -6924,15 +6925,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "disclosing",
-          "is_correct": false,
-          "explanation": "'Would rather not' cannot take a gerund."
-        },
-        {
-          "key": "D",
           "text": "disclosed",
           "is_correct": false,
           "explanation": "'Would rather not' takes a base verb, not a past tense form."
+        },
+        {
+          "key": "D",
+          "text": "disclose",
+          "is_correct": true,
+          "explanation": "'Would rather not' is directly followed by a bare infinitive."
         }
       ]
     },
@@ -6942,9 +6943,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "arrange",
-          "is_correct": true,
-          "explanation": "The modal auxiliary verb 'shall' is followed by a bare infinitive."
+          "text": "arranged",
+          "is_correct": false,
+          "explanation": "Modals must take base verb forms."
         },
         {
           "key": "B",
@@ -6954,15 +6955,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "arranging",
-          "is_correct": false,
-          "explanation": "Modals cannot be followed by gerunds."
+          "text": "arrange",
+          "is_correct": true,
+          "explanation": "The modal auxiliary verb 'shall' is followed by a bare infinitive."
         },
         {
           "key": "D",
-          "text": "arranged",
+          "text": "arranging",
           "is_correct": false,
-          "explanation": "Modals must take base verb forms."
+          "explanation": "Modals cannot be followed by gerunds."
         }
       ]
     },
@@ -6972,15 +6973,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "store",
-          "is_correct": true,
-          "explanation": "The negative structure 'had better not' is followed by a bare infinitive."
-        },
-        {
-          "key": "B",
           "text": "to store",
           "is_correct": false,
           "explanation": "'Had better not' requires a bare infinitive; 'to' is ungrammatical."
+        },
+        {
+          "key": "B",
+          "text": "stored",
+          "is_correct": false,
+          "explanation": "'Had better not' takes a base verb, not a past tense form."
         },
         {
           "key": "C",
@@ -6990,9 +6991,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "stored",
-          "is_correct": false,
-          "explanation": "'Had better not' takes a base verb, not a past tense form."
+          "text": "store",
+          "is_correct": true,
+          "explanation": "The negative structure 'had better not' is followed by a bare infinitive."
         }
       ]
     },
@@ -7002,9 +7003,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "remark",
+          "text": "to remarking",
           "is_correct": false,
-          "explanation": "Passive perception verbs ('was heard') require a to-infinitive."
+          "explanation": "The infinitive marker 'to' must be followed by a base verb, not a gerund."
         },
         {
           "key": "B",
@@ -7020,9 +7021,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to remarking",
+          "text": "remark",
           "is_correct": false,
-          "explanation": "The infinitive marker 'to' must be followed by a base verb, not a gerund."
+          "explanation": "Passive perception verbs ('was heard') require a to-infinitive."
         }
       ]
     },
@@ -7038,21 +7039,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "pursuing",
+          "is_correct": false,
+          "explanation": "A bare infinitive is standard after comparative 'than' when matching 'to resolve'."
+        },
+        {
+          "key": "C",
           "text": "to pursuing",
           "is_correct": false,
           "explanation": "'Than' joins infinitive structures; 'to pursuing' is ungrammatical."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "pursued",
           "is_correct": false,
           "explanation": "A past tense verb breaks parallel structure with 'to resolve'."
-        },
-        {
-          "key": "D",
-          "text": "pursuing",
-          "is_correct": false,
-          "explanation": "A bare infinitive is standard after comparative 'than' when matching 'to resolve'."
         }
       ]
     },
@@ -7098,21 +7099,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "displayed",
-          "is_correct": false,
-          "explanation": "Using a past tense verb after emphatic 'did' creates an ungrammatical double past marker."
-        },
-        {
-          "key": "C",
           "text": "to display",
           "is_correct": false,
           "explanation": "Emphatic auxiliary 'did' takes a bare infinitive, not a to-infinitive."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "displaying",
           "is_correct": false,
           "explanation": "Auxiliary 'did' cannot take a gerund/participle."
+        },
+        {
+          "key": "D",
+          "text": "displayed",
+          "is_correct": false,
+          "explanation": "Using a past tense verb after emphatic 'did' creates an ungrammatical double past marker."
         }
       ]
     },
@@ -7122,27 +7123,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "carry",
-          "is_correct": true,
-          "explanation": "The modal verb 'cannot' takes a bare infinitive."
-        },
-        {
-          "key": "B",
-          "text": "to carry",
-          "is_correct": false,
-          "explanation": "'Cannot' is a modal verb and cannot take a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "carrying",
           "is_correct": false,
           "explanation": "'Cannot' takes a bare infinitive, not a gerund."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "carry",
+          "is_correct": true,
+          "explanation": "The modal verb 'cannot' takes a bare infinitive."
+        },
+        {
+          "key": "C",
           "text": "carried",
           "is_correct": false,
           "explanation": "Modal verbs require base verb forms."
+        },
+        {
+          "key": "D",
+          "text": "to carry",
+          "is_correct": false,
+          "explanation": "'Cannot' is a modal verb and cannot take a to-infinitive."
         }
       ]
     },
@@ -7152,27 +7153,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "empower",
-          "is_correct": true,
-          "explanation": "'Help' can take a bare infinitive directly when describing assistance."
-        },
-        {
-          "key": "B",
           "text": "empowering",
           "is_correct": false,
           "explanation": "'Help' does not take a gerund."
         },
         {
-          "key": "C",
-          "text": "empowered",
-          "is_correct": false,
-          "explanation": "A past participle cannot follow 'help' in active structures."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "to empowering",
           "is_correct": false,
           "explanation": "If 'to' is used, it must be followed by a base verb ('to empower'), not a gerund."
+        },
+        {
+          "key": "C",
+          "text": "empower",
+          "is_correct": true,
+          "explanation": "'Help' can take a bare infinitive directly when describing assistance."
+        },
+        {
+          "key": "D",
+          "text": "empowered",
+          "is_correct": false,
+          "explanation": "A past participle cannot follow 'help' in active structures."
         }
       ]
     },
@@ -7188,15 +7189,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to pay",
-          "is_correct": true,
-          "explanation": "In passive voice structures, 'make' must be followed by a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "paying",
           "is_correct": false,
           "explanation": "Passive 'make' does not take a gerund."
+        },
+        {
+          "key": "C",
+          "text": "to pay",
+          "is_correct": true,
+          "explanation": "In passive voice structures, 'make' must be followed by a to-infinitive."
         },
         {
           "key": "D",
@@ -7218,15 +7219,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to ask",
-          "is_correct": false,
-          "explanation": "Modal 'dare not' does not take 'to'."
-        },
-        {
-          "key": "C",
           "text": "asking",
           "is_correct": false,
           "explanation": "Modal verbs cannot take gerunds."
+        },
+        {
+          "key": "C",
+          "text": "to ask",
+          "is_correct": false,
+          "explanation": "Modal 'dare not' does not take 'to'."
         },
         {
           "key": "D",
@@ -7242,9 +7243,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "commit",
+          "text": "committed",
           "is_correct": false,
-          "explanation": "A simple bare infinitive does not express negative past deduction."
+          "explanation": "Modals cannot take a past participle directly without 'have'."
         },
         {
           "key": "B",
@@ -7260,9 +7261,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "committed",
+          "text": "commit",
           "is_correct": false,
-          "explanation": "Modals cannot take a past participle directly without 'have'."
+          "explanation": "A simple bare infinitive does not express negative past deduction."
         }
       ]
     },
@@ -7272,27 +7273,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "consulted",
+          "is_correct": false,
+          "explanation": "'Why not' takes a base verb, not a past verb form."
+        },
+        {
+          "key": "B",
           "text": "consult",
           "is_correct": true,
           "explanation": "'Why not' is followed directly by a bare infinitive when giving advice."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to consult",
           "is_correct": false,
           "explanation": "'Why not' takes a bare infinitive; adding 'to' is ungrammatical."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "consulting",
           "is_correct": false,
           "explanation": "'Why not' does not take a gerund."
-        },
-        {
-          "key": "D",
-          "text": "consulted",
-          "is_correct": false,
-          "explanation": "'Why not' takes a base verb, not a past verb form."
         }
       ]
     },
@@ -7302,27 +7303,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "sway",
-          "is_correct": true,
-          "explanation": "Active perception verb 'feel + object' takes a bare infinitive to describe an event."
-        },
-        {
-          "key": "B",
-          "text": "to sway",
-          "is_correct": false,
-          "explanation": "Active perception verbs take bare infinitives or gerunds, not to-infinitives."
-        },
-        {
-          "key": "C",
           "text": "swayed",
           "is_correct": false,
           "explanation": "A past tense verb cannot act as object complement after 'felt'."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "sway",
+          "is_correct": true,
+          "explanation": "Active perception verb 'feel + object' takes a bare infinitive to describe an event."
+        },
+        {
+          "key": "C",
           "text": "to be swaying",
           "is_correct": false,
           "explanation": "Active perception verbs do not take continuous infinitives with 'to'."
+        },
+        {
+          "key": "D",
+          "text": "to sway",
+          "is_correct": false,
+          "explanation": "Active perception verbs take bare infinitives or gerunds, not to-infinitives."
         }
       ]
     },
@@ -7338,9 +7339,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to go",
+          "text": "went",
           "is_correct": false,
-          "explanation": "Bare infinitive 'go' is required after 'than' to match 'stay'."
+          "explanation": "Past tense verb forms break parallel structure."
         },
         {
           "key": "C",
@@ -7350,9 +7351,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "went",
+          "text": "to go",
           "is_correct": false,
-          "explanation": "Past tense verb forms break parallel structure."
+          "explanation": "Bare infinitive 'go' is required after 'than' to match 'stay'."
         }
       ]
     },
@@ -7362,27 +7363,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "pay",
-          "is_correct": true,
-          "explanation": "Modal 'need not' takes a bare infinitive."
-        },
-        {
-          "key": "B",
-          "text": "to pay",
-          "is_correct": false,
-          "explanation": "'Need not to pay' is a common student error; modal 'need not' never takes 'to'."
-        },
-        {
-          "key": "C",
           "text": "paying",
           "is_correct": false,
           "explanation": "Modal 'need not' cannot take a gerund."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "paid",
           "is_correct": false,
           "explanation": "Modals require base verb forms."
+        },
+        {
+          "key": "C",
+          "text": "to pay",
+          "is_correct": false,
+          "explanation": "'Need not to pay' is a common student error; modal 'need not' never takes 'to'."
+        },
+        {
+          "key": "D",
+          "text": "pay",
+          "is_correct": true,
+          "explanation": "Modal 'need not' takes a bare infinitive."
         }
       ]
     },
@@ -7392,27 +7393,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "know",
-          "is_correct": true,
-          "explanation": "'Let + object' is followed by a bare infinitive."
+          "text": "known",
+          "is_correct": false,
+          "explanation": "A past participle is ungrammatical here in active sense."
         },
         {
           "key": "B",
-          "text": "to know",
-          "is_correct": false,
-          "explanation": "'Let' does not take a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "knowing",
           "is_correct": false,
           "explanation": "'Let' does not take a gerund."
         },
         {
+          "key": "C",
+          "text": "know",
+          "is_correct": true,
+          "explanation": "'Let + object' is followed by a bare infinitive."
+        },
+        {
           "key": "D",
-          "text": "known",
+          "text": "to know",
           "is_correct": false,
-          "explanation": "A past participle is ungrammatical here in active sense."
+          "explanation": "'Let' does not take a to-infinitive."
         }
       ]
     },
@@ -7428,15 +7429,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "be",
-          "is_correct": false,
-          "explanation": "Present passive infinitive 'be built' ignores the historical twelfth-century context."
-        },
-        {
-          "key": "C",
           "text": "had been",
           "is_correct": false,
           "explanation": "The infinitive marker 'to' cannot be followed by past tense 'had'."
+        },
+        {
+          "key": "C",
+          "text": "be",
+          "is_correct": false,
+          "explanation": "Present passive infinitive 'be built' ignores the historical twelfth-century context."
         },
         {
           "key": "D",
@@ -7458,9 +7459,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to reboot",
+          "text": "rebooted",
           "is_correct": false,
-          "explanation": "'Could do nothing but' does not take 'to'."
+          "explanation": "A past tense verb cannot follow 'could do nothing but'."
         },
         {
           "key": "C",
@@ -7470,9 +7471,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "rebooted",
+          "text": "to reboot",
           "is_correct": false,
-          "explanation": "A past tense verb cannot follow 'could do nothing but'."
+          "explanation": "'Could do nothing but' does not take 'to'."
         }
       ]
     },
@@ -7482,27 +7483,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "search",
-          "is_correct": true,
-          "explanation": "Emphatic auxiliary 'did' takes a bare infinitive."
-        },
-        {
-          "key": "B",
           "text": "searched",
           "is_correct": false,
           "explanation": "Using 'searched' after 'did' creates an ungrammatical double past tense error."
         },
         {
-          "key": "C",
-          "text": "to search",
-          "is_correct": false,
-          "explanation": "Emphatic 'did' takes a bare infinitive, not a to-infinitive."
-        },
-        {
-          "key": "D",
+          "key": "B",
           "text": "searching",
           "is_correct": false,
           "explanation": "Auxiliary 'did' cannot take a gerund."
+        },
+        {
+          "key": "C",
+          "text": "search",
+          "is_correct": true,
+          "explanation": "Emphatic auxiliary 'did' takes a bare infinitive."
+        },
+        {
+          "key": "D",
+          "text": "to search",
+          "is_correct": false,
+          "explanation": "Emphatic 'did' takes a bare infinitive, not a to-infinitive."
         }
       ]
     },
@@ -7512,27 +7513,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "not panic",
-          "is_correct": true,
-          "explanation": "When joining infinitives with 'but', the negative bare infinitive 'not panic' matches 'to practice'."
-        },
-        {
-          "key": "B",
           "text": "to not panic",
           "is_correct": false,
           "explanation": "The second infinitive after 'but' omits 'to'; 'not panic' is correct."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "not panicking",
           "is_correct": false,
           "explanation": "A gerund breaks parallelism with 'to practice'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "not panicked",
           "is_correct": false,
           "explanation": "Past tense verb forms break infinitive parallelism."
+        },
+        {
+          "key": "D",
+          "text": "not panic",
+          "is_correct": true,
+          "explanation": "When joining infinitives with 'but', the negative bare infinitive 'not panic' matches 'to practice'."
         }
       ]
     },
@@ -7542,27 +7543,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "drink",
-          "is_correct": false,
-          "explanation": "Simple bare infinitive 'drink' fails to express past unfulfilled advice."
-        },
-        {
-          "key": "B",
           "text": "have drunk",
           "is_correct": true,
           "explanation": "'Should + have + past participle' expresses unfulfilled past obligation or advice."
         },
         {
-          "key": "C",
-          "text": "to have drunk",
+          "key": "B",
+          "text": "drink",
           "is_correct": false,
-          "explanation": "Modal 'should' takes a bare perfect infinitive without 'to'."
+          "explanation": "Simple bare infinitive 'drink' fails to express past unfulfilled advice."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "had drunk",
           "is_correct": false,
           "explanation": "Modals cannot take 'had'."
+        },
+        {
+          "key": "D",
+          "text": "to have drunk",
+          "is_correct": false,
+          "explanation": "Modal 'should' takes a bare perfect infinitive without 'to'."
         }
       ]
     },
@@ -7572,9 +7573,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "burn",
-          "is_correct": true,
-          "explanation": "Active perception verb 'smell + object' is followed by a bare infinitive (or gerund)."
+          "text": "to be burning",
+          "is_correct": false,
+          "explanation": "Active perception verbs do not take continuous infinitives with 'to'."
         },
         {
           "key": "B",
@@ -7584,15 +7585,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "burned",
-          "is_correct": false,
-          "explanation": "A past verb form cannot act as object complement after active 'smelled'."
+          "text": "burn",
+          "is_correct": true,
+          "explanation": "Active perception verb 'smell + object' is followed by a bare infinitive (or gerund)."
         },
         {
           "key": "D",
-          "text": "to be burning",
+          "text": "burned",
           "is_correct": false,
-          "explanation": "Active perception verbs do not take continuous infinitives with 'to'."
+          "explanation": "A past verb form cannot act as object complement after active 'smelled'."
         }
       ]
     },
@@ -7602,27 +7603,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "head",
-          "is_correct": true,
-          "explanation": "'Had better' is directly followed by a bare infinitive."
-        },
-        {
-          "key": "B",
-          "text": "to head",
-          "is_correct": false,
-          "explanation": "'Had better' takes a bare infinitive, so 'to' must not be added."
-        },
-        {
-          "key": "C",
           "text": "heading",
           "is_correct": false,
           "explanation": "'Had better' cannot take a gerund."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "headed",
           "is_correct": false,
           "explanation": "'Had better' takes a base verb form, not a past verb."
+        },
+        {
+          "key": "C",
+          "text": "to head",
+          "is_correct": false,
+          "explanation": "'Had better' takes a bare infinitive, so 'to' must not be added."
+        },
+        {
+          "key": "D",
+          "text": "head",
+          "is_correct": true,
+          "explanation": "'Had better' is directly followed by a bare infinitive."
         }
       ]
     },
@@ -7644,15 +7645,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "inspect / to wear",
-          "is_correct": false,
-          "explanation": "Active causative 'make' requires a bare infinitive ('wear'), not 'to wear'."
-        },
-        {
-          "key": "D",
           "text": "inspecting / wear",
           "is_correct": false,
           "explanation": "Active causative 'have + person' takes a bare infinitive, not a gerund."
+        },
+        {
+          "key": "D",
+          "text": "inspect / to wear",
+          "is_correct": false,
+          "explanation": "Active causative 'make' requires a bare infinitive ('wear'), not 'to wear'."
         }
       ]
     }
@@ -7670,21 +7671,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "giving",
-          "is_correct": true,
-          "explanation": "'Avoid' is a verb that strictly takes a gerund as its direct object."
-        },
-        {
-          "key": "C",
           "text": "give",
           "is_correct": false,
           "explanation": "'Avoid' requires a gerund object, not a bare infinitive."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "to giving",
           "is_correct": false,
           "explanation": "'Avoid' takes a simple gerund object without the preposition 'to'."
+        },
+        {
+          "key": "D",
+          "text": "giving",
+          "is_correct": true,
+          "explanation": "'Avoid' is a verb that strictly takes a gerund as its direct object."
         }
       ]
     },
@@ -7694,9 +7695,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "meet",
-          "is_correct": false,
-          "explanation": "In 'look forward to', 'to' is a preposition requiring a gerund, not a bare infinitive."
+          "text": "meeting",
+          "is_correct": true,
+          "explanation": "The phrase 'look forward to' contains 'to' as a preposition, which must be followed by a gerund."
         },
         {
           "key": "B",
@@ -7706,9 +7707,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "meeting",
-          "is_correct": true,
-          "explanation": "The phrase 'look forward to' contains 'to' as a preposition, which must be followed by a gerund."
+          "text": "meet",
+          "is_correct": false,
+          "explanation": "In 'look forward to', 'to' is a preposition requiring a gerund, not a bare infinitive."
         },
         {
           "key": "D",
@@ -7724,9 +7725,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "servicing",
-          "is_correct": true,
-          "explanation": "After 'need', the active gerund form carries a passive meaning ('needs servicing' = 'needs to be serviced')."
+          "text": "being serviced",
+          "is_correct": false,
+          "explanation": "While passive, 'need' standardly takes the active gerund form rather than 'being + p.p.'."
         },
         {
           "key": "B",
@@ -7742,9 +7743,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "being serviced",
-          "is_correct": false,
-          "explanation": "While passive, 'need' standardly takes the active gerund form rather than 'being + p.p.'."
+          "text": "servicing",
+          "is_correct": true,
+          "explanation": "After 'need', the active gerund form carries a passive meaning ('needs servicing' = 'needs to be serviced')."
         }
       ]
     },
@@ -7754,27 +7755,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "not to inform",
+          "text": "to not inform",
           "is_correct": false,
-          "explanation": "'Admit' takes a gerund object, not an infinitive."
+          "explanation": "'Admit' does not take an infinitive structure with 'to'."
         },
         {
           "key": "B",
-          "text": "not informing",
-          "is_correct": true,
-          "explanation": "The negative form of a gerund is correctly constructed by placing 'not' immediately before the gerund."
-        },
-        {
-          "key": "C",
           "text": "informing not",
           "is_correct": false,
           "explanation": "The word 'not' must precede the gerund, not follow it."
         },
         {
-          "key": "D",
-          "text": "to not inform",
+          "key": "C",
+          "text": "not to inform",
           "is_correct": false,
-          "explanation": "'Admit' does not take an infinitive structure with 'to'."
+          "explanation": "'Admit' takes a gerund object, not an infinitive."
+        },
+        {
+          "key": "D",
+          "text": "not informing",
+          "is_correct": true,
+          "explanation": "The negative form of a gerund is correctly constructed by placing 'not' immediately before the gerund."
         }
       ]
     },
@@ -7790,21 +7791,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "be treated",
+          "is_correct": false,
+          "explanation": "'To' in 'object to' is a preposition and cannot be followed by a bare verb 'be'."
+        },
+        {
+          "key": "C",
           "text": "treating",
           "is_correct": false,
           "explanation": "The active gerund 'treating' incorrect implies Kenneth treats others, rather than receiving the treatment."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "being treated",
           "is_correct": true,
           "explanation": "'Object to' takes a gerund, and the simple passive gerund 'being treated' correctly reflects receiving the action."
-        },
-        {
-          "key": "D",
-          "text": "be treated",
-          "is_correct": false,
-          "explanation": "'To' in 'object to' is a preposition and cannot be followed by a bare verb 'be'."
         }
       ]
     },
@@ -7814,27 +7815,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "to have leaked",
+          "is_correct": false,
+          "explanation": "'To' is already part of 'confess to', making a full infinitive incorrect."
+        },
+        {
+          "key": "B",
           "text": "having leaked",
           "is_correct": true,
           "explanation": "The perfect gerund 'having leaked' emphasizes an action completed prior to the confession."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "leak",
           "is_correct": false,
           "explanation": "'Confess to' requires a gerund as 'to' functions as a preposition."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "have leaked",
           "is_correct": false,
           "explanation": "A preposition cannot be followed directly by a base perfect infinitive."
-        },
-        {
-          "key": "D",
-          "text": "to have leaked",
-          "is_correct": false,
-          "explanation": "'To' is already part of 'confess to', making a full infinitive incorrect."
         }
       ]
     },
@@ -7844,9 +7845,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "having underpaid",
+          "text": "to be underpaid",
           "is_correct": false,
-          "explanation": "An active gerund implies he underpaid others rather than being underpaid himself."
+          "explanation": "'Reveal' in this reporting structure takes a gerund object rather than an infinitive."
         },
         {
           "key": "B",
@@ -7856,15 +7857,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "underpaying",
+          "text": "having underpaid",
           "is_correct": false,
-          "explanation": "The simple active gerund fails to express the passive recipient role."
+          "explanation": "An active gerund implies he underpaid others rather than being underpaid himself."
         },
         {
           "key": "D",
-          "text": "to be underpaid",
+          "text": "underpaying",
           "is_correct": false,
-          "explanation": "'Reveal' in this reporting structure takes a gerund object rather than an infinitive."
+          "explanation": "The simple active gerund fails to express the passive recipient role."
         }
       ]
     },
@@ -7880,15 +7881,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "me to close",
-          "is_correct": false,
-          "explanation": "'Mind' takes a gerund object, not an object + to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "I close",
           "is_correct": false,
           "explanation": "'Mind' cannot directly take a full clause without 'if'."
+        },
+        {
+          "key": "C",
+          "text": "me to close",
+          "is_correct": false,
+          "explanation": "'Mind' takes a gerund object, not an object + to-infinitive."
         },
         {
           "key": "D",
@@ -7910,21 +7911,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to laugh",
-          "is_correct": false,
-          "explanation": "'Can't help' meaning 'cannot refrain from' takes a gerund, not an infinitive."
-        },
-        {
-          "key": "C",
           "text": "laughing",
           "is_correct": true,
           "explanation": "The expression 'couldn't help' is followed by a gerund to show an uncontrollable action."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "for laughing",
           "is_correct": false,
           "explanation": "No preposition 'for' is used between 'couldn't help' and the gerund."
+        },
+        {
+          "key": "D",
+          "text": "to laugh",
+          "is_correct": false,
+          "explanation": "'Can't help' meaning 'cannot refrain from' takes a gerund, not an infinitive."
         }
       ]
     },
@@ -7940,21 +7941,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "being visited",
+          "is_correct": false,
+          "explanation": "'Worth' takes an active gerund form even though the subject receives the action."
+        },
+        {
+          "key": "C",
           "text": "visiting",
           "is_correct": true,
           "explanation": "The structure 'be worth' is followed directly by a gerund."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "visit",
           "is_correct": false,
           "explanation": "'Worth' cannot be followed by a bare verb root."
-        },
-        {
-          "key": "D",
-          "text": "being visited",
-          "is_correct": false,
-          "explanation": "'Worth' takes an active gerund form even though the subject receives the action."
         }
       ]
     },
@@ -7964,27 +7965,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "prepare",
+          "is_correct": false,
+          "explanation": "A bare infinitive cannot follow the adjective 'busy'."
+        },
+        {
+          "key": "B",
           "text": "preparing",
           "is_correct": true,
           "explanation": "The adjective 'busy' is followed directly by a gerund in the structure 'be busy doing something'."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to prepare",
           "is_correct": false,
           "explanation": "'Busy' does not take an infinitive with 'to'."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "with preparing",
           "is_correct": false,
           "explanation": "'Be busy' takes a gerund directly without adding the preposition 'with'."
-        },
-        {
-          "key": "D",
-          "text": "prepare",
-          "is_correct": false,
-          "explanation": "A bare infinitive cannot follow the adjective 'busy'."
         }
       ]
     },
@@ -7994,27 +7995,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to find",
+          "text": "for finding",
           "is_correct": false,
-          "explanation": "'Have difficulty' takes a gerund (or 'in + gerund'), never an infinitive."
+          "explanation": "The correct preposition in this expression is 'in' (optional), not 'for'."
         },
         {
           "key": "B",
-          "text": "finding",
-          "is_correct": true,
-          "explanation": "The expression 'have difficulty (in)' takes a gerund object."
-        },
-        {
-          "key": "C",
           "text": "find",
           "is_correct": false,
           "explanation": "A bare infinitive cannot be used after the noun phrase 'had difficulty'."
         },
         {
-          "key": "D",
-          "text": "for finding",
+          "key": "C",
+          "text": "to find",
           "is_correct": false,
-          "explanation": "The correct preposition in this expression is 'in' (optional), not 'for'."
+          "explanation": "'Have difficulty' takes a gerund (or 'in + gerund'), never an infinitive."
+        },
+        {
+          "key": "D",
+          "text": "finding",
+          "is_correct": true,
+          "explanation": "The expression 'have difficulty (in)' takes a gerund object."
         }
       ]
     },
@@ -8054,27 +8055,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "looking",
-          "is_correct": true,
-          "explanation": "'Deserve' takes an active gerund to express a passive sense ('deserves looking into' = 'deserves to be looked into')."
-        },
-        {
-          "key": "B",
-          "text": "to look",
-          "is_correct": false,
-          "explanation": "An active infinitive incorrectly suggests the case performs the action of looking."
-        },
-        {
-          "key": "C",
           "text": "look",
           "is_correct": false,
           "explanation": "'Deserve' cannot take a bare verb root."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "looking",
+          "is_correct": true,
+          "explanation": "'Deserve' takes an active gerund to express a passive sense ('deserves looking into' = 'deserves to be looked into')."
+        },
+        {
+          "key": "C",
           "text": "being looked",
           "is_correct": false,
           "explanation": "'Deserve' standardly uses the simple active gerund for passive meanings."
+        },
+        {
+          "key": "D",
+          "text": "to look",
+          "is_correct": false,
+          "explanation": "An active infinitive incorrectly suggests the case performs the action of looking."
         }
       ]
     },
@@ -8084,9 +8085,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "work",
+          "text": "be working",
           "is_correct": false,
-          "explanation": "In 'be used to', 'to' is a preposition requiring a gerund."
+          "explanation": "'Be used to' cannot be followed by a continuous infinitive."
         },
         {
           "key": "B",
@@ -8096,9 +8097,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "be working",
+          "text": "work",
           "is_correct": false,
-          "explanation": "'Be used to' cannot be followed by a continuous infinitive."
+          "explanation": "In 'be used to', 'to' is a preposition requiring a gerund."
         },
         {
           "key": "D",
@@ -8120,9 +8121,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "help",
+          "text": "to help",
           "is_correct": false,
-          "explanation": "'To' is a preposition here, so a bare verb cannot be used."
+          "explanation": "The preposition 'to' is already part of 'devote to', making a second 'to' invalid."
         },
         {
           "key": "C",
@@ -8132,9 +8133,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "to help",
+          "text": "help",
           "is_correct": false,
-          "explanation": "The preposition 'to' is already part of 'devote to', making a second 'to' invalid."
+          "explanation": "'To' is a preposition here, so a bare verb cannot be used."
         }
       ]
     },
@@ -8144,9 +8145,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "hiking",
-          "is_correct": true,
-          "explanation": "The pattern 'go + gerund' is standard for outdoor recreational activities."
+          "text": "hike",
+          "is_correct": false,
+          "explanation": "'Go' is followed by a gerund when describing recreational activities."
         },
         {
           "key": "B",
@@ -8156,9 +8157,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "hike",
-          "is_correct": false,
-          "explanation": "'Go' is followed by a gerund when describing recreational activities."
+          "text": "hiking",
+          "is_correct": true,
+          "explanation": "The pattern 'go + gerund' is standard for outdoor recreational activities."
         },
         {
           "key": "D",
@@ -8174,27 +8175,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "the washing-up",
-          "is_correct": true,
-          "explanation": "Housework tasks use the pattern 'do + the/some + gerund'."
-        },
-        {
-          "key": "B",
-          "text": "washing-up",
-          "is_correct": false,
-          "explanation": "The expression 'do washing-up' requires a determiner like 'the' or 'some'."
-        },
-        {
-          "key": "C",
           "text": "to wash up",
           "is_correct": false,
           "explanation": "With 'do', housework activities use 'do the + gerund', not an infinitive."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "go washing-up",
           "is_correct": false,
           "explanation": "'Go + gerund' is used for outdoor sports/recreation, not indoor housework."
+        },
+        {
+          "key": "C",
+          "text": "the washing-up",
+          "is_correct": true,
+          "explanation": "Housework tasks use the pattern 'do + the/some + gerund'."
+        },
+        {
+          "key": "D",
+          "text": "washing-up",
+          "is_correct": false,
+          "explanation": "The expression 'do washing-up' requires a determiner like 'the' or 'some'."
         }
       ]
     },
@@ -8204,27 +8205,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "buying",
-          "is_correct": true,
-          "explanation": "The expression 'It's a waste of time/money' is followed by a gerund."
-        },
-        {
-          "key": "B",
           "text": "to buy",
           "is_correct": false,
           "explanation": "While 'waste of money to buy' exists informally, standard HKDSE grammar prefers the gerund after 'waste of money'."
         },
         {
-          "key": "C",
-          "text": "buy",
-          "is_correct": false,
-          "explanation": "A bare infinitive cannot follow the nominal phrase 'a waste of money'."
+          "key": "B",
+          "text": "buying",
+          "is_correct": true,
+          "explanation": "The expression 'It's a waste of time/money' is followed by a gerund."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "for buying",
           "is_correct": false,
           "explanation": "'A waste of money' directly takes a gerund without inserting 'for'."
+        },
+        {
+          "key": "D",
+          "text": "buy",
+          "is_correct": false,
+          "explanation": "A bare infinitive cannot follow the nominal phrase 'a waste of money'."
         }
       ]
     },
@@ -8234,21 +8235,21 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
+          "text": "lose",
+          "is_correct": false,
+          "explanation": "'Risk' requires a gerund, not a bare infinitive."
+        },
+        {
+          "key": "B",
           "text": "losing",
           "is_correct": true,
           "explanation": "'Risk' is a transitive verb that requires a gerund as its object."
         },
         {
-          "key": "B",
+          "key": "C",
           "text": "to lose",
           "is_correct": false,
           "explanation": "'Risk' cannot be followed by a to-infinitive."
-        },
-        {
-          "key": "C",
-          "text": "lose",
-          "is_correct": false,
-          "explanation": "'Risk' requires a gerund, not a bare infinitive."
         },
         {
           "key": "D",
@@ -8264,27 +8265,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to make",
+          "text": "to making",
           "is_correct": false,
-          "explanation": "'Deny' requires a gerund object, not an infinitive."
+          "explanation": "'Deny' takes a gerund directly, not 'to + gerund'."
         },
         {
           "key": "B",
-          "text": "making",
-          "is_correct": true,
-          "explanation": "'Deny' is followed by a gerund to express denying an action."
-        },
-        {
-          "key": "C",
           "text": "make",
           "is_correct": false,
           "explanation": "'Deny' cannot take a bare verb root."
         },
         {
-          "key": "D",
-          "text": "to making",
+          "key": "C",
+          "text": "to make",
           "is_correct": false,
-          "explanation": "'Deny' takes a gerund directly, not 'to + gerund'."
+          "explanation": "'Deny' requires a gerund object, not an infinitive."
+        },
+        {
+          "key": "D",
+          "text": "making",
+          "is_correct": true,
+          "explanation": "'Deny' is followed by a gerund to express denying an action."
         }
       ]
     },
@@ -8294,27 +8295,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "delivering",
-          "is_correct": true,
-          "explanation": "'Practise' takes a gerund object."
-        },
-        {
-          "key": "B",
           "text": "to deliver",
           "is_correct": false,
           "explanation": "'Practise' cannot be followed by an infinitive with 'to'."
         },
         {
-          "key": "C",
-          "text": "deliver",
-          "is_correct": false,
-          "explanation": "'Practise' requires a gerund form, not a base verb."
+          "key": "B",
+          "text": "delivering",
+          "is_correct": true,
+          "explanation": "'Practise' takes a gerund object."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "for delivering",
           "is_correct": false,
           "explanation": "No preposition 'for' is used between 'practise' and its gerund object."
+        },
+        {
+          "key": "D",
+          "text": "deliver",
+          "is_correct": false,
+          "explanation": "'Practise' requires a gerund form, not a base verb."
         }
       ]
     },
@@ -8324,9 +8325,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to postpone",
+          "text": "us to postpone",
           "is_correct": false,
-          "explanation": "'Suggest' cannot be followed by a to-infinitive; it takes a gerund or a 'that' clause."
+          "explanation": "'Suggest' never takes 'object + to-infinitive' (e.g., 'suggest us to do' is incorrect)."
         },
         {
           "key": "B",
@@ -8336,15 +8337,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "postpone",
+          "text": "to postpone",
           "is_correct": false,
-          "explanation": "'Suggest' cannot take a bare infinitive."
+          "explanation": "'Suggest' cannot be followed by a to-infinitive; it takes a gerund or a 'that' clause."
         },
         {
           "key": "D",
-          "text": "us to postpone",
+          "text": "postpone",
           "is_correct": false,
-          "explanation": "'Suggest' never takes 'object + to-infinitive' (e.g., 'suggest us to do' is incorrect)."
+          "explanation": "'Suggest' cannot take a bare infinitive."
         }
       ]
     },
@@ -8354,15 +8355,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "going",
-          "is_correct": true,
-          "explanation": "'Fancy' (meaning 'feel like') takes a gerund object."
+          "text": "for going",
+          "is_correct": false,
+          "explanation": "'Fancy' takes a gerund directly without 'for'."
         },
         {
           "key": "B",
-          "text": "to go",
-          "is_correct": false,
-          "explanation": "'Fancy' does not take an infinitive."
+          "text": "going",
+          "is_correct": true,
+          "explanation": "'Fancy' (meaning 'feel like') takes a gerund object."
         },
         {
           "key": "C",
@@ -8372,9 +8373,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "for going",
+          "text": "to go",
           "is_correct": false,
-          "explanation": "'Fancy' takes a gerund directly without 'for'."
+          "explanation": "'Fancy' does not take an infinitive."
         }
       ]
     },
@@ -8384,27 +8385,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "beg",
-          "is_correct": false,
-          "explanation": "In 'be reduced to', 'to' is a preposition requiring a gerund."
-        },
-        {
-          "key": "B",
-          "text": "begging",
-          "is_correct": true,
-          "explanation": "'Be reduced to' contains a prepositional 'to', so it is followed by a gerund."
-        },
-        {
-          "key": "C",
           "text": "to beg",
           "is_correct": false,
           "explanation": "'To' is already part of 'reduced to', making an infinitive redundant."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "have begged",
           "is_correct": false,
           "explanation": "A preposition cannot take a base perfect infinitive."
+        },
+        {
+          "key": "C",
+          "text": "begging",
+          "is_correct": true,
+          "explanation": "'Be reduced to' contains a prepositional 'to', so it is followed by a gerund."
+        },
+        {
+          "key": "D",
+          "text": "beg",
+          "is_correct": false,
+          "explanation": "In 'be reduced to', 'to' is a preposition requiring a gerund."
         }
       ]
     },
@@ -8414,27 +8415,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "being",
-          "is_correct": true,
-          "explanation": "After comparison prepositions like 'as', 'like', or 'than', gerunds are used."
-        },
-        {
-          "key": "B",
-          "text": "to be",
-          "is_correct": false,
-          "explanation": "The preposition 'as' must be followed by a gerund, not an infinitive."
-        },
-        {
-          "key": "C",
           "text": "be",
           "is_correct": false,
           "explanation": "A preposition cannot be followed by a base verb root."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "is",
           "is_correct": false,
           "explanation": "A finite verb cannot act as the complement of a preposition."
+        },
+        {
+          "key": "C",
+          "text": "to be",
+          "is_correct": false,
+          "explanation": "The preposition 'as' must be followed by a gerund, not an infinitive."
+        },
+        {
+          "key": "D",
+          "text": "being",
+          "is_correct": true,
+          "explanation": "After comparison prepositions like 'as', 'like', or 'than', gerunds are used."
         }
       ]
     },
@@ -8444,9 +8445,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "cleaning",
-          "is_correct": true,
-          "explanation": "'Require' takes an active gerund with a passive meaning ('requires cleaning' = 'requires to be cleaned')."
+          "text": "being cleaned",
+          "is_correct": false,
+          "explanation": "'Require' standardly uses the simple active gerund form for passive contexts."
         },
         {
           "key": "B",
@@ -8456,15 +8457,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "clean",
-          "is_correct": false,
-          "explanation": "'Require' cannot take a bare infinitive."
+          "text": "cleaning",
+          "is_correct": true,
+          "explanation": "'Require' takes an active gerund with a passive meaning ('requires cleaning' = 'requires to be cleaned')."
         },
         {
           "key": "D",
-          "text": "being cleaned",
+          "text": "clean",
           "is_correct": false,
-          "explanation": "'Require' standardly uses the simple active gerund form for passive contexts."
+          "explanation": "'Require' cannot take a bare infinitive."
         }
       ]
     },
@@ -8474,27 +8475,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "from killing",
+          "text": "to kill",
           "is_correct": false,
-          "explanation": "The active gerund implies he killed someone else."
+          "explanation": "'Escape' requires a gerund form, not an active infinitive."
         },
         {
           "key": "B",
-          "text": "being killed",
-          "is_correct": true,
-          "explanation": "'Escape' takes a gerund object, and the passive gerund 'being killed' correctly shows he avoided death."
-        },
-        {
-          "key": "C",
           "text": "to be killed",
           "is_correct": false,
           "explanation": "'Escape' takes a gerund, not a to-infinitive."
         },
         {
+          "key": "C",
+          "text": "being killed",
+          "is_correct": true,
+          "explanation": "'Escape' takes a gerund object, and the passive gerund 'being killed' correctly shows he avoided death."
+        },
+        {
           "key": "D",
-          "text": "to kill",
+          "text": "from killing",
           "is_correct": false,
-          "explanation": "'Escape' requires a gerund form, not an active infinitive."
+          "explanation": "The active gerund implies he killed someone else."
         }
       ]
     },
@@ -8504,27 +8505,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "not taking",
-          "is_correct": true,
-          "explanation": "The gerund is negated by putting 'not' right before it ('not taking')."
-        },
-        {
-          "key": "B",
-          "text": "not to take",
-          "is_correct": false,
-          "explanation": "'Regret' + gerund refers to past actions, whereas 'regret to...' expresses sorrow about present bad news."
-        },
-        {
-          "key": "C",
           "text": "taking not",
           "is_correct": false,
           "explanation": "Word order is incorrect; 'not' must precede the gerund."
         },
         {
-          "key": "D",
+          "key": "B",
+          "text": "not taking",
+          "is_correct": true,
+          "explanation": "The gerund is negated by putting 'not' right before it ('not taking')."
+        },
+        {
+          "key": "C",
           "text": "to not take",
           "is_correct": false,
           "explanation": "'Regret' takes a gerund when referring to past actions."
+        },
+        {
+          "key": "D",
+          "text": "not to take",
+          "is_correct": false,
+          "explanation": "'Regret' + gerund refers to past actions, whereas 'regret to...' expresses sorrow about present bad news."
         }
       ]
     },
@@ -8534,15 +8535,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "complaining",
-          "is_correct": true,
-          "explanation": "The idiomatic structure 'It's no good' is followed by a gerund."
-        },
-        {
-          "key": "B",
           "text": "to complain",
           "is_correct": false,
           "explanation": "'It's no good' takes a gerund, not an infinitive."
+        },
+        {
+          "key": "B",
+          "text": "for complaining",
+          "is_correct": false,
+          "explanation": "'It's no good' takes a gerund directly without 'for'."
         },
         {
           "key": "C",
@@ -8552,9 +8553,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "for complaining",
-          "is_correct": false,
-          "explanation": "'It's no good' takes a gerund directly without 'for'."
+          "text": "complaining",
+          "is_correct": true,
+          "explanation": "The idiomatic structure 'It's no good' is followed by a gerund."
         }
       ]
     },
@@ -8564,9 +8565,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "improving",
-          "is_correct": true,
-          "explanation": "Prepositions like 'on' are followed by gerunds."
+          "text": "improve",
+          "is_correct": false,
+          "explanation": "A base verb cannot function as the object of a preposition."
         },
         {
           "key": "B",
@@ -8576,9 +8577,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "improve",
-          "is_correct": false,
-          "explanation": "A base verb cannot function as the object of a preposition."
+          "text": "improving",
+          "is_correct": true,
+          "explanation": "Prepositions like 'on' are followed by gerunds."
         },
         {
           "key": "D",
@@ -8600,21 +8601,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
+          "text": "discovery",
+          "is_correct": false,
+          "explanation": "The noun 'discovery' cannot take a direct object ('a cure') without 'of'."
+        },
+        {
+          "key": "C",
           "text": "to discover",
           "is_correct": false,
           "explanation": "'Succeed in' cannot be followed by a to-infinitive."
         },
         {
-          "key": "C",
+          "key": "D",
           "text": "discover",
           "is_correct": false,
           "explanation": "The preposition 'in' requires a gerund, not a bare verb."
-        },
-        {
-          "key": "D",
-          "text": "discovery",
-          "is_correct": false,
-          "explanation": "The noun 'discovery' cannot take a direct object ('a cure') without 'of'."
         }
       ]
     },
@@ -8624,27 +8625,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "his",
-          "is_correct": true,
-          "explanation": "A possessive determiner ('his') correctly modifies the gerund ('leaving')."
-        },
-        {
-          "key": "B",
-          "text": "he",
-          "is_correct": false,
-          "explanation": "Subject pronouns cannot modify gerunds or follow prepositions directly."
-        },
-        {
-          "key": "C",
           "text": "himself",
           "is_correct": false,
           "explanation": "Reflexive pronouns are incorrect here as the subject of the clause is 'We'."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "he's",
           "is_correct": false,
           "explanation": "A contraction of 'he is' creates an ungrammatical double verb structure."
+        },
+        {
+          "key": "C",
+          "text": "he",
+          "is_correct": false,
+          "explanation": "Subject pronouns cannot modify gerunds or follow prepositions directly."
+        },
+        {
+          "key": "D",
+          "text": "his",
+          "is_correct": true,
+          "explanation": "A possessive determiner ('his') correctly modifies the gerund ('leaving')."
         }
       ]
     },
@@ -8654,27 +8655,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "washing",
-          "is_correct": true,
-          "explanation": "'Want' (meaning 'need') takes an active gerund to convey a passive sense."
-        },
-        {
-          "key": "B",
-          "text": "to wash",
-          "is_correct": false,
-          "explanation": "An active infinitive is incorrect because the jacket cannot perform the washing."
-        },
-        {
-          "key": "C",
           "text": "wash",
           "is_correct": false,
           "explanation": "'Want' cannot take a bare infinitive."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "being washed",
           "is_correct": false,
           "explanation": "'Want' (= need) takes the simple active gerund form rather than 'being washed'."
+        },
+        {
+          "key": "C",
+          "text": "to wash",
+          "is_correct": false,
+          "explanation": "An active infinitive is incorrect because the jacket cannot perform the washing."
+        },
+        {
+          "key": "D",
+          "text": "washing",
+          "is_correct": true,
+          "explanation": "'Want' (meaning 'need') takes an active gerund to convey a passive sense."
         }
       ]
     },
@@ -8690,15 +8691,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to speak",
-          "is_correct": false,
-          "explanation": "'Insist on' takes a gerund, not an infinitive."
-        },
-        {
-          "key": "C",
           "text": "speak",
           "is_correct": false,
           "explanation": "A bare infinitive cannot follow the preposition 'on'."
+        },
+        {
+          "key": "C",
+          "text": "to speak",
+          "is_correct": false,
+          "explanation": "'Insist on' takes a gerund, not an infinitive."
         },
         {
           "key": "D",
@@ -8726,15 +8727,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "rely",
-          "is_correct": false,
-          "explanation": "Prepositions require gerunds, not base verb forms."
-        },
-        {
-          "key": "D",
           "text": "relied",
           "is_correct": false,
           "explanation": "Past tense forms cannot follow prepositions."
+        },
+        {
+          "key": "D",
+          "text": "rely",
+          "is_correct": false,
+          "explanation": "Prepositions require gerunds, not base verb forms."
         }
       ]
     },
@@ -8810,9 +8811,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to enter",
+          "text": "entry",
           "is_correct": false,
-          "explanation": "'Deter from' takes a gerund, not a to-infinitive."
+          "explanation": "While 'entry' is a noun, 'deter ... from entering' is the standard verb-gerund structure."
         },
         {
           "key": "C",
@@ -8822,9 +8823,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "entry",
+          "text": "to enter",
           "is_correct": false,
-          "explanation": "While 'entry' is a noun, 'deter ... from entering' is the standard verb-gerund structure."
+          "explanation": "'Deter from' takes a gerund, not a to-infinitive."
         }
       ]
     },
@@ -8834,27 +8835,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "reviewing",
-          "is_correct": true,
-          "explanation": "'After' functions as a preposition introducing a gerund clause."
+          "text": "review",
+          "is_correct": false,
+          "explanation": "A base verb cannot follow the preposition 'after'."
         },
         {
           "key": "B",
-          "text": "to review",
-          "is_correct": false,
-          "explanation": "The preposition 'after' cannot take a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "reviewed",
           "is_correct": false,
           "explanation": "Without a subject ('he reviewed'), a past tense verb cannot follow 'after'."
         },
         {
+          "key": "C",
+          "text": "reviewing",
+          "is_correct": true,
+          "explanation": "'After' functions as a preposition introducing a gerund clause."
+        },
+        {
           "key": "D",
-          "text": "review",
+          "text": "to review",
           "is_correct": false,
-          "explanation": "A base verb cannot follow the preposition 'after'."
+          "explanation": "The preposition 'after' cannot take a to-infinitive."
         }
       ]
     },
@@ -8864,27 +8865,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "exercising",
-          "is_correct": true,
-          "explanation": "The preposition 'by' indicates method and is followed by a gerund."
+          "text": "exercised",
+          "is_correct": false,
+          "explanation": "A past verb form cannot serve as the object of 'by'."
         },
         {
           "key": "B",
-          "text": "to exercise",
-          "is_correct": false,
-          "explanation": "The preposition 'by' cannot be followed by an infinitive."
-        },
-        {
-          "key": "C",
           "text": "exercise",
           "is_correct": false,
           "explanation": "'By' takes a gerund, not a bare verb root."
         },
         {
+          "key": "C",
+          "text": "exercising",
+          "is_correct": true,
+          "explanation": "The preposition 'by' indicates method and is followed by a gerund."
+        },
+        {
           "key": "D",
-          "text": "exercised",
+          "text": "to exercise",
           "is_correct": false,
-          "explanation": "A past verb form cannot serve as the object of 'by'."
+          "explanation": "The preposition 'by' cannot be followed by an infinitive."
         }
       ]
     },
@@ -8894,27 +8895,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "causing",
-          "is_correct": true,
-          "explanation": "In 'lead to', 'to' is a preposition that must be followed by a gerund."
-        },
-        {
-          "key": "B",
-          "text": "cause",
-          "is_correct": false,
-          "explanation": "'To' in 'lead to' is a preposition, so a base verb is ungrammatical."
-        },
-        {
-          "key": "C",
           "text": "to cause",
           "is_correct": false,
           "explanation": "'To' is already present in 'lead to'; repeating 'to' is incorrect."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "caused",
           "is_correct": false,
           "explanation": "A past participle cannot serve as the object of 'lead to'."
+        },
+        {
+          "key": "C",
+          "text": "causing",
+          "is_correct": true,
+          "explanation": "In 'lead to', 'to' is a preposition that must be followed by a gerund."
+        },
+        {
+          "key": "D",
+          "text": "cause",
+          "is_correct": false,
+          "explanation": "'To' in 'lead to' is a preposition, so a base verb is ungrammatical."
         }
       ]
     },
@@ -8930,21 +8931,21 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to eat",
-          "is_correct": false,
-          "explanation": "'Resist' cannot be followed by an infinitive."
-        },
-        {
-          "key": "C",
           "text": "eat",
           "is_correct": false,
           "explanation": "'Resist' requires a gerund, not a bare verb."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "from eating",
           "is_correct": false,
           "explanation": "'Resist' takes a direct gerund object without the preposition 'from'."
+        },
+        {
+          "key": "D",
+          "text": "to eat",
+          "is_correct": false,
+          "explanation": "'Resist' cannot be followed by an infinitive."
         }
       ]
     },
@@ -8954,27 +8955,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "opening",
-          "is_correct": true,
-          "explanation": "'Postpone' is followed by a gerund object."
-        },
-        {
-          "key": "B",
           "text": "to open",
           "is_correct": false,
           "explanation": "'Postpone' cannot take an infinitive with 'to'."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "open",
           "is_correct": false,
           "explanation": "A bare verb cannot follow 'postpone'."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "for opening",
           "is_correct": false,
           "explanation": "'Postpone' takes a gerund directly without 'for'."
+        },
+        {
+          "key": "D",
+          "text": "opening",
+          "is_correct": true,
+          "explanation": "'Postpone' is followed by a gerund object."
         }
       ]
     },
@@ -8984,27 +8985,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "donating",
-          "is_correct": true,
-          "explanation": "'Consider' takes a gerund object."
-        },
-        {
-          "key": "B",
-          "text": "to donate",
-          "is_correct": false,
-          "explanation": "'Consider' cannot be followed by a to-infinitive when meaning 'think about'."
-        },
-        {
-          "key": "C",
           "text": "donate",
           "is_correct": false,
           "explanation": "'Consider' requires a gerund form."
         },
         {
-          "key": "D",
+          "key": "B",
           "text": "donation",
           "is_correct": false,
           "explanation": "'Donation' is a noun and cannot take the direct object 'your old mobile phone'."
+        },
+        {
+          "key": "C",
+          "text": "donating",
+          "is_correct": true,
+          "explanation": "'Consider' takes a gerund object."
+        },
+        {
+          "key": "D",
+          "text": "to donate",
+          "is_correct": false,
+          "explanation": "'Consider' cannot be followed by a to-infinitive when meaning 'think about'."
         }
       ]
     },
@@ -9014,27 +9015,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "working",
-          "is_correct": true,
-          "explanation": "'Mind' requires a gerund object."
-        },
-        {
-          "key": "B",
           "text": "to work",
           "is_correct": false,
           "explanation": "'Mind' cannot be followed by an infinitive with 'to'."
         },
         {
-          "key": "C",
+          "key": "B",
           "text": "work",
           "is_correct": false,
           "explanation": "'Mind' requires a gerund, not a base verb."
         },
         {
-          "key": "D",
+          "key": "C",
           "text": "for working",
           "is_correct": false,
           "explanation": "'Mind' takes a gerund directly without 'for'."
+        },
+        {
+          "key": "D",
+          "text": "working",
+          "is_correct": true,
+          "explanation": "'Mind' requires a gerund object."
         }
       ]
     },
@@ -9044,27 +9045,27 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "watching",
-          "is_correct": true,
-          "explanation": "'Miss' takes a gerund object."
+          "text": "to watching",
+          "is_correct": false,
+          "explanation": "'Miss' takes a gerund directly without 'to'."
         },
         {
           "key": "B",
-          "text": "to watch",
-          "is_correct": false,
-          "explanation": "'Miss' cannot be followed by a to-infinitive."
-        },
-        {
-          "key": "C",
           "text": "watch",
           "is_correct": false,
           "explanation": "A base verb cannot follow 'miss'."
         },
         {
+          "key": "C",
+          "text": "watching",
+          "is_correct": true,
+          "explanation": "'Miss' takes a gerund object."
+        },
+        {
           "key": "D",
-          "text": "to watching",
+          "text": "to watch",
           "is_correct": false,
-          "explanation": "'Miss' takes a gerund directly without 'to'."
+          "explanation": "'Miss' cannot be followed by a to-infinitive."
         }
       ]
     },
@@ -9080,9 +9081,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to train",
+          "text": "for training",
           "is_correct": false,
-          "explanation": "'Spend time' takes a gerund, not a to-infinitive."
+          "explanation": "The standard pattern is 'spend time doing', not 'spend time for doing'."
         },
         {
           "key": "C",
@@ -9092,9 +9093,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "for training",
+          "text": "to train",
           "is_correct": false,
-          "explanation": "The standard pattern is 'spend time doing', not 'spend time for doing'."
+          "explanation": "'Spend time' takes a gerund, not a to-infinitive."
         }
       ]
     },
@@ -9104,15 +9105,15 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "trying",
-          "is_correct": true,
-          "explanation": "The fixed phrase 'There's no use' is followed by a gerund."
+          "text": "in try",
+          "is_correct": false,
+          "explanation": "The optional preposition 'in' must be followed by a gerund ('trying'), not a base verb."
         },
         {
           "key": "B",
-          "text": "to try",
-          "is_correct": false,
-          "explanation": "'There's no use' takes a gerund, not an infinitive."
+          "text": "trying",
+          "is_correct": true,
+          "explanation": "The fixed phrase 'There's no use' is followed by a gerund."
         },
         {
           "key": "C",
@@ -9122,9 +9123,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "D",
-          "text": "in try",
+          "text": "to try",
           "is_correct": false,
-          "explanation": "The optional preposition 'in' must be followed by a gerund ('trying'), not a base verb."
+          "explanation": "'There's no use' takes a gerund, not an infinitive."
         }
       ]
     },
@@ -9146,15 +9147,15 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "C",
-          "text": "misuse",
-          "is_correct": false,
-          "explanation": "A base verb cannot serve as the object of a preposition."
-        },
-        {
-          "key": "D",
           "text": "misused",
           "is_correct": false,
           "explanation": "A past participle cannot follow the preposition 'of'."
+        },
+        {
+          "key": "D",
+          "text": "misuse",
+          "is_correct": false,
+          "explanation": "A base verb cannot serve as the object of a preposition."
         }
       ]
     }
