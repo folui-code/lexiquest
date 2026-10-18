@@ -2643,29 +2643,29 @@ window.GRAMMAR_QUESTIONS = {
     },
     {
       "id": 34,
-      "question": "The article appeared to be endorsing ______ antisocial behavior in public spaces.",
+      "question": "The article appeared to be ______ antisocial behavior in public spaces.",
       "options": [
         {
           "key": "A",
-          "text": "no preposition needed (endorsing)",
+          "text": "endorsing",
           "is_correct": true,
-          "explanation": "'Endorse' is a transitive verb and takes its object directly without 'for'."
+          "explanation": "'Endorse' is a transitive verb that takes a direct object directly without any preposition."
         },
         {
           "key": "B",
-          "text": "for",
+          "text": "endorsing for",
           "is_correct": false,
-          "explanation": "'Endorse' is a transitive verb that takes a direct object without 'for'."
+          "explanation": "'Endorse' does not take 'for'."
         },
         {
           "key": "C",
-          "text": "with",
+          "text": "endorsing with",
           "is_correct": false,
-          "explanation": "Incorrect preposition."
+          "explanation": "'Endorse' does not take 'with'."
         },
         {
           "key": "D",
-          "text": "to",
+          "text": "endorsing to",
           "is_correct": false,
           "explanation": "'Endorse' does not take 'to'."
         }
@@ -2673,7 +2673,7 @@ window.GRAMMAR_QUESTIONS = {
     },
     {
       "id": 35,
-      "question": "The columnist apparently didn't even realize ______ eating is strictly prohibited on the MTR.",
+      "question": "The columnist apparently didn't even ______ eating is strictly prohibited on the MTR.",
       "options": [
         {
           "key": "A",
@@ -2763,13 +2763,13 @@ window.GRAMMAR_QUESTIONS = {
     },
     {
       "id": 38,
-      "question": "Many internet users are currently criticizing ______ such rude behavior on public transport.",
+      "question": "Many internet users are currently ______ such rude behavior on public transport.",
       "options": [
         {
           "key": "A",
-          "text": "criticizing for of",
+          "text": "criticizing for",
           "is_correct": false,
-          "explanation": "Ungrammatical combination."
+          "explanation": "'Criticize' is transitive and does not take 'for' before the object."
         },
         {
           "key": "B",
@@ -2853,7 +2853,7 @@ window.GRAMMAR_QUESTIONS = {
     },
     {
       "id": 41,
-      "question": "In the past, the luxury of air travel chiefly belonged ______ wealthy individuals.",
+      "question": "In the past, the luxury of air travel chiefly ______ wealthy individuals.",
       "options": [
         {
           "key": "A",
@@ -3033,7 +3033,7 @@ window.GRAMMAR_QUESTIONS = {
     },
     {
       "id": 47,
-      "question": "Our local firm refuses to ______ with unethical competitors in foreign markets.",
+      "question": "Our local firm refuses to ______ unethical competitors in foreign markets.",
       "options": [
         {
           "key": "A",
@@ -3043,9 +3043,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "compete against with",
+          "text": "compete against",
           "is_correct": false,
-          "explanation": "Redundant double preposition."
+          "explanation": "'Compete with' is the standard preposition when referring to the rival party."
         },
         {
           "key": "C",
@@ -7701,9 +7701,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to meet",
+          "text": "be meeting",
           "is_correct": false,
-          "explanation": "The preposition 'to' is already in the expression, making an infinitive structure redundant."
+          "explanation": "'Look forward to' requires a gerund ('meeting')."
         },
         {
           "key": "C",
@@ -7815,9 +7815,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to have leaked",
+          "text": "leaking of",
           "is_correct": false,
-          "explanation": "'To' is already part of 'confess to', making a full infinitive incorrect."
+          "explanation": "'Confess to' takes gerund / perfect gerund."
         },
         {
           "key": "B",
@@ -8121,9 +8121,9 @@ window.GRAMMAR_QUESTIONS = {
         },
         {
           "key": "B",
-          "text": "to help",
+          "text": "be helping",
           "is_correct": false,
-          "explanation": "The preposition 'to' is already part of 'devote to', making a second 'to' invalid."
+          "explanation": "'Devote ... to' requires a gerund ('helping')."
         },
         {
           "key": "C",
@@ -8385,9 +8385,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to beg",
+          "text": "have begged",
           "is_correct": false,
-          "explanation": "'To' is already part of 'reduced to', making an infinitive redundant."
+          "explanation": "'Be reduced to' requires a gerund ('begging')."
         },
         {
           "key": "B",
@@ -8895,9 +8895,9 @@ window.GRAMMAR_QUESTIONS = {
       "options": [
         {
           "key": "A",
-          "text": "to cause",
+          "text": "having caused",
           "is_correct": false,
-          "explanation": "'To' is already present in 'lead to'; repeating 'to' is incorrect."
+          "explanation": "'Lead to' takes a gerund ('causing')."
         },
         {
           "key": "B",
