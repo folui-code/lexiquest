@@ -200,7 +200,7 @@ function updateLeaderboard(lbSheet, logSheet, targetMode) {
 
 function getAllLeaderboards(lbSheet) {
   const data = lbSheet.getDataRange().getValues();
-  const res = { rush: [], wordle: [], matrix: [] };
+  const res = { rush: [], blitz: [], wordle: [], matrix: [] };
 
   for (let i = 1; i < data.length; i++) {
     const mode = String(data[i][0]).toLowerCase();
@@ -209,9 +209,10 @@ function getAllLeaderboards(lbSheet) {
     const score = Number(data[i][3]);
     const role = String(data[i][4]);
 
-    if (res[mode]) {
-      res[mode].push({ n: name, s: score, rank: rank, role: role });
+    if (!res[mode]) {
+      res[mode] = [];
     }
+    res[mode].push({ n: name, s: score, rank: rank, role: role });
   }
 
   // Ensure sorted by score

@@ -224,6 +224,13 @@ const App = {
         { n: "Kelly L. (S5C)", s: 1950 },
         { n: "HPCCSS Scholar", s: 1400 }
       ],
+      blitz: [
+        { n: "Marcus T. (S4B)", s: 3850 },
+        { n: "Alex W. (S5D)", s: 3400 },
+        { n: "Chloe C. (S6A)", s: 3120 },
+        { n: "Kelly L. (S5C)", s: 2750 },
+        { n: "HPCCSS Scholar", s: 2100 }
+      ],
       wordle: [
         { n: "Kelly L. (S5C)", s: 700 },
         { n: "Marcus T. (S4B)", s: 600 },

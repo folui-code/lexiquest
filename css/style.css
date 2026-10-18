@@ -105,6 +105,12 @@
   padding: 4px;
   border-radius: 12px;
   border: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+.scoreboard-tabs::-webkit-scrollbar {
+  display: none;
 }
 .sb-tab {
   padding: 8px 14px;
@@ -112,6 +118,8 @@
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.2s, color 0.2s;
 }
 .sb-tab:hover { color: var(--text); }

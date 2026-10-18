@@ -245,17 +245,27 @@ const Blitz = {
     const timeBonus = reason === "complete" ? this.timeLeft * 10 : 0;
     const finalScore = this.score + timeBonus;
 
-    // Award XP
+    // Award XP and record play
     const xpEarned = Math.round(finalScore * 0.4) + (this.correctCount * 15);
     Store.addXP(xpEarned);
+    Store.recordPlay();
 
-    // Update Best Score
+    // Update Best Score (per unit and overall Blitz)
     Store.d.best = Store.d.best || {};
     Store.d.best.blitz = Store.d.best.blitz || {};
     if (!Store.d.best.blitz[this.currentUnit] || finalScore > Store.d.best.blitz[this.currentUnit]) {
       Store.d.best.blitz[this.currentUnit] = finalScore;
     }
+    Store.setBest("blitz", finalScore);
+
+    // Add to local Leaderboard
+    Store.addLB("blitz", finalScore);
     Store.save();
+
+    // Submit to School-wide Cloud Hall of Fame
+    if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) {
+      Leaderboard.submitScore("blitz", finalScore);
+    }
 
     Sfx.fanfare();
     Fx.confetti(120);
