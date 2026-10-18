@@ -28,6 +28,7 @@
         <span id="rank-name">Novice Scribe</span>
         <div class="xp-bar"><i id="xp-fill"></i></div>
       </div>
+      <button class="pill vault-pill" id="btn-top-vault" title="Study Word Vault">📚 <b>Word Vault</b></button>
       <button class="pill icon-btn" id="btn-user" title="Account / Switch Account">👤</button>
       <button class="pill icon-btn" id="btn-mute" title="Sound on/off">🔊</button>
     </div>
@@ -41,6 +42,41 @@
         <p id="streak-msg" class="streak-msg"></p>
       </div>
 
+      <!-- PROMINENT WORD VAULT SHOWCASE -->
+      <div class="card vault-hero-card" id="btn-vault">
+        <div class="vault-hero-content">
+          <div class="vault-hero-head">
+            <div class="vault-hero-badge">SPACED REPETITION STUDY CENTER</div>
+            <h2>📚 Word Vault</h2>
+            <p class="muted">Track your cognitive mastery for every vocabulary card using SM-2 spaced repetition</p>
+          </div>
+          <div class="vault-stats-breakdown">
+            <div class="vstat-chip mastered">
+              <span class="vstat-dot"></span>
+              <span class="vstat-num" id="vault-count-mastered">0</span>
+              <span class="vstat-lbl">Mastered (★3+)</span>
+            </div>
+            <div class="vstat-chip weak">
+              <span class="vstat-dot"></span>
+              <span class="vstat-num" id="vault-count-weak">0</span>
+              <span class="vstat-lbl">Learning (★1–2)</span>
+            </div>
+            <div class="vstat-chip new">
+              <span class="vstat-dot"></span>
+              <span class="vstat-num" id="vault-count-new">0</span>
+              <span class="vstat-lbl">Unseen Cards</span>
+            </div>
+          </div>
+          <div class="vault-progress-wrap">
+            <div class="vault-progress-bar"><i id="vault-fill"></i></div>
+            <span class="vault-progress-text" id="vault-text">0 / 69 Mastered</span>
+          </div>
+        </div>
+        <div class="vault-hero-cta">
+          <span class="btn small primary" style="pointer-events:none">Study Vault →</span>
+        </div>
+      </div>
+
       <div class="card daily" id="daily-card">
         <div class="daily-head">
           <h2>🎯 Daily Quests</h2>
@@ -52,6 +88,12 @@
 
       <h2 class="section-title">Game Modes</h2>
       <div class="modes">
+        <button class="mode-card blitz" id="mode-blitz">
+          <div class="mode-icon">⚡📖</div>
+          <h3>Grammar Blitz</h3>
+          <p>Master curriculum grammar units with rapid-fire multiple choice questions. 10 rapid questions with rule review!</p>
+          <div class="mode-foot"><span class="tag">Curriculum · Units 1–28</span><span class="best" id="best-blitz">Best —</span></div>
+        </button>
         <button class="mode-card rush" id="mode-rush">
           <div class="mode-icon">⚡</div>
           <h3>Cryptic Rush</h3>
@@ -72,16 +114,9 @@
         </button>
       </div>
 
-      <div class="home-row">
-        <button class="card vault-card" id="btn-vault">
-          <h2>📚 Word Vault</h2>
-          <p class="muted">Track your mastery for every word</p>
-          <div class="vault-progress"><div class="bar"><i id="vault-fill"></i></div><b id="vault-text">0 / 49</b></div>
-        </button>
-        <div class="card ach-card">
-          <h2>🏆 Achievements <span class="muted" id="ach-count"></span></h2>
-          <div class="ach-grid" id="ach-grid"></div>
-        </div>
+      <div class="card ach-card" style="margin-bottom:24px">
+        <h2>🏆 Achievements <span class="muted" id="ach-count"></span></h2>
+        <div class="ach-grid" id="ach-grid"></div>
       </div>
 
       <!-- Constantly visible / pinned Arena Scoreboard -->
@@ -106,6 +141,7 @@
       </section>
     </section>
 
+    <section id="screen-blitz" class="screen"></section>
     <section id="screen-rush" class="screen"></section>
     <section id="screen-wordle" class="screen"></section>
     <section id="screen-matrix" class="screen"></section>
@@ -117,16 +153,18 @@
   <div id="toasts" class="toasts"></div>
   <canvas id="fx-canvas"></canvas>
 
-  <script src="data/whitelist_hashes.js?v=2.1"></script>
-  <script src="data/vocab.js?v=2.1"></script>
-  <script src="data/groups.js?v=2.1"></script>
-  <script src="data/wordle_dict.js?v=2.1"></script>
-  <script src="js/core.js?v=2.1"></script>
-  <script src="js/auth.js?v=2.1"></script>
-  <script src="js/leaderboard.js?v=2.1"></script>
-  <script src="js/rush.js?v=2.1"></script>
-  <script src="js/wordle.js?v=2.1"></script>
-  <script src="js/matrix.js?v=2.1"></script>
-  <script src="js/app.js?v=2.1"></script>
+  <script src="data/whitelist_hashes.js?v=2.2"></script>
+  <script src="data/grammar_data.js?v=2.2"></script>
+  <script src="data/vocab.js?v=2.2"></script>
+  <script src="data/groups.js?v=2.2"></script>
+  <script src="data/wordle_dict.js?v=2.2"></script>
+  <script src="js/core.js?v=2.2"></script>
+  <script src="js/auth.js?v=2.2"></script>
+  <script src="js/leaderboard.js?v=2.2"></script>
+  <script src="js/blitz.js?v=2.2"></script>
+  <script src="js/rush.js?v=2.2"></script>
+  <script src="js/wordle.js?v=2.2"></script>
+  <script src="js/matrix.js?v=2.2"></script>
+  <script src="js/app.js?v=2.2"></script>
 </body>
 </html>

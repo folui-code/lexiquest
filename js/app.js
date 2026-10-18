@@ -17,6 +17,14 @@ const App = {
     $("#mode-rush").onclick = () => { Sfx.click(); Rush.intro(); };
     $("#mode-wordle").onclick = () => { Sfx.click(); Wordle.intro(); };
     $("#mode-matrix").onclick = () => { Sfx.click(); Matrix.intro(); };
+    const blitzModeBtn = $("#mode-blitz");
+    if (blitzModeBtn) {
+      blitzModeBtn.onclick = () => { Sfx.click(); Blitz.intro(); };
+    }
+    const topVaultBtn = $("#btn-top-vault");
+    if (topVaultBtn) {
+      topVaultBtn.onclick = () => this.vault();
+    }
     $("#btn-vault").onclick = () => this.vault();
     $("#btn-chest").onclick = () => this.openChest();
     this.renderHome();
@@ -136,11 +144,27 @@ const App = {
     $("#best-rush").textContent = `Best ${fmt(d.best.rush || 0)}`;
     $("#best-wordle").textContent = d.daily.wordle ? (d.daily.wordle.won ? "Daily ✓" : "Daily ✗") : "Daily Ready!";
     $("#best-matrix").textContent = d.daily.matrix ? (d.daily.matrix.won ? "Daily ✓" : "Daily ✗") : "Daily ready!";
+    const bestBlitzEl = $("#best-blitz");
+    if (bestBlitzEl) {
+      const blitzBests = (d.best && d.best.blitz) ? Object.values(d.best.blitz) : [];
+      const topBlitz = blitzBests.length ? Math.max(...blitzBests) : 0;
+      bestBlitzEl.textContent = topBlitz > 0 ? `Best ${fmt(topBlitz)}` : "Play Now";
+    }
 
-    // vault progress (≥3★ = mastered)
+    // vault progress (≥3★ = mastered, 1-2★ = learning, 0★ = unseen)
     const mastered = VOCAB.filter((c) => Store.mastery(c.id) >= 3).length;
+    const learning = VOCAB.filter((c) => Store.mastery(c.id) > 0 && Store.mastery(c.id) < 3).length;
+    const unseen = Math.max(0, VOCAB.length - mastered - learning);
+
     $("#vault-fill").style.width = (mastered / VOCAB.length) * 100 + "%";
-    $("#vault-text").textContent = `${mastered} / ${VOCAB.length} mastered`;
+    $("#vault-text").textContent = `${mastered} / ${VOCAB.length} Mastered`;
+
+    const countMasteredEl = $("#vault-count-mastered");
+    if (countMasteredEl) countMasteredEl.textContent = mastered;
+    const countWeakEl = $("#vault-count-weak");
+    if (countWeakEl) countWeakEl.textContent = learning;
+    const countNewEl = $("#vault-count-new");
+    if (countNewEl) countNewEl.textContent = unseen;
 
     // achievements
     const keys = Object.keys(ACHIEVEMENTS);
