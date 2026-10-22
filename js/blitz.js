@@ -13,11 +13,18 @@ const Blitz = {
   correctCount: 0,
   timeLeft: 75,
   timerInterval: null,
+  nextTimeout: null,
   history: [], // tracks question, selectedKey, isCorrect, correctKey, explanation
   locked: false,
+  isOver: false,
 
   // 1. UNIT SELECTION SCREEN
   intro() {
+    clearInterval(this.timerInterval);
+    clearTimeout(this.nextTimeout);
+    this.isOver = true;
+    this.locked = true;
+
     const el = $("#screen-blitz");
     if (!el) return;
 
@@ -78,6 +85,9 @@ const Blitz = {
 
   // 2. START A 10-QUESTION BLITZ SESSION
   start(unitId) {
+    clearInterval(this.timerInterval);
+    clearTimeout(this.nextTimeout);
+
     this.currentUnit = unitId;
     const pool = (window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[unitId]) || [];
 
@@ -97,6 +107,7 @@ const Blitz = {
     this.timeLeft = 75;
     this.history = [];
     this.locked = false;
+    this.isOver = false;
 
     this.renderGame();
     this.startTimer();
@@ -108,8 +119,8 @@ const Blitz = {
     const updateBar = () => {
       const el = $("#blitz-bar");
       const num = $("#blitz-time");
-      if (el) el.style.width = `${(this.timeLeft / 75) * 100}%`;
-      if (num) num.textContent = this.timeLeft;
+      if (el) el.style.width = `${Math.max(0, (this.timeLeft / 75) * 100)}%`;
+      if (num) num.textContent = Math.max(0, this.timeLeft);
       if (this.timeLeft <= 10 && el) {
         el.style.background = "var(--red)";
       }
@@ -117,10 +128,17 @@ const Blitz = {
 
     updateBar();
     this.timerInterval = setInterval(() => {
+      if (this.isOver) {
+        clearInterval(this.timerInterval);
+        return;
+      }
       this.timeLeft--;
       updateBar();
       if (this.timeLeft <= 0) {
         clearInterval(this.timerInterval);
+        clearTimeout(this.nextTimeout);
+        this.isOver = true;
+        this.locked = true;
         Sfx.timeout();
         this.finish("time");
       }
@@ -128,6 +146,7 @@ const Blitz = {
   },
 
   renderGame() {
+    if (this.isOver || this.timeLeft <= 0) return;
     const el = $("#screen-blitz");
     if (!el) return;
 
@@ -146,7 +165,7 @@ const Blitz = {
       </div>
 
       <div class="timer-wrap" id="blitz-timer-wrap">
-        <div class="timer-num" id="blitz-time">${this.timeLeft}</div>
+        <div class="timer-num" id="blitz-time">${Math.max(0, this.timeLeft)}</div>
         <div class="timer-bar"><i id="blitz-bar"></i></div>
       </div>
 
@@ -169,13 +188,16 @@ const Blitz = {
     `;
 
     $("#blitz-quit").onclick = () => {
+      this.isOver = true;
+      this.locked = true;
       clearInterval(this.timerInterval);
+      clearTimeout(this.nextTimeout);
       this.intro();
     };
 
     $$(".blitz-opt-btn").forEach(btn => {
       btn.onclick = () => {
-        if (this.locked) return;
+        if (this.locked || this.isOver || this.timeLeft <= 0) return;
         const key = btn.dataset.key;
         this.handleAnswer(key, btn);
       };
@@ -183,7 +205,7 @@ const Blitz = {
   },
 
   handleAnswer(selectedKey, btnEl) {
-    if (this.locked) return;
+    if (this.locked || this.isOver || this.timeLeft <= 0) return;
     this.locked = true;
 
     const q = this.questions[this.currentIndex];
@@ -224,7 +246,9 @@ const Blitz = {
     $("#blitz-score").textContent = fmt(this.score);
     $("#blitz-combo").textContent = `x${this.combo || 1}`;
 
-    setTimeout(() => {
+    clearTimeout(this.nextTimeout);
+    this.nextTimeout = setTimeout(() => {
+      if (this.isOver || this.timeLeft <= 0) return;
       this.locked = false;
       this.currentIndex++;
       if (this.currentIndex < this.questions.length) {
@@ -238,11 +262,16 @@ const Blitz = {
 
   // 3. RESULTS & CONSOLIDATION STATION
   finish(reason) {
+    this.isOver = true;
+    this.locked = true;
+    clearInterval(this.timerInterval);
+    clearTimeout(this.nextTimeout);
+
     const el = $("#screen-blitz");
     if (!el) return;
 
     // Time bonus
-    const timeBonus = reason === "complete" ? this.timeLeft * 10 : 0;
+    const timeBonus = reason === "complete" ? Math.max(0, this.timeLeft) * 10 : 0;
     const finalScore = this.score + timeBonus;
 
     // Award XP and record play
@@ -267,16 +296,24 @@ const Blitz = {
       Leaderboard.submitScore("blitz", finalScore);
     }
 
-    Sfx.fanfare();
-    Fx.confetti(120);
+    if (reason === "complete") {
+      Sfx.fanfare();
+      Fx.confetti(120);
+    }
 
     const accuracyPct = Math.round((this.correctCount / Math.max(this.questions.length, 1)) * 100);
+    const isTimeout = reason === "time";
+    const headerEmoji = isTimeout ? "⏰" : "🎉";
+    const headerTitle = isTimeout ? "Time's Up!" : "Blitz Finished!";
+    const headerSubtitle = isTimeout
+      ? `Time expired on Unit ${this.currentUnit} · Great effort!`
+      : `Unit ${this.currentUnit} Complete · Great effort!`;
 
     el.innerHTML = `
       <div class="blitz-summary-card card">
-        <div style="font-size:3.2rem;margin-bottom:8px">🎉</div>
-        <h1 style="font-size:1.8rem;margin-bottom:6px">Blitz Finished!</h1>
-        <p class="muted" style="margin-bottom:18px">Unit ${this.currentUnit} Complete · Great effort!</p>
+        <div style="font-size:3.2rem;margin-bottom:8px">${headerEmoji}</div>
+        <h1 style="font-size:1.8rem;margin-bottom:6px">${headerTitle}</h1>
+        <p class="muted" style="margin-bottom:18px">${esc(headerSubtitle)}</p>
 
         <div class="blitz-stats-row">
           <div class="blitz-stat-pill">
