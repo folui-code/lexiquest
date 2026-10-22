@@ -53,14 +53,18 @@ const Blitz = {
         <div class="blitz-units-grid">
           ${units.map(u => {
             const isUnlocked = u.unlocked;
-            const qCount = (window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[u.id]) ? window.GRAMMAR_QUESTIONS[u.id].length : 0;
+            const isCombined = [4, 5, 6].includes(u.id);
             const best = bestScores[u.id] ? `⭐ Best: ${fmt(bestScores[u.id])}` : (isUnlocked ? "Ready to Blitz" : "Coming Soon");
+            const badgeClass = isUnlocked ? (isCombined ? "combined" : "active") : "soon";
+            const badgeLabel = isUnlocked
+              ? (isCombined ? "🔄 Units 4–6 Pool (150 Qs)" : "🔥 Active Unit (50 Qs)")
+              : "🔒 Locked";
             return `
-              <button class="blitz-unit-card ${isUnlocked ? "unlocked" : "locked"}" data-uid="${u.id}" ${isUnlocked ? "" : "disabled"}>
-                <div class="blitz-unit-num">Unit ${u.id}</div>
+              <button class="blitz-unit-card ${isUnlocked ? "unlocked" : "locked"} ${isCombined ? "combined-unit" : ""}" data-uid="${u.id}" ${isUnlocked ? "" : "disabled"}>
+                <div class="blitz-unit-num">Unit ${u.id}${isCombined ? ' <span style="font-size:0.75rem;opacity:0.85">· Non-Finites</span>' : ''}</div>
                 <div class="blitz-unit-title">${esc(u.title)}</div>
                 <div class="blitz-unit-meta">
-                  <span class="blitz-badge ${isUnlocked ? "active" : "soon"}">${isUnlocked ? "🔥 Active Unit" : "🔒 Locked"}</span>
+                  <span class="blitz-badge ${badgeClass}">${badgeLabel}</span>
                   <span class="muted" style="font-size:0.75rem">${best}</span>
                 </div>
               </button>
@@ -89,14 +93,25 @@ const Blitz = {
     clearTimeout(this.nextTimeout);
 
     this.currentUnit = unitId;
-    const pool = (window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[unitId]) || [];
+    let pool = [];
+
+    // Units 4, 5, 6 share the combined non-finite verbs pool (150 questions)
+    if ([4, 5, 6].includes(unitId)) {
+      pool = [
+        ...(window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[4] ? window.GRAMMAR_QUESTIONS[4] : []),
+        ...(window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[5] ? window.GRAMMAR_QUESTIONS[5] : []),
+        ...(window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[6] ? window.GRAMMAR_QUESTIONS[6] : [])
+      ];
+    } else {
+      pool = (window.GRAMMAR_QUESTIONS && window.GRAMMAR_QUESTIONS[unitId]) || [];
+    }
 
     if (!pool.length) {
       toast("⚠️ No questions found for this unit yet!");
       return;
     }
 
-    // Pick 10 random questions (or all available if < 10)
+    // Pick 10 random questions from the combined pool (or all available if < 10)
     const selected = shuffle([...pool]).slice(0, 10);
     this.questions = selected;
     this.currentIndex = 0;
@@ -151,8 +166,12 @@ const Blitz = {
     if (!el) return;
 
     const q = this.questions[this.currentIndex];
+    const isCombined = [4, 5, 6].includes(this.currentUnit);
     const unitMeta = (window.GRAMMAR_UNITS || []).find(u => u.id === this.currentUnit);
-    const unitTitle = unitMeta ? unitMeta.title : `Unit ${this.currentUnit}`;
+    const chipText = isCombined ? "Units 4–6 Combined" : `Unit ${this.currentUnit}`;
+    const unitTitle = isCombined
+      ? "Non-Finite Verbs: To-Inf, Bare Inf & Gerund"
+      : (unitMeta ? unitMeta.title : `Unit ${this.currentUnit}`);
 
     el.innerHTML = `
       <div class="game-head">
@@ -171,7 +190,7 @@ const Blitz = {
 
       <div class="card blitz-question-card" id="blitz-card">
         <div class="blitz-card-meta">
-          <span class="chip">Unit ${this.currentUnit}</span>
+          <span class="chip" ${isCombined ? 'style="background:linear-gradient(135deg,rgba(168,85,247,0.3),rgba(59,130,246,0.3));border-color:rgba(168,85,247,0.6);color:#f3e8ff"' : ''}>${chipText}</span>
           <span class="muted" style="font-size:0.85rem">${esc(unitTitle)}</span>
         </div>
         <div class="blitz-question-text" id="blitz-q-text">${esc(q.question)}</div>
@@ -282,8 +301,16 @@ const Blitz = {
     // Update Best Score (per unit and overall Blitz)
     Store.d.best = Store.d.best || {};
     Store.d.best.blitz = Store.d.best.blitz || {};
-    if (!Store.d.best.blitz[this.currentUnit] || finalScore > Store.d.best.blitz[this.currentUnit]) {
-      Store.d.best.blitz[this.currentUnit] = finalScore;
+    if ([4, 5, 6].includes(this.currentUnit)) {
+      [4, 5, 6].forEach(uid => {
+        if (!Store.d.best.blitz[uid] || finalScore > Store.d.best.blitz[uid]) {
+          Store.d.best.blitz[uid] = finalScore;
+        }
+      });
+    } else {
+      if (!Store.d.best.blitz[this.currentUnit] || finalScore > Store.d.best.blitz[this.currentUnit]) {
+        Store.d.best.blitz[this.currentUnit] = finalScore;
+      }
     }
     Store.setBest("blitz", finalScore);
 
@@ -305,9 +332,11 @@ const Blitz = {
     const isTimeout = reason === "time";
     const headerEmoji = isTimeout ? "⏰" : "🎉";
     const headerTitle = isTimeout ? "Time's Up!" : "Blitz Finished!";
+    const isCombined = [4, 5, 6].includes(this.currentUnit);
+    const unitLabel = isCombined ? "Units 4–6 (Infinitives & Gerunds)" : `Unit ${this.currentUnit}`;
     const headerSubtitle = isTimeout
-      ? `Time expired on Unit ${this.currentUnit} · Great effort!`
-      : `Unit ${this.currentUnit} Complete · Great effort!`;
+      ? `Time expired on ${unitLabel} · Great effort!`
+      : `${unitLabel} Complete · Great effort!`;
 
     el.innerHTML = `
       <div class="blitz-summary-card card">
