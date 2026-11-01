@@ -7,6 +7,49 @@ const QUESTS = [
   ["matrix", "🧩 Solve today's Daily Matrix"]
 ];
 
+const HOUSE_DATA = {
+  TAK: {
+    key: "TAK",
+    name: "TAK",
+    role: "DUELIST",
+    mascot: "Phoenix",
+    color: "#e11d48",
+    badge: "🔴 TAK · Duelist",
+    crest: "🦅",
+    desc: "Masters of lightning reflexes and vocabulary duels"
+  },
+  CHI: {
+    key: "CHI",
+    name: "CHI",
+    role: "ALCHEMIST",
+    mascot: "Baize",
+    color: "#10b981",
+    badge: "🟢 CHI · Alchemist",
+    crest: "🐐",
+    desc: "Alchemists of word morphology and semantic formulas"
+  },
+  KIN: {
+    key: "KIN",
+    name: "KIN",
+    role: "CARETAKER",
+    mascot: "Qilin",
+    color: "#f59e0b",
+    badge: "🟡 KIN · Caretaker",
+    crest: "🦄",
+    desc: "Caretakers of ancient botanical lore and wisdom"
+  },
+  KAN: {
+    key: "KAN",
+    name: "KAN",
+    role: "SCHOLAR",
+    mascot: "Eagle-Fish",
+    color: "#3b82f6",
+    badge: "🔵 KAN · Scholar",
+    crest: "🐟",
+    desc: "Scholars of profound syntax and illuminated manuscripts"
+  }
+};
+
 const App = {
   async init() {
     Store.load();
@@ -27,6 +70,23 @@ const App = {
     }
     $("#btn-vault").onclick = () => this.vault();
     $("#btn-chest").onclick = () => this.openChest();
+
+    // House stage column click inspection
+    ["tak", "chi", "kin", "kan"].forEach(h => {
+      const el = $(`#house-col-${h}`);
+      if (el) {
+        el.onclick = () => {
+          const info = HOUSE_DATA[h.toUpperCase()];
+          if (info) {
+            Sfx.click();
+            const myHouse = (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
+            const isMine = (myHouse === h.toUpperCase());
+            toast(`🏰 <b>House ${info.name}</b> · ${info.role} (Mascot: ${info.mascot}) ${isMine ? "— <b>★ Your Assigned House!</b>" : ""}<br><small>${info.desc}</small>`);
+          }
+        };
+      }
+    });
+
     this.renderHome();
 
     // Enforce HPCCSS authentication and whitelist check
@@ -38,15 +98,24 @@ const App = {
     if (!a) return Auth.renderAuthModal();
     const hash = a.emailHash || "";
     const officialName = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[hash]) || Store.d.name || a.name || "Scholar";
+    const myHouse = (Store.d.house || (a && a.house) || "").toUpperCase();
+    const hInfo = HOUSE_DATA[myHouse];
     modal(`
       <div style="text-align:center;padding:12px 6px">
         <div style="font-size:3rem">🎓</div>
         <h2 style="margin:8px 0 4px">${esc(officialName)}</h2>
-        <div style="display:inline-block;padding:3px 10px;border-radius:12px;background:rgba(56,189,248,0.15);border:1px solid var(--cyan);color:var(--cyan);font-size:0.78rem;font-weight:700;margin-bottom:12px">
+        <div style="display:inline-block;padding:3px 10px;border-radius:12px;background:rgba(56,189,248,0.15);border:1px solid var(--cyan);color:var(--cyan);font-size:0.78rem;font-weight:700;margin-bottom:8px">
           ✅ OFFICIAL HPCCSS ACCOUNT (${esc((a.role || "student").toUpperCase())})
         </div>
+        ${hInfo ? `
+          <div style="display:block;margin-bottom:12px">
+            <span style="display:inline-block;padding:4px 14px;border-radius:12px;background:${hInfo.color}22;border:1px solid ${hInfo.color}88;color:${hInfo.color};font-size:0.85rem;font-weight:700">
+              🏰 Assigned House: <b>${hInfo.name}</b> · ${hInfo.role} (${hInfo.mascot})
+            </span>
+          </div>
+        ` : ""}
         <p class="muted" style="font-size:0.85rem;line-height:1.4;margin-bottom:16px;text-align:left;background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:8px;border:1px solid var(--line)">
-          🔒 <b>Display Name Locked:</b> Names are strictly bound to your official school roster to ensure consistent records and verified school leaderboards across all your devices.
+          🔒 <b>Display Name Locked:</b> Names and House assignments are strictly bound to your official school roster to ensure consistent records and verified school leaderboards across all your devices.
         </p>
 
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
@@ -118,6 +187,24 @@ const App = {
     $("#rank-name").textContent = `${r.name} · ${fmt(Store.d.xp)} XP`;
     $("#xp-fill").style.width = r.pct + "%";
     $("#btn-mute").textContent = Store.d.muted ? "🔇" : "🔊";
+
+    const housePill = $("#house-pill");
+    if (housePill) {
+      const houseKey = (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
+      const hInfo = HOUSE_DATA[houseKey];
+      if (hInfo) {
+        housePill.className = `pill house-pill ${houseKey.toLowerCase()}`;
+        housePill.textContent = hInfo.badge;
+        housePill.title = `Your House: ${hInfo.name} — ${hInfo.role} (${hInfo.mascot})\nClick to view Great Hall`;
+        housePill.classList.remove("hidden");
+        housePill.onclick = () => {
+          const stage = $("#great-hall-stage");
+          if (stage) stage.scrollIntoView({ behavior: "smooth" });
+        };
+      } else {
+        housePill.classList.add("hidden");
+      }
+    }
   },
 
   renderHome() {
@@ -128,6 +215,33 @@ const App = {
     if (Store.streakAtRisk()) { msg.className = "streak-msg risk"; msg.textContent = `⚠️ Your ${d.streak}-day streak ends at midnight! Play one game to keep it alive.`; }
     else if (d.lastPlay === todayKey()) { msg.className = "streak-msg"; msg.textContent = `🔥 ${s}-day streak secured for today. Keep the fire burning!`; }
     else { msg.className = "streak-msg"; msg.textContent = d.games ? "Your streak went cold. Start a fresh one today! 💪" : "Play your first game to start a daily streak 🔥"; }
+
+    // Great Hall welcome text & House status
+    const houseKey = (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
+    const hInfo = HOUSE_DATA[houseKey];
+    const houseMsg = $("#house-greeting-msg");
+    if (houseMsg) {
+      if (hInfo) {
+        houseMsg.innerHTML = `Assigned to House <b>${hInfo.name}</b> (✦ ${hInfo.role} · Mascot: ${hInfo.mascot} ✦)`;
+      } else {
+        houseMsg.innerHTML = `HPCCSS Academy of Wizardry · Four Houses Arena`;
+      }
+    }
+
+    // Highlight student's assigned house on the master Great Hall stage
+    ["tak", "chi", "kin", "kan"].forEach(h => {
+      const col = $(`#house-col-${h}`);
+      if (col) {
+        const isMine = (houseKey.toLowerCase() === h);
+        col.classList.toggle("my-house", isMine);
+        col.classList.toggle(h, isMine);
+        const badge = col.querySelector(".house-my-badge");
+        if (badge) badge.classList.toggle("hidden", !isMine);
+      }
+    });
+
+    // Render House Cup Standings
+    this.renderHouseCup();
 
     // daily quests
     const q = d.daily.q;
@@ -173,6 +287,80 @@ const App = {
 
     // render pinned arena scoreboard
     this.renderScoreboard(this.currentSbTab || "rush");
+  },
+
+  renderHouseCup() {
+    const d = Store.d;
+    const myHouse = (d.house || (d.auth && d.auth.house) || "").toUpperCase();
+
+    // Baseline house points + live player XP
+    const basePoints = {
+      TAK: 14250,
+      CHI: 13920,
+      KIN: 14680,
+      KAN: 14100
+    };
+
+    if (myHouse && basePoints[myHouse] !== undefined) {
+      basePoints[myHouse] += (d.xp || 0);
+    }
+
+    const totalXP = Object.values(basePoints).reduce((a, b) => a + b, 0);
+
+    // Update multi-segment progress bar
+    ["tak", "chi", "kin", "kan"].forEach(h => {
+      const seg = $(`#hcup-bar-${h}`);
+      if (seg) {
+        const pct = ((basePoints[h.toUpperCase()] / totalXP) * 100).toFixed(1);
+        seg.style.width = pct + "%";
+        seg.title = `House ${h.toUpperCase()}: ${fmt(basePoints[h.toUpperCase()])} XP (${pct}%)`;
+      }
+    });
+
+    // Sort houses for rank cards
+    const sorted = Object.keys(basePoints)
+      .map(k => ({ key: k, xp: basePoints[k], ...HOUSE_DATA[k] }))
+      .sort((a, b) => b.xp - a.xp);
+
+    const leaderBadge = $("#house-cup-leader-badge");
+    if (leaderBadge && sorted.length > 0) {
+      leaderBadge.textContent = `👑 Current Leader: House ${sorted[0].name} (${fmt(sorted[0].xp)} XP)`;
+    }
+
+    const rankClasses = ["gold", "silver", "bronze", ""];
+    const grid = $("#house-cup-grid");
+    if (grid) {
+      grid.innerHTML = sorted.map((h, idx) => {
+        const isMine = (myHouse === h.key);
+        const rankNum = idx + 1;
+        const rankCls = rankClasses[idx] || "";
+        return `
+          <div class="hcup-item ${isMine ? "my-house" : ""}" data-house="${h.key}">
+            <div class="hcup-rank ${rankCls}">#${rankNum}</div>
+            <div class="hcup-crest ${h.key.toLowerCase()}">${h.crest || "🛡️"}</div>
+            <div class="hcup-info">
+              <div class="hcup-name-row">
+                <span class="hcup-house-name" style="color:${h.color}">House ${h.name}</span>
+                <span class="hcup-xp">${fmt(h.xp)} XP</span>
+              </div>
+              <div class="hcup-role">✦ ${h.role} · ${h.mascot}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Clicking house card shows info
+      $$(".hcup-item", grid).forEach(item => {
+        item.onclick = () => {
+          const hk = item.dataset.house;
+          const info = HOUSE_DATA[hk];
+          if (info) {
+            Sfx.click();
+            toast(`🏰 <b>House ${info.name}</b> (${info.badge})<br><small>${info.desc}</small>`);
+          }
+        };
+      });
+    }
   },
 
   renderScoreboard(mode = "rush") {

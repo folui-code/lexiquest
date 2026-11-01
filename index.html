@@ -11,9 +11,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/base.css?v=2.0" />
-  <link rel="stylesheet" href="css/style.css?v=2.0" />
-  <link rel="stylesheet" href="css/modes.css?v=2.0" />
+  <link rel="stylesheet" href="css/base.css?v=3.0" />
+  <link rel="stylesheet" href="css/style.css?v=3.0" />
+  <link rel="stylesheet" href="css/modes.css?v=3.0" />
+  <link rel="stylesheet" href="css/houses.css?v=3.0" />
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -24,6 +25,7 @@
     <button class="logo" id="btn-logo" title="Home">Lexi<span>Quest</span></button>
     <div class="top-stats">
       <div class="pill streak-pill" id="streak-pill" title="Daily streak">🔥 <b id="streak-count">0</b></div>
+      <div class="pill house-pill hidden" id="house-pill" title="Assigned House"></div>
       <div class="pill xp-pill" id="xp-pill" title="Rank &amp; XP">
         <span id="rank-name">Novice Scribe</span>
         <div class="xp-bar"><i id="xp-fill"></i></div>
@@ -37,10 +39,63 @@
   <main id="app">
     <!-- HOME -->
     <section id="screen-home" class="screen active">
-      <div class="hero">
-        <h1>Hey <span id="player-name" class="grad-text">Scholar</span>, ready to level up?</h1>
-        <p id="streak-msg" class="streak-msg"></p>
-      </div>
+      <!-- GREAT HALL HERO STAGE -->
+      <section class="great-hall-stage" id="great-hall-stage">
+        <div class="great-hall-canvas-wrap">
+          <img src="assets/houses/house_concept_design.png" alt="HP Academy of Wizardry Great Hall" class="great-hall-img" />
+          <!-- Interactive House Overlay Zones -->
+          <div class="house-overlay-grid">
+            <div class="house-col" data-house="TAK" id="house-col-tak" title="House TAK — Duelist (Phoenix)">
+              <div class="house-highlight-glow"></div>
+              <div class="house-indicator"><span class="house-tag">TAK</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+            </div>
+            <div class="house-col" data-house="CHI" id="house-col-chi" title="House CHI — Alchemist (Baize)">
+              <div class="house-highlight-glow"></div>
+              <div class="house-indicator"><span class="house-tag">CHI</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+            </div>
+            <div class="house-col" data-house="KIN" id="house-col-kin" title="House KIN — Caretaker (Qilin)">
+              <div class="house-highlight-glow"></div>
+              <div class="house-indicator"><span class="house-tag">KIN</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+            </div>
+            <div class="house-col" data-house="KAN" id="house-col-kan" title="House KAN — Scholar (Eagle-Fish)">
+              <div class="house-highlight-glow"></div>
+              <div class="house-indicator"><span class="house-tag">KAN</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="great-hall-welcome-banner">
+          <div class="welcome-text-wrap">
+            <h1 id="academy-greeting">✦ Welcome, <span id="player-name" class="grad-text">Scholar</span> ✦</h1>
+            <p id="house-greeting-msg" class="house-greeting-msg">Assigned to House <b>...</b></p>
+          </div>
+          <p id="streak-msg" class="streak-msg"></p>
+        </div>
+      </section>
+
+      <!-- GREAT HALL HOUSE CUP STANDINGS -->
+      <section class="card house-cup-card" id="house-cup-card">
+        <div class="house-cup-head">
+          <div class="house-cup-title">
+            <span class="house-cup-trophy">🏆</span>
+            <div>
+              <h2>The Great Hall House Cup</h2>
+              <p class="muted">Inter-house championship · Every mastered word adds House XP</p>
+            </div>
+          </div>
+          <div class="house-cup-total-wrap">
+            <span class="house-cup-badge" id="house-cup-leader-badge">👑 Leader: TAK</span>
+          </div>
+        </div>
+        <div class="house-cup-progress-bar">
+          <div class="house-cup-seg tak" id="hcup-bar-tak" style="width:25%" title="House TAK"></div>
+          <div class="house-cup-seg chi" id="hcup-bar-chi" style="width:25%" title="House CHI"></div>
+          <div class="house-cup-seg kin" id="hcup-bar-kin" style="width:25%" title="House KIN"></div>
+          <div class="house-cup-seg kan" id="hcup-bar-kan" style="width:25%" title="House KAN"></div>
+        </div>
+        <div class="house-cup-grid" id="house-cup-grid">
+          <!-- Populated by App.renderHouseCup() -->
+        </div>
+      </section>
 
       <!-- PROMINENT WORD VAULT SHOWCASE -->
       <div class="card vault-hero-card" id="btn-vault">
@@ -154,18 +209,18 @@
   <div id="toasts" class="toasts"></div>
   <canvas id="fx-canvas"></canvas>
 
-  <script src="data/whitelist_hashes.js?v=2.2"></script>
-  <script src="data/grammar_data.js?v=2.2"></script>
-  <script src="data/vocab.js?v=2.2"></script>
-  <script src="data/groups.js?v=2.2"></script>
-  <script src="data/wordle_dict.js?v=2.2"></script>
-  <script src="js/core.js?v=2.2"></script>
-  <script src="js/auth.js?v=2.2"></script>
-  <script src="js/leaderboard.js?v=2.2"></script>
-  <script src="js/blitz.js?v=2.2"></script>
-  <script src="js/rush.js?v=2.2"></script>
-  <script src="js/wordle.js?v=2.2"></script>
-  <script src="js/matrix.js?v=2.2"></script>
-  <script src="js/app.js?v=2.2"></script>
+  <script src="data/whitelist_hashes.js?v=3.0"></script>
+  <script src="data/grammar_data.js?v=3.0"></script>
+  <script src="data/vocab.js?v=3.0"></script>
+  <script src="data/groups.js?v=3.0"></script>
+  <script src="data/wordle_dict.js?v=3.0"></script>
+  <script src="js/core.js?v=3.0"></script>
+  <script src="js/auth.js?v=3.0"></script>
+  <script src="js/leaderboard.js?v=3.0"></script>
+  <script src="js/blitz.js?v=3.0"></script>
+  <script src="js/rush.js?v=3.0"></script>
+  <script src="js/wordle.js?v=3.0"></script>
+  <script src="js/matrix.js?v=3.0"></script>
+  <script src="js/app.js?v=3.0"></script>
 </body>
 </html>

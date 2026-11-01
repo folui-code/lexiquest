@@ -143,6 +143,7 @@ const Auth = {
                       || payload.name
                       || payload.given_name
                       || email.split("@")[0].toUpperCase();
+    const house = (window.HPCCSS_HOUSE_MAP && (window.HPCCSS_HOUSE_MAP[canonicalHash] || window.HPCCSS_HOUSE_MAP[rawHash])) || "";
 
     Store.d.auth = {
       emailHash: canonicalHash,
@@ -150,10 +151,12 @@ const Auth = {
       domain: email.split("@")[1],
       role: res.role,
       name: officialName,
+      house: house,
       picture: payload.picture || "",
       verifiedAt: Date.now()
     };
     Store.d.name = officialName;
+    Store.d.house = house;
     Store.save();
 
     if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
@@ -164,7 +167,8 @@ const Auth = {
     App.renderHome();
     Sfx.fanfare();
     Fx.confetti(150);
-    toast(`🎓 Welcome, <b>${esc(officialName)}</b> (${res.role.toUpperCase()})!`);
+    const houseBadge = house ? ` · House <b>${esc(house)}</b>` : "";
+    toast(`🎓 Welcome, <b>${esc(officialName)}</b> (${res.role.toUpperCase()}${houseBadge})!`);
   },
 
   // Setup Google Identity Services Button
@@ -309,6 +313,26 @@ const Auth = {
 
   // Check if currently authenticated
   async checkAuth() {
+    // Support testing/preview via URL parameter ?test_email=...
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const testEmail = urlParams.get("test_email");
+      if (testEmail) {
+        const email = testEmail.toLowerCase().trim();
+        const res = await this.verifyEmail(email);
+        if (res.ok) {
+          await this.handleGoogleCredential({
+            credential: btoa(JSON.stringify({ alg: "HS256" })) + "." + btoa(JSON.stringify({
+              email: email,
+              email_verified: true,
+              given_name: email.split("@")[0].toUpperCase()
+            })) + ".dummy"
+          });
+          return true;
+        }
+      }
+    } catch (e) {}
+
     if (!Store.d.auth || !Store.d.auth.emailHash) {
       this.renderAuthModal();
       return false;
@@ -327,11 +351,18 @@ const Auth = {
       }
     }
 
-    // Force official roster name from school list
+    // Force official roster name and house from school list
     const officialName = (window.HPCCSS_ROSTER && (window.HPCCSS_ROSTER[canonicalHash] || window.HPCCSS_ROSTER[rawHash])) || Store.d.auth.name;
-    if (officialName) {
-      Store.d.name = officialName;
-      Store.d.auth.name = officialName;
+    const house = (window.HPCCSS_HOUSE_MAP && (window.HPCCSS_HOUSE_MAP[canonicalHash] || window.HPCCSS_HOUSE_MAP[rawHash])) || Store.d.house || Store.d.auth.house || "";
+    if (officialName || house) {
+      if (officialName) {
+        Store.d.name = officialName;
+        Store.d.auth.name = officialName;
+      }
+      if (house) {
+        Store.d.house = house;
+        Store.d.auth.house = house;
+      }
       Store.save();
       if (typeof App !== "undefined" && App.renderHome) {
         App.renderHome();

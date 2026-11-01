@@ -1,5 +1,6 @@
 uploads/
 .DS_Store
 *.png
+!assets/**/*.png
 node_modules/
 .env

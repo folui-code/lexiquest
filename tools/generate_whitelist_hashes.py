@@ -49,19 +49,24 @@ def main():
     hashes = set()
     canonical_map = {}
     roster = {}
+    house_map = {}
 
-    def add_entry(primary_email, disp_name):
+    def add_entry(primary_email, disp_name, house=None):
         primary_norm = primary_email.strip().lower()
         primary_hash = hash_email(primary_norm)
         hashes.add(primary_hash)
         canonical_map[primary_hash] = primary_hash
         roster[primary_hash] = disp_name
+        if house:
+            house_map[primary_hash] = house.strip().upper()
 
         for alias in get_aliases(primary_norm):
             alias_hash = hash_email(alias)
             hashes.add(alias_hash)
             canonical_map[alias_hash] = primary_hash
             roster[alias_hash] = disp_name
+            if house:
+                house_map[alias_hash] = house.strip().upper()
 
     # 1. Students
     if "Student" in wb.sheetnames:
@@ -70,9 +75,10 @@ def main():
             email = ws.cell(r, 10).value
             enname = ws.cell(r, 5).value
             cls = ws.cell(r, 3).value
+            schhouse = ws.cell(r, 8).value
             if email and isinstance(email, str) and "@" in email and enname:
                 disp_name = f"{enname.strip()} ({cls.strip()})" if cls else enname.strip()
-                add_entry(email, disp_name)
+                add_entry(email, disp_name, schhouse)
 
     # 2. Staff
     if "Staff" in wb.sheetnames:
@@ -99,9 +105,12 @@ def main():
         f.write(";\n\n")
         f.write("window.HPCCSS_ROSTER = ")
         json.dump(roster, f, indent=2, ensure_ascii=False)
+        f.write(";\n\n")
+        f.write("window.HPCCSS_HOUSE_MAP = ")
+        json.dump(house_map, f, indent=2)
         f.write(";\n")
 
-    print(f"Exported {len(sorted_hashes)} hashes, {len(canonical_map)} canonical mappings, and {len(roster)} roster entries to {OUT_JS}")
+    print(f"Exported {len(sorted_hashes)} hashes, {len(canonical_map)} canonical mappings, {len(roster)} roster entries, and {len(house_map)} house mappings to {OUT_JS}")
 
 if __name__ == "__main__":
     main()
