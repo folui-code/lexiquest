@@ -76,14 +76,18 @@ const Store = {
   },
   mastery(id) { const w = this.d.words[id]; if (!w || !w.seen) return 0; return Math.min(5, 1 + w.reps); },
   /* weighted pick: unseen + overdue + low-ease words come up more often (interleaving) */
-  pickWords(n, exclude = new Set()) {
+  pickWords(n, exclude = new Set(), sourcePool = null) {
     const now = Date.now();
-    const pool = VOCAB.filter((c) => !exclude.has(c.id)).map((c) => {
+    const base = (sourcePool && sourcePool.length > 0) ? sourcePool : VOCAB;
+    const pool = base.filter((c) => !exclude.has(c.id)).map((c) => {
       const w = this.d.words[c.id];
       let wt = !w || !w.seen ? 3 : w.due <= now ? 4 + (2.5 - w.ef) * 4 : 0.6;
       if (w) wt += (w.bad / (w.seen || 1)) * 2;
       return { c, k: Math.pow(Math.random(), 1 / wt) };
     });
+    if (!pool.length && base.length) {
+      return shuffle([...base]).slice(0, n);
+    }
     return pool.sort((a, b) => b.k - a.k).slice(0, n).map((x) => x.c);
   },
 

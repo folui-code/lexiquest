@@ -553,3 +553,254 @@
   line-height: 1.45;
 }
 
+/* =========================================================
+   CRYPTIC RUSH: INTRO CONFIGURATION & SET SELECTION
+   ========================================================= */
+.rush-intro-card {
+  max-width: 680px;
+  text-align: center;
+}
+.rush-section-block {
+  text-align: left;
+  margin-bottom: 22px;
+}
+.rush-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-h);
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.rush-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+.rush-mode-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.035);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: all .2s ease;
+  user-select: none;
+}
+.rush-mode-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+}
+.rush-mode-card.active {
+  border-color: var(--cyan);
+  background: rgba(34, 211, 238, 0.08);
+  box-shadow: 0 0 20px -4px rgba(34, 211, 238, 0.35);
+}
+.rush-mode-card.active[data-mode="practice"] {
+  border-color: var(--emerald);
+  background: rgba(52, 211, 153, 0.08);
+  box-shadow: 0 0 20px -4px rgba(52, 211, 153, 0.35);
+}
+.rush-mode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.rush-mode-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: .04em;
+}
+.rush-mode-badge.game {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.rush-mode-badge.practice {
+  background: rgba(52, 211, 153, 0.2);
+  color: #6ee7b7;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+}
+.rush-check-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  color: transparent;
+  font-size: 0.8rem;
+  font-weight: 800;
+  transition: all .2s;
+}
+.rush-mode-card.active .rush-check-icon,
+.rush-set-card.active .rush-check-icon {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #0f172a;
+}
+.rush-mode-card.active[data-mode="practice"] .rush-check-icon {
+  background: var(--emerald);
+  border-color: var(--emerald);
+  color: #064e3b;
+}
+.rush-mode-name {
+  font-family: var(--font-h);
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+.rush-mode-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* SET SELECTION GRID */
+.rush-sets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+.rush-set-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.035);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all .2s ease;
+  user-select: none;
+}
+.rush-set-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+}
+.rush-set-card.active {
+  border-color: var(--cyan);
+  background: rgba(34, 211, 238, 0.09);
+  box-shadow: 0 0 18px -4px rgba(34, 211, 238, 0.3);
+}
+.rush-set-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.rush-set-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.rush-set-pill.all {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fef08a;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+.rush-set-pill.lvl {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+}
+.rush-set-title {
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.rush-set-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.rush-set-perk {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.bonus-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  animation: pulse 1.8s infinite alternate;
+}
+.standard-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+}
+.neutral-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(52, 211, 153, 0.15);
+  color: #6ee7b7;
+}
+
+/* RULES / MODE INFO BOX */
+.rush-rules-box {
+  margin: 18px 0;
+  text-align: left;
+}
+.rush-rules-box ul {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+.rush-rules-box li {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+/* PRACTICE HUD STYLES */
+.practice-timer-wrap {
+  margin-bottom: 14px;
+}
+.practice-hud-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+}
+.practice-hud-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: var(--emerald);
+}
+.practice-hud-counter {
+  font-size: 0.95rem;
+  font-family: var(--font-n);
+  color: #f1f5f9;
+}
+.practice-pill {
+  border-color: rgba(52, 211, 153, 0.4) !important;
+  color: #6ee7b7 !important;
+}
+
+

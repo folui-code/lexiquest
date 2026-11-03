@@ -1,48 +1,250 @@
 /* ===================================================================
    MODE 1 — CRYPTIC RUSH (Scrambled Tile Bank / Anagram Mode)
-   - Fast-paced contextual deduction under time pressure.
-   - For single words: Scrambled letter tiles (unscramble the letters).
-   - For phrases: Scrambled word tiles (arrange words in syntactic order).
+   - Fast-paced contextual deduction & tile spelling mastery.
+   - Supports 2 distinct play styles:
+       1) 🎯 Practice Mode: Untimed, choose specific Set+Content or Mixed.
+       2) ⚡ Game Mode: 60s ticking clock, bonus time refills, combo multipliers,
+          plus +25% Score Bonus when choosing "All Sets Mixed".
    - Desktop: Click tiles or type on physical keyboard.
    - Mobile: Zero-lag tactile tap on large scrambled tiles.
-   - Correct answers ADD time (+4s to +8s with combos).
    =================================================================== */
 
 const Rush = {
   START: 60,
   BASE_ADD: 4,
+  selectedMode: "practice", // "practice" or "game"
+  selectedSet: "all",       // "all" or specific set key (e.g. "Set 1 · Writing 1")
+
+  getAvailableSets() {
+    const map = new Map();
+    (window.VOCAB || []).forEach(c => {
+      const key = c.topic || (c.set ? `Set ${c.set}${c.content ? ` · ${c.content}` : ''}` : 'General');
+      if (!map.has(key)) {
+        map.set(key, {
+          key: key,
+          level: c.level || 'S4',
+          set: c.set || '1',
+          content: c.content || '',
+          count: 0
+        });
+      }
+      map.get(key).count++;
+    });
+    return Array.from(map.values());
+  },
+
+  getStartBtnText() {
+    const isGame = this.selectedMode === "game";
+    const setName = this.selectedSet === "all" ? "All Sets Mixed" : this.selectedSet;
+    if (isGame) {
+      const bonus = this.selectedSet === "all" ? " (+25% Bonus)" : "";
+      return `⚡ Start 60s Game · ${setName}${bonus}`;
+    } else {
+      return `🎯 Start Practice · ${setName}`;
+    }
+  },
+
+  renderRulesHtml() {
+    if (this.selectedMode === "game") {
+      return `
+        <ul>
+          <li>⏳ <b>60s on the clock:</b> The ticking clock starts at ${this.START}s and counts down</li>
+          <li>📝 <b>Contextual deduction:</b> Deduce the missing expression from the sentence &amp; meaning</li>
+          <li>🧩 <b>Unscramble tiles:</b> Word-by-word with the 1st letter hint pre-pressed</li>
+          <li>✅ <b>Time Refills:</b> Each solve adds <b style="color:var(--emerald)">+${this.BASE_ADD}s to +8s</b> back to your clock</li>
+          <li>🔥 <b>All Sets Mixed Bonus:</b> Play all sets mixed together for an automatic <b style="color:var(--amber)">+25% score bonus (1.25x)</b>!</li>
+          <li>⚡ <b>Combo multipliers:</b> Consecutive solves amplify your score up to 5x</li>
+        </ul>
+      `;
+    } else {
+      return `
+        <ul>
+          <li>🎯 <b>100% Untimed:</b> No clock countdown and no time penalty — learn at your own pace</li>
+          <li>📚 <b>Targeted set study:</b> Master vocabulary from specific Writing tasks or mix all sets</li>
+          <li>💡 <b>Free hints:</b> Autoplace tiles whenever you need guidance without losing score</li>
+          <li>⭐ <b>Earn XP &amp; Mastery:</b> Every solved expression updates your spaced repetition mastery</li>
+          <li>🏁 <b>Full completion:</b> Step through every expression in the set with a complete review</li>
+        </ul>
+      `;
+    }
+  },
+
+  updateIntroSelection() {
+    // Update active class on mode cards
+    $$(".rush-mode-card").forEach(c => {
+      const isAct = c.dataset.mode === this.selectedMode;
+      c.classList.toggle("active", isAct);
+    });
+
+    // Update active class on set cards
+    $$(".rush-set-card").forEach(c => {
+      const isAct = c.dataset.set === this.selectedSet;
+      c.classList.toggle("active", isAct);
+    });
+
+    // Update perk badge on "All Sets Mixed" card
+    const mixedPerk = $("#rush-mixed-perk");
+    if (mixedPerk) {
+      mixedPerk.innerHTML = this.selectedMode === "game"
+        ? '<span class="bonus-badge">🔥 +25% Score Bonus (1.25x)</span>'
+        : '<span class="neutral-badge">📚 Comprehensive Practice</span>';
+    }
+
+    // Update rules box
+    const rulesBox = $("#rush-rules-box");
+    if (rulesBox) {
+      rulesBox.innerHTML = this.renderRulesHtml();
+    }
+
+    // Update launch button text
+    const startBtn = $("#rush-start");
+    if (startBtn) {
+      startBtn.innerHTML = this.getStartBtnText();
+    }
+  },
 
   intro() {
+    const availableSets = this.getAvailableSets();
+    const totalVocab = (window.VOCAB || []).length;
+
+    // Reset selectedSet if it's no longer valid
+    if (this.selectedSet !== "all" && !availableSets.some(s => s.key === this.selectedSet)) {
+      this.selectedSet = "all";
+    }
+
     const el = $("#screen-rush");
     el.innerHTML = `
       <button class="back-btn" id="rush-back">← Home</button>
-      <div class="card intro">
+      <div class="card intro rush-intro-card">
         <div class="mode-icon" style="background:var(--g-rush)">⚡</div>
         <h1>Cryptic Rush</h1>
-        <p class="muted">Contextual deduction meets ticking adrenaline.</p>
-        <ul>
-          <li>⏳ You start with <b>${this.START}s</b> on the clock</li>
-          <li>📝 Read the context sentence &amp; deduce the missing academic expression</li>
-          <li>🧩 <b>Unscramble the tiles:</b> Scrambled word-by-word with the 1st letter hint pre-pressed</li>
-          <li>💻 <b>Desktop:</b> Click tiles or type on your physical keyboard</li>
-          <li>📱 <b>Phone:</b> Tap the scrambled tiles — fast, tactile, zero typing lag!</li>
-          <li>💡 <b>Hint (−2s):</b> Autoplaces the next tile · <b>⌫ Undo:</b> Returns last tile</li>
-          <li>✅ Each solved expression adds <b style="color:var(--emerald)">+${this.BASE_ADD}s to +8s</b> to your clock</li>
-          <li>⚡ Build combos to multiply your score &amp; survive higher speed levels</li>
-        </ul>
-        <div class="row"><button class="btn rush" id="rush-start">▶ Start Rush</button></div>
-        <p class="muted" style="margin-top:14px">Personal Best: ${fmt(Store.d.best.rush || 0)} pts</p>
+        <p class="muted" style="margin-bottom:22px">Contextual deduction meets lightning tile unscrambling.</p>
+
+        <!-- 1. MODE SELECTION -->
+        <div class="rush-section-block">
+          <div class="rush-section-title">1. Choose Play Mode</div>
+          <div class="rush-mode-grid">
+            <div class="rush-mode-card ${this.selectedMode === 'practice' ? 'active' : ''}" data-mode="practice">
+              <div class="rush-mode-header">
+                <span class="rush-mode-badge practice">🎯 UNTIMED</span>
+                <span class="rush-check-icon">✓</span>
+              </div>
+              <div class="rush-mode-name">🎯 Practice Mode</div>
+              <div class="rush-mode-desc">Untimed, stress-free learning. Deduce expressions, master tile spelling, and track completion without a clock.</div>
+            </div>
+
+            <div class="rush-mode-card ${this.selectedMode === 'game' ? 'active' : ''}" data-mode="game">
+              <div class="rush-mode-header">
+                <span class="rush-mode-badge game">⚡ 60s COUNTDOWN</span>
+                <span class="rush-check-icon">✓</span>
+              </div>
+              <div class="rush-mode-name">⚡ Game Mode</div>
+              <div class="rush-mode-desc">60s ticking countdown! Fast solves add +4s to +8s &amp; build multipliers. Compete on the leaderboard!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. VOCABULARY SET SELECTION -->
+        <div class="rush-section-block">
+          <div class="rush-section-title">2. Choose Vocabulary Set</div>
+          <div class="rush-sets-grid" id="rush-sets-grid">
+            <!-- All sets mixed -->
+            <div class="rush-set-card ${this.selectedSet === 'all' ? 'active' : ''}" data-set="all">
+              <div class="rush-set-header">
+                <span class="rush-set-pill all">🌟 ALL SETS MIXED</span>
+                <span class="rush-check-icon">✓</span>
+              </div>
+              <div class="rush-set-title">All Sets Mixed Together</div>
+              <div class="rush-set-meta">${totalVocab} expressions across all writing units</div>
+              <div class="rush-set-perk" id="rush-mixed-perk">
+                ${this.selectedMode === 'game' 
+                  ? '<span class="bonus-badge">🔥 +25% Score Bonus (1.25x)</span>' 
+                  : '<span class="neutral-badge">📚 Comprehensive Practice</span>'}
+              </div>
+            </div>
+
+            <!-- Specific sets -->
+            ${availableSets.map(s => `
+              <div class="rush-set-card ${this.selectedSet === s.key ? 'active' : ''}" data-set="${esc(s.key)}">
+                <div class="rush-set-header">
+                  <span class="rush-set-pill lvl">${esc(s.level)}</span>
+                  <span class="rush-check-icon">✓</span>
+                </div>
+                <div class="rush-set-title">📚 ${esc(s.key)}</div>
+                <div class="rush-set-meta">${s.count} targeted expressions</div>
+                <div class="rush-set-perk">
+                  ${this.selectedMode === 'game' 
+                    ? '<span class="standard-badge">Standard 1.0x</span>' 
+                    : '<span class="neutral-badge">Focused Set</span>'}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- How To Play Rules Summary -->
+        <div class="rush-rules-box" id="rush-rules-box">
+          ${this.renderRulesHtml()}
+        </div>
+
+        <div class="row" style="margin-top:20px">
+          <button class="btn rush" id="rush-start" style="font-size:1.15rem;padding:14px 36px">
+            ${this.getStartBtnText()}
+          </button>
+        </div>
+        <p class="muted" style="margin-top:14px">
+          Personal Best (Game Mode): <b>${fmt(Store.d.best.rush || 0)} pts</b>
+        </p>
       </div>
     `;
+
     $("#rush-back").onclick = () => showScreen("home");
+
+    // Hook mode clicks
+    $$(".rush-mode-card").forEach(card => {
+      card.onclick = () => {
+        this.selectedMode = card.dataset.mode;
+        Sfx.click();
+        this.updateIntroSelection();
+      };
+    });
+
+    // Hook set clicks
+    $$(".rush-set-card").forEach(card => {
+      card.onclick = () => {
+        this.selectedSet = card.dataset.set;
+        Sfx.click();
+        this.updateIntroSelection();
+      };
+    });
+
     $("#rush-start").onclick = () => this.start();
     showScreen("rush");
   },
 
   start() {
     showScreen("rush");
+
+    // Resolve card pool
+    let pool = window.VOCAB || [];
+    if (this.selectedSet !== "all") {
+      pool = (window.VOCAB || []).filter(c =>
+        c.topic === this.selectedSet ||
+        `Set ${c.set}${c.content ? ` · ${c.content}` : ''}` === this.selectedSet ||
+        c.set === this.selectedSet
+      );
+      if (!pool.length) pool = window.VOCAB || [];
+    }
+
+    this.pool = pool;
+    this.isMixed = (this.selectedSet === "all");
+    this.isPractice = (this.selectedMode === "practice");
+    this.practiceQueue = this.isPractice ? shuffle([...this.pool]) : [];
+    this.practiceCompleted = new Set();
+    this.START = 60; // 60s starting time for game mode
+
     Object.assign(this, {
-      time: this.START,
+      time: this.isPractice ? 0 : this.START,
       score: 0,
       combo: 0,
       maxCombo: 0,
@@ -61,19 +263,39 @@ const Rush = {
     });
 
     const el = $("#screen-rush");
+    const setTitle = this.isMixed ? "🌟 All Sets Mixed" : this.selectedSet;
+
     el.innerHTML = `
       <div class="game-head">
-        <button class="back-btn" id="rush-quit" style="margin:0">✕ Quit</button>
+        <button class="back-btn" id="rush-quit" style="margin:0">✕ ${this.isPractice ? "Finish" : "Quit"}</button>
         <div class="hud">
-          <div class="pill">Lv <b id="r-level">1</b></div>
-          <div class="pill">x<b id="r-mult">1</b></div>
-          <div class="pill">⭐ <b id="r-score">0</b></div>
+          <div class="pill">${esc(setTitle)}</div>
+          ${this.isPractice ? `
+            <div class="pill practice-pill">🎯 Untimed</div>
+            <div class="pill">⭐ <b id="r-score">0</b> XP</div>
+          ` : `
+            <div class="pill">Lv <b id="r-level">1</b></div>
+            <div class="pill" id="r-mult-pill">${this.isMixed ? "🔥 1.25x Bonus" : "x<b id='r-mult'>1</b>"}</div>
+            <div class="pill">⭐ <b id="r-score">0</b></div>
+          `}
         </div>
       </div>
-      <div class="timer-wrap" id="r-timer">
-        <div class="timer-num" id="r-time">${this.START}</div>
-        <div class="timer-bar"><i id="r-bar"></i></div>
-      </div>
+
+      ${this.isPractice ? `
+        <div class="timer-wrap practice-timer-wrap" id="r-timer">
+          <div class="practice-hud-row">
+            <span class="practice-hud-badge">🎯 UNTIMED PRACTICE</span>
+            <span class="practice-hud-counter">Card <b id="r-curr-num">1</b> of <b>${this.pool.length}</b></span>
+          </div>
+          <div class="timer-bar"><i id="r-bar" style="width:0%;background:linear-gradient(90deg,#06b6d4,#10b981)"></i></div>
+        </div>
+      ` : `
+        <div class="timer-wrap" id="r-timer">
+          <div class="timer-num" id="r-time">${this.START}</div>
+          <div class="timer-bar"><i id="r-bar" style="width:100%"></i></div>
+        </div>
+      `}
+
       <div class="combo" id="r-combo"></div>
       
       <div class="card cr-card" id="r-card">
@@ -88,19 +310,26 @@ const Rush = {
       <div class="cr-typing-area">
         <div class="cr-slots-container" id="r-slots"></div>
         <div class="cr-actions">
-          <button class="btn small" id="r-hint-btn">💡 Hint <small>(−2s)</small></button>
+          <button class="btn small" id="r-hint-btn">💡 Hint ${this.isPractice ? "" : "<small>(−2s)</small>"}</button>
           <button class="btn small" id="r-undo-btn">⌫ Undo</button>
-          <button class="btn small" id="r-skip-btn">⏩ Skip <small>(−5s)</small></button>
+          <button class="btn small" id="r-skip-btn">⏩ Skip ${this.isPractice ? "" : "<small>(−5s)</small>"}</button>
         </div>
       </div>
 
-      <!-- Scrambled Tiles Bank (Letter tiles for words, Word tiles for phrases) -->
+      <!-- Scrambled Tiles Bank -->
       <div class="cr-tile-bank-wrap">
         <div class="cr-tiles-bank" id="r-tiles"></div>
       </div>
     `;
 
-    $("#rush-quit").onclick = () => { this.stop(); this.intro(); };
+    $("#rush-quit").onclick = () => { 
+      this.stop(); 
+      if (this.isPractice && this.correct > 0) {
+        this.endPractice();
+      } else {
+        this.intro(); 
+      }
+    };
     $("#r-hint-btn").onclick = () => this.useHintLetter();
     $("#r-undo-btn").onclick = () => this.handleBackspace();
     $("#r-skip-btn").onclick = () => this.skipCard();
@@ -138,8 +367,16 @@ const Rush = {
     if (this.over) return;
     const dt = (t - this.last) / 1000;
     this.last = t;
-    this.time -= dt * this.drain();
     this.elapsed += dt;
+
+    if (this.isPractice) {
+      // Untimed mode: clock does not drain
+      this.raf = requestAnimationFrame((tt) => this.loop(tt));
+      return;
+    }
+
+    // Game Mode: 60s timer drains
+    this.time -= dt * this.drain();
 
     if (this.time <= 0) {
       this.time = 0;
@@ -155,9 +392,27 @@ const Rush = {
   },
 
   renderTimer() {
-    $("#r-time").textContent = this.time < 10 ? this.time.toFixed(1) : Math.ceil(this.time);
-    $("#r-bar").style.width = Math.min(100, (this.time / 60) * 100) + "%";
-    $("#r-timer").classList.toggle("danger", this.time < 10);
+    if (this.isPractice) {
+      const pct = Math.min(100, (this.correct / Math.max(1, this.pool.length)) * 100);
+      const bar = $("#r-bar");
+      if (bar) bar.style.width = pct + "%";
+      const curr = $("#r-curr-num");
+      if (curr) curr.textContent = Math.min(this.correct + 1, this.pool.length);
+      return;
+    }
+
+    const timeNum = $("#r-time");
+    if (timeNum) {
+      timeNum.textContent = this.time < 10 ? this.time.toFixed(1) : Math.ceil(this.time);
+    }
+    const bar = $("#r-bar");
+    if (bar) {
+      bar.style.width = Math.min(100, (this.time / 60) * 100) + "%";
+    }
+    const timerWrap = $("#r-timer");
+    if (timerWrap) {
+      timerWrap.classList.toggle("danger", this.time < 10);
+    }
   },
 
   mult() {
@@ -168,15 +423,30 @@ const Rush = {
     const f = document.createElement("div");
     f.className = `float-time ${cls}`;
     f.textContent = txt;
-    $("#r-timer").appendChild(f);
-    setTimeout(() => f.remove(), 1000);
+    const tWrap = $("#r-timer");
+    if (tWrap) {
+      tWrap.appendChild(f);
+      setTimeout(() => f.remove(), 1000);
+    }
   },
 
   nextCard() {
-    const exclude = new Set(this.recent);
-    const target = Store.pickWords(1, exclude)[0];
-    this.recent.push(target.id);
-    if (this.recent.length > 10) this.recent.shift();
+    let target;
+    if (this.isPractice) {
+      if (this.practiceQueue.length === 0) {
+        return this.endPractice();
+      }
+      target = this.practiceQueue.shift();
+      this.practiceCompleted.add(target.id);
+      const curr = $("#r-curr-num");
+      if (curr) curr.textContent = this.practiceCompleted.size;
+    } else {
+      const exclude = new Set(this.recent);
+      target = Store.pickWords(1, exclude, this.pool)[0];
+      if (!target) target = shuffle([...this.pool])[0];
+      this.recent.push(target.id);
+      if (this.recent.length > 10) this.recent.shift();
+    }
 
     this.card = target;
     this.qStart = performance.now();
@@ -188,7 +458,7 @@ const Rush = {
     // Format context sentence with animated blank
     const sent = esc(target.context).replace(/___/g, `<span class="cr-blank">[ ________ ]</span>`);
     $("#r-sentence").innerHTML = sent;
-    $("#r-clues").innerHTML = `<b>Meaning:</b> ${esc(target.meaning)}<br><b>Synonyms:</b> ${esc(target.synonyms.join(", "))}`;
+    $("#r-clues").innerHTML = `<b>Meaning:</b> ${esc(target.meaning)}<br><b>Synonyms:</b> ${esc((target.synonyms || []).join(", "))}`;
 
     this.setupSlots(target.word);
   },
@@ -246,7 +516,6 @@ const Rush = {
       const scrambled = this.scrambleWordTiles(wordLetterTiles);
 
       // Pre-fill the first letter of this word as a hint
-      // Its virtual keyboard key will be pre-pressed and cannot be clicked
       if (firstLetterSlot && wordLetterTiles.length > 0) {
         const hintTile = scrambled.find(t => t.val === firstLetterSlot.norm && !t.used);
         if (hintTile) {
@@ -278,7 +547,6 @@ const Rush = {
   scrambleWordTiles(wordTiles) {
     if (wordTiles.length <= 1) return [...wordTiles];
     if (wordTiles.length === 2) {
-      // e.g. "AT" -> "T A"
       return [wordTiles[1], wordTiles[0]];
     }
     const originalStr = wordTiles.map(t => t.val).join("");
@@ -293,7 +561,6 @@ const Rush = {
       attempts++;
     } while (attempts < 30 && (arr.map(t => t.val).join("") === originalStr || arr[0].val === firstVal));
 
-    // Ensure scrambled word tiles do not match original string or start with original first letter
     if (arr.map(t => t.val).join("") === originalStr || arr[0].val === firstVal) {
       arr.push(arr.shift());
     }
@@ -319,7 +586,6 @@ const Rush = {
     });
     if (curGroup.length) wordGroups.push(curGroup);
 
-    // Calculate maximum word length to adaptively scale letter slots to fit phone screens
     const maxWordLen = Math.max(...wordGroups.map(g => g.length), 1);
     container.style.setProperty("--wlen", maxWordLen);
 
@@ -373,7 +639,6 @@ const Rush = {
     const container = $("#r-tiles");
     if (!container) return;
 
-    // Group tiles by wIdx so scrambled words are neatly arranged
     const wordGroups = [];
     let curGroup = [];
     let lastWIdx = null;
@@ -406,7 +671,7 @@ const Rush = {
 
     container.innerHTML = html.join("");
 
-    // Zero-lag touch listeners
+    // Zero-lag touch & click listeners
     $$("#r-tiles .cr-tile:not(.used)").forEach(btn => {
       let lastTap = 0;
       const onAction = (e) => {
@@ -462,7 +727,7 @@ const Rush = {
   unpickSlot(idx) {
     if (this.locked || this.over) return;
     const slot = this.slots[idx];
-    if (!slot || slot.typedCh === null || slot.isHint) return; // hints cannot be unpicked!
+    if (!slot || slot.typedCh === null || slot.isHint) return;
 
     if (slot.tileId !== null) {
       const tile = this.tiles.find(t => t.id === slot.tileId);
@@ -482,7 +747,6 @@ const Rush = {
   handleBackspace() {
     if (this.locked || this.over) return;
 
-    // Find previous filled non-hint slot
     let targetIdx = this.activeIdx - 1;
     while (targetIdx >= 0) {
       const s = this.slots[targetIdx];
@@ -512,7 +776,6 @@ const Rush = {
     if (!slot || !slot.isLetter || slot.correct) return;
 
     if (key === slot.norm) {
-      // Match unused tile for this letter (prefer same word group first)
       const match = this.tiles.find(t => !t.used && t.wIdx === slot.wIdx && t.norm === key)
                  || this.tiles.find(t => !t.used && t.norm === key);
       if (match) {
@@ -548,12 +811,10 @@ const Rush = {
   useHintLetter() {
     if (this.locked || this.over) return;
 
-    // Find first unsolved slot
     const targetIdx = this.slots.findIndex(s => s.isLetter && !s.correct);
     if (targetIdx === -1) return;
 
     const slot = this.slots[targetIdx];
-    // Find unused tile matching this slot
     const tile = this.tiles.find(t => !t.used && t.wIdx === slot.wIdx && t.norm === slot.norm)
               || this.tiles.find(t => !t.used && t.norm === slot.norm);
 
@@ -566,8 +827,12 @@ const Rush = {
       slot.isHint = true;
       slot.hasError = false;
 
-      this.time = Math.max(1, this.time - 2);
-      this.floatTime("−2s", "minus");
+      if (!this.isPractice) {
+        this.time = Math.max(1, this.time - 2);
+        this.floatTime("−2s", "minus");
+      } else {
+        this.floatTime("💡 Hint", "plus");
+      }
       Sfx.click();
 
       this.advanceCursor();
@@ -580,10 +845,13 @@ const Rush = {
   skipCard() {
     if (this.locked || this.over) return;
     this.locked = true;
-    this.time = Math.max(1, this.time - 5);
-    this.floatTime("−5s", "minus");
-    this.combo = 0;
-    $("#r-combo").innerHTML = "";
+
+    if (!this.isPractice) {
+      this.time = Math.max(1, this.time - 5);
+      this.floatTime("−5s", "minus");
+      this.combo = 0;
+      $("#r-combo").innerHTML = "";
+    }
     Sfx.wrong();
     
     // Reveal all slots
@@ -608,14 +876,42 @@ const Rush = {
 
     this.locked = true;
     const rt = (performance.now() - this.qStart) / 1000;
-    this.combo++;
     this.correct++;
+
+    if (this.isPractice) {
+      // Practice Mode completion
+      const xpGained = 40;
+      this.score += xpGained;
+      Store.addXP(xpGained);
+      Store.review(this.card.id, rt < 8 ? 5 : 4);
+      
+      Sfx.correct(1);
+      Fx.confetti(28, innerWidth / 2, innerHeight / 2.5);
+      this.floatTime(`+${xpGained} XP`, "plus");
+
+      const scoreEl = $("#r-score");
+      if (scoreEl) scoreEl.textContent = fmt(this.score);
+
+      this.renderTimer();
+
+      setTimeout(() => {
+        if (!this.over) this.nextCard();
+      }, 450);
+      return;
+    }
+
+    // Game Mode completion
+    this.combo++;
     this.maxCombo = Math.max(this.maxCombo, this.combo);
 
-    // Calculate time addition
+    // Time refill: base 4s + combo bonus (up to 8s)
     const add = Math.min(8, this.BASE_ADD + Math.floor(this.combo / 3));
     const speedBonus = rt < 5.0 ? 80 : rt < 8.0 ? 30 : 0;
-    const gained = 120 * this.mult() + speedBonus;
+    
+    // Score calculation with +25% bonus when All Sets Mixed
+    const multVal = this.mult();
+    const mixedMult = this.isMixed ? 1.25 : 1.0;
+    const gained = Math.round((120 * multVal + speedBonus) * mixedMult);
 
     this.time += add;
     this.score += gained;
@@ -626,14 +922,19 @@ const Rush = {
     Store.review(this.card.id, rt < 6 ? 5 : 4);
 
     if (this.combo >= 2) {
-      $("#r-combo").innerHTML = `<span>🔥 ${this.combo} COMBO! (+${add}s)</span>`;
+      const bonusText = this.isMixed ? " · 🔥 +25% Mixed" : "";
+      $("#r-combo").innerHTML = `<span>🔥 ${this.combo} COMBO! (+${add}s${bonusText})</span>`;
     }
     if (this.combo === 5) Store.unlock("combo10");
     if (this.combo === 15) Store.unlock("combo25");
     if (this.correct % 4 === 0) this.levelUp();
 
     $("#r-score").textContent = fmt(this.score);
-    $("#r-mult").textContent = this.mult();
+    if (!this.isMixed) {
+      $("#r-mult").textContent = this.mult();
+    } else {
+      $("#r-mult-pill").textContent = `🔥 ${(this.mult() * 1.25).toFixed(2)}x`;
+    }
 
     setTimeout(() => {
       if (!this.over) this.nextCard();
@@ -657,6 +958,8 @@ const Rush = {
     if (this.elapsed >= 90) Store.unlock("marathon");
     if (this.score >= 1000) Store.quest("rush");
 
+    const setTitle = this.isMixed ? "🌟 All Sets Mixed (+25% Bonus)" : this.selectedSet;
+
     showResults({
       mode: "rush",
       emoji: this.score >= 2000 ? "⚡" : this.score >= 1000 ? "🔥" : "⏰",
@@ -664,10 +967,37 @@ const Rush = {
       score: this.score,
       xp: Math.max(20, Math.round(this.score / 8)),
       stats: [
+        ["Mode", "⚡ 60s Game Mode"],
+        ["Set", setTitle],
         ["Solved", this.correct],
         ["Max Combo", `${this.maxCombo}x`],
         ["Survived", `${Math.round(this.elapsed)}s`],
         ["Level Reached", this.level]
+      ],
+      review: [...this.missed.values()],
+      replay: () => this.start()
+    });
+  },
+
+  endPractice() {
+    this.stop();
+    const accuracy = this.pool.length > 0 
+      ? Math.round((this.correct / Math.max(1, this.correct + this.missed.size)) * 100) 
+      : 100;
+    const setTitle = this.isMixed ? "🌟 All Sets Mixed" : this.selectedSet;
+
+    showResults({
+      mode: "rush",
+      emoji: "🎯",
+      title: "Practice Completed!",
+      score: this.score,
+      xp: Math.max(25, this.correct * 40),
+      stats: [
+        ["Mode", "🎯 Untimed Practice"],
+        ["Set", setTitle],
+        ["Mastered", `${this.correct} / ${this.pool.length}`],
+        ["Accuracy", `${accuracy}%`],
+        ["Time Spent", `${Math.round(this.elapsed)}s`]
       ],
       review: [...this.missed.values()],
       replay: () => this.start()
