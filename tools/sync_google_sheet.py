@@ -120,6 +120,17 @@ def map_columns(headers):
     return mapping
 
 
+def clean_set(val):
+    if val is None:
+        return "1"
+    if isinstance(val, (int, float)):
+        return str(int(val))
+    s = str(val).strip()
+    s = re.sub(r"\.0+$", "", s)
+    s = re.sub(r"^set\s*", "", s, flags=re.IGNORECASE).strip()
+    return s or "1"
+
+
 def get_cell(row, idx):
     if idx is None or idx >= len(row):
         return ""
@@ -164,11 +175,9 @@ def main():
             pos = get_cell(row_vals, col_map["pos"])
             raw_meaning = get_cell(row_vals, col_map["meaning"])
             sample_sentence = get_cell(row_vals, col_map["sentence"])
-            set_val = get_cell(row_vals, col_map["set"]) or "1"
-            content_val = get_cell(row_vals, col_map["content"]) or "Writing 1"
-
-            # Clean set value to format: "1", "2" or keep text
-            set_str = re.sub(r"^set\s*", "", set_val, flags=re.IGNORECASE).strip() or "1"
+            raw_set = row_vals[col_map["set"]] if col_map["set"] is not None and col_map["set"] < len(row_vals) else None
+            set_str = clean_set(raw_set)
+            content_val = get_cell(row_vals, col_map["content"]) or f"Set {set_str}"
 
             meaning_full, meaning_eng, meaning_chin = parse_meaning(raw_meaning)
             context = format_context_blank(word, sample_sentence)
