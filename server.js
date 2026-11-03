@@ -38,7 +38,15 @@ const server = http.createServer((req, res) => {
       'Cache-Control': 'no-cache',
       'Access-Control-Allow-Origin': '*'
     });
-    fs.createReadStream(filePath).pipe(res);
+    const stream = fs.createReadStream(filePath);
+    stream.on('error', (streamErr) => {
+      console.error(`Read error on ${filePath}:`, streamErr.message);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+      }
+      res.end('File Read Error');
+    });
+    stream.pipe(res);
   });
 });
 
