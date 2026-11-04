@@ -460,24 +460,54 @@ const App = {
     $("#chest-ok").onclick = () => { closeModal(); this.renderHome(); };
   },
 
-  vault(filter = "all") {
+  vault(filter = "all", setFilter = "all") {
     if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
       Leaderboard.syncProfilePull();
     }
     const el = $("#screen-vault");
-    const list = VOCAB.filter((c) => { const m = Store.mastery(c.id); return filter === "all" || (filter === "weak" && m > 0 && m < 3) || (filter === "new" && m === 0) || (filter === "mastered" && m >= 3); });
+
+    // Extract available sets
+    const availableSets = [];
+    const setMap = new Map();
+    (window.VOCAB || []).forEach(c => {
+      const key = c.topic || (c.set ? `Set ${c.set}` : "General");
+      if (!setMap.has(key)) {
+        setMap.set(key, 0);
+        availableSets.push(key);
+      }
+      setMap.set(key, setMap.get(key) + 1);
+    });
+
+    const list = (window.VOCAB || []).filter((c) => {
+      const m = Store.mastery(c.id);
+      const matchesMastery = filter === "all" || (filter === "weak" && m > 0 && m < 3) || (filter === "new" && m === 0) || (filter === "mastered" && m >= 3);
+      const cardSetKey = c.topic || (c.set ? `Set ${c.set}` : "General");
+      const matchesSet = setFilter === "all" || cardSetKey === setFilter;
+      return matchesMastery && matchesSet;
+    });
+
     el.innerHTML = `<button class="back-btn" id="vault-back">← Home</button>
       <div class="vault-head">
         <div>
           <h1>📚 Word Vault</h1>
           <p class="muted">Tap any word to study its card. ★ = mastery level.</p>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
-          <button class="btn small" id="vault-sync-btn" title="Sync with Google Cloud" style="font-size:0.75rem;padding:6px 12px;border-color:var(--cyan);color:var(--cyan)">🔄 Cloud Sync</button>
-          <div class="vault-filter">${["all", "new", "weak", "mastered"].map((f) => `<button class="btn small ${f === filter ? "on" : ""}" id="vf-${f}" data-f="${f}">${f[0].toUpperCase() + f.slice(1)}</button>`).join("")}</div>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-direction:column">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+            <button class="btn small" id="vault-sync-btn" title="Sync with Google Cloud" style="font-size:0.75rem;padding:6px 12px;border-color:var(--cyan);color:var(--cyan)">🔄 Cloud Sync</button>
+            <div class="vault-filter">${["all", "new", "weak", "mastered"].map((f) => `<button class="btn small ${f === filter ? "on" : ""}" id="vf-${f}" data-f="${f}">${f[0].toUpperCase() + f.slice(1)}</button>`).join("")}</div>
+          </div>
+          ${availableSets.length > 1 ? `
+            <div class="vault-set-filter" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+              <button class="btn small ${setFilter === 'all' ? 'on' : ''}" data-sf="all" style="font-size:0.75rem;padding:4px 10px">All Sets (${(window.VOCAB || []).length})</button>
+              ${availableSets.map(s => `
+                <button class="btn small ${setFilter === s ? 'on' : ''}" data-sf="${esc(s)}" style="font-size:0.75rem;padding:4px 10px">${esc(s)} (${setMap.get(s)})</button>
+              `).join('')}
+            </div>
+          ` : ''}
         </div>
       </div>
-      <div class="vault-grid">${list.map((c) => `<button class="vword" id="vw-${c.id}" data-id="${c.id}"><b>${esc(c.word)}</b><small>${esc(c.pos)}</small>${stars(c.id)}</button>`).join("") || `<p class="muted">Nothing here yet. Go play!</p>`}</div>`;
+      <div class="vault-grid">${list.map((c) => `<button class="vword" id="vw-${c.id}" data-id="${c.id}"><b>${esc(c.word)}</b><small>${esc(c.pos)}${c.topic ? ` · ${esc(c.topic)}` : ''}</small>${stars(c.id)}</button>`).join("") || `<p class="muted">No words matching this filter.</p>`}</div>`;
     $("#vault-back").onclick = () => showScreen("home");
     const syncBtn = $("#vault-sync-btn");
     if (syncBtn) {
@@ -493,13 +523,14 @@ const App = {
         syncBtn.textContent = "🔄 Cloud Sync";
         syncBtn.disabled = false;
         toast("✅ Word Vault synced with Google Cloud!");
-        this.vault(filter);
+        this.vault(filter, setFilter);
       };
     }
-    $$(".vault-filter [data-f]").forEach((b) => (b.onclick = () => this.vault(b.dataset.f)));
+    $$(".vault-filter [data-f]").forEach((b) => (b.onclick = () => this.vault(b.dataset.f, setFilter)));
+    $$(".vault-set-filter [data-sf]").forEach((b) => (b.onclick = () => this.vault(filter, b.dataset.sf)));
     $$(".vword").forEach((b) => (b.onclick = () => {
       const id = +b.dataset.id;
-      const card = VOCAB.find((x) => x.id === id) || VOCAB[id];
+      const card = (window.VOCAB || []).find((x) => x.id === id) || (window.VOCAB || [])[id];
       if (card) showWord(card, list);
     }));
     if (!$("#screen-vault").classList.contains("active")) showScreen("vault");

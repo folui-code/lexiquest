@@ -200,8 +200,9 @@
 /* ---------- Vault ---------- */
 .vault-head { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
 .vault-head h1 { font-size: 2rem; }
-.vault-filter { display: flex; gap: 8px; }
+.vault-filter { display: flex; gap: 8px; flex-wrap: wrap; }
 .vault-filter .btn.on { background: var(--g-cryptic); border-color: transparent; }
+.vault-set-filter .btn.on { background: linear-gradient(135deg, #06b6d4, #3b82f6); border-color: transparent; color: #fff; box-shadow: 0 0 10px rgba(6,182,212,0.4); }
 .vault-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
 .vword { text-align: left; padding: 14px 16px; border-radius: 16px; background: var(--glass); border: 1px solid var(--line); transition: transform .2s, border-color .2s; }
 .vword:hover { transform: translateY(-3px); border-color: #8b5cf688; }

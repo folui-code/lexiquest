@@ -285,11 +285,12 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
 
 function wordCardHTML(c) {
   const ctx = esc(c.context).replace(/___/g, `<mark>${esc(c.word)}</mark>`);
+  const topicChip = c.topic ? `<span class="chip" style="margin-left:6px;font-size:0.75rem">${esc(c.topic)}</span>` : "";
   return `
     <div class="wcard">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
-          <span class="pos">${esc(c.pos)}</span>
+          <span class="pos">${esc(c.pos)}</span>${topicChip}
           <div style="display:flex;align-items:center;gap:12px;margin:2px 0 8px">
             <h2 style="font-size:1.8rem;margin:0">${esc(c.word)}</h2>
             <button class="pill icon-btn" id="btn-speak-word" title="Listen to pronunciation" style="padding:6px 12px;font-size:1.2rem;background:rgba(34,211,238,0.18);border:1px solid var(--cyan);color:var(--cyan);cursor:pointer">
