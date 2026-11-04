@@ -992,6 +992,7 @@ const Rush = {
       title: "Practice Completed!",
       score: this.score,
       xp: Math.max(25, this.correct * 40),
+      isPractice: true,
       stats: [
         ["Mode", "🎯 Untimed Practice"],
         ["Set", setTitle],

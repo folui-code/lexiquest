@@ -392,23 +392,27 @@ function showWord(c, list = (window.VOCAB || [])) {
 }
 
 /* Shared results screen */
-function showResults({ mode, emoji, title, score, stats, review = [], replay, xp }) {
-  const isBest = Store.setBest(mode, score);
-  const myT = Store.addLB(mode, score);
-  Store.addXP(xp); Store.recordPlay();
-  if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) {
-    Leaderboard.submitScore(mode, score);
+function showResults({ mode, emoji, title, score, stats, review = [], replay, xp, isPractice = false }) {
+  let isBest = false;
+  let myT = null;
+  if (!isPractice) {
+    isBest = Store.setBest(mode, score);
+    myT = Store.addLB(mode, score);
+    if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) {
+      Leaderboard.submitScore(mode, score);
+    }
   }
+  Store.addXP(xp); Store.recordPlay();
   const lb = Store.d.lb[mode] || [];
   const el = $("#screen-results");
   el.innerHTML = `<div class="results">
     <div class="big-emoji">${emoji}</div><h1>${title}</h1>
     <div class="score-big grad-text" id="res-score">0</div>
-    ${isBest ? `<div class="new-best">🏆 NEW PERSONAL BEST</div>` : `<div class="muted">Best: ${fmt(Store.d.best[mode] || 0)}</div>`}
+    ${isPractice ? `<div class="muted" style="color:var(--emerald);font-weight:700">🎯 PRACTICE COMPLETE · XP SAVED</div>` : (isBest ? `<div class="new-best">🏆 NEW PERSONAL BEST</div>` : `<div class="muted">Best: ${fmt(Store.d.best[mode] || 0)}</div>`)}
     <div class="stat-row">${stats.map(([l, v]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("")}<div class="stat"><b>+${fmt(xp)}</b><span>XP earned</span></div></div>
     <div class="result-actions"><button class="btn ${mode === "rush" ? "rush" : mode === "matrix" ? "matrix" : "primary"}" id="btn-replay">↻ Play again</button><button class="btn" id="btn-res-home">🏠 Home</button></div>
     ${review.length ? `<div class="card review"><h3>📌 Words to review</h3>${review.map((c) => `<div class="review-item"><b>${esc(c.word)}</b> <small class="muted">${esc(c.pos)}</small><p>${esc(c.meaning)}</p></div>`).join("")}</div>` : ""}
-    <div class="card lb"><h3>🏅 Your top runs</h3>${lb.map((e, i) => `<div class="lb-row ${e.t === myT ? "me" : ""}"><span>#${i + 1} ${esc(e.n)}</span><b>${fmt(e.s)}</b></div>`).join("")}</div>
+    ${!isPractice ? `<div class="card lb"><h3>🏅 Your top runs</h3>${lb.map((e, i) => `<div class="lb-row ${e.t === myT ? "me" : ""}"><span>#${i + 1} ${esc(e.n)}</span><b>${fmt(e.s)}</b></div>`).join("")}</div>` : ""}
   </div>`;
   showScreen("results");
   // count-up animation
