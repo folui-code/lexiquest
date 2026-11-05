@@ -21,25 +21,44 @@ window.VOCAB = [
   },
   {
     "id": 1,
-    "key": "S4:navigating through the sea of knowledge",
-    "word": "navigating through the sea of knowledge",
+    "key": "S4:navigating through",
+    "word": "navigating through",
     "pos": "Verb phrase (participle)",
     "level": "S4",
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Searching or moving through a vast amount of information and learning resources. (在知識的海洋中航行 / 探索浩瀚學問)",
-    "meaning_eng": "Searching or moving through a vast amount of information and learning resources.",
-    "meaning_chin": "在知識的海洋中航行 / 探索浩瀚學問",
+    "meaning": "Searching or moving through ... (在.....航行 / 探索)",
+    "meaning_eng": "Searching or moving through ...",
+    "meaning_chin": "在.....航行 / 探索",
     "synonyms": [
-      "在知識的海洋中航行",
-      "探索浩瀚學問"
+      "在.....航行",
+      "探索"
     ],
-    "context": "Students spend countless hours ___ on the internet to complete their research projects.",
+    "context": "Students spend countless hours ___ the sea of knowledge on the internet to complete their research projects.",
     "raw_sentence": "Students spend countless hours navigating through the sea of knowledge on the internet to complete their research projects."
   },
   {
     "id": 2,
+    "key": "S4:the sea of knowledge",
+    "word": "the sea of knowledge",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "1",
+    "content": "Writing 1 Sample (Technology)",
+    "topic": "Set 1 · Writing 1 Sample (Technology)",
+    "meaning": "a vast amount of information and learning resources. (知識的海洋/ 浩瀚學問)",
+    "meaning_eng": "a vast amount of information and learning resources.",
+    "meaning_chin": "知識的海洋/ 浩瀚學問",
+    "synonyms": [
+      "知識的海洋",
+      "浩瀚學問"
+    ],
+    "context": "Students spend countless hours navigating through ___ on the internet to complete their research projects.",
+    "raw_sentence": "Students spend countless hours navigating through the sea of knowledge on the internet to complete their research projects."
+  },
+  {
+    "id": 3,
     "key": "S4:extraordinary",
     "word": "extraordinary",
     "pos": "Adjective",
@@ -59,7 +78,7 @@ window.VOCAB = [
     "raw_sentence": "She demonstrated an extraordinary talent for mathematics at a very young age."
   },
   {
-    "id": 3,
+    "id": 4,
     "key": "S4:at best",
     "word": "at best",
     "pos": "Adverbial phrase / Idiom",
@@ -78,7 +97,7 @@ window.VOCAB = [
     "raw_sentence": "The weather forecast indicates that it will be cloudy at best, so do not expect any sunshine today."
   },
   {
-    "id": 4,
+    "id": 5,
     "key": "S4:disastrous",
     "word": "disastrous",
     "pos": "Adjective",
@@ -97,7 +116,7 @@ window.VOCAB = [
     "raw_sentence": "The sudden economic crash had disastrous effects on small businesses across the region."
   },
   {
-    "id": 5,
+    "id": 6,
     "key": "S4:at worst",
     "word": "at worst",
     "pos": "Adverbial phrase / Idiom",
@@ -116,7 +135,7 @@ window.VOCAB = [
     "raw_sentence": "If the proposal is rejected, we will lose some time, but at worst, we simply submit a revised draft."
   },
   {
-    "id": 6,
+    "id": 7,
     "key": "S4:mainstream",
     "word": "mainstream",
     "pos": "Adjective",
@@ -135,7 +154,7 @@ window.VOCAB = [
     "raw_sentence": "Electric vehicles have gradually transitioned from a niche market into mainstream transportation."
   },
   {
-    "id": 7,
+    "id": 8,
     "key": "S4:contemporary society",
     "word": "contemporary society",
     "pos": "Noun phrase",
@@ -154,7 +173,7 @@ window.VOCAB = [
     "raw_sentence": "Rapid technological advancement is reshaping how individuals communicate in contemporary society."
   },
   {
-    "id": 8,
+    "id": 9,
     "key": "S4:highly evolving technology",
     "word": "highly evolving technology",
     "pos": "Noun phrase",
@@ -173,7 +192,7 @@ window.VOCAB = [
     "raw_sentence": "Artificial intelligence is a highly evolving technology that continues to automate complex manual tasks."
   },
   {
-    "id": 9,
+    "id": 10,
     "key": "S4:adverse drawback",
     "word": "adverse drawback",
     "pos": "Noun phrase",
@@ -192,26 +211,42 @@ window.VOCAB = [
     "raw_sentence": "A major adverse drawback of excessive screen time is severe sleep disruption among young people."
   },
   {
-    "id": 10,
-    "key": "S4:dissected at least at three distinctive levels",
-    "word": "dissected at least at three distinctive levels",
-    "pos": "Verb phrase (passive participle)",
+    "id": 11,
+    "key": "S4:dissected",
+    "word": "dissected",
+    "pos": "Verb (passive participle)",
     "level": "S4",
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Analyzed, broken down, or examined in detail from at least three clear, separate perspectives or layers. (至少從三個不同的層面進行剖析/分析)",
-    "meaning_eng": "Analyzed, broken down, or examined in detail from at least three clear, separate perspectives or layers.",
-    "meaning_chin": "至少從三個不同的層面進行剖析/分析",
+    "meaning": "Analyzed, broken down, or examined (進行剖析/分析)",
+    "meaning_eng": "Analyzed, broken down, or examined",
+    "meaning_chin": "進行剖析/分析",
     "synonyms": [
-      "至少從三個不同的層面進行剖析",
+      "進行剖析",
       "分析"
     ],
-    "context": "The environmental issue must be ___: economic, political, and social.",
+    "context": "The environmental issue must be ___ at least at three distinctive levels: economic, political, and social.",
     "raw_sentence": "The environmental issue must be dissected at least at three distinctive levels: economic, political, and social."
   },
   {
-    "id": 11,
+    "id": 12,
+    "key": "S4:distinctive",
+    "word": "distinctive",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "1",
+    "content": "Writing 1 Sample (Technology)",
+    "topic": "Set 1 · Writing 1 Sample (Technology)",
+    "meaning": "Serving to distinguish a person, group, or thing from others; characteristic or unique (獨特的；具特徵的；區別性的)",
+    "meaning_eng": "Serving to distinguish a person, group, or thing from others; characteristic or unique (獨特的；具特徵的；區別性的)",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "The researchers identified a ___ genetic marker that sets the novel strain of bacteria apart from previously classified species.",
+    "raw_sentence": "The researchers identified a distinctive genetic marker that sets the novel strain of bacteria apart from previously classified species."
+  },
+  {
+    "id": 13,
     "key": "S4:toddlers",
     "word": "toddlers",
     "pos": "Noun (plural)",
@@ -230,7 +265,7 @@ window.VOCAB = [
     "raw_sentence": "The daycare center offers specialized educational games designed to improve fine motor skills in toddlers."
   },
   {
-    "id": 12,
+    "id": 14,
     "key": "S4:hinder ... from",
     "word": "hinder ... from",
     "pos": "Phrasal verb",
@@ -249,7 +284,7 @@ window.VOCAB = [
     "raw_sentence": "Bad weather conditions may hinder the rescue team from reaching the isolated mountain village on time."
   },
   {
-    "id": 13,
+    "id": 15,
     "key": "S4:genres",
     "word": "genres",
     "pos": "Noun (plural)",
@@ -268,7 +303,7 @@ window.VOCAB = [
     "raw_sentence": "She enjoys reading various literary genres, ranging from historical fiction to mystery novels."
   },
   {
-    "id": 14,
+    "id": 16,
     "key": "S4:engaging",
     "word": "engaging",
     "pos": "Adjective",
@@ -288,7 +323,7 @@ window.VOCAB = [
     "raw_sentence": "The professor delivered an engaging presentation that kept the entire audience focused throughout the hour."
   },
   {
-    "id": 15,
+    "id": 17,
     "key": "S4:appealing",
     "word": "appealing",
     "pos": "Adjective",
@@ -307,7 +342,7 @@ window.VOCAB = [
     "raw_sentence": "The idea of working flexible hours seems very appealing to modern job applicants."
   },
   {
-    "id": 16,
+    "id": 18,
     "key": "S4:gadgets",
     "word": "gadgets",
     "pos": "Noun (plural)",
@@ -327,7 +362,7 @@ window.VOCAB = [
     "raw_sentence": "Smartwatches and wireless earbuds are among the most popular electronic gadgets available today."
   },
   {
-    "id": 17,
+    "id": 19,
     "key": "S4:hypothesis",
     "word": "hypothesis",
     "pos": "Noun",
@@ -346,7 +381,7 @@ window.VOCAB = [
     "raw_sentence": "The researchers conducted a series of experiments to test their original hypothesis."
   },
   {
-    "id": 18,
+    "id": 20,
     "key": "S4:ungrounded",
     "word": "ungrounded",
     "pos": "Adjective",
@@ -365,7 +400,7 @@ window.VOCAB = [
     "raw_sentence": "Her worries about failing the exam turned out to be completely ungrounded once the results were released."
   },
   {
-    "id": 19,
+    "id": 21,
     "key": "S4:distractions",
     "word": "distractions",
     "pos": "Noun (plural)",
@@ -384,7 +419,7 @@ window.VOCAB = [
     "raw_sentence": "Studying in a quiet room helps students minimize distractions and stay focused on their tasks."
   },
   {
-    "id": 20,
+    "id": 22,
     "key": "S4:lack self-control",
     "word": "lack self-control",
     "pos": "Verb phrase",
@@ -403,7 +438,7 @@ window.VOCAB = [
     "raw_sentence": "Young children often lack self-control when surrounded by sweet treats and novel toys."
   },
   {
-    "id": 21,
+    "id": 23,
     "key": "S4:endless loops of stimulation",
     "word": "endless loops of stimulation",
     "pos": "Noun phrase",
@@ -422,7 +457,7 @@ window.VOCAB = [
     "raw_sentence": "Short video platforms are intentionally designed to keep users trapped in endless loops of stimulation."
   },
   {
-    "id": 22,
+    "id": 24,
     "key": "S4:develop cognitive skills",
     "word": "develop cognitive skills",
     "pos": "Verb phrase",
@@ -441,7 +476,7 @@ window.VOCAB = [
     "raw_sentence": "Playing strategic board games helps children develop cognitive skills like critical thinking and spatial reasoning."
   },
   {
-    "id": 23,
+    "id": 25,
     "key": "S4:stimulate imagination",
     "word": "stimulate imagination",
     "pos": "Verb phrase",
@@ -459,26 +494,26 @@ window.VOCAB = [
     "raw_sentence": "Reading fantasy literature can stimulate imagination and foster creative writing talents in young minds."
   },
   {
-    "id": 24,
-    "key": "S4:learn about basic ethical principles",
-    "word": "learn about basic ethical principles",
-    "pos": "Verb phrase",
+    "id": 26,
+    "key": "S4:ethical principles",
+    "word": "ethical principles",
+    "pos": "Noun phrase",
     "level": "S4",
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "To study or understand fundamental moral rules and values governing right behavior. (學習基本倫理原則 / 了解基本道德準則)",
-    "meaning_eng": "To study or understand fundamental moral rules and values governing right behavior.",
-    "meaning_chin": "學習基本倫理原則 / 了解基本道德準則",
+    "meaning": "fundamental moral rules and values governing right behavior. (倫理原則 / 道德準則)",
+    "meaning_eng": "fundamental moral rules and values governing right behavior.",
+    "meaning_chin": "倫理原則 / 道德準則",
     "synonyms": [
-      "學習基本倫理原則",
-      "了解基本道德準則"
+      "倫理原則",
+      "道德準則"
     ],
-    "context": "In primary school, students ___ such as honesty, fairness, and respect.",
+    "context": "In primary school, students learn about basic ___ such as honesty, fairness, and respect.",
     "raw_sentence": "In primary school, students learn about basic ethical principles such as honesty, fairness, and respect."
   },
   {
-    "id": 25,
+    "id": 27,
     "key": "S4:exposure to",
     "word": "exposure to",
     "pos": "Noun phrase / Prepositional phrase",
@@ -497,7 +532,7 @@ window.VOCAB = [
     "raw_sentence": "Early exposure to foreign languages helps children acquire natural pronunciation with relative ease."
   },
   {
-    "id": 26,
+    "id": 28,
     "key": "S4:exceedingly enormous",
     "word": "exceedingly enormous",
     "pos": "Adjective phrase",
@@ -516,44 +551,44 @@ window.VOCAB = [
     "raw_sentence": "Constructing the transcontinental railway required an exceedingly enormous amount of capital and labor."
   },
   {
-    "id": 27,
-    "key": "S4:fall behind their learning",
-    "word": "fall behind their learning",
+    "id": 29,
+    "key": "S4:fall behind",
+    "word": "fall behind",
     "pos": "Verb phrase",
     "level": "S4",
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "To fail to keep pace with expected academic progress or coursework. (學習進度落後)",
-    "meaning_eng": "To fail to keep pace with expected academic progress or coursework.",
-    "meaning_chin": "學習進度落後",
+    "meaning": "To fail to keep pace with ... (進度落後)",
+    "meaning_eng": "To fail to keep pace with ...",
+    "meaning_chin": "進度落後",
     "synonyms": [
-      "學習進度落後"
+      "進度落後"
     ],
-    "context": "Students who suffer from chronic absenteeism are likely to ___.",
+    "context": "Students who suffer from chronic absenteeism are likely to ___ their learning.",
     "raw_sentence": "Students who suffer from chronic absenteeism are likely to fall behind their learning."
   },
   {
-    "id": 28,
-    "key": "S4:problems bred by",
-    "word": "Problems bred by",
-    "pos": "Noun phrase (with participle modifier)",
+    "id": 30,
+    "key": "S4:bred by",
+    "word": "bred by",
+    "pos": "verb phrase",
     "level": "S4",
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Difficulties or issues generated, caused, or fostered by a specific source or situation. (由…引發的問題 / 源自…的弊端)",
-    "meaning_eng": "Difficulties or issues generated, caused, or fostered by a specific source or situation.",
-    "meaning_chin": "由…引發的問題 / 源自…的弊端",
+    "meaning": "generated, caused, or fostered by a specific source or situation. (由…引發 / 源自 ...)",
+    "meaning_eng": "generated, caused, or fostered by a specific source or situation.",
+    "meaning_chin": "由…引發 / 源自 ...",
     "synonyms": [
-      "由…引發的問題",
-      "源自…的弊端"
+      "由…引發",
+      "源自 ..."
     ],
-    "context": "___ excessive smartphone addiction include sleep deprivation and reduced social skills.",
+    "context": "Problems ___ excessive smartphone addiction include sleep deprivation and reduced social skills.",
     "raw_sentence": "Problems bred by excessive smartphone addiction include sleep deprivation and reduced social skills."
   },
   {
-    "id": 29,
+    "id": 31,
     "key": "S4:juveniles",
     "word": "juveniles",
     "pos": "Noun (plural)",
@@ -572,7 +607,7 @@ window.VOCAB = [
     "raw_sentence": "Local youth centers offer evening sports activities to engage juveniles in positive pursuits."
   },
   {
-    "id": 30,
+    "id": 32,
     "key": "S4:thrive",
     "word": "thrive",
     "pos": "Verb",
@@ -592,7 +627,7 @@ window.VOCAB = [
     "raw_sentence": "Small independent businesses began to thrive after the community pedestrian street was created."
   },
   {
-    "id": 31,
+    "id": 33,
     "key": "S4:impeccable",
     "word": "impeccable",
     "pos": "Adjective",
@@ -611,7 +646,7 @@ window.VOCAB = [
     "raw_sentence": "Her impeccable performance during the international piano competition earned her first place."
   },
   {
-    "id": 32,
+    "id": 34,
     "key": "S4:adolescents",
     "word": "adolescents",
     "pos": "Noun (plural)",
@@ -629,7 +664,7 @@ window.VOCAB = [
     "raw_sentence": "Many adolescents struggle with peer pressure and identity formation during high school."
   },
   {
-    "id": 33,
+    "id": 35,
     "key": "S4:are obliged to",
     "word": "are obliged to",
     "pos": "Verb phrase (passive modal structure)",
@@ -649,7 +684,7 @@ window.VOCAB = [
     "raw_sentence": "All working citizens are obliged to pay income tax according to the regulations of the state."
   },
   {
-    "id": 34,
+    "id": 36,
     "key": "S4:countless problems",
     "word": "countless problems",
     "pos": "Noun phrase",
@@ -668,7 +703,7 @@ window.VOCAB = [
     "raw_sentence": "The severe storm generated countless problems for the city's public transit authority."
   },
   {
-    "id": 35,
+    "id": 37,
     "key": "S4:grown-ups",
     "word": "grown-ups",
     "pos": "Noun (plural)",
@@ -687,7 +722,7 @@ window.VOCAB = [
     "raw_sentence": "Children frequently imitate the actions and speaking habits of the grown-ups around them."
   },
   {
-    "id": 36,
+    "id": 38,
     "key": "S4:tortuous",
     "word": "tortuous",
     "pos": "Adjective",
@@ -706,7 +741,7 @@ window.VOCAB = [
     "raw_sentence": "The vehicles proceeded slowly along the tortuous mountain road during the fog."
   },
   {
-    "id": 37,
+    "id": 39,
     "key": "S4:treacherous",
     "word": "treacherous",
     "pos": "Adjective",
@@ -726,7 +761,7 @@ window.VOCAB = [
     "raw_sentence": "Ice patches on the highway created treacherous driving conditions for evening commuters."
   },
   {
-    "id": 38,
+    "id": 40,
     "key": "S4:obscure the meaning",
     "word": "obscure the meaning",
     "pos": "Verb phrase",
@@ -745,7 +780,7 @@ window.VOCAB = [
     "raw_sentence": "Overusing complex jargon in an essay can obscure the meaning of an otherwise sound argument."
   },
   {
-    "id": 39,
+    "id": 41,
     "key": "S4:setbacks",
     "word": "setbacks",
     "pos": "Noun (plural)",
@@ -765,7 +800,7 @@ window.VOCAB = [
     "raw_sentence": "Despite facing major initial setbacks, the engineering team successfully launched the satellite on schedule."
   },
   {
-    "id": 40,
+    "id": 42,
     "key": "S4:tangled",
     "word": "tangled",
     "pos": "Adjective",
@@ -784,7 +819,7 @@ window.VOCAB = [
     "raw_sentence": "Investigators took months to unravel the tangled web of corporate financial fraud."
   },
   {
-    "id": 41,
+    "id": 43,
     "key": "S4:puzzling",
     "word": "puzzling",
     "pos": "Adjective",
@@ -803,7 +838,7 @@ window.VOCAB = [
     "raw_sentence": "The sudden decline in the local bird population presented a puzzling mystery to wildlife biologists."
   },
   {
-    "id": 42,
+    "id": 44,
     "key": "S4:tackle the troubles with ease",
     "word": "tackle the troubles with ease",
     "pos": "Verb phrase",
@@ -822,7 +857,7 @@ window.VOCAB = [
     "raw_sentence": "Equipped with decades of experience, the veteran engineer was able to tackle the troubles with ease."
   },
   {
-    "id": 43,
+    "id": 45,
     "key": "S4:delving into books",
     "word": "delving into books",
     "pos": "Verb phrase (participle / gerund)",
@@ -841,7 +876,7 @@ window.VOCAB = [
     "raw_sentence": "She spends most of her weekend hours delving into books on ancient Mediterranean history at the central library."
   },
   {
-    "id": 44,
+    "id": 46,
     "key": "S4:splendid solution",
     "word": "splendid solution",
     "pos": "Noun phrase",
@@ -860,7 +895,7 @@ window.VOCAB = [
     "raw_sentence": "Integrating solar panels with rainwater harvesting proved to be a splendid solution for the eco-resort."
   },
   {
-    "id": 45,
+    "id": 47,
     "key": "S4:limitation",
     "word": "limitation",
     "pos": "Noun",
@@ -879,7 +914,7 @@ window.VOCAB = [
     "raw_sentence": "Budgetary limitation prevented the school board from expanding the computer lab this semester."
   },
   {
-    "id": 46,
+    "id": 48,
     "key": "S4:barriers",
     "word": "barriers",
     "pos": "Noun (plural)",
@@ -898,7 +933,7 @@ window.VOCAB = [
     "raw_sentence": "Cultural and language barriers can complicate international business negotiations if not properly managed."
   },
   {
-    "id": 47,
+    "id": 49,
     "key": "S4:obstruction",
     "word": "obstruction",
     "pos": "Noun",
@@ -918,7 +953,7 @@ window.VOCAB = [
     "raw_sentence": "The fallen tree created a severe obstruction on the main avenue during rush hour."
   },
   {
-    "id": 48,
+    "id": 50,
     "key": "S4:irreversible",
     "word": "irreversible",
     "pos": "Adjective",
@@ -937,7 +972,7 @@ window.VOCAB = [
     "raw_sentence": "Widespread deforestation causes irreversible damage to local ecosystems and wildlife habitats."
   },
   {
-    "id": 49,
+    "id": 51,
     "key": "S4:a dazzling spectacle",
     "word": "a dazzling spectacle",
     "pos": "Noun phrase",
@@ -956,7 +991,7 @@ window.VOCAB = [
     "raw_sentence": "The opening ceremony's fireworks display was a dazzling spectacle that left the crowd in awe."
   },
   {
-    "id": 50,
+    "id": 52,
     "key": "S4:armed with the latest tools and techniques",
     "word": "armed with the latest tools and techniques",
     "pos": "Participial phrase",
@@ -975,7 +1010,7 @@ window.VOCAB = [
     "raw_sentence": "Armed with the latest tools and techniques, the research team quickly diagnosed the complex system failure."
   },
   {
-    "id": 51,
+    "id": 53,
     "key": "S4:callused hands",
     "word": "callused hands",
     "pos": "Noun phrase",
@@ -994,7 +1029,7 @@ window.VOCAB = [
     "raw_sentence": "The veteran carpenter looked down at his callused hands, proud of the thousands of chairs he had built."
   },
   {
-    "id": 52,
+    "id": 54,
     "key": "S4:accomplishing",
     "word": "accomplishing",
     "pos": "Verb (present participle)",
@@ -1014,7 +1049,7 @@ window.VOCAB = [
     "raw_sentence": "She felt a deep sense of satisfaction after accomplishing all of her project targets ahead of schedule."
   },
   {
-    "id": 53,
+    "id": 55,
     "key": "S4:monochrome",
     "word": "monochrome",
     "pos": "Adjective",
@@ -1033,7 +1068,7 @@ window.VOCAB = [
     "raw_sentence": "The gallery exhibited a striking series of monochrome photographs depicting urban life in the 1950s."
   },
   {
-    "id": 54,
+    "id": 56,
     "key": "S4:multicolored",
     "word": "multicolored",
     "pos": "Adjective",
@@ -1052,7 +1087,7 @@ window.VOCAB = [
     "raw_sentence": "Children cheered as the multicolored hot air balloons rose gracefully into the morning sky."
   },
   {
-    "id": 55,
+    "id": 57,
     "key": "S4:grandiose",
     "word": "grandiose",
     "pos": "Adjective",
@@ -1072,7 +1107,7 @@ window.VOCAB = [
     "raw_sentence": "The architect presented a grandiose plan to rebuild the downtown area with massive marble towers."
   },
   {
-    "id": 56,
+    "id": 58,
     "key": "S4:tyrannical",
     "word": "tyrannical",
     "pos": "Adjective",
@@ -1092,7 +1127,7 @@ window.VOCAB = [
     "raw_sentence": "The citizens ultimately revolted against the tyrannical ruler who suppressed all freedom of speech."
   },
   {
-    "id": 57,
+    "id": 59,
     "key": "S4:unveil",
     "word": "unveil",
     "pos": "Verb",
@@ -1112,7 +1147,7 @@ window.VOCAB = [
     "raw_sentence": "The tech company plans to unveil its new flagship smartphone at the annual conference."
   },
   {
-    "id": 58,
+    "id": 60,
     "key": "S4:delicate",
     "word": "delicate",
     "pos": "Adjective",
@@ -1132,7 +1167,7 @@ window.VOCAB = [
     "raw_sentence": "The antique porcelain vase is extremely delicate and must be handled with utmost care."
   },
   {
-    "id": 59,
+    "id": 61,
     "key": "S4:crimson",
     "word": "crimson",
     "pos": "Adjective",
@@ -1151,26 +1186,7 @@ window.VOCAB = [
     "raw_sentence": "The autumn leaves turned a brilliant crimson as the temperature dropped in October."
   },
   {
-    "id": 60,
-    "key": "S4:distinctive",
-    "word": "distinctive",
-    "pos": "Adjective",
-    "level": "S4",
-    "set": "2",
-    "content": "DSE 2013 Reading (Terracotta Army)",
-    "topic": "Set 2 · DSE 2013 Reading (Terracotta Army)",
-    "meaning": "Having a special quality, style, or characteristic that makes something easy to recognize and separate from others. (獨特的 / 有特色的)",
-    "meaning_eng": "Having a special quality, style, or characteristic that makes something easy to recognize and separate from others.",
-    "meaning_chin": "獨特的 / 有特色的",
-    "synonyms": [
-      "獨特的",
-      "有特色的"
-    ],
-    "context": "The bakery is famous for the ___ aroma of fresh cinnamon that fills the street every morning.",
-    "raw_sentence": "The bakery is famous for the distinctive aroma of fresh cinnamon that fills the street every morning."
-  },
-  {
-    "id": 61,
+    "id": 62,
     "key": "S4:is beaded with",
     "word": "is beaded with",
     "pos": "Verb phrase (passive)",
@@ -1189,7 +1205,7 @@ window.VOCAB = [
     "raw_sentence": "After his long morning run, his forehead is beaded with tiny droplets of sweat."
   },
   {
-    "id": 62,
+    "id": 63,
     "key": "S4:imperfections",
     "word": "imperfections",
     "pos": "Noun (plural)",
@@ -1208,7 +1224,7 @@ window.VOCAB = [
     "raw_sentence": "Handmade pottery often features subtle imperfections that give each piece its unique character."
   },
   {
-    "id": 63,
+    "id": 64,
     "key": "S4:somber",
     "word": "somber",
     "pos": "Adjective",
@@ -1228,7 +1244,7 @@ window.VOCAB = [
     "raw_sentence": "A somber silence fell over the room as the news of the tragedy was announced."
   },
   {
-    "id": 64,
+    "id": 65,
     "key": "S4:survive the crucible of time",
     "word": "survive the crucible of time",
     "pos": "Verb phrase",
@@ -1247,7 +1263,7 @@ window.VOCAB = [
     "raw_sentence": "Great works of classic literature survive the crucible of time and continue to inspire generations."
   },
   {
-    "id": 65,
+    "id": 66,
     "key": "S4:vibrant pieces of history",
     "word": "vibrant pieces of history",
     "pos": "Noun phrase",
@@ -1266,7 +1282,7 @@ window.VOCAB = [
     "raw_sentence": "The ancient ruins in Rome are vibrant pieces of history that draw millions of visitors every year."
   },
   {
-    "id": 66,
+    "id": 67,
     "key": "S4:serendipity",
     "word": "serendipity",
     "pos": "Noun",
@@ -1285,7 +1301,7 @@ window.VOCAB = [
     "raw_sentence": "Finding my favorite out-of-print book at a tiny garage sale was a moment of pure serendipity."
   },
   {
-    "id": 67,
+    "id": 68,
     "key": "S4:to everyone’s delight",
     "word": "to everyone’s delight",
     "pos": "Prepositional phrase / Idiom",
@@ -1304,7 +1320,7 @@ window.VOCAB = [
     "raw_sentence": "To everyone's delight, the organizer announced an extra rest hour at the end of the seminar."
   },
   {
-    "id": 68,
+    "id": 69,
     "key": "S4:bristling with",
     "word": "bristling with",
     "pos": "Verb phrase / Adjective phrase",
@@ -1322,5 +1338,597 @@ window.VOCAB = [
     ],
     "context": "The newly renovated research vessel was ___ state-of-the-art sensors and communication antennas.",
     "raw_sentence": "The newly renovated research vessel was bristling with state-of-the-art sensors and communication antennas."
+  },
+  {
+    "id": 70,
+    "key": "S4:ride a bicycle",
+    "word": "ride a bicycle",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to travel on or control a bicycle",
+    "meaning_eng": "to travel on or control a bicycle",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "We decided to ___ through the park on Sunday morning.",
+    "raw_sentence": "We decided to ride a bicycle through the park on Sunday morning."
+  },
+  {
+    "id": 71,
+    "key": "S4:along the scenic shore",
+    "word": "along the scenic shore",
+    "pos": "Prepositional Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "following the path or edge of a picturesque coastline or bank",
+    "meaning_eng": "following the path or edge of a picturesque coastline or bank",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "They enjoyed walking ___ while watching the sunset.",
+    "raw_sentence": "They enjoyed walking along the scenic shore while watching the sunset."
+  },
+  {
+    "id": 72,
+    "key": "S4:stroll",
+    "word": "stroll",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to walk in a slow, relaxed manner",
+    "meaning_eng": "to walk in a slow, relaxed manner",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Couples love to ___ through the botanical garden after dinner.",
+    "raw_sentence": "Couples love to stroll through the botanical garden after dinner."
+  },
+  {
+    "id": 73,
+    "key": "S4:cobblestone streets",
+    "word": "cobblestone streets",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "roads paved with rounded stones",
+    "meaning_eng": "roads paved with rounded stones",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "The ancient town is famous for its charming ___.",
+    "raw_sentence": "The ancient town is famous for its charming cobblestone streets."
+  },
+  {
+    "id": 74,
+    "key": "S4:admire",
+    "word": "admire",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to look at something with pleasure and approval",
+    "meaning_eng": "to look at something with pleasure and approval",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Visitors often stop to ___ the stunning artwork in the gallery.",
+    "raw_sentence": "Visitors often stop to admire the stunning artwork in the gallery."
+  },
+  {
+    "id": 75,
+    "key": "S4:architecture",
+    "word": "architecture",
+    "pos": "Noun",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "the art or style of designing and constructing buildings",
+    "meaning_eng": "the art or style of designing and constructing buildings",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "European cities are renowned for their magnificent historic ___.",
+    "raw_sentence": "European cities are renowned for their magnificent historic architecture."
+  },
+  {
+    "id": 76,
+    "key": "S4:taste local delicacies",
+    "word": "taste local delicacies",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to sample food or dishes special to a particular region",
+    "meaning_eng": "to sample food or dishes special to a particular region",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Touring the night market is a great way to ___.",
+    "raw_sentence": "Touring the night market is a great way to taste local delicacies."
+  },
+  {
+    "id": 77,
+    "key": "S4:gaze at",
+    "word": "gaze at",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to look steadily and intently at something in admiration",
+    "meaning_eng": "to look steadily and intently at something in admiration",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "She stood on the balcony to ___ the starry night sky.",
+    "raw_sentence": "She stood on the balcony to gaze at the starry night sky."
+  },
+  {
+    "id": 78,
+    "key": "S4:snow-capped",
+    "word": "snow-capped",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "covered with snow at the top or peak",
+    "meaning_eng": "covered with snow at the top or peak",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "The ___ mountains looked breathtaking under the bright sun.",
+    "raw_sentence": "The snow-capped mountains looked breathtaking under the bright sun."
+  },
+  {
+    "id": 79,
+    "key": "S4:snow mountain",
+    "word": "Snow Mountain",
+    "pos": "Proper Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a mountain covered in snow / specific mountain named Xueshan",
+    "meaning_eng": "a mountain covered in snow / specific mountain named Xueshan",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Adventurers travel to Taiwan every winter to climb ___.",
+    "raw_sentence": "Adventurers travel to Taiwan every winter to climb Snow Mountain."
+  },
+  {
+    "id": 80,
+    "key": "S4:hot spring resorts",
+    "word": "Hot spring resorts",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "holiday hotels built around natural geothermal springs",
+    "meaning_eng": "holiday hotels built around natural geothermal springs",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Japan features many luxury ___ where guests can relax.",
+    "raw_sentence": "Japan features many luxury hot spring resorts where guests can relax."
+  },
+  {
+    "id": 81,
+    "key": "S4:soak",
+    "word": "soak",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to lie immersed in water or liquid to relax",
+    "meaning_eng": "to lie immersed in water or liquid to relax",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "After a long hike, he likes to ___ in a warm bath.",
+    "raw_sentence": "After a long hike, he likes to soak in a warm bath."
+  },
+  {
+    "id": 82,
+    "key": "S4:hot spring",
+    "word": "hot spring",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a natural spring producing warm or hot groundwater",
+    "meaning_eng": "a natural spring producing warm or hot groundwater",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Bathing in a natural ___ helps soothe tired muscles.",
+    "raw_sentence": "Bathing in a natural hot spring helps soothe tired muscles."
+  },
+  {
+    "id": 83,
+    "key": "S4:mount fuji views",
+    "word": "Mount Fuji views",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "panoramas or sightings of Mount Fuji",
+    "meaning_eng": "panoramas or sightings of Mount Fuji",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "The hotel rooms offer spectacular ___ from private balconies.",
+    "raw_sentence": "The hotel rooms offer spectacular Mount Fuji views from private balconies."
+  },
+  {
+    "id": 84,
+    "key": "S4:ramen",
+    "word": "ramen",
+    "pos": "Noun",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a Japanese noodle soup dish served in broth with toppings",
+    "meaning_eng": "a Japanese noodle soup dish served in broth with toppings",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "We ordered a steaming bowl of pork ___ at the local noodle shop.",
+    "raw_sentence": "We ordered a steaming bowl of pork ramen at the local noodle shop."
+  },
+  {
+    "id": 85,
+    "key": "S4:scenic cable car",
+    "word": "scenic cable car",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "an elevated transport vehicle offering picturesque views",
+    "meaning_eng": "an elevated transport vehicle offering picturesque views",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Passengers took the ___ to reach the mountain summit.",
+    "raw_sentence": "Passengers took the scenic cable car to reach the mountain summit."
+  },
+  {
+    "id": 86,
+    "key": "S4:swiss alps",
+    "word": "Swiss Alps",
+    "pos": "Proper Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "the portion of the Alps mountain range in Switzerland",
+    "meaning_eng": "the portion of the Alps mountain range in Switzerland",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Skiing in the ___ attracts sports enthusiasts from around the world.",
+    "raw_sentence": "Skiing in the Swiss Alps attracts sports enthusiasts from around the world."
+  },
+  {
+    "id": 87,
+    "key": "S4:hike",
+    "word": "hike",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to walk long distances across outdoor terrain",
+    "meaning_eng": "to walk long distances across outdoor terrain",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "They plan to ___ along the mountain ridge early tomorrow morning.",
+    "raw_sentence": "They plan to hike along the mountain ridge early tomorrow morning."
+  },
+  {
+    "id": 88,
+    "key": "S4:mountain trails",
+    "word": "mountain trails",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "paths or tracks through mountainous terrain",
+    "meaning_eng": "paths or tracks through mountainous terrain",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Hikers must stay on marked ___ for safety.",
+    "raw_sentence": "Hikers must stay on marked mountain trails for safety."
+  },
+  {
+    "id": 89,
+    "key": "S4:interlaken",
+    "word": "Interlaken",
+    "pos": "Proper Noun",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a famous resort town in central Switzerland",
+    "meaning_eng": "a famous resort town in central Switzerland",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "When traveling to ___, tourists often go paragliding over the valley and take scenic boat cruises across the twin lakes.",
+    "raw_sentence": "When traveling to Interlaken, tourists often go paragliding over the valley and take scenic boat cruises across the twin lakes."
+  },
+  {
+    "id": 90,
+    "key": "S4:iconic peak",
+    "word": "iconic peak",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a famous, distinctive, and widely recognized mountain summit",
+    "meaning_eng": "a famous, distinctive, and widely recognized mountain summit",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "The Matterhorn is considered the most ___ in the region.",
+    "raw_sentence": "The Matterhorn is considered the most iconic peak in the region."
+  },
+  {
+    "id": 91,
+    "key": "S4:matterhorn",
+    "word": "Matterhorn",
+    "pos": "Proper Noun",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a famous pyramid-shaped mountain in the Alps",
+    "meaning_eng": "a famous pyramid-shaped mountain in the Alps",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "While traveling in Zermatt, visitors ride the mountain cogwheel train to admire and photograph the magnificent ___.",
+    "raw_sentence": "While traveling in Zermatt, visitors ride the mountain cogwheel train to admire and photograph the magnificent Matterhorn."
+  },
+  {
+    "id": 92,
+    "key": "S4:breathe in",
+    "word": "breathe in",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to inhale air into the lungs",
+    "meaning_eng": "to inhale air into the lungs",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Step outside and ___ the fresh morning air.",
+    "raw_sentence": "Step outside and breathe in the fresh morning air."
+  },
+  {
+    "id": 93,
+    "key": "S4:pure, unpolluted alpine air",
+    "word": "pure, unpolluted alpine air",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "clean, fresh mountain air free from pollution",
+    "meaning_eng": "clean, fresh mountain air free from pollution",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "At the peak, they filled their lungs with ___.",
+    "raw_sentence": "At the peak, they filled their lungs with pure, unpolluted alpine air."
+  },
+  {
+    "id": 94,
+    "key": "S4:disconnect from",
+    "word": "disconnect from",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to step away or take a break from routine, technology, or stress",
+    "meaning_eng": "to step away or take a break from routine, technology, or stress",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Vacation is a great time to ___ work emails and social media.",
+    "raw_sentence": "Vacation is a great time to disconnect from work emails and social media."
+  },
+  {
+    "id": 95,
+    "key": "S4:build sandcastles",
+    "word": "build sandcastles",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to create structures out of wet sand on a beach",
+    "meaning_eng": "to create structures out of wet sand on a beach",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Children spend hours on the beach trying to ___.",
+    "raw_sentence": "Children spend hours on the beach trying to build sandcastles."
+  },
+  {
+    "id": 96,
+    "key": "S4:quality family time",
+    "word": "quality family time",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "meaningful time spent together with family members",
+    "meaning_eng": "meaningful time spent together with family members",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Weekend picnics provide a wonderful opportunity for ___.",
+    "raw_sentence": "Weekend picnics provide a wonderful opportunity for quality family time."
+  },
+  {
+    "id": 97,
+    "key": "S4:breathtaking ocean sunsets",
+    "word": "breathtaking ocean sunsets",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "extraordinarily beautiful views of the sun setting over the sea",
+    "meaning_eng": "extraordinarily beautiful views of the sun setting over the sea",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Tourists gather at the coast every evening to watch ___.",
+    "raw_sentence": "Tourists gather at the coast every evening to watch breathtaking ocean sunsets."
+  },
+  {
+    "id": 98,
+    "key": "S4:take a gentle walk",
+    "word": "take a gentle walk",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to go for an easy, unhurried walk",
+    "meaning_eng": "to go for an easy, unhurried walk",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "After dinner, we decided to ___ around the neighborhood.",
+    "raw_sentence": "After dinner, we decided to take a gentle walk around the neighborhood."
+  },
+  {
+    "id": 99,
+    "key": "S4:rice terraces",
+    "word": "rice terraces",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "stepped fields built into hillsides for growing rice",
+    "meaning_eng": "stepped fields built into hillsides for growing rice",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "The emerald green ___ in Bali attract thousands of visitors.",
+    "raw_sentence": "The emerald green rice terraces in Bali attract thousands of visitors."
+  },
+  {
+    "id": 100,
+    "key": "S4:go punting",
+    "word": "go punting",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to travel in a flat-bottomed boat propelled with a long pole",
+    "meaning_eng": "to travel in a flat-bottomed boat propelled with a long pole",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Tourists visiting Cambridge often choose to ___ on the River Cam.",
+    "raw_sentence": "Tourists visiting Cambridge often choose to go punting on the River Cam."
+  },
+  {
+    "id": 101,
+    "key": "S4:historic university colleges",
+    "word": "historic university colleges",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "higher education institutions with a long history and tradition",
+    "meaning_eng": "higher education institutions with a long history and tradition",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Oxford is famous for its grand libraries and ___.",
+    "raw_sentence": "Oxford is famous for its grand libraries and historic university colleges."
+  },
+  {
+    "id": 102,
+    "key": "S4:red double-decker bus",
+    "word": "red double-decker bus",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a two-level public bus painted red, iconic in London",
+    "meaning_eng": "a two-level public bus painted red, iconic in London",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "We boarded a ___ to tour the city center.",
+    "raw_sentence": "We boarded a red double-decker bus to tour the city center."
+  },
+  {
+    "id": 103,
+    "key": "S4:explore exhibits",
+    "word": "explore exhibits",
+    "pos": "Verb Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to inspect and view displays in a museum or exposition",
+    "meaning_eng": "to inspect and view displays in a museum or exposition",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Museum visitors need several hours to fully ___ on ancient art.",
+    "raw_sentence": "Museum visitors need several hours to fully explore exhibits on ancient art."
+  },
+  {
+    "id": 104,
+    "key": "S4:immerse",
+    "word": "immerse",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "to involve oneself deeply in an environment, culture, or activity",
+    "meaning_eng": "to involve oneself deeply in an environment, culture, or activity",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Living in a foreign city allows you to ___ yourself in a new culture.",
+    "raw_sentence": "Living in a foreign city allows you to immerse yourself in a new culture."
+  },
+  {
+    "id": 105,
+    "key": "S4:authentic",
+    "word": "authentic",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "genuine, original, and true to traditional style",
+    "meaning_eng": "genuine, original, and true to traditional style",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "This restaurant is known for serving ___ Italian pasta dishes.",
+    "raw_sentence": "This restaurant is known for serving authentic Italian pasta dishes."
+  },
+  {
+    "id": 106,
+    "key": "S4:english-speaking environment",
+    "word": "English-speaking environment",
+    "pos": "Noun Phrase",
+    "level": "S4",
+    "set": "3",
+    "content": "Writing 1 Feedback (Travelling)",
+    "topic": "Set 3 · Writing 1 Feedback (Travelling)",
+    "meaning": "a setting where English is the primary language used",
+    "meaning_eng": "a setting where English is the primary language used",
+    "meaning_chin": "",
+    "synonyms": [],
+    "context": "Studying in London provides students with a natural ___.",
+    "raw_sentence": "Studying in London provides students with a natural English-speaking environment."
   }
 ];
