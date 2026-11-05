@@ -139,11 +139,12 @@ const Leaderboard = {
         // Merge Word Vault mastery data across devices
         if (p.words && typeof p.words === "object") {
           Store.d.words = Store.d.words || {};
-          for (const id in p.words) {
-            const rw = p.words[id];
-            const lw = Store.d.words[id];
+          for (const rawId in p.words) {
+            const k = (Store && Store.cardKey) ? Store.cardKey(rawId) : rawId;
+            const rw = p.words[rawId];
+            const lw = Store.d.words[k];
             if (!lw) {
-              Store.d.words[id] = rw;
+              Store.d.words[k] = rw;
               changed = true;
             } else {
               const maxSeen = Math.max(lw.seen || 0, rw.seen || 0);
@@ -152,7 +153,7 @@ const Leaderboard = {
               const maxBad = Math.max(lw.bad || 0, rw.bad || 0);
               const ef = rw.ef || lw.ef || 2.5;
               if (maxSeen > (lw.seen || 0) || maxReps > (lw.reps || 0)) {
-                Store.d.words[id] = Object.assign({}, lw, rw, {
+                Store.d.words[k] = Object.assign({}, lw, rw, {
                   seen: maxSeen,
                   reps: maxReps,
                   ok: maxOk,
@@ -207,14 +208,15 @@ const Leaderboard = {
       // Compact only active words that have been encountered
       const activeWords = {};
       const allWords = Store.d.words || {};
-      for (const id in allWords) {
-        if (allWords[id] && allWords[id].seen) {
-          activeWords[id] = {
-            reps: allWords[id].reps || 0,
-            seen: allWords[id].seen || 0,
-            ok: allWords[id].ok || 0,
-            bad: allWords[id].bad || 0,
-            ef: allWords[id].ef || 2.5
+      for (const rawId in allWords) {
+        if (allWords[rawId] && allWords[rawId].seen) {
+          const k = (Store && Store.cardKey) ? Store.cardKey(rawId) : rawId;
+          activeWords[k] = {
+            reps: allWords[rawId].reps || 0,
+            seen: allWords[rawId].seen || 0,
+            ok: allWords[rawId].ok || 0,
+            bad: allWords[rawId].bad || 0,
+            ef: allWords[rawId].ef || 2.5
           };
         }
       }

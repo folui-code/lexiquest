@@ -56,31 +56,93 @@ const ACHIEVEMENTS = {
 const Store = {
   KEY: "lexiquest.v1",
   d: null,
+
+  // Stable Scoped Key Resolver: "Level:word" (e.g. "S4:are glued to")
+  cardKey(target) {
+    if (target === null || target === undefined || target === "") return "";
+    if (typeof target === "object") {
+      if (target.key) return target.key;
+      const lvl = (target.level || "S4").trim().toUpperCase();
+      const w = (target.word || "").trim().toLowerCase();
+      return `${lvl}:${w}`;
+    }
+    const str = String(target).trim();
+    if (str.includes(":")) return str;
+    // If target is numeric ID
+    if (/^\d+$/.test(str)) {
+      const idx = +str;
+      const v = (typeof VOCAB !== "undefined" ? VOCAB : null) || (typeof window !== "undefined" ? window.VOCAB : null) || [];
+      const card = v[idx] || v.find(c => c.id === idx);
+      if (card) {
+        if (card.key) return card.key;
+        const lvl = (card.level || "S4").trim().toUpperCase();
+        const w = (card.word || "").trim().toLowerCase();
+        return `${lvl}:${w}`;
+      }
+      return str;
+    }
+    // Bare word string
+    return `S4:${str.toLowerCase()}`;
+  },
+
   load() {
     try { this.d = JSON.parse(localStorage.getItem(this.KEY)); } catch { this.d = null; }
     this.d = Object.assign({ name: "", xp: 0, streak: 0, lastPlay: null, freezes: 0, best: {}, words: {}, ach: {}, daily: {}, lb: {}, muted: false, games: 0 }, this.d || {});
     if (this.d.daily.date !== todayKey()) this.d.daily = { date: todayKey(), q: {}, chest: false, matrixDone: false };
+
+    // Automatic Migration: Upgrade any legacy numeric IDs to permanent scoped word keys!
+    if (this.d.words && typeof this.d.words === "object") {
+      let migrated = false;
+      const keys = Object.keys(this.d.words);
+      for (const k of keys) {
+        if (/^\d+$/.test(k)) {
+          const sk = this.cardKey(k);
+          if (sk && sk !== k) {
+            if (!this.d.words[sk]) {
+              this.d.words[sk] = this.d.words[k];
+            }
+            delete this.d.words[k];
+            migrated = true;
+          }
+        }
+      }
+      if (migrated) this.save();
+    }
     this.save();
   },
   save() { localStorage.setItem(this.KEY, JSON.stringify(this.d)); },
 
   /* --- SM-2 spaced repetition --- q: 0..5 */
-  w(id) { return (this.d.words[id] ||= { ef: 2.5, reps: 0, int: 0, due: 0, seen: 0, ok: 0, bad: 0 }); },
-  review(id, q) {
-    const w = this.w(id);
+  w(target) {
+    const k = this.cardKey(target);
+    // Backward-compat check if target is stored directly
+    if (this.d.words[target] && !this.d.words[k]) {
+      this.d.words[k] = this.d.words[target];
+      delete this.d.words[target];
+    }
+    return (this.d.words[k] ||= { ef: 2.5, reps: 0, int: 0, due: 0, seen: 0, ok: 0, bad: 0 });
+  },
+  review(target, q) {
+    const w = this.w(target);
     w.seen++; q >= 3 ? w.ok++ : w.bad++;
     w.ef = Math.max(1.3, w.ef + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02)));
     if (q < 3) { w.reps = 0; w.int = 0; w.due = Date.now() + 60_000; }
     else { w.reps++; w.int = w.reps === 1 ? 1 : w.reps === 2 ? 6 : Math.round(w.int * w.ef); w.due = Date.now() + w.int * 86400000; }
     this.save();
   },
-  mastery(id) { const w = this.d.words[id]; if (!w || !w.seen) return 0; return Math.min(5, 1 + w.reps); },
+  mastery(target) {
+    const k = this.cardKey(target);
+    const w = this.d.words[k] || this.d.words[target];
+    if (!w || !w.seen) return 0;
+    return Math.min(5, 1 + w.reps);
+  },
   /* weighted pick: unseen + overdue + low-ease words come up more often (interleaving) */
   pickWords(n, exclude = new Set(), sourcePool = null) {
     const now = Date.now();
     const base = (sourcePool && sourcePool.length > 0) ? sourcePool : VOCAB;
-    const pool = base.filter((c) => !exclude.has(c.id)).map((c) => {
-      const w = this.d.words[c.id];
+    const pool = base.filter((c) => !exclude.has(c.id) && !exclude.has(c.key) && !exclude.has(c)).map((c) => {
+      const k = this.cardKey(c);
+      const w = this.d.words[k] || this.d.words[c.id];
       let wt = !w || !w.seen ? 3 : w.due <= now ? 4 + (2.5 - w.ef) * 4 : 0.6;
       if (w) wt += (w.bad / (w.seen || 1)) * 2;
       return { c, k: Math.pow(Math.random(), 1 / wt) };
@@ -119,9 +181,9 @@ const Store = {
     this.unlock("first");
     if (this.d.streak >= 3) this.unlock("streak3");
     if (this.d.streak >= 7) this.unlock("streak7");
-    const masters = Object.keys(this.d.words).filter((id) => this.mastery(id) >= 3).length;
+    const masters = Object.keys(this.d.words).filter((k) => this.mastery(k) >= 3).length;
     if (masters >= 10) this.unlock("master10");
-    if (VOCAB.every((c) => this.d.words[c.id]?.seen)) this.unlock("allseen");
+    if (VOCAB.every((c) => (this.d.words[this.cardKey(c)] || this.d.words[c.id])?.seen)) this.unlock("allseen");
     this.save();
   },
   streakAtRisk() { return this.d.streak > 0 && this.d.lastPlay !== todayKey() && dayDiff(this.d.lastPlay, todayKey()) === 1; },

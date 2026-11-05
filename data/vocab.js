@@ -2,6 +2,7 @@
 window.VOCAB = [
   {
     "id": 0,
+    "key": "S4:are glued to",
     "word": "are glued to",
     "pos": "Verb phrase (passive)",
     "level": "S4",
@@ -20,6 +21,7 @@ window.VOCAB = [
   },
   {
     "id": 1,
+    "key": "S4:navigating through the sea of knowledge",
     "word": "navigating through the sea of knowledge",
     "pos": "Verb phrase (participle)",
     "level": "S4",
@@ -38,6 +40,7 @@ window.VOCAB = [
   },
   {
     "id": 2,
+    "key": "S4:extraordinary",
     "word": "extraordinary",
     "pos": "Adjective",
     "level": "S4",
@@ -57,6 +60,7 @@ window.VOCAB = [
   },
   {
     "id": 3,
+    "key": "S4:at best",
     "word": "at best",
     "pos": "Adverbial phrase / Idiom",
     "level": "S4",
@@ -75,6 +79,7 @@ window.VOCAB = [
   },
   {
     "id": 4,
+    "key": "S4:disastrous",
     "word": "disastrous",
     "pos": "Adjective",
     "level": "S4",
@@ -93,6 +98,7 @@ window.VOCAB = [
   },
   {
     "id": 5,
+    "key": "S4:at worst",
     "word": "at worst",
     "pos": "Adverbial phrase / Idiom",
     "level": "S4",
@@ -111,6 +117,7 @@ window.VOCAB = [
   },
   {
     "id": 6,
+    "key": "S4:mainstream",
     "word": "mainstream",
     "pos": "Adjective",
     "level": "S4",
@@ -129,6 +136,7 @@ window.VOCAB = [
   },
   {
     "id": 7,
+    "key": "S4:contemporary society",
     "word": "contemporary society",
     "pos": "Noun phrase",
     "level": "S4",
@@ -147,6 +155,7 @@ window.VOCAB = [
   },
   {
     "id": 8,
+    "key": "S4:highly evolving technology",
     "word": "highly evolving technology",
     "pos": "Noun phrase",
     "level": "S4",
@@ -165,6 +174,7 @@ window.VOCAB = [
   },
   {
     "id": 9,
+    "key": "S4:adverse drawback",
     "word": "adverse drawback",
     "pos": "Noun phrase",
     "level": "S4",
@@ -183,6 +193,7 @@ window.VOCAB = [
   },
   {
     "id": 10,
+    "key": "S4:dissected at least at three distinctive levels",
     "word": "dissected at least at three distinctive levels",
     "pos": "Verb phrase (passive participle)",
     "level": "S4",
@@ -201,6 +212,7 @@ window.VOCAB = [
   },
   {
     "id": 11,
+    "key": "S4:toddlers",
     "word": "toddlers",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -219,6 +231,7 @@ window.VOCAB = [
   },
   {
     "id": 12,
+    "key": "S4:hinder ... from",
     "word": "hinder ... from",
     "pos": "Phrasal verb",
     "level": "S4",
@@ -237,6 +250,7 @@ window.VOCAB = [
   },
   {
     "id": 13,
+    "key": "S4:genres",
     "word": "genres",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -255,6 +269,7 @@ window.VOCAB = [
   },
   {
     "id": 14,
+    "key": "S4:engaging",
     "word": "engaging",
     "pos": "Adjective",
     "level": "S4",
@@ -274,6 +289,7 @@ window.VOCAB = [
   },
   {
     "id": 15,
+    "key": "S4:appealing",
     "word": "appealing",
     "pos": "Adjective",
     "level": "S4",
@@ -292,6 +308,7 @@ window.VOCAB = [
   },
   {
     "id": 16,
+    "key": "S4:gadgets",
     "word": "gadgets",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -311,6 +328,7 @@ window.VOCAB = [
   },
   {
     "id": 17,
+    "key": "S4:hypothesis",
     "word": "hypothesis",
     "pos": "Noun",
     "level": "S4",
@@ -329,6 +347,7 @@ window.VOCAB = [
   },
   {
     "id": 18,
+    "key": "S4:ungrounded",
     "word": "ungrounded",
     "pos": "Adjective",
     "level": "S4",
@@ -347,6 +366,7 @@ window.VOCAB = [
   },
   {
     "id": 19,
+    "key": "S4:distractions",
     "word": "distractions",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -365,6 +385,7 @@ window.VOCAB = [
   },
   {
     "id": 20,
+    "key": "S4:lack self-control",
     "word": "lack self-control",
     "pos": "Verb phrase",
     "level": "S4",
@@ -383,6 +404,7 @@ window.VOCAB = [
   },
   {
     "id": 21,
+    "key": "S4:endless loops of stimulation",
     "word": "endless loops of stimulation",
     "pos": "Noun phrase",
     "level": "S4",
@@ -401,6 +423,7 @@ window.VOCAB = [
   },
   {
     "id": 22,
+    "key": "S4:develop cognitive skills",
     "word": "develop cognitive skills",
     "pos": "Verb phrase",
     "level": "S4",
@@ -419,6 +442,7 @@ window.VOCAB = [
   },
   {
     "id": 23,
+    "key": "S4:stimulate imagination",
     "word": "stimulate imagination",
     "pos": "Verb phrase",
     "level": "S4",
@@ -436,6 +460,7 @@ window.VOCAB = [
   },
   {
     "id": 24,
+    "key": "S4:learn about basic ethical principles",
     "word": "learn about basic ethical principles",
     "pos": "Verb phrase",
     "level": "S4",
@@ -454,6 +479,7 @@ window.VOCAB = [
   },
   {
     "id": 25,
+    "key": "S4:exposure to",
     "word": "exposure to",
     "pos": "Noun phrase / Prepositional phrase",
     "level": "S4",
@@ -472,6 +498,7 @@ window.VOCAB = [
   },
   {
     "id": 26,
+    "key": "S4:exceedingly enormous",
     "word": "exceedingly enormous",
     "pos": "Adjective phrase",
     "level": "S4",
@@ -490,6 +517,7 @@ window.VOCAB = [
   },
   {
     "id": 27,
+    "key": "S4:fall behind their learning",
     "word": "fall behind their learning",
     "pos": "Verb phrase",
     "level": "S4",
@@ -507,6 +535,7 @@ window.VOCAB = [
   },
   {
     "id": 28,
+    "key": "S4:problems bred by",
     "word": "Problems bred by",
     "pos": "Noun phrase (with participle modifier)",
     "level": "S4",
@@ -525,6 +554,7 @@ window.VOCAB = [
   },
   {
     "id": 29,
+    "key": "S4:juveniles",
     "word": "juveniles",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -543,6 +573,7 @@ window.VOCAB = [
   },
   {
     "id": 30,
+    "key": "S4:thrive",
     "word": "thrive",
     "pos": "Verb",
     "level": "S4",
@@ -562,6 +593,7 @@ window.VOCAB = [
   },
   {
     "id": 31,
+    "key": "S4:impeccable",
     "word": "impeccable",
     "pos": "Adjective",
     "level": "S4",
@@ -580,6 +612,7 @@ window.VOCAB = [
   },
   {
     "id": 32,
+    "key": "S4:adolescents",
     "word": "adolescents",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -597,6 +630,7 @@ window.VOCAB = [
   },
   {
     "id": 33,
+    "key": "S4:are obliged to",
     "word": "are obliged to",
     "pos": "Verb phrase (passive modal structure)",
     "level": "S4",
@@ -616,6 +650,7 @@ window.VOCAB = [
   },
   {
     "id": 34,
+    "key": "S4:countless problems",
     "word": "countless problems",
     "pos": "Noun phrase",
     "level": "S4",
@@ -634,6 +669,7 @@ window.VOCAB = [
   },
   {
     "id": 35,
+    "key": "S4:grown-ups",
     "word": "grown-ups",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -652,6 +688,7 @@ window.VOCAB = [
   },
   {
     "id": 36,
+    "key": "S4:tortuous",
     "word": "tortuous",
     "pos": "Adjective",
     "level": "S4",
@@ -670,6 +707,7 @@ window.VOCAB = [
   },
   {
     "id": 37,
+    "key": "S4:treacherous",
     "word": "treacherous",
     "pos": "Adjective",
     "level": "S4",
@@ -689,6 +727,7 @@ window.VOCAB = [
   },
   {
     "id": 38,
+    "key": "S4:obscure the meaning",
     "word": "obscure the meaning",
     "pos": "Verb phrase",
     "level": "S4",
@@ -707,6 +746,7 @@ window.VOCAB = [
   },
   {
     "id": 39,
+    "key": "S4:setbacks",
     "word": "setbacks",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -726,6 +766,7 @@ window.VOCAB = [
   },
   {
     "id": 40,
+    "key": "S4:tangled",
     "word": "tangled",
     "pos": "Adjective",
     "level": "S4",
@@ -744,6 +785,7 @@ window.VOCAB = [
   },
   {
     "id": 41,
+    "key": "S4:puzzling",
     "word": "puzzling",
     "pos": "Adjective",
     "level": "S4",
@@ -762,6 +804,7 @@ window.VOCAB = [
   },
   {
     "id": 42,
+    "key": "S4:tackle the troubles with ease",
     "word": "tackle the troubles with ease",
     "pos": "Verb phrase",
     "level": "S4",
@@ -780,6 +823,7 @@ window.VOCAB = [
   },
   {
     "id": 43,
+    "key": "S4:delving into books",
     "word": "delving into books",
     "pos": "Verb phrase (participle / gerund)",
     "level": "S4",
@@ -798,6 +842,7 @@ window.VOCAB = [
   },
   {
     "id": 44,
+    "key": "S4:splendid solution",
     "word": "splendid solution",
     "pos": "Noun phrase",
     "level": "S4",
@@ -816,6 +861,7 @@ window.VOCAB = [
   },
   {
     "id": 45,
+    "key": "S4:limitation",
     "word": "limitation",
     "pos": "Noun",
     "level": "S4",
@@ -834,6 +880,7 @@ window.VOCAB = [
   },
   {
     "id": 46,
+    "key": "S4:barriers",
     "word": "barriers",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -852,6 +899,7 @@ window.VOCAB = [
   },
   {
     "id": 47,
+    "key": "S4:obstruction",
     "word": "obstruction",
     "pos": "Noun",
     "level": "S4",
@@ -871,6 +919,7 @@ window.VOCAB = [
   },
   {
     "id": 48,
+    "key": "S4:irreversible",
     "word": "irreversible",
     "pos": "Adjective",
     "level": "S4",
@@ -889,6 +938,7 @@ window.VOCAB = [
   },
   {
     "id": 49,
+    "key": "S4:a dazzling spectacle",
     "word": "a dazzling spectacle",
     "pos": "Noun phrase",
     "level": "S4",
@@ -907,6 +957,7 @@ window.VOCAB = [
   },
   {
     "id": 50,
+    "key": "S4:armed with the latest tools and techniques",
     "word": "armed with the latest tools and techniques",
     "pos": "Participial phrase",
     "level": "S4",
@@ -925,6 +976,7 @@ window.VOCAB = [
   },
   {
     "id": 51,
+    "key": "S4:callused hands",
     "word": "callused hands",
     "pos": "Noun phrase",
     "level": "S4",
@@ -943,6 +995,7 @@ window.VOCAB = [
   },
   {
     "id": 52,
+    "key": "S4:accomplishing",
     "word": "accomplishing",
     "pos": "Verb (present participle)",
     "level": "S4",
@@ -962,6 +1015,7 @@ window.VOCAB = [
   },
   {
     "id": 53,
+    "key": "S4:monochrome",
     "word": "monochrome",
     "pos": "Adjective",
     "level": "S4",
@@ -980,6 +1034,7 @@ window.VOCAB = [
   },
   {
     "id": 54,
+    "key": "S4:multicolored",
     "word": "multicolored",
     "pos": "Adjective",
     "level": "S4",
@@ -998,6 +1053,7 @@ window.VOCAB = [
   },
   {
     "id": 55,
+    "key": "S4:grandiose",
     "word": "grandiose",
     "pos": "Adjective",
     "level": "S4",
@@ -1017,6 +1073,7 @@ window.VOCAB = [
   },
   {
     "id": 56,
+    "key": "S4:tyrannical",
     "word": "tyrannical",
     "pos": "Adjective",
     "level": "S4",
@@ -1036,6 +1093,7 @@ window.VOCAB = [
   },
   {
     "id": 57,
+    "key": "S4:unveil",
     "word": "unveil",
     "pos": "Verb",
     "level": "S4",
@@ -1055,6 +1113,7 @@ window.VOCAB = [
   },
   {
     "id": 58,
+    "key": "S4:delicate",
     "word": "delicate",
     "pos": "Adjective",
     "level": "S4",
@@ -1074,6 +1133,7 @@ window.VOCAB = [
   },
   {
     "id": 59,
+    "key": "S4:crimson",
     "word": "crimson",
     "pos": "Adjective",
     "level": "S4",
@@ -1092,6 +1152,7 @@ window.VOCAB = [
   },
   {
     "id": 60,
+    "key": "S4:distinctive",
     "word": "distinctive",
     "pos": "Adjective",
     "level": "S4",
@@ -1110,6 +1171,7 @@ window.VOCAB = [
   },
   {
     "id": 61,
+    "key": "S4:is beaded with",
     "word": "is beaded with",
     "pos": "Verb phrase (passive)",
     "level": "S4",
@@ -1128,6 +1190,7 @@ window.VOCAB = [
   },
   {
     "id": 62,
+    "key": "S4:imperfections",
     "word": "imperfections",
     "pos": "Noun (plural)",
     "level": "S4",
@@ -1146,6 +1209,7 @@ window.VOCAB = [
   },
   {
     "id": 63,
+    "key": "S4:somber",
     "word": "somber",
     "pos": "Adjective",
     "level": "S4",
@@ -1165,6 +1229,7 @@ window.VOCAB = [
   },
   {
     "id": 64,
+    "key": "S4:survive the crucible of time",
     "word": "survive the crucible of time",
     "pos": "Verb phrase",
     "level": "S4",
@@ -1183,6 +1248,7 @@ window.VOCAB = [
   },
   {
     "id": 65,
+    "key": "S4:vibrant pieces of history",
     "word": "vibrant pieces of history",
     "pos": "Noun phrase",
     "level": "S4",
@@ -1201,6 +1267,7 @@ window.VOCAB = [
   },
   {
     "id": 66,
+    "key": "S4:serendipity",
     "word": "serendipity",
     "pos": "Noun",
     "level": "S4",
@@ -1219,6 +1286,7 @@ window.VOCAB = [
   },
   {
     "id": 67,
+    "key": "S4:to everyone’s delight",
     "word": "to everyone’s delight",
     "pos": "Prepositional phrase / Idiom",
     "level": "S4",
@@ -1237,6 +1305,7 @@ window.VOCAB = [
   },
   {
     "id": 68,
+    "key": "S4:bristling with",
     "word": "bristling with",
     "pos": "Verb phrase / Adjective phrase",
     "level": "S4",

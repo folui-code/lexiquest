@@ -186,6 +186,7 @@ def main():
 
             cards.append({
                 "id": len(cards),
+                "key": key,
                 "word": word,
                 "pos": pos,
                 "level": level,

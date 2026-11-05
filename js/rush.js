@@ -444,7 +444,7 @@ const Rush = {
       const exclude = new Set(this.recent);
       target = Store.pickWords(1, exclude, this.pool)[0];
       if (!target) target = shuffle([...this.pool])[0];
-      this.recent.push(target.id);
+      this.recent.push(target.key || target.id);
       if (this.recent.length > 10) this.recent.shift();
     }
 
@@ -862,8 +862,8 @@ const Rush = {
     this.tiles.forEach(t => t.used = true);
     this.renderSlots();
     this.renderTiles();
-    this.missed.set(this.card.id, this.card);
-    Store.review(this.card.id, 1);
+    this.missed.set(this.card.key || this.card.id, this.card);
+    Store.review(this.card, 1);
 
     setTimeout(() => {
       if (!this.over) this.nextCard();
@@ -883,7 +883,7 @@ const Rush = {
       const xpGained = 40;
       this.score += xpGained;
       Store.addXP(xpGained);
-      Store.review(this.card.id, rt < 8 ? 5 : 4);
+      Store.review(this.card, rt < 8 ? 5 : 4);
       
       Sfx.correct(1);
       Fx.confetti(28, innerWidth / 2, innerHeight / 2.5);
@@ -919,7 +919,7 @@ const Rush = {
     Sfx.correct(this.combo);
     Fx.confetti(40, innerWidth / 2, innerHeight / 2.5);
 
-    Store.review(this.card.id, rt < 6 ? 5 : 4);
+    Store.review(this.card, rt < 6 ? 5 : 4);
 
     if (this.combo >= 2) {
       const bonusText = this.isMixed ? " · 🔥 +25% Mixed" : "";
