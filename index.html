@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>LexiQuest — HPCCSS Academic Vocabulary Arena</title>
   <meta name="description" content="LexiQuest: An academic English vocabulary arena for HPCCSS students." />
   <meta name="theme-color" content="#070b1a" />
@@ -10,14 +12,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/base.css?v=3.6" />
-  <link rel="stylesheet" href="css/style.css?v=3.6" />
-  <link rel="stylesheet" href="css/modes.css?v=3.6" />
-  <link rel="stylesheet" href="css/houses.css?v=3.6" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css?v=3.7" />
+  <link rel="stylesheet" href="css/style.css?v=3.7" />
+  <link rel="stylesheet" href="css/modes.css?v=3.7" />
+  <link rel="stylesheet" href="css/houses.css?v=3.7" />
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
   <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
 
@@ -42,24 +47,29 @@
       <!-- GREAT HALL HERO STAGE -->
       <section class="great-hall-stage" id="great-hall-stage">
         <div class="great-hall-canvas-wrap">
-          <img src="assets/houses/house_concept_design.png" alt="HP Academy of Wizardry Great Hall" class="great-hall-img" />
+          <img src="assets/houses/house_concept_design.png" alt="HP Academy of Wizardry Great Hall"
+            class="great-hall-img" />
           <!-- Interactive House Overlay Zones -->
           <div class="house-overlay-grid">
             <div class="house-col" data-house="TAK" id="house-col-tak" title="House TAK — Duelist (Phoenix)">
               <div class="house-highlight-glow"></div>
-              <div class="house-indicator"><span class="house-tag">TAK</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+              <div class="house-indicator"><span class="house-tag">TAK</span><span class="house-my-badge hidden">★ YOUR
+                  HOUSE ★</span></div>
             </div>
             <div class="house-col" data-house="CHI" id="house-col-chi" title="House CHI — Alchemist (Baize)">
               <div class="house-highlight-glow"></div>
-              <div class="house-indicator"><span class="house-tag">CHI</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+              <div class="house-indicator"><span class="house-tag">CHI</span><span class="house-my-badge hidden">★ YOUR
+                  HOUSE ★</span></div>
             </div>
             <div class="house-col" data-house="KIN" id="house-col-kin" title="House KIN — Caretaker (Qilin)">
               <div class="house-highlight-glow"></div>
-              <div class="house-indicator"><span class="house-tag">KIN</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+              <div class="house-indicator"><span class="house-tag">KIN</span><span class="house-my-badge hidden">★ YOUR
+                  HOUSE ★</span></div>
             </div>
             <div class="house-col" data-house="KAN" id="house-col-kan" title="House KAN — Scholar (Eagle-Fish)">
               <div class="house-highlight-glow"></div>
-              <div class="house-indicator"><span class="house-tag">KAN</span><span class="house-my-badge hidden">★ YOUR HOUSE ★</span></div>
+              <div class="house-indicator"><span class="house-tag">KAN</span><span class="house-my-badge hidden">★ YOUR
+                  HOUSE ★</span></div>
             </div>
           </div>
         </div>
@@ -146,26 +156,33 @@
         <button class="mode-card blitz" id="mode-blitz">
           <div class="mode-icon">⚡📖</div>
           <h3>Grammar Blitz</h3>
-          <p>Master curriculum grammar units with rapid-fire multiple choice questions. 10 rapid questions with rule review!</p>
-          <div class="mode-foot"><span class="tag">Curriculum · Units 1–28</span><span class="best" id="best-blitz">Best —</span></div>
+          <p>Master curriculum grammar units with rapid-fire multiple choice questions. 10 rapid questions with rule
+            review!</p>
+          <div class="mode-foot"><span class="tag">Curriculum · Units 1–28</span><span class="best" id="best-blitz">Best
+              —</span></div>
         </button>
         <button class="mode-card rush" id="mode-rush">
           <div class="mode-icon">⚡</div>
           <h3>Cryptic Rush</h3>
-          <p>Deduce missing academic expressions from context! Choose Untimed Practice or 60s Countdown Game Mode across specific sets.</p>
-          <div class="mode-foot"><span class="tag">Practice · 60s Rush</span><span class="best" id="best-rush">Best —</span></div>
+          <p>Deduce missing academic expressions from context! Choose Untimed Practice or 60s Countdown Game Mode across
+            specific sets.</p>
+          <div class="mode-foot"><span class="tag">Practice · 60s Rush</span><span class="best" id="best-rush">Best
+              —</span></div>
         </button>
         <button class="mode-card wordle" id="mode-wordle">
           <div class="mode-icon">🟩</div>
           <h3>LexiWordle</h3>
-          <p>Guess the secret academic word in 6 tries. Green, yellow and gray tiles guide your deduction. Daily + Practice!</p>
-          <div class="mode-foot"><span class="tag">Deduction · Logic</span><span class="best" id="best-wordle">Daily —</span></div>
+          <p>Guess the secret academic word in 6 tries. Green, yellow and gray tiles guide your deduction. Daily +
+            Practice!</p>
+          <div class="mode-foot"><span class="tag">Deduction · Logic</span><span class="best" id="best-wordle">Daily
+              —</span></div>
         </button>
         <button class="mode-card matrix" id="mode-matrix">
           <div class="mode-icon">🧩</div>
           <h3>Semantic Matrix</h3>
           <p>16 academic items, 4 hidden groups. Find the connections before you run out of lives.</p>
-          <div class="mode-foot"><span class="tag">Meaning · Polysemy</span><span class="best" id="best-matrix">Daily —</span></div>
+          <div class="mode-foot"><span class="tag">Meaning · Polysemy</span><span class="best" id="best-matrix">Daily
+              —</span></div>
         </button>
       </div>
 
@@ -209,18 +226,19 @@
   <div id="toasts" class="toasts"></div>
   <canvas id="fx-canvas"></canvas>
 
-  <script src="data/whitelist_hashes.js?v=3.6"></script>
-  <script src="data/grammar_data.js?v=3.6"></script>
-  <script src="data/vocab.js?v=3.6"></script>
-  <script src="data/groups.js?v=3.6"></script>
-  <script src="data/wordle_dict.js?v=3.6"></script>
-  <script src="js/core.js?v=3.6"></script>
-  <script src="js/auth.js?v=3.6"></script>
-  <script src="js/leaderboard.js?v=3.6"></script>
-  <script src="js/blitz.js?v=3.6"></script>
-  <script src="js/rush.js?v=3.6"></script>
-  <script src="js/wordle.js?v=3.6"></script>
-  <script src="js/matrix.js?v=3.6"></script>
-  <script src="js/app.js?v=3.6"></script>
+  <script src="data/whitelist_hashes.js?v=3.7"></script>
+  <script src="data/grammar_data.js?v=3.7"></script>
+  <script src="data/vocab.js?v=3.7"></script>
+  <script src="data/groups.js?v=3.7"></script>
+  <script src="data/wordle_dict.js?v=3.7"></script>
+  <script src="js/core.js?v=3.7"></script>
+  <script src="js/auth.js?v=3.7"></script>
+  <script src="js/leaderboard.js?v=3.7"></script>
+  <script src="js/blitz.js?v=3.7"></script>
+  <script src="js/rush.js?v=3.7"></script>
+  <script src="js/wordle.js?v=3.7"></script>
+  <script src="js/matrix.js?v=3.7"></script>
+  <script src="js/app.js?v=3.7"></script>
 </body>
+
 </html>

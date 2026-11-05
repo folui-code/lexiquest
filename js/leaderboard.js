@@ -11,7 +11,7 @@ const Leaderboard = {
     try {
       const stored = (localStorage.getItem("hpccss_leaderboard_url") || "").trim();
       if (stored.startsWith("https://script.google.com/")) return stored;
-    } catch (e) {}
+    } catch (e) { }
     return "https://script.google.com/macros/s/AKfycbyopBjXA9bDALuzKIGd5NJSMLpqkJNPkBsVnVc9sLT4GMh7SveVum3ZPenaNgR7T9wt/exec";
   })(),
 
@@ -62,9 +62,9 @@ const Leaderboard = {
     const rawHash = auth.emailHash || "";
     const emailHash = (typeof window !== "undefined" && window.HPCCSS_CANONICAL_MAP && window.HPCCSS_CANONICAL_MAP[rawHash]) || rawHash;
     const officialName = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[emailHash])
-                      || (Store && Store.d && Store.d.name)
-                      || auth.name
-                      || "Scholar";
+      || (Store && Store.d && Store.d.name)
+      || auth.name
+      || "Scholar";
     const role = auth.role || "student";
 
     try {
@@ -78,7 +78,7 @@ const Leaderboard = {
       });
 
       const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}&_t=${Date.now()}`;
-      
+
       // Fire submission with cache no-store
       const resp = await fetch(target, { method: "GET", cache: "no-store" });
       if (resp.ok) {
@@ -198,9 +198,9 @@ const Leaderboard = {
 
     try {
       const officialName = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[emailHash])
-                        || (Store && Store.d && Store.d.name)
-                        || auth.name
-                        || "Scholar";
+        || (Store && Store.d && Store.d.name)
+        || auth.name
+        || "Scholar";
       const role = auth.role || "student";
       const xp = Store.d.xp || 0;
       const streak = Store.d.streak || 0;

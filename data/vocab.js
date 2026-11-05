@@ -9,12 +9,12 @@ window.VOCAB = [
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "To be paying complete, undivided attention to something without looking away. (緊盯著 / 黏在…上 (如螢幕))",
+    "meaning": "To be paying complete, undivided attention to something without looking away. (緊盯著 / 黏在…上 (如螢幕)",
     "meaning_eng": "To be paying complete, undivided attention to something without looking away.",
-    "meaning_chin": "緊盯著 / 黏在…上 (如螢幕)",
+    "meaning_chin": "緊盯著 / 黏在…上 (如螢幕",
     "synonyms": [
       "緊盯著",
-      "黏在…上 (如螢幕)"
+      "黏在…上 (如螢幕"
     ],
     "context": "Nowadays, many teenagers ___ their smartphone screens for hours every evening.",
     "raw_sentence": "Nowadays, many teenagers are glued to their smartphone screens for hours every evening."
@@ -239,9 +239,11 @@ window.VOCAB = [
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
     "meaning": "Serving to distinguish a person, group, or thing from others; characteristic or unique (獨特的；具特徵的；區別性的)",
-    "meaning_eng": "Serving to distinguish a person, group, or thing from others; characteristic or unique (獨特的；具特徵的；區別性的)",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_eng": "Serving to distinguish a person, group, or thing from others; characteristic or unique",
+    "meaning_chin": "獨特的；具特徵的；區別性的",
+    "synonyms": [
+      "獨特的；具特徵的；區別性的"
+    ],
     "context": "The researchers identified a ___ genetic marker that sets the novel strain of bacteria apart from previously classified species.",
     "raw_sentence": "The researchers identified a distinctive genetic marker that sets the novel strain of bacteria apart from previously classified species."
   },
@@ -292,11 +294,11 @@ window.VOCAB = [
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Categories of artistic, musical, or literary composition characterized by a particular style or content. ((體裁、藝術、音樂等的) 類型 / 流派)",
+    "meaning": "Categories of artistic, musical, or literary composition characterized by a particular style or content. (體裁、藝術、音樂等的) 類型 / 流派)",
     "meaning_eng": "Categories of artistic, musical, or literary composition characterized by a particular style or content.",
-    "meaning_chin": "(體裁、藝術、音樂等的) 類型 / 流派",
+    "meaning_chin": "體裁、藝術、音樂等的) 類型 / 流派",
     "synonyms": [
-      "(體裁、藝術、音樂等的) 類型",
+      "體裁、藝術、音樂等的) 類型",
       "流派"
     ],
     "context": "She enjoys reading various literary ___, ranging from historical fiction to mystery novels.",
@@ -654,11 +656,11 @@ window.VOCAB = [
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Young people in the process of developing from children into adults (typically teenagers). (青少年 (通常指12–18歲))",
+    "meaning": "Young people in the process of developing from children into adults (typically teenagers). (青少年 (通常指12–18歲)",
     "meaning_eng": "Young people in the process of developing from children into adults (typically teenagers).",
-    "meaning_chin": "青少年 (通常指12–18歲)",
+    "meaning_chin": "青少年 (通常指12–18歲",
     "synonyms": [
-      "青少年 (通常指12–18歲)"
+      "青少年 (通常指12–18歲"
     ],
     "context": "Many ___ struggle with peer pressure and identity formation during high school.",
     "raw_sentence": "Many adolescents struggle with peer pressure and identity formation during high school."
@@ -1348,10 +1350,13 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to travel on or control a bicycle",
+    "meaning": "to travel on or control a bicycle (騎單車 / 騎自行車)",
     "meaning_eng": "to travel on or control a bicycle",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "騎單車 / 騎自行車",
+    "synonyms": [
+      "騎單車",
+      "騎自行車"
+    ],
     "context": "We decided to ___ through the park on Sunday morning.",
     "raw_sentence": "We decided to ride a bicycle through the park on Sunday morning."
   },
@@ -1364,10 +1369,13 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "following the path or edge of a picturesque coastline or bank",
+    "meaning": "following the path or edge of a picturesque coastline or bank (沿著景色優美的海岸/湖畔)",
     "meaning_eng": "following the path or edge of a picturesque coastline or bank",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "沿著景色優美的海岸/湖畔",
+    "synonyms": [
+      "沿著景色優美的海岸",
+      "湖畔"
+    ],
     "context": "They enjoyed walking ___ while watching the sunset.",
     "raw_sentence": "They enjoyed walking along the scenic shore while watching the sunset."
   },
@@ -1380,10 +1388,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to walk in a slow, relaxed manner",
+    "meaning": "to walk in a slow, relaxed manner (漫步；散步)",
     "meaning_eng": "to walk in a slow, relaxed manner",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "漫步；散步",
+    "synonyms": [
+      "漫步；散步"
+    ],
     "context": "Couples love to ___ through the botanical garden after dinner.",
     "raw_sentence": "Couples love to stroll through the botanical garden after dinner."
   },
@@ -1396,10 +1406,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "roads paved with rounded stones",
+    "meaning": "roads paved with rounded stones (鵝卵石街道)",
     "meaning_eng": "roads paved with rounded stones",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "鵝卵石街道",
+    "synonyms": [
+      "鵝卵石街道"
+    ],
     "context": "The ancient town is famous for its charming ___.",
     "raw_sentence": "The ancient town is famous for its charming cobblestone streets."
   },
@@ -1412,10 +1424,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to look at something with pleasure and approval",
+    "meaning": "to look at something with pleasure and approval (欣賞；讚賞)",
     "meaning_eng": "to look at something with pleasure and approval",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "欣賞；讚賞",
+    "synonyms": [
+      "欣賞；讚賞"
+    ],
     "context": "Visitors often stop to ___ the stunning artwork in the gallery.",
     "raw_sentence": "Visitors often stop to admire the stunning artwork in the gallery."
   },
@@ -1428,10 +1442,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "the art or style of designing and constructing buildings",
+    "meaning": "the art or style of designing and constructing buildings (建築風格；建築學)",
     "meaning_eng": "the art or style of designing and constructing buildings",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "建築風格；建築學",
+    "synonyms": [
+      "建築風格；建築學"
+    ],
     "context": "European cities are renowned for their magnificent historic ___.",
     "raw_sentence": "European cities are renowned for their magnificent historic architecture."
   },
@@ -1444,10 +1460,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to sample food or dishes special to a particular region",
+    "meaning": "to sample food or dishes special to a particular region (品嚐地道美食)",
     "meaning_eng": "to sample food or dishes special to a particular region",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "品嚐地道美食",
+    "synonyms": [
+      "品嚐地道美食"
+    ],
     "context": "Touring the night market is a great way to ___.",
     "raw_sentence": "Touring the night market is a great way to taste local delicacies."
   },
@@ -1460,10 +1478,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to look steadily and intently at something in admiration",
+    "meaning": "to look steadily and intently at something in admiration (凝視；注視)",
     "meaning_eng": "to look steadily and intently at something in admiration",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "凝視；注視",
+    "synonyms": [
+      "凝視；注視"
+    ],
     "context": "She stood on the balcony to ___ the starry night sky.",
     "raw_sentence": "She stood on the balcony to gaze at the starry night sky."
   },
@@ -1476,10 +1496,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "covered with snow at the top or peak",
+    "meaning": "covered with snow at the top or peak (頂峰覆雪的；白雪皚皚的)",
     "meaning_eng": "covered with snow at the top or peak",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "頂峰覆雪的；白雪皚皚的",
+    "synonyms": [
+      "頂峰覆雪的；白雪皚皚的"
+    ],
     "context": "The ___ mountains looked breathtaking under the bright sun.",
     "raw_sentence": "The snow-capped mountains looked breathtaking under the bright sun."
   },
@@ -1492,10 +1514,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a mountain covered in snow / specific mountain named Xueshan",
+    "meaning": "a mountain covered in snow / specific mountain named Xueshan (雪山)",
     "meaning_eng": "a mountain covered in snow / specific mountain named Xueshan",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "雪山",
+    "synonyms": [
+      "雪山"
+    ],
     "context": "Adventurers travel to Taiwan every winter to climb ___.",
     "raw_sentence": "Adventurers travel to Taiwan every winter to climb Snow Mountain."
   },
@@ -1508,10 +1532,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "holiday hotels built around natural geothermal springs",
+    "meaning": "holiday hotels built around natural geothermal springs (溫泉度假村)",
     "meaning_eng": "holiday hotels built around natural geothermal springs",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "溫泉度假村",
+    "synonyms": [
+      "溫泉度假村"
+    ],
     "context": "Japan features many luxury ___ where guests can relax.",
     "raw_sentence": "Japan features many luxury hot spring resorts where guests can relax."
   },
@@ -1524,10 +1550,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to lie immersed in water or liquid to relax",
+    "meaning": "to lie immersed in water or liquid to relax (浸泡；泡水)",
     "meaning_eng": "to lie immersed in water or liquid to relax",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "浸泡；泡水",
+    "synonyms": [
+      "浸泡；泡水"
+    ],
     "context": "After a long hike, he likes to ___ in a warm bath.",
     "raw_sentence": "After a long hike, he likes to soak in a warm bath."
   },
@@ -1540,10 +1568,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a natural spring producing warm or hot groundwater",
+    "meaning": "a natural spring producing warm or hot groundwater (溫泉)",
     "meaning_eng": "a natural spring producing warm or hot groundwater",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "溫泉",
+    "synonyms": [
+      "溫泉"
+    ],
     "context": "Bathing in a natural ___ helps soothe tired muscles.",
     "raw_sentence": "Bathing in a natural hot spring helps soothe tired muscles."
   },
@@ -1556,10 +1586,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "panoramas or sightings of Mount Fuji",
+    "meaning": "panoramas or sightings of Mount Fuji (富士山景觀)",
     "meaning_eng": "panoramas or sightings of Mount Fuji",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "富士山景觀",
+    "synonyms": [
+      "富士山景觀"
+    ],
     "context": "The hotel rooms offer spectacular ___ from private balconies.",
     "raw_sentence": "The hotel rooms offer spectacular Mount Fuji views from private balconies."
   },
@@ -1572,10 +1604,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a Japanese noodle soup dish served in broth with toppings",
+    "meaning": "a Japanese noodle soup dish served in broth with toppings (拉麵)",
     "meaning_eng": "a Japanese noodle soup dish served in broth with toppings",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "拉麵",
+    "synonyms": [
+      "拉麵"
+    ],
     "context": "We ordered a steaming bowl of pork ___ at the local noodle shop.",
     "raw_sentence": "We ordered a steaming bowl of pork ramen at the local noodle shop."
   },
@@ -1588,10 +1622,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "an elevated transport vehicle offering picturesque views",
+    "meaning": "an elevated transport vehicle offering picturesque views (景色優美的纜車)",
     "meaning_eng": "an elevated transport vehicle offering picturesque views",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "景色優美的纜車",
+    "synonyms": [
+      "景色優美的纜車"
+    ],
     "context": "Passengers took the ___ to reach the mountain summit.",
     "raw_sentence": "Passengers took the scenic cable car to reach the mountain summit."
   },
@@ -1604,10 +1640,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "the portion of the Alps mountain range in Switzerland",
+    "meaning": "the portion of the Alps mountain range in Switzerland (瑞士阿爾卑斯山脈)",
     "meaning_eng": "the portion of the Alps mountain range in Switzerland",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "瑞士阿爾卑斯山脈",
+    "synonyms": [
+      "瑞士阿爾卑斯山脈"
+    ],
     "context": "Skiing in the ___ attracts sports enthusiasts from around the world.",
     "raw_sentence": "Skiing in the Swiss Alps attracts sports enthusiasts from around the world."
   },
@@ -1620,10 +1658,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to walk long distances across outdoor terrain",
+    "meaning": "to walk long distances across outdoor terrain (遠足；徒步旅行)",
     "meaning_eng": "to walk long distances across outdoor terrain",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "遠足；徒步旅行",
+    "synonyms": [
+      "遠足；徒步旅行"
+    ],
     "context": "They plan to ___ along the mountain ridge early tomorrow morning.",
     "raw_sentence": "They plan to hike along the mountain ridge early tomorrow morning."
   },
@@ -1636,10 +1676,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "paths or tracks through mountainous terrain",
+    "meaning": "paths or tracks through mountainous terrain (山間小徑；登山步道)",
     "meaning_eng": "paths or tracks through mountainous terrain",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "山間小徑；登山步道",
+    "synonyms": [
+      "山間小徑；登山步道"
+    ],
     "context": "Hikers must stay on marked ___ for safety.",
     "raw_sentence": "Hikers must stay on marked mountain trails for safety."
   },
@@ -1652,10 +1694,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a famous resort town in central Switzerland",
+    "meaning": "a famous resort town in central Switzerland (因特拉肯)",
     "meaning_eng": "a famous resort town in central Switzerland",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "因特拉肯",
+    "synonyms": [
+      "因特拉肯"
+    ],
     "context": "When traveling to ___, tourists often go paragliding over the valley and take scenic boat cruises across the twin lakes.",
     "raw_sentence": "When traveling to Interlaken, tourists often go paragliding over the valley and take scenic boat cruises across the twin lakes."
   },
@@ -1668,10 +1712,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a famous, distinctive, and widely recognized mountain summit",
+    "meaning": "a famous, distinctive, and widely recognized mountain summit (標誌性山峰)",
     "meaning_eng": "a famous, distinctive, and widely recognized mountain summit",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "標誌性山峰",
+    "synonyms": [
+      "標誌性山峰"
+    ],
     "context": "The Matterhorn is considered the most ___ in the region.",
     "raw_sentence": "The Matterhorn is considered the most iconic peak in the region."
   },
@@ -1684,10 +1730,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a famous pyramid-shaped mountain in the Alps",
+    "meaning": "a famous pyramid-shaped mountain in the Alps (馬特洪峰)",
     "meaning_eng": "a famous pyramid-shaped mountain in the Alps",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "馬特洪峰",
+    "synonyms": [
+      "馬特洪峰"
+    ],
     "context": "While traveling in Zermatt, visitors ride the mountain cogwheel train to admire and photograph the magnificent ___.",
     "raw_sentence": "While traveling in Zermatt, visitors ride the mountain cogwheel train to admire and photograph the magnificent Matterhorn."
   },
@@ -1700,10 +1748,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to inhale air into the lungs",
+    "meaning": "to inhale air into the lungs (吸入；呼吸)",
     "meaning_eng": "to inhale air into the lungs",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "吸入；呼吸",
+    "synonyms": [
+      "吸入；呼吸"
+    ],
     "context": "Step outside and ___ the fresh morning air.",
     "raw_sentence": "Step outside and breathe in the fresh morning air."
   },
@@ -1716,10 +1766,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "clean, fresh mountain air free from pollution",
+    "meaning": "clean, fresh mountain air free from pollution (純淨無污染的高山空氣)",
     "meaning_eng": "clean, fresh mountain air free from pollution",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "純淨無污染的高山空氣",
+    "synonyms": [
+      "純淨無污染的高山空氣"
+    ],
     "context": "At the peak, they filled their lungs with ___.",
     "raw_sentence": "At the peak, they filled their lungs with pure, unpolluted alpine air."
   },
@@ -1732,10 +1784,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to step away or take a break from routine, technology, or stress",
+    "meaning": "to step away or take a break from routine, technology, or stress (擺脫；與……斷開聯繫)",
     "meaning_eng": "to step away or take a break from routine, technology, or stress",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "擺脫；與……斷開聯繫",
+    "synonyms": [
+      "擺脫；與……斷開聯繫"
+    ],
     "context": "Vacation is a great time to ___ work emails and social media.",
     "raw_sentence": "Vacation is a great time to disconnect from work emails and social media."
   },
@@ -1748,10 +1802,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to create structures out of wet sand on a beach",
+    "meaning": "to create structures out of wet sand on a beach (堆沙堡)",
     "meaning_eng": "to create structures out of wet sand on a beach",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "堆沙堡",
+    "synonyms": [
+      "堆沙堡"
+    ],
     "context": "Children spend hours on the beach trying to ___.",
     "raw_sentence": "Children spend hours on the beach trying to build sandcastles."
   },
@@ -1764,10 +1820,13 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "meaningful time spent together with family members",
+    "meaning": "meaningful time spent together with family members (優質的家庭時光 / 親子時光)",
     "meaning_eng": "meaningful time spent together with family members",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "優質的家庭時光 / 親子時光",
+    "synonyms": [
+      "優質的家庭時光",
+      "親子時光"
+    ],
     "context": "Weekend picnics provide a wonderful opportunity for ___.",
     "raw_sentence": "Weekend picnics provide a wonderful opportunity for quality family time."
   },
@@ -1780,10 +1839,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "extraordinarily beautiful views of the sun setting over the sea",
+    "meaning": "extraordinarily beautiful views of the sun setting over the sea (令人屏息的海上日落)",
     "meaning_eng": "extraordinarily beautiful views of the sun setting over the sea",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "令人屏息的海上日落",
+    "synonyms": [
+      "令人屏息的海上日落"
+    ],
     "context": "Tourists gather at the coast every evening to watch ___.",
     "raw_sentence": "Tourists gather at the coast every evening to watch breathtaking ocean sunsets."
   },
@@ -1796,10 +1857,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to go for an easy, unhurried walk",
+    "meaning": "to go for an easy, unhurried walk (輕輕鬆鬆地散步)",
     "meaning_eng": "to go for an easy, unhurried walk",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "輕輕鬆鬆地散步",
+    "synonyms": [
+      "輕輕鬆鬆地散步"
+    ],
     "context": "After dinner, we decided to ___ around the neighborhood.",
     "raw_sentence": "After dinner, we decided to take a gentle walk around the neighborhood."
   },
@@ -1812,10 +1875,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "stepped fields built into hillsides for growing rice",
+    "meaning": "stepped fields built into hillsides for growing rice (梯田)",
     "meaning_eng": "stepped fields built into hillsides for growing rice",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "梯田",
+    "synonyms": [
+      "梯田"
+    ],
     "context": "The emerald green ___ in Bali attract thousands of visitors.",
     "raw_sentence": "The emerald green rice terraces in Bali attract thousands of visitors."
   },
@@ -1828,10 +1893,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to travel in a flat-bottomed boat propelled with a long pole",
+    "meaning": "to travel in a flat-bottomed boat propelled with a long pole (撐平底船游河)",
     "meaning_eng": "to travel in a flat-bottomed boat propelled with a long pole",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "撐平底船游河",
+    "synonyms": [
+      "撐平底船游河"
+    ],
     "context": "Tourists visiting Cambridge often choose to ___ on the River Cam.",
     "raw_sentence": "Tourists visiting Cambridge often choose to go punting on the River Cam."
   },
@@ -1844,10 +1911,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "higher education institutions with a long history and tradition",
+    "meaning": "higher education institutions with a long history and tradition (歷史悠久的大學學院)",
     "meaning_eng": "higher education institutions with a long history and tradition",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "歷史悠久的大學學院",
+    "synonyms": [
+      "歷史悠久的大學學院"
+    ],
     "context": "Oxford is famous for its grand libraries and ___.",
     "raw_sentence": "Oxford is famous for its grand libraries and historic university colleges."
   },
@@ -1860,10 +1929,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a two-level public bus painted red, iconic in London",
+    "meaning": "a two-level public bus painted red, iconic in London (紅色雙層巴士)",
     "meaning_eng": "a two-level public bus painted red, iconic in London",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "紅色雙層巴士",
+    "synonyms": [
+      "紅色雙層巴士"
+    ],
     "context": "We boarded a ___ to tour the city center.",
     "raw_sentence": "We boarded a red double-decker bus to tour the city center."
   },
@@ -1876,10 +1947,13 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to inspect and view displays in a museum or exposition",
+    "meaning": "to inspect and view displays in a museum or exposition (參觀展品 / 探索展覽)",
     "meaning_eng": "to inspect and view displays in a museum or exposition",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "參觀展品 / 探索展覽",
+    "synonyms": [
+      "參觀展品",
+      "探索展覽"
+    ],
     "context": "Museum visitors need several hours to fully ___ on ancient art.",
     "raw_sentence": "Museum visitors need several hours to fully explore exhibits on ancient art."
   },
@@ -1892,10 +1966,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "to involve oneself deeply in an environment, culture, or activity",
+    "meaning": "to involve oneself deeply in an environment, culture, or activity (沉浸；使全神貫注)",
     "meaning_eng": "to involve oneself deeply in an environment, culture, or activity",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "沉浸；使全神貫注",
+    "synonyms": [
+      "沉浸；使全神貫注"
+    ],
     "context": "Living in a foreign city allows you to ___ yourself in a new culture.",
     "raw_sentence": "Living in a foreign city allows you to immerse yourself in a new culture."
   },
@@ -1908,10 +1984,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "genuine, original, and true to traditional style",
+    "meaning": "genuine, original, and true to traditional style (道地的；真實的；正宗的)",
     "meaning_eng": "genuine, original, and true to traditional style",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "道地的；真實的；正宗的",
+    "synonyms": [
+      "道地的；真實的；正宗的"
+    ],
     "context": "This restaurant is known for serving ___ Italian pasta dishes.",
     "raw_sentence": "This restaurant is known for serving authentic Italian pasta dishes."
   },
@@ -1924,10 +2002,12 @@ window.VOCAB = [
     "set": "3",
     "content": "Writing 1 Feedback (Travelling)",
     "topic": "Set 3 · Writing 1 Feedback (Travelling)",
-    "meaning": "a setting where English is the primary language used",
+    "meaning": "a setting where English is the primary language used (英語環境)",
     "meaning_eng": "a setting where English is the primary language used",
-    "meaning_chin": "",
-    "synonyms": [],
+    "meaning_chin": "英語環境",
+    "synonyms": [
+      "英語環境"
+    ],
     "context": "Studying in London provides students with a natural ___.",
     "raw_sentence": "Studying in London provides students with a natural English-speaking environment."
   }

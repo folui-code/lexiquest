@@ -35,19 +35,43 @@ def fetch_workbook():
 def parse_meaning(raw_meaning):
     if not raw_meaning:
         return "", "", ""
+    text = str(raw_meaning).strip()
     eng = ""
     chin = ""
-    lines = [line.strip() for line in str(raw_meaning).split("\n") if line.strip()]
+    lines = [line.strip() for line in text.split("\n") if line.strip()]
     for line in lines:
         if line.startswith("ENG:"):
             eng = line.replace("ENG:", "").strip()
         elif line.startswith("CHIN:"):
             chin = line.replace("CHIN:", "").strip()
-        elif not eng:
-            eng = line
         elif not chin and "CHIN:" in line:
             parts = line.split("CHIN:", 1)
             chin = parts[1].strip()
+
+    if not chin:
+        match = re.search(r"[\(（]([^\)）]*[\u4e00-\u9fff][^\)）]*)[\)）]", text)
+        if match:
+            chin = match.group(1).strip()
+            if not eng:
+                eng = re.sub(r"[\(（][^\)）]*[\u4e00-\u9fff][^\)）]*[\)）]", "", text).strip()
+        else:
+            for line in lines:
+                if re.search(r"[\u4e00-\u9fff]", line):
+                    chin = line.strip()
+                    break
+
+    if not eng:
+        non_chin_lines = [l for l in lines if not re.search(r"[\u4e00-\u9fff]", l)]
+        if non_chin_lines:
+            eng = " ".join(non_chin_lines).strip()
+        else:
+            eng = text
+
+    eng = re.sub(r"^ENG:\s*", "", eng, flags=re.IGNORECASE).strip()
+    eng = re.sub(r"[\(（]\s*[\)）]", "", eng).strip()
+    chin = re.sub(r"^CHIN:\s*", "", chin, flags=re.IGNORECASE).strip()
+    chin = chin.strip("()（） ")
+
     full = eng
     if chin:
         full = f"{eng} ({chin})" if eng else chin

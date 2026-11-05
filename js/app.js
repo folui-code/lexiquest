@@ -496,12 +496,12 @@ const App = {
 
     tomes.push({
       id: "all",
-      num: "Omni Codex",
-      title: "The Grand Grimoire",
-      subtitle: "All 107 Expressions Combined · Complete Academy Deck",
-      lore: "The master codex uniting all academic vocabulary across modern technology, ancient antiquity, and global journeys.",
+      num: "All Sets",
+      title: "All Sets (107 Expressions)",
+      subtitle: "Writing 1 Sample, DSE Reading & Feedback Combined",
+      lore: "Practice all academic vocabulary across technology, reading comprehension, and writing feedback together.",
       icon: "🌟",
-      banner: "All Sets Mixed",
+      banner: "All Sets",
       themeClass: "tome-omni",
       cards: vocab,
       total: vocab.length,
@@ -512,33 +512,33 @@ const App = {
       pct: vocab.length ? Math.round((omniM / vocab.length) * 100) : 0
     });
 
-    // Thematic presets for known curriculum sets
+    // Explicit curriculum names sticking strictly to Set 1, 2, 3 and user's content
     const themes = {
       "1": {
-        num: "Tome I",
-        title: "The Forge of Innovation",
-        subtitle: "Writing 1 Sample · Technology & Cyberspace",
-        lore: "Harness the arcane lexicon of modern cyberspace, information oceans, navigation, and cyber frontiers.",
+        num: "Set 1",
+        title: "Set 1: Writing 1 Sample (Technology)",
+        subtitle: "51 Expressions · Writing 1 Sample",
+        lore: "Academic vocabulary from Writing 1 Sample on technology and the modern digital world.",
         icon: "⚡",
-        banner: "S4 Set 1 · Technology",
+        banner: "Set 1 · Technology",
         themeClass: "tome-tak"
       },
       "2": {
-        num: "Tome II",
-        title: "The Terracotta Legion",
-        subtitle: "DSE 2013 Reading · Terracotta Army & Antiquity",
-        lore: "Unearth ancient imperial craftsmanship, subterranean heritage, and the immortal army of the First Emperor.",
+        num: "Set 2",
+        title: "Set 2: DSE 2013 Reading (Terracotta Army)",
+        subtitle: "19 Expressions · DSE Reading",
+        lore: "Vocabulary from HKDSE 2013 Reading Paper on the Terracotta Army and ancient heritage.",
         icon: "🏛️",
-        banner: "S4 Set 2 · DSE Reading",
+        banner: "Set 2 · DSE Reading",
         themeClass: "tome-kin"
       },
       "3": {
-        num: "Tome III",
-        title: "The Wanderer's Compass",
-        subtitle: "Writing 1 Feedback · Global Expeditions",
-        lore: "Chart celestial horizons, evocative journeys, cultural wonders, and captivating travel perspectives.",
+        num: "Set 3",
+        title: "Set 3: Writing 1 Feedback (Travelling)",
+        subtitle: "37 Expressions · Writing 1 Feedback",
+        lore: "Vocabulary, corrections, and expressions from Writing 1 Feedback on global travel.",
         icon: "🧭",
-        banner: "S4 Set 3 · Writing Feedback",
+        banner: "Set 3 · Writing Feedback",
         themeClass: "tome-chi"
       }
     };
@@ -553,10 +553,10 @@ const App = {
     sortedSets.forEach((s) => {
       const cards = setGroups.get(s) || [];
       const theme = themes[s] || {
-        num: `Tome ${s}`,
-        title: `Grimoire Set ${s}`,
-        subtitle: cards[0]?.topic || `Vocabulary Set ${s}`,
-        lore: `Master the incantations and academic expressions compiled for Set ${s}.`,
+        num: `Set ${s}`,
+        title: `Set ${s}: ${cards[0]?.content || cards[0]?.topic || `Set ${s}`}`,
+        subtitle: `${cards.length} Expressions`,
+        lore: `Academic vocabulary compiled for Set ${s}.`,
         icon: "📜",
         banner: `Set ${s}`,
         themeClass: "tome-kan"
@@ -800,15 +800,15 @@ const App = {
         <!-- Filter tabs for quick drill selection -->
         <div class="study-filter-row">
           <button class="study-filter-btn ${filter === 'all' ? 'active' : ''}" data-drill-f="all">All (${tome.total})</button>
-          <button class="study-filter-btn ${filter === 'challenging' ? 'active' : ''}" data-drill-f="challenging">🔮 Challenging (${tome.challenging})</button>
-          <button class="study-filter-btn ${filter === 'familiar' ? 'active' : ''}" data-drill-f="familiar">📖 Familiar (${tome.familiar})</button>
+          <button class="study-filter-btn ${filter === 'challenging' ? 'active' : ''}" data-drill-f="challenging">🔴 Difficult (${tome.challenging})</button>
+          <button class="study-filter-btn ${filter === 'familiar' ? 'active' : ''}" data-drill-f="familiar">🟡 Okay (${tome.familiar})</button>
           <button class="study-filter-btn ${filter === 'mastered' ? 'active' : ''}" data-drill-f="mastered">⚡ Mastered (${tome.mastered})</button>
           <button class="study-filter-btn ${filter === 'new' ? 'active' : ''}" data-drill-f="new">✨ Unseen (${tome.unseen})</button>
         </div>
 
         <!-- Progress bar -->
         <div class="study-progress-card">
-          <span>Spell ${cardIdx + 1} of ${deck.length}</span>
+          <span>Card ${cardIdx + 1} of ${deck.length}</span>
           <div class="bar"><i style="width:${pct}%"></i></div>
           <span>${pct}%</span>
         </div>
@@ -825,15 +825,15 @@ const App = {
                 </div>
                 <div class="mcard-word-wrap">
                   <div class="mcard-word">${esc(c.word)}</div>
-                  <button class="mcard-recite-btn" id="btn-chant-spell" title="Chant incantation pronunciation">
-                    🔊 Chant Spell
+                  <button class="mcard-recite-btn" id="btn-chant-spell" title="Listen to word pronunciation">
+                    🔊 Listen to Word
                   </button>
                 </div>
                 <div class="mcard-ctx-box">
                   <p>${frontSentence}</p>
                   <div style="display:flex;justify-content:flex-end;margin-top:8px">
-                    <button class="btn small" id="btn-recite-example" style="font-size:0.8rem;padding:4px 12px;background:rgba(34,211,238,0.1);color:var(--cyan);border:1px solid rgba(34,211,238,0.3)">
-                      📜 Recite Example
+                    <button class="btn small" id="btn-recite-example" style="font-size:0.82rem;padding:5px 14px;background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3);font-weight:600" title="Listen to example sentence pronunciation">
+                      🔊 Listen to Sentence
                     </button>
                   </div>
                 </div>
@@ -841,10 +841,10 @@ const App = {
 
               <div>
                 <button class="mcard-flip-btn" id="btn-flip-front">
-                  🔮 Reveal Meaning &amp; Lore [Space]
+                  🔮 Flip Card · Reveal Meaning [Space]
                 </button>
                 <div class="mcard-flip-prompt">
-                  <span>✦ Click anywhere on card or press [Space] to flip ✦</span>
+                  <span>✦ Tap card or press [Space] to flip ✦</span>
                 </div>
               </div>
             </div>
@@ -853,8 +853,8 @@ const App = {
             <div class="magic-card-face back">
               <div>
                 <div class="mcard-ribbon">
-                  <span style="color:#38bdf8">✨ Lore &amp; Arcane Meaning</span>
-                  <span>${curStatus === 'mastered' ? '<span class="arcane-status-pill mastered">⚡ Mastered</span>' : curStatus === 'familiar' ? '<span class="arcane-status-pill familiar">📖 Familiar</span>' : curStatus === 'challenging' ? '<span class="arcane-status-pill challenging">🔮 Challenging</span>' : '<span class="arcane-status-pill new">✨ Unseen</span>'}</span>
+                  <span style="color:#38bdf8">✨ Meaning &amp; Definition</span>
+                  <span>${curStatus === 'mastered' ? '<span class="arcane-status-pill mastered">⚡ Mastered</span>' : curStatus === 'familiar' ? '<span class="arcane-status-pill familiar">🟡 Okay</span>' : curStatus === 'challenging' ? '<span class="arcane-status-pill challenging">🔴 Difficult</span>' : '<span class="arcane-status-pill new">✨ Unseen</span>'}</span>
                 </div>
                 <div style="text-align:center;margin:12px 0 6px">
                   <h2 style="font-size:1.8rem;margin:0;color:#fff">${esc(c.word)}</h2>
@@ -878,7 +878,7 @@ const App = {
 
               <div>
                 <button class="mcard-flip-btn" id="btn-flip-back" style="border-color:rgba(56,189,248,0.4);color:#bae6fd">
-                  ↺ Flip Back [Space]
+                  ↺ Flip Back to Word [Space]
                 </button>
               </div>
             </div>
@@ -887,22 +887,22 @@ const App = {
 
         <!-- Arcane Assessment Bar (Game-like 3-way Self Assessment) -->
         <div class="arcane-assessment-bar">
-          <button class="arcane-assess-btn challenging ${curStatus === 'challenging' ? 'active' : ''}" id="btn-mark-challenging" title="Mark as Challenging (Needs Drill)">
-            <span class="assess-icon">🔮</span>
-            <span class="assess-title">Challenging</span>
-            <span class="assess-sub">Needs Drill</span>
+          <button class="arcane-assess-btn challenging ${curStatus === 'challenging' ? 'active' : ''}" id="btn-mark-challenging" title="Mark as Difficult (Needs Practice)">
+            <span class="assess-icon">🔴</span>
+            <span class="assess-title">Difficult</span>
+            <span class="assess-sub">Needs Practice</span>
             <span class="assess-key">Key: 1</span>
           </button>
-          <button class="arcane-assess-btn familiar ${curStatus === 'familiar' ? 'active' : ''}" id="btn-mark-familiar" title="Mark as Familiar (In Progress)">
-            <span class="assess-icon">📖</span>
-            <span class="assess-title">Familiar</span>
+          <button class="arcane-assess-btn familiar ${curStatus === 'familiar' ? 'active' : ''}" id="btn-mark-familiar" title="Mark as Okay (In Progress)">
+            <span class="assess-icon">🟡</span>
+            <span class="assess-title">Okay</span>
             <span class="assess-sub">In Progress</span>
             <span class="assess-key">Key: 2</span>
           </button>
-          <button class="arcane-assess-btn mastered ${curStatus === 'mastered' ? 'active' : ''}" id="btn-mark-mastered" title="Mark as Mastered (Spell Perfected)">
+          <button class="arcane-assess-btn mastered ${curStatus === 'mastered' ? 'active' : ''}" id="btn-mark-mastered" title="Mark as Mastered (Well Known)">
             <span class="assess-icon">⚡</span>
             <span class="assess-title">Mastered</span>
-            <span class="assess-sub">Spell Perfected!</span>
+            <span class="assess-sub">Well Known!</span>
             <span class="assess-key">Key: 3</span>
           </button>
         </div>
@@ -974,15 +974,15 @@ const App = {
         if (Sfx.spellCast) Sfx.spellCast();
         Fx.confetti(75);
         Store.addXP(10);
-        toast("⚡ Spell Perfected! Marked as Mastered (+10 XP)", true);
+        toast("⚡ Marked as Mastered! (+10 XP)", true);
       } else if (status === "challenging") {
         if (Sfx.spellChallenging) Sfx.spellChallenging();
         Store.addXP(5);
-        toast("🔮 Marked as Challenging — Queued for extra drill (+5 XP)");
+        toast("🔴 Marked as Difficult — Queued for practice (+5 XP)");
       } else {
         if (Sfx.click) Sfx.click();
         Store.addXP(5);
-        toast("📖 Marked as Familiar (+5 XP)");
+        toast("🟡 Marked as Okay (+5 XP)");
       }
       this.renderTop();
 
@@ -1072,9 +1072,9 @@ const App = {
       if (!matchesFilter) return false;
       if (!q) return true;
       return c.word.toLowerCase().includes(q) ||
-             (c.meaning && c.meaning.toLowerCase().includes(q)) ||
-             (c.meaning_chin && c.meaning_chin.toLowerCase().includes(q)) ||
-             (c.synonyms && c.synonyms.some((s) => s.toLowerCase().includes(q)));
+        (c.meaning && c.meaning.toLowerCase().includes(q)) ||
+        (c.meaning_chin && c.meaning_chin.toLowerCase().includes(q)) ||
+        (c.synonyms && c.synonyms.some((s) => s.toLowerCase().includes(q)));
     });
 
     el.innerHTML = `
@@ -1101,23 +1101,23 @@ const App = {
         <div class="study-filter-row" style="margin-bottom:20px">
           <button class="study-filter-btn ${filter === 'all' ? 'active' : ''}" data-idx-f="all">All (${tome.total})</button>
           <button class="study-filter-btn ${filter === 'mastered' ? 'active' : ''}" data-idx-f="mastered">⚡ Mastered (${tome.mastered})</button>
-          <button class="study-filter-btn ${filter === 'familiar' ? 'active' : ''}" data-idx-f="familiar">📖 Familiar (${tome.familiar})</button>
-          <button class="study-filter-btn ${filter === 'challenging' ? 'active' : ''}" data-idx-f="challenging">🔮 Challenging (${tome.challenging})</button>
+          <button class="study-filter-btn ${filter === 'familiar' ? 'active' : ''}" data-idx-f="familiar">🟡 Okay (${tome.familiar})</button>
+          <button class="study-filter-btn ${filter === 'challenging' ? 'active' : ''}" data-idx-f="challenging">🔴 Difficult (${tome.challenging})</button>
           <button class="study-filter-btn ${filter === 'new' ? 'active' : ''}" data-idx-f="new">✨ Unseen (${tome.unseen})</button>
         </div>
 
         <div class="vault-grid">
           ${list.map((c) => {
-            const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
-            const badge = st === "mastered"
-              ? '<span class="arcane-status-pill mastered">⚡ Mastered</span>'
-              : st === "familiar"
-              ? '<span class="arcane-status-pill familiar">📖 Familiar</span>'
-              : st === "challenging"
-              ? '<span class="arcane-status-pill challenging">🔮 Challenging</span>'
-              : '<span class="arcane-status-pill new">✨ Unseen</span>';
+      const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+      const badge = st === "mastered"
+        ? '<span class="arcane-status-pill mastered">⚡ Mastered</span>'
+        : st === "familiar"
+          ? '<span class="arcane-status-pill familiar">🟡 Okay</span>'
+          : st === "challenging"
+            ? '<span class="arcane-status-pill challenging">🔴 Difficult</span>'
+            : '<span class="arcane-status-pill new">✨ Unseen</span>';
 
-            return `
+      return `
               <button class="vword" id="vw-${c.id}" data-id="${c.id}">
                 <div>
                   <div class="vword-top">
@@ -1132,7 +1132,7 @@ const App = {
                 </div>
               </button>
             `;
-          }).join('') || `<p class="muted" style="padding:30px;text-align:center;grid-column:1/-1">No spells found matching your search.</p>`}
+    }).join('') || `<p class="muted" style="padding:30px;text-align:center;grid-column:1/-1">No spells found matching your search.</p>`}
         </div>
       </div>
     `;

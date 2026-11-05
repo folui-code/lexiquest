@@ -4,7 +4,7 @@
    =================================================================== */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const shuffle = (a, rnd = Math.random) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const shuffle = (a, rnd = Math.random) => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; };
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const norm = (s) => String(s).toLowerCase().replace(/[^a-z]/g, "");
 const fmt = (n) => Math.round(n).toLocaleString("en-US");
@@ -255,7 +255,7 @@ const Sfx = {
       o.type = type; o.frequency.setValueAtTime(freq, t);
       g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
       o.connect(g).connect(this.ctx.destination); o.start(t); o.stop(t + dur + 0.02);
-    } catch {}
+    } catch { }
   },
   correct(combo = 0) { const b = 520 * Math.pow(1.06, Math.min(combo, 20)); this.tone(b, 0.1, "triangle"); this.tone(b * 1.5, 0.16, "triangle", 0.12, 0.07); },
   wrong() { this.tone(160, 0.25, "sawtooth", 0.09); this.tone(120, 0.3, "sawtooth", 0.07, 0.08); },
@@ -349,7 +349,7 @@ function pronounce(text, rate = 0.9) {
   try {
     window.speechSynthesis.cancel();
     window.speechSynthesis.resume();
-  } catch (e) {}
+  } catch (e) { }
 
   setTimeout(() => {
     try {
@@ -360,8 +360,8 @@ function pronounce(text, rate = 0.9) {
 
       const voices = window.speechSynthesis.getVoices() || [];
       const enVoice = voices.find(v => v.lang && (v.lang.startsWith("en-GB") || v.lang.startsWith("en_GB") || (v.name && v.name.includes("British")))) ||
-                      voices.find(v => v.lang && (v.lang.startsWith("en-US") || v.lang.startsWith("en_US") || (v.name && v.name.includes("Samantha")))) ||
-                      voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en"));
+        voices.find(v => v.lang && (v.lang.startsWith("en-US") || v.lang.startsWith("en_US") || (v.name && v.name.includes("Samantha")))) ||
+        voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en"));
       if (enVoice) {
         utter.voice = enVoice;
         utter.lang = enVoice.lang;
@@ -398,10 +398,10 @@ function wordCardHTML(c) {
   const statusBadge = curStatus === "mastered"
     ? `<span class="arcane-status-pill mastered">⚡ Mastered</span>`
     : curStatus === "familiar"
-    ? `<span class="arcane-status-pill familiar">📖 Familiar</span>`
-    : curStatus === "challenging"
-    ? `<span class="arcane-status-pill challenging">🔮 Challenging</span>`
-    : `<span class="arcane-status-pill new">✨ Unseen</span>`;
+      ? `<span class="arcane-status-pill familiar">📖 Familiar</span>`
+      : curStatus === "challenging"
+        ? `<span class="arcane-status-pill challenging">🔮 Challenging</span>`
+        : `<span class="arcane-status-pill new">✨ Unseen</span>`;
 
   return `
     <div class="wcard">
@@ -410,8 +410,8 @@ function wordCardHTML(c) {
           <span class="pos">${esc(c.pos)}</span>${topicChip}
           <div style="display:flex;align-items:center;gap:12px;margin:2px 0 8px">
             <h2 style="font-size:1.8rem;margin:0">${esc(c.word)}</h2>
-            <button class="pill icon-btn" id="btn-speak-word" title="Listen to pronunciation" style="padding:6px 12px;font-size:1.2rem;background:rgba(34,211,238,0.18);border:1px solid var(--cyan);color:var(--cyan);cursor:pointer">
-              🔊 Chant
+            <button class="pill icon-btn" id="btn-speak-word" title="Listen to word pronunciation" style="padding:6px 14px;font-size:0.95rem;font-weight:700;background:rgba(34,211,238,0.18);border:1px solid var(--cyan);color:var(--cyan);cursor:pointer">
+              🔊 Listen to Word
             </button>
           </div>
         </div>
@@ -424,8 +424,8 @@ function wordCardHTML(c) {
           ${ctx}
         </blockquote>
         <div style="display:flex;justify-content:flex-end;margin-top:6px">
-          <button class="btn small" id="btn-speak-sentence" title="Listen to context sentence" style="padding:5px 12px;font-size:0.82rem;background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3);cursor:pointer">
-            🔊 Recite Example Sentence
+          <button class="btn small" id="btn-speak-sentence" title="Listen to example sentence pronunciation" style="padding:6px 14px;font-size:0.85rem;font-weight:600;background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3);cursor:pointer">
+            🔊 Listen to Sentence
           </button>
         </div>
       </div>
@@ -434,15 +434,15 @@ function wordCardHTML(c) {
       <div class="modal-status-box">
         <span class="modal-status-label">Mastery Assessment:</span>
         <div class="arcane-status-btn-group">
-          <button class="arcane-status-btn challenging ${curStatus === 'challenging' ? 'active' : ''}" data-status="challenging" title="Mark as Challenging (Needs Drill)">
-            <span class="btn-icon">🔮</span>
-            <span class="btn-text"><b>Challenging</b><small>Needs Drill</small></span>
+          <button class="arcane-status-btn challenging ${curStatus === 'challenging' ? 'active' : ''}" data-status="challenging" title="Mark as Difficult (Needs Practice)">
+            <span class="btn-icon">🔴</span>
+            <span class="btn-text"><b>Difficult</b><small>Needs Practice</small></span>
           </button>
-          <button class="arcane-status-btn familiar ${curStatus === 'familiar' ? 'active' : ''}" data-status="familiar" title="Mark as Familiar (In Progress)">
-            <span class="btn-icon">📖</span>
-            <span class="btn-text"><b>Familiar</b><small>In Progress</small></span>
+          <button class="arcane-status-btn familiar ${curStatus === 'familiar' ? 'active' : ''}" data-status="familiar" title="Mark as Okay (In Progress)">
+            <span class="btn-icon">🟡</span>
+            <span class="btn-text"><b>Okay</b><small>In Progress</small></span>
           </button>
-          <button class="arcane-status-btn mastered ${curStatus === 'mastered' ? 'active' : ''}" data-status="mastered" title="Mark as Mastered (Spell Perfected)">
+          <button class="arcane-status-btn mastered ${curStatus === 'mastered' ? 'active' : ''}" data-status="mastered" title="Mark as Mastered (Well Known)">
             <span class="btn-icon">⚡</span>
             <span class="btn-text"><b>Mastered</b><small>Spell Perfected!</small></span>
           </button>
@@ -507,7 +507,7 @@ function showWord(c, list = (window.VOCAB || [])) {
     }
   };
   window.addEventListener("keydown", arrowHandler);
-  
+
   const speakWordBtn = $("#btn-speak-word");
   if (speakWordBtn) {
     speakWordBtn.onclick = (e) => {
@@ -539,15 +539,15 @@ function showWord(c, list = (window.VOCAB || [])) {
         if (Sfx.spellCast) Sfx.spellCast();
         Fx.confetti(60);
         Store.addXP(10);
-        toast("⚡ Spell Perfected! Marked as Mastered (+10 XP)", true);
+        toast("⚡ Marked as Mastered! (+10 XP)", true);
       } else if (st === "challenging") {
         if (Sfx.spellChallenging) Sfx.spellChallenging();
         Store.addXP(5);
-        toast("🔮 Marked as Challenging — Queued for extra drill (+5 XP)");
+        toast("🔴 Marked as Difficult — Queued for extra practice (+5 XP)");
       } else {
         if (Sfx.click) Sfx.click();
         Store.addXP(5);
-        toast("📖 Marked as Familiar (+5 XP)");
+        toast("🟡 Marked as Okay (+5 XP)");
       }
       $$(".modal-status-box .arcane-status-btn").forEach(b => b.classList.toggle("active", b.dataset.status === st));
       const badgeWrap = $("#modal-status-badge-wrap");
@@ -555,8 +555,8 @@ function showWord(c, list = (window.VOCAB || [])) {
         badgeWrap.innerHTML = st === "mastered"
           ? `<span class="arcane-status-pill mastered">⚡ Mastered</span>`
           : st === "familiar"
-          ? `<span class="arcane-status-pill familiar">📖 Familiar</span>`
-          : `<span class="arcane-status-pill challenging">🔮 Challenging</span>`;
+            ? `<span class="arcane-status-pill familiar">📖 Familiar</span>`
+            : `<span class="arcane-status-pill challenging">🔮 Challenging</span>`;
       }
       const starsWrap = $("#modal-stars-wrap");
       if (starsWrap) starsWrap.innerHTML = stars(c.id);
