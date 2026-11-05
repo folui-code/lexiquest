@@ -265,18 +265,24 @@ const App = {
       bestBlitzEl.textContent = topBlitz > 0 ? `Best ${fmt(topBlitz)}` : "Play Now";
     }
 
-    // vault progress (≥3★ = mastered, 1-2★ = learning, 0★ = unseen)
-    const mastered = VOCAB.filter((c) => Store.mastery(c.id) >= 3).length;
-    const learning = VOCAB.filter((c) => Store.mastery(c.id) > 0 && Store.mastery(c.id) < 3).length;
-    const unseen = Math.max(0, VOCAB.length - mastered - learning);
+    // vault progress (mastered, familiar, challenging, unseen)
+    let mastered = 0, familiar = 0, challenging = 0, unseen = 0;
+    (window.VOCAB || []).forEach((c) => {
+      const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+      if (st === "mastered") mastered++;
+      else if (st === "familiar") familiar++;
+      else if (st === "challenging") challenging++;
+      else unseen++;
+    });
 
-    $("#vault-fill").style.width = (mastered / VOCAB.length) * 100 + "%";
-    $("#vault-text").textContent = `${mastered} / ${VOCAB.length} Mastered`;
+    const totalV = (window.VOCAB || []).length || 1;
+    $("#vault-fill").style.width = ((mastered / totalV) * 100) + "%";
+    $("#vault-text").textContent = `${mastered} / ${totalV} Mastered`;
 
     const countMasteredEl = $("#vault-count-mastered");
     if (countMasteredEl) countMasteredEl.textContent = mastered;
     const countWeakEl = $("#vault-count-weak");
-    if (countWeakEl) countWeakEl.textContent = learning;
+    if (countWeakEl) countWeakEl.textContent = familiar + challenging;
     const countNewEl = $("#vault-count-new");
     if (countNewEl) countNewEl.textContent = unseen;
 
@@ -460,56 +466,241 @@ const App = {
     $("#chest-ok").onclick = () => { closeModal(); this.renderHome(); };
   },
 
-  vault(filter = "all", setFilter = "all") {
+  getTomes() {
+    const vocab = window.VOCAB || [];
+
+    // Group cards by Set number
+    const setGroups = new Map();
+    vocab.forEach((c) => {
+      let s = String(c.set || "").trim();
+      if (!s && c.topic) {
+        const m = c.topic.match(/Set\s*(\d+)/i);
+        if (m) s = m[1];
+      }
+      if (!s) s = "1";
+      if (!setGroups.has(s)) setGroups.set(s, []);
+      setGroups.get(s).push(c);
+    });
+
+    const tomes = [];
+
+    // 1. Omni Codex: All 107 Spells Mixed
+    let omniM = 0, omniF = 0, omniCh = 0, omniU = 0;
+    vocab.forEach((c) => {
+      const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+      if (st === "mastered") omniM++;
+      else if (st === "familiar") omniF++;
+      else if (st === "challenging") omniCh++;
+      else omniU++;
+    });
+
+    tomes.push({
+      id: "all",
+      num: "Omni Codex",
+      title: "The Grand Grimoire",
+      subtitle: "All 107 Expressions Combined · Complete Academy Deck",
+      lore: "The master codex uniting all academic vocabulary across modern technology, ancient antiquity, and global journeys.",
+      icon: "🌟",
+      banner: "All Sets Mixed",
+      themeClass: "tome-omni",
+      cards: vocab,
+      total: vocab.length,
+      mastered: omniM,
+      familiar: omniF,
+      challenging: omniCh,
+      unseen: omniU,
+      pct: vocab.length ? Math.round((omniM / vocab.length) * 100) : 0
+    });
+
+    // Thematic presets for known curriculum sets
+    const themes = {
+      "1": {
+        num: "Tome I",
+        title: "The Forge of Innovation",
+        subtitle: "Writing 1 Sample · Technology & Cyberspace",
+        lore: "Harness the arcane lexicon of modern cyberspace, information oceans, navigation, and cyber frontiers.",
+        icon: "⚡",
+        banner: "S4 Set 1 · Technology",
+        themeClass: "tome-tak"
+      },
+      "2": {
+        num: "Tome II",
+        title: "The Terracotta Legion",
+        subtitle: "DSE 2013 Reading · Terracotta Army & Antiquity",
+        lore: "Unearth ancient imperial craftsmanship, subterranean heritage, and the immortal army of the First Emperor.",
+        icon: "🏛️",
+        banner: "S4 Set 2 · DSE Reading",
+        themeClass: "tome-kin"
+      },
+      "3": {
+        num: "Tome III",
+        title: "The Wanderer's Compass",
+        subtitle: "Writing 1 Feedback · Global Expeditions",
+        lore: "Chart celestial horizons, evocative journeys, cultural wonders, and captivating travel perspectives.",
+        icon: "🧭",
+        banner: "S4 Set 3 · Writing Feedback",
+        themeClass: "tome-chi"
+      }
+    };
+
+    // Sort sets in natural numerical order
+    const sortedSets = Array.from(setGroups.keys()).sort((a, b) => {
+      const na = parseInt(a, 10), nb = parseInt(b, 10);
+      if (!isNaN(na) && !isNaN(nb)) return na - nb;
+      return a.localeCompare(b);
+    });
+
+    sortedSets.forEach((s) => {
+      const cards = setGroups.get(s) || [];
+      const theme = themes[s] || {
+        num: `Tome ${s}`,
+        title: `Grimoire Set ${s}`,
+        subtitle: cards[0]?.topic || `Vocabulary Set ${s}`,
+        lore: `Master the incantations and academic expressions compiled for Set ${s}.`,
+        icon: "📜",
+        banner: `Set ${s}`,
+        themeClass: "tome-kan"
+      };
+
+      let m = 0, f = 0, ch = 0, u = 0;
+      cards.forEach((c) => {
+        const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+        if (st === "mastered") m++;
+        else if (st === "familiar") f++;
+        else if (st === "challenging") ch++;
+        else u++;
+      });
+
+      tomes.push({
+        id: `set-${s}`,
+        setNumber: s,
+        ...theme,
+        cards: cards,
+        total: cards.length,
+        mastered: m,
+        familiar: f,
+        challenging: ch,
+        unseen: u,
+        pct: cards.length ? Math.round((m / cards.length) * 100) : 0
+      });
+    });
+
+    return tomes;
+  },
+
+  vault(view = "lobby", tomeId = "all", filter = "all", extra = {}) {
     if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
       Leaderboard.syncProfilePull();
     }
+    if (!$("#screen-vault").classList.contains("active")) showScreen("vault");
+
+    if (view === "study") {
+      this.vaultStudy(tomeId, filter, extra.cardIdx || 0, extra.deck || null);
+    } else if (view === "index") {
+      this.vaultIndex(tomeId, filter, extra.search || "");
+    } else {
+      this.vaultLobby();
+    }
+  },
+
+  vaultLobby() {
+    if (this.activeStudyKeyHandler) {
+      window.removeEventListener("keydown", this.activeStudyKeyHandler);
+      this.activeStudyKeyHandler = null;
+    }
+    const tomes = this.getTomes();
+    const omni = tomes[0];
     const el = $("#screen-vault");
 
-    // Extract available sets
-    const availableSets = [];
-    const setMap = new Map();
-    (window.VOCAB || []).forEach(c => {
-      const key = c.topic || (c.set ? `Set ${c.set}` : "General");
-      if (!setMap.has(key)) {
-        setMap.set(key, 0);
-        availableSets.push(key);
-      }
-      setMap.set(key, setMap.get(key) + 1);
-    });
-
-    const list = (window.VOCAB || []).filter((c) => {
-      const m = Store.mastery(c.id);
-      const matchesMastery = filter === "all" || (filter === "weak" && m > 0 && m < 3) || (filter === "new" && m === 0) || (filter === "mastered" && m >= 3);
-      const cardSetKey = c.topic || (c.set ? `Set ${c.set}` : "General");
-      const matchesSet = setFilter === "all" || cardSetKey === setFilter;
-      return matchesMastery && matchesSet;
-    });
-
-    el.innerHTML = `<button class="back-btn" id="vault-back">← Home</button>
-      <div class="vault-head">
-        <div>
-          <h1>📚 Word Vault</h1>
-          <p class="muted">Tap any word to study its card. ★ = mastery level.</p>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-end;flex-direction:column">
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
-            <button class="btn small" id="vault-sync-btn" title="Sync with Google Cloud" style="font-size:0.75rem;padding:6px 12px;border-color:var(--cyan);color:var(--cyan)">🔄 Cloud Sync</button>
-            <div class="vault-filter">${["all", "new", "weak", "mastered"].map((f) => `<button class="btn small ${f === filter ? "on" : ""}" id="vf-${f}" data-f="${f}">${f[0].toUpperCase() + f.slice(1)}</button>`).join("")}</div>
+    el.innerHTML = `
+      <div class="vault-lobby">
+        <div class="vault-lobby-head">
+          <button class="back-btn" id="btn-vault-home">← Great Hall</button>
+          <div class="vault-title-group" style="text-align:center;flex:1">
+            <h1>⚡ The Sanctum of Arcane Tomes ⚡</h1>
+            <p>Curriculum English Vocabulary Grimoires · HPCCSS Academy of Wizardry</p>
           </div>
-          ${availableSets.length > 1 ? `
-            <div class="vault-set-filter" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
-              <button class="btn small ${setFilter === 'all' ? 'on' : ''}" data-sf="all" style="font-size:0.75rem;padding:4px 10px">All Sets (${(window.VOCAB || []).length})</button>
-              ${availableSets.map(s => `
-                <button class="btn small ${setFilter === s ? 'on' : ''}" data-sf="${esc(s)}" style="font-size:0.75rem;padding:4px 10px">${esc(s)} (${setMap.get(s)})</button>
-              `).join('')}
+          <button class="btn small" id="vault-cloud-sync-btn" style="border-color:var(--cyan);color:var(--cyan);padding:8px 14px">
+            🔄 Cloud Sync
+          </button>
+        </div>
+
+        <!-- Overall Academy Mastery Banner -->
+        <div class="vault-banner-card">
+          <div style="flex:1;min-width:240px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+              <span style="font-size:1.6rem">🌟</span>
+              <div>
+                <h3 style="font-size:1.15rem;font-weight:800;color:#fef08a;margin:0">Total Academy Spell Mastery</h3>
+                <span style="font-size:0.82rem;color:#cbd5e1">Mastery across all curriculum sets &amp; texts</span>
+              </div>
             </div>
-          ` : ''}
+            <div class="vault-progress-wrap" style="margin-top:8px">
+              <div class="vault-progress-bar" style="max-width:none;flex:1"><i style="width:${omni.pct}%"></i></div>
+              <span class="vault-progress-text">${omni.mastered} / ${omni.total} Mastered (${omni.pct}%)</span>
+            </div>
+          </div>
+          <div class="vault-banner-stats">
+            <div class="banner-stat-chip"><span style="color:#6ee7b7">⚡</span><b>${omni.mastered}</b> Mastered</div>
+            <div class="banner-stat-chip"><span style="color:#fde68a">📖</span><b>${omni.familiar}</b> Familiar</div>
+            <div class="banner-stat-chip"><span style="color:#fda4af">🔮</span><b>${omni.challenging}</b> Challenging</div>
+            <div class="banner-stat-chip"><span style="color:#94a3b8">✨</span><b>${omni.unseen}</b> Unseen</div>
+          </div>
+        </div>
+
+        <!-- Grimoire Cards Grid -->
+        <div class="grimoire-grid">
+          ${tomes.map((tome) => `
+            <div class="grimoire-card ${tome.themeClass}" id="grimoire-${tome.id}">
+              <div>
+                <div class="tome-top-badge-row">
+                  <span class="tome-roman-badge">${tome.num}</span>
+                  <span class="tome-count-badge">📜 ${tome.total} Spells</span>
+                </div>
+                <div class="tome-header">
+                  <span class="tome-seal-icon">${tome.icon}</span>
+                  <div class="tome-titles">
+                    <h3>${esc(tome.title)}</h3>
+                    <p>${esc(tome.subtitle)}</p>
+                  </div>
+                </div>
+                <p class="tome-lore">"${esc(tome.lore)}"</p>
+              </div>
+
+              <div>
+                <div class="tome-progress-block">
+                  <div class="tome-progress-labels">
+                    <span style="color:#cbd5e1;font-size:0.78rem">Grimoire Mastery</span>
+                    <b>${tome.mastered} / ${tome.total} (${tome.pct}%)</b>
+                  </div>
+                  <div class="tome-bar"><i style="width:${tome.pct}%"></i></div>
+                </div>
+
+                <div class="tome-badges-grid">
+                  <span class="vmini-chip"><span style="color:#6ee7b7">⚡</span> ${tome.mastered} Mastered</span>
+                  <span class="vmini-chip"><span style="color:#fde68a">📖</span> ${tome.familiar} Familiar</span>
+                  <span class="vmini-chip"><span style="color:#fda4af">🔮</span> ${tome.challenging} Drill</span>
+                  <span class="vmini-chip"><span style="color:#94a3b8">✨</span> ${tome.unseen} New</span>
+                </div>
+
+                <div class="tome-actions">
+                  <button class="tome-btn-primary" data-tome-action="study" data-tome="${tome.id}" title="Interactive 3D Spell Flashcard Study">
+                    🎴 Revise Spells
+                  </button>
+                  <button class="tome-btn-secondary" data-tome-action="index" data-tome="${tome.id}" title="Browse all words in this Tome">
+                    📜 Spell Index
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join("")}
         </div>
       </div>
-      <div class="vault-grid">${list.map((c) => `<button class="vword" id="vw-${c.id}" data-id="${c.id}"><b>${esc(c.word)}</b><small>${esc(c.pos)}${c.topic ? ` · ${esc(c.topic)}` : ''}</small>${stars(c.id)}</button>`).join("") || `<p class="muted">No words matching this filter.</p>`}</div>`;
-    $("#vault-back").onclick = () => showScreen("home");
-    const syncBtn = $("#vault-sync-btn");
+    `;
+
+    $("#btn-vault-home").onclick = () => showScreen("home");
+
+    const syncBtn = $("#vault-cloud-sync-btn");
     if (syncBtn) {
       syncBtn.onclick = async () => {
         syncBtn.textContent = "⏳ Syncing...";
@@ -522,18 +713,454 @@ const App = {
         }
         syncBtn.textContent = "🔄 Cloud Sync";
         syncBtn.disabled = false;
-        toast("✅ Word Vault synced with Google Cloud!");
-        this.vault(filter, setFilter);
+        toast("✅ Sanctum of Tomes synced with Google Cloud!");
+        this.vaultLobby();
       };
     }
-    $$(".vault-filter [data-f]").forEach((b) => (b.onclick = () => this.vault(b.dataset.f, setFilter)));
-    $$(".vault-set-filter [data-sf]").forEach((b) => (b.onclick = () => this.vault(filter, b.dataset.sf)));
-    $$(".vword").forEach((b) => (b.onclick = () => {
-      const id = +b.dataset.id;
-      const card = (window.VOCAB || []).find((x) => x.id === id) || (window.VOCAB || [])[id];
-      if (card) showWord(card, list);
-    }));
-    if (!$("#screen-vault").classList.contains("active")) showScreen("vault");
+
+    $$("[data-tome-action]").forEach((btn) => {
+      btn.onclick = () => {
+        const act = btn.dataset.tomeAction;
+        const tid = btn.dataset.tome;
+        if (act === "study") this.vaultStudy(tid);
+        else if (act === "index") this.vaultIndex(tid);
+      };
+    });
+  },
+
+  vaultStudy(tomeId = "all", filter = "all", cardIdx = 0, customDeck = null) {
+    if (this.activeStudyKeyHandler) {
+      window.removeEventListener("keydown", this.activeStudyKeyHandler);
+      this.activeStudyKeyHandler = null;
+    }
+
+    const tomes = this.getTomes();
+    const tome = tomes.find((t) => t.id === tomeId) || tomes[0];
+
+    let deck = customDeck;
+    if (!deck) {
+      if (filter === "all") deck = [...tome.cards];
+      else if (filter === "mastered") deck = tome.cards.filter((c) => Store.getWordStatus(c) === "mastered");
+      else if (filter === "familiar") deck = tome.cards.filter((c) => Store.getWordStatus(c) === "familiar");
+      else if (filter === "challenging") deck = tome.cards.filter((c) => Store.getWordStatus(c) === "challenging");
+      else if (filter === "new") deck = tome.cards.filter((c) => Store.getWordStatus(c) === "new");
+      else deck = [...tome.cards];
+    }
+
+    const el = $("#screen-vault");
+
+    // Empty state
+    if (!deck.length) {
+      el.innerHTML = `
+        <div class="vault-study-chamber" style="text-align:center;padding:40px 20px">
+          <div style="font-size:3.5rem;margin-bottom:12px">🌟</div>
+          <h2 style="font-size:1.8rem;margin-bottom:8px">Chamber Cleared!</h2>
+          <p style="color:#cbd5e1;max-width:440px;margin:0 auto 24px;line-height:1.6">
+            No spells currently match the <b>${filter.toUpperCase()}</b> filter in <i>${esc(tome.title)}</i>. All spells here have been mastered or are ready for full practice!
+          </p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button class="btn primary" id="btn-study-all-fallback">↻ Practice All Spells (${tome.total})</button>
+            <button class="btn" id="btn-study-return-lobby">← Return to Tomes</button>
+          </div>
+        </div>
+      `;
+      $("#btn-study-all-fallback").onclick = () => this.vaultStudy(tomeId, "all", 0);
+      $("#btn-study-return-lobby").onclick = () => this.vaultLobby();
+      return;
+    }
+
+    cardIdx = Math.max(0, Math.min(cardIdx, deck.length - 1));
+    const c = deck[cardIdx];
+    const curStatus = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+    const pct = Math.round(((cardIdx + 1) / deck.length) * 100);
+
+    const frontSentence = esc(c.context || "").replace(/___/g, '<span class="mcard-blank-mark">______</span>');
+    const backSentence = c.raw_sentence
+      ? esc(c.raw_sentence)
+      : esc(c.context || "").replace(/___/g, `<mark>${esc(c.word)}</mark>`);
+
+    el.innerHTML = `
+      <div class="vault-study-chamber">
+        <div class="study-top-nav">
+          <button class="back-btn" id="btn-study-back-tomes">← Tomes</button>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:1.3rem">${tome.icon}</span>
+            <b style="font-size:0.95rem;color:#fef08a">${esc(tome.title)}</b>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn small" id="btn-study-shuffle" title="Shuffle remaining deck" style="padding:6px 12px;font-size:0.8rem">
+              🔀 Shuffle
+            </button>
+            <button class="btn small" id="btn-study-index" title="View in Spell Index" style="padding:6px 12px;font-size:0.8rem">
+              📜 Index
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter tabs for quick drill selection -->
+        <div class="study-filter-row">
+          <button class="study-filter-btn ${filter === 'all' ? 'active' : ''}" data-drill-f="all">All (${tome.total})</button>
+          <button class="study-filter-btn ${filter === 'challenging' ? 'active' : ''}" data-drill-f="challenging">🔮 Challenging (${tome.challenging})</button>
+          <button class="study-filter-btn ${filter === 'familiar' ? 'active' : ''}" data-drill-f="familiar">📖 Familiar (${tome.familiar})</button>
+          <button class="study-filter-btn ${filter === 'mastered' ? 'active' : ''}" data-drill-f="mastered">⚡ Mastered (${tome.mastered})</button>
+          <button class="study-filter-btn ${filter === 'new' ? 'active' : ''}" data-drill-f="new">✨ Unseen (${tome.unseen})</button>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="study-progress-card">
+          <span>Spell ${cardIdx + 1} of ${deck.length}</span>
+          <div class="bar"><i style="width:${pct}%"></i></div>
+          <span>${pct}%</span>
+        </div>
+
+        <!-- 3D Interactive Magic Spell Card -->
+        <div class="magic-card-stage" id="magic-card-stage">
+          <div class="magic-card-flipper" id="card-flipper">
+            <!-- FRONT FACE -->
+            <div class="magic-card-face front">
+              <div>
+                <div class="mcard-ribbon">
+                  <span>${tome.icon} ${esc(tome.num)} · ${esc(c.pos)}</span>
+                  <span>${stars(c.id)}</span>
+                </div>
+                <div class="mcard-word-wrap">
+                  <div class="mcard-word">${esc(c.word)}</div>
+                  <button class="mcard-recite-btn" id="btn-chant-spell" title="Chant incantation pronunciation">
+                    🔊 Chant Spell
+                  </button>
+                </div>
+                <div class="mcard-ctx-box">
+                  <p>${frontSentence}</p>
+                  <div style="display:flex;justify-content:flex-end;margin-top:8px">
+                    <button class="btn small" id="btn-recite-example" style="font-size:0.8rem;padding:4px 12px;background:rgba(34,211,238,0.1);color:var(--cyan);border:1px solid rgba(34,211,238,0.3)">
+                      📜 Recite Example
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <button class="mcard-flip-btn" id="btn-flip-front">
+                  🔮 Reveal Meaning &amp; Lore [Space]
+                </button>
+                <div class="mcard-flip-prompt">
+                  <span>✦ Click anywhere on card or press [Space] to flip ✦</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK FACE -->
+            <div class="magic-card-face back">
+              <div>
+                <div class="mcard-ribbon">
+                  <span style="color:#38bdf8">✨ Lore &amp; Arcane Meaning</span>
+                  <span>${curStatus === 'mastered' ? '<span class="arcane-status-pill mastered">⚡ Mastered</span>' : curStatus === 'familiar' ? '<span class="arcane-status-pill familiar">📖 Familiar</span>' : curStatus === 'challenging' ? '<span class="arcane-status-pill challenging">🔮 Challenging</span>' : '<span class="arcane-status-pill new">✨ Unseen</span>'}</span>
+                </div>
+                <div style="text-align:center;margin:12px 0 6px">
+                  <h2 style="font-size:1.8rem;margin:0;color:#fff">${esc(c.word)}</h2>
+                  <small style="color:var(--cyan);text-transform:uppercase;letter-spacing:0.06em">${esc(c.pos)}</small>
+                </div>
+
+                <div class="mcard-back-meaning">
+                  ${c.meaning_chin ? `<div class="mcard-meaning-chin">${esc(c.meaning_chin)}</div>` : ''}
+                  <div class="mcard-meaning-eng">${esc(c.meaning_eng || c.meaning)}</div>
+                  ${c.synonyms && c.synonyms.length ? `
+                    <div class="mcard-syn-list">
+                      ${c.synonyms.map(s => `<span class="mcard-syn-chip">${esc(s)}</span>`).join('')}
+                    </div>
+                  ` : ''}
+                </div>
+
+                <div class="mcard-ctx-box" style="margin-top:10px">
+                  <p>${backSentence}</p>
+                </div>
+              </div>
+
+              <div>
+                <button class="mcard-flip-btn" id="btn-flip-back" style="border-color:rgba(56,189,248,0.4);color:#bae6fd">
+                  ↺ Flip Back [Space]
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arcane Assessment Bar (Game-like 3-way Self Assessment) -->
+        <div class="arcane-assessment-bar">
+          <button class="arcane-assess-btn challenging ${curStatus === 'challenging' ? 'active' : ''}" id="btn-mark-challenging" title="Mark as Challenging (Needs Drill)">
+            <span class="assess-icon">🔮</span>
+            <span class="assess-title">Challenging</span>
+            <span class="assess-sub">Needs Drill</span>
+            <span class="assess-key">Key: 1</span>
+          </button>
+          <button class="arcane-assess-btn familiar ${curStatus === 'familiar' ? 'active' : ''}" id="btn-mark-familiar" title="Mark as Familiar (In Progress)">
+            <span class="assess-icon">📖</span>
+            <span class="assess-title">Familiar</span>
+            <span class="assess-sub">In Progress</span>
+            <span class="assess-key">Key: 2</span>
+          </button>
+          <button class="arcane-assess-btn mastered ${curStatus === 'mastered' ? 'active' : ''}" id="btn-mark-mastered" title="Mark as Mastered (Spell Perfected)">
+            <span class="assess-icon">⚡</span>
+            <span class="assess-title">Mastered</span>
+            <span class="assess-sub">Spell Perfected!</span>
+            <span class="assess-key">Key: 3</span>
+          </button>
+        </div>
+
+        <!-- Deck navigation & shortcuts -->
+        <div class="study-deck-controls">
+          <button class="btn small" id="btn-deck-prev" ${cardIdx > 0 ? '' : 'disabled'} style="padding:8px 18px;font-size:0.9rem">
+            ◀ Previous Spell
+          </button>
+          <button class="btn small" id="btn-deck-next" ${cardIdx < deck.length - 1 ? '' : 'disabled'} style="padding:8px 18px;font-size:0.9rem">
+            Next Spell ▶
+          </button>
+        </div>
+
+        <div class="deck-hotkeys-legend">
+          Shortcuts: <kbd>Space</kbd> Flip · <kbd>1</kbd> Challenging · <kbd>2</kbd> Familiar · <kbd>3</kbd> Mastered · <kbd>←</kbd> <kbd>→</kbd> Navigate
+        </div>
+      </div>
+    `;
+
+    // Navigation bindings
+    $("#btn-study-back-tomes").onclick = () => this.vaultLobby();
+    $("#btn-study-index").onclick = () => this.vaultIndex(tomeId);
+
+    $("#btn-study-shuffle").onclick = () => {
+      const remaining = shuffle([...deck]);
+      toast("🔀 Grimoire Deck Shuffled!");
+      this.vaultStudy(tomeId, filter, 0, remaining);
+    };
+
+    $$("[data-drill-f]").forEach((b) => {
+      b.onclick = () => this.vaultStudy(tomeId, b.dataset.drillF, 0);
+    });
+
+    // Flip logic
+    const flipper = $("#card-flipper");
+    const toggleFlip = (e) => {
+      if (e) e.stopPropagation();
+      if (flipper) flipper.classList.toggle("flipped");
+      if (Sfx.cardFlip) Sfx.cardFlip();
+    };
+
+    flipper.onclick = toggleFlip;
+    $("#btn-flip-front").onclick = toggleFlip;
+    $("#btn-flip-back").onclick = toggleFlip;
+
+    // Speech bindings
+    $("#btn-chant-spell").onclick = (e) => {
+      e.stopPropagation();
+      pronounce(c.word, 0.88);
+      const b = $("#btn-chant-spell");
+      b.style.transform = "scale(1.1)";
+      setTimeout(() => { if (b) b.style.transform = ""; }, 250);
+    };
+
+    $("#btn-recite-example").onclick = (e) => {
+      e.stopPropagation();
+      const sentence = c.raw_sentence || (c.context ? c.context.replace(/___/g, c.word) : c.word);
+      pronounce(sentence, 0.95);
+      const b = $("#btn-recite-example");
+      b.style.transform = "scale(1.08)";
+      setTimeout(() => { if (b) b.style.transform = ""; }, 250);
+    };
+
+    // Assessment handler
+    const assessCard = (status) => {
+      Store.setWordStatus(c, status);
+      if (status === "mastered") {
+        if (Sfx.spellCast) Sfx.spellCast();
+        Fx.confetti(75);
+        Store.addXP(10);
+        toast("⚡ Spell Perfected! Marked as Mastered (+10 XP)", true);
+      } else if (status === "challenging") {
+        if (Sfx.spellChallenging) Sfx.spellChallenging();
+        Store.addXP(5);
+        toast("🔮 Marked as Challenging — Queued for extra drill (+5 XP)");
+      } else {
+        if (Sfx.click) Sfx.click();
+        Store.addXP(5);
+        toast("📖 Marked as Familiar (+5 XP)");
+      }
+      this.renderTop();
+
+      if (cardIdx < deck.length - 1) {
+        this.vaultStudy(tomeId, filter, cardIdx + 1, deck);
+      } else {
+        // Deck completed!
+        Sfx.fanfare();
+        Fx.confetti(180);
+        modal(`
+          <div style="text-align:center;padding:12px">
+            <div style="font-size:3.5rem;margin-bottom:10px">🏆</div>
+            <h2 style="font-size:1.8rem;margin-bottom:6px">Grimoire Session Complete!</h2>
+            <p style="color:#cbd5e1;line-height:1.6">You have completed all <b>${deck.length}</b> spell cards in this revision session!</p>
+            <p style="font-family:var(--font-n);font-size:1.8rem;font-weight:800;color:#fbbf24;margin:14px 0">+50 Bonus XP</p>
+            <div style="display:flex;gap:10px;justify-content:center;margin-top:18px">
+              <button class="btn primary" id="btn-tome-restart">↻ Study Deck Again</button>
+              <button class="btn" id="btn-tome-finish">← Return to Tomes</button>
+            </div>
+          </div>
+        `);
+        Store.addXP(50);
+        $("#btn-tome-restart").onclick = () => { closeModal(); this.vaultStudy(tomeId, filter, 0, deck); };
+        $("#btn-tome-finish").onclick = () => { closeModal(); this.vaultLobby(); };
+      }
+    };
+
+    $("#btn-mark-challenging").onclick = (e) => { e.stopPropagation(); assessCard("challenging"); };
+    $("#btn-mark-familiar").onclick = (e) => { e.stopPropagation(); assessCard("familiar"); };
+    $("#btn-mark-mastered").onclick = (e) => { e.stopPropagation(); assessCard("mastered"); };
+
+    if (cardIdx > 0) {
+      $("#btn-deck-prev").onclick = () => this.vaultStudy(tomeId, filter, cardIdx - 1, deck);
+    }
+    if (cardIdx < deck.length - 1) {
+      $("#btn-deck-next").onclick = () => this.vaultStudy(tomeId, filter, cardIdx + 1, deck);
+    }
+
+    // Keyboard shortcuts
+    const keyHandler = (e) => {
+      if (!$("#screen-vault") || !$("#screen-vault").classList.contains("active")) {
+        window.removeEventListener("keydown", keyHandler);
+        return;
+      }
+      if ($("#modal") && !$("#modal").classList.contains("hidden")) return;
+      if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+
+      if (e.code === "Space" || e.key === " ") {
+        e.preventDefault();
+        toggleFlip();
+      } else if (e.key === "1") {
+        e.preventDefault();
+        assessCard("challenging");
+      } else if (e.key === "2") {
+        e.preventDefault();
+        assessCard("familiar");
+      } else if (e.key === "3") {
+        e.preventDefault();
+        assessCard("mastered");
+      } else if (e.key === "ArrowLeft" && cardIdx > 0) {
+        e.preventDefault();
+        this.vaultStudy(tomeId, filter, cardIdx - 1, deck);
+      } else if (e.key === "ArrowRight" && cardIdx < deck.length - 1) {
+        e.preventDefault();
+        this.vaultStudy(tomeId, filter, cardIdx + 1, deck);
+      }
+    };
+
+    this.activeStudyKeyHandler = keyHandler;
+    window.addEventListener("keydown", keyHandler);
+  },
+
+  vaultIndex(tomeId = "all", filter = "all", search = "") {
+    if (this.activeStudyKeyHandler) {
+      window.removeEventListener("keydown", this.activeStudyKeyHandler);
+      this.activeStudyKeyHandler = null;
+    }
+
+    const tomes = this.getTomes();
+    const tome = tomes.find((t) => t.id === tomeId) || tomes[0];
+    const el = $("#screen-vault");
+
+    const q = (search || "").toLowerCase().trim();
+    const list = tome.cards.filter((c) => {
+      const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+      const matchesFilter = filter === "all" || st === filter;
+      if (!matchesFilter) return false;
+      if (!q) return true;
+      return c.word.toLowerCase().includes(q) ||
+             (c.meaning && c.meaning.toLowerCase().includes(q)) ||
+             (c.meaning_chin && c.meaning_chin.toLowerCase().includes(q)) ||
+             (c.synonyms && c.synonyms.some((s) => s.toLowerCase().includes(q)));
+    });
+
+    el.innerHTML = `
+      <div class="vault-index-chamber">
+        <div class="vault-index-head">
+          <button class="back-btn" id="btn-index-back-tomes">← Tomes</button>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:1.6rem">${tome.icon}</span>
+            <div>
+              <h2 style="font-size:1.4rem;margin:0;color:#fef08a">${esc(tome.title)}</h2>
+              <span class="muted" style="font-size:0.82rem">Spell Index · ${list.length} / ${tome.total} Spells</span>
+            </div>
+          </div>
+          <button class="btn small primary" id="btn-index-study" style="padding:8px 16px;font-size:0.88rem">
+            🎴 Start Flashcards
+          </button>
+        </div>
+
+        <div class="vault-search-bar">
+          <span class="vault-search-icon">🔍</span>
+          <input type="text" class="vault-search-input" id="vault-search-input" placeholder="Search spells, definitions, or Chinese meanings in this Tome..." value="${esc(search)}" />
+        </div>
+
+        <div class="study-filter-row" style="margin-bottom:20px">
+          <button class="study-filter-btn ${filter === 'all' ? 'active' : ''}" data-idx-f="all">All (${tome.total})</button>
+          <button class="study-filter-btn ${filter === 'mastered' ? 'active' : ''}" data-idx-f="mastered">⚡ Mastered (${tome.mastered})</button>
+          <button class="study-filter-btn ${filter === 'familiar' ? 'active' : ''}" data-idx-f="familiar">📖 Familiar (${tome.familiar})</button>
+          <button class="study-filter-btn ${filter === 'challenging' ? 'active' : ''}" data-idx-f="challenging">🔮 Challenging (${tome.challenging})</button>
+          <button class="study-filter-btn ${filter === 'new' ? 'active' : ''}" data-idx-f="new">✨ Unseen (${tome.unseen})</button>
+        </div>
+
+        <div class="vault-grid">
+          ${list.map((c) => {
+            const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+            const badge = st === "mastered"
+              ? '<span class="arcane-status-pill mastered">⚡ Mastered</span>'
+              : st === "familiar"
+              ? '<span class="arcane-status-pill familiar">📖 Familiar</span>'
+              : st === "challenging"
+              ? '<span class="arcane-status-pill challenging">🔮 Challenging</span>'
+              : '<span class="arcane-status-pill new">✨ Unseen</span>';
+
+            return `
+              <button class="vword" id="vw-${c.id}" data-id="${c.id}">
+                <div>
+                  <div class="vword-top">
+                    <b>${esc(c.word)}</b>
+                    ${badge}
+                  </div>
+                  <small>${esc(c.pos)}</small>
+                  ${c.meaning_chin ? `<div class="vword-chin">${esc(c.meaning_chin)}</div>` : ''}
+                </div>
+                <div>
+                  ${stars(c.id)}
+                </div>
+              </button>
+            `;
+          }).join('') || `<p class="muted" style="padding:30px;text-align:center;grid-column:1/-1">No spells found matching your search.</p>`}
+        </div>
+      </div>
+    `;
+
+    $("#btn-index-back-tomes").onclick = () => this.vaultLobby();
+    $("#btn-index-study").onclick = () => this.vaultStudy(tomeId, filter);
+
+    const sInput = $("#vault-search-input");
+    if (sInput) {
+      sInput.focus();
+      // place cursor at end
+      sInput.selectionStart = sInput.selectionEnd = sInput.value.length;
+      sInput.oninput = (e) => {
+        this.vaultIndex(tomeId, filter, e.target.value);
+      };
+    }
+
+    $$("[data-idx-f]").forEach((b) => {
+      b.onclick = () => this.vaultIndex(tomeId, b.dataset.idxF, search);
+    });
+
+    $$(".vword").forEach((b) => {
+      b.onclick = () => {
+        const id = +b.dataset.id;
+        const card = (window.VOCAB || []).find((x) => x.id === id) || (window.VOCAB || [])[id];
+        if (card) showWord(card, list);
+      };
+    });
   }
 };
 

@@ -130,11 +130,50 @@ const Store = {
     else { w.reps++; w.int = w.reps === 1 ? 1 : w.reps === 2 ? 6 : Math.round(w.int * w.ef); w.due = Date.now() + w.int * 86400000; }
     this.save();
   },
+  setWordStatus(target, status) {
+    const k = this.cardKey(target);
+    const w = this.w(target);
+    w.seen = Math.max(1, (w.seen || 0) + 1);
+    w.status = status;
+    if (status === "mastered") {
+      w.reps = Math.max(3, (w.reps || 0) + 1);
+      w.ok = (w.ok || 0) + 1;
+      w.ef = Math.min(2.8, Math.max(2.5, (w.ef || 2.5) + 0.1));
+      w.int = 14;
+      w.due = Date.now() + 14 * 86400000;
+    } else if (status === "familiar") {
+      w.reps = Math.max(1, Math.min(2, (w.reps || 0) + 1));
+      w.ok = (w.ok || 0) + 1;
+      w.ef = 2.4;
+      w.int = 3;
+      w.due = Date.now() + 3 * 86400000;
+    } else if (status === "challenging") {
+      w.reps = 0;
+      w.bad = (w.bad || 0) + 1;
+      w.ef = Math.max(1.3, (w.ef || 2.5) - 0.2);
+      w.int = 0;
+      w.due = Date.now() + 60_000;
+    }
+    this.save();
+    return w;
+  },
+  getWordStatus(target) {
+    const k = this.cardKey(target);
+    const w = this.d.words[k] || this.d.words[target];
+    if (!w || !w.seen) return "new";
+    if (w.status) return w.status;
+    if ((w.reps || 0) >= 2 || (w.ok || 0) >= 3) return "mastered";
+    if ((w.bad || 0) > (w.ok || 0) || (w.reps || 0) === 0) return "challenging";
+    return "familiar";
+  },
   mastery(target) {
     const k = this.cardKey(target);
     const w = this.d.words[k] || this.d.words[target];
     if (!w || !w.seen) return 0;
-    return Math.min(5, 1 + w.reps);
+    if (w.status === "mastered") return Math.max(3, Math.min(5, 1 + (w.reps || 2)));
+    if (w.status === "challenging") return 1;
+    if (w.status === "familiar") return Math.max(2, Math.min(3, 1 + (w.reps || 1)));
+    return Math.min(5, 1 + (w.reps || 0));
   },
   /* weighted pick: unseen + overdue + low-ease words come up more often (interleaving) */
   pickWords(n, exclude = new Set(), sourcePool = null) {
@@ -223,7 +262,10 @@ const Sfx = {
   tick() { this.tone(900, 0.04, "square", 0.05); },
   click() { this.tone(660, 0.05, "sine", 0.08); },
   levelup() { [523, 659, 784, 1047].forEach((f, i) => this.tone(f, 0.15, "triangle", 0.12, i * 0.08)); },
-  fanfare() { [392, 523, 659, 784, 1047].forEach((f, i) => this.tone(f, 0.25, "triangle", 0.12, i * 0.1)); }
+  fanfare() { [392, 523, 659, 784, 1047].forEach((f, i) => this.tone(f, 0.25, "triangle", 0.12, i * 0.1)); },
+  spellCast() { [440, 554, 659, 880].forEach((f, i) => this.tone(f, 0.16, "sine", 0.08, i * 0.05)); },
+  cardFlip() { this.tone(360, 0.06, "triangle", 0.06); this.tone(520, 0.08, "sine", 0.07, 0.04); },
+  spellChallenging() { this.tone(220, 0.18, "sawtooth", 0.08); this.tone(180, 0.22, "sawtooth", 0.06, 0.06); }
 };
 
 /* ---------------- Confetti ---------------- */
@@ -278,6 +320,10 @@ window.addEventListener("keydown", (e) => {
 });
 let currentCleanup = null;
 function showScreen(id) {
+  if (typeof App !== "undefined" && App.activeStudyKeyHandler) {
+    window.removeEventListener("keydown", App.activeStudyKeyHandler);
+    App.activeStudyKeyHandler = null;
+  }
   if (currentCleanup) { currentCleanup(); currentCleanup = null; }
   $$(".screen").forEach((s) => s.classList.toggle("active", s.id === `screen-${id}`));
   scrollTo({ top: 0, behavior: "smooth" });
@@ -348,18 +394,28 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
 function wordCardHTML(c) {
   const ctx = esc(c.context).replace(/___/g, `<mark>${esc(c.word)}</mark>`);
   const topicChip = c.topic ? `<span class="chip" style="margin-left:6px;font-size:0.75rem">${esc(c.topic)}</span>` : "";
+  const curStatus = (typeof Store !== "undefined" && Store.getWordStatus) ? Store.getWordStatus(c) : "new";
+  const statusBadge = curStatus === "mastered"
+    ? `<span class="arcane-status-pill mastered">⚡ Mastered</span>`
+    : curStatus === "familiar"
+    ? `<span class="arcane-status-pill familiar">📖 Familiar</span>`
+    : curStatus === "challenging"
+    ? `<span class="arcane-status-pill challenging">🔮 Challenging</span>`
+    : `<span class="arcane-status-pill new">✨ Unseen</span>`;
+
   return `
     <div class="wcard">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
         <div>
           <span class="pos">${esc(c.pos)}</span>${topicChip}
           <div style="display:flex;align-items:center;gap:12px;margin:2px 0 8px">
             <h2 style="font-size:1.8rem;margin:0">${esc(c.word)}</h2>
             <button class="pill icon-btn" id="btn-speak-word" title="Listen to pronunciation" style="padding:6px 12px;font-size:1.2rem;background:rgba(34,211,238,0.18);border:1px solid var(--cyan);color:var(--cyan);cursor:pointer">
-              🔊 Listen
+              🔊 Chant
             </button>
           </div>
         </div>
+        <div id="modal-status-badge-wrap">${statusBadge}</div>
       </div>
       <p style="font-size:1rem;color:#cbd5e1;line-height:1.5">${esc(c.meaning)}</p>
       <div class="syn">${c.synonyms.map((s) => `<span>${esc(s)}</span>`).join("")}</div>
@@ -369,11 +425,31 @@ function wordCardHTML(c) {
         </blockquote>
         <div style="display:flex;justify-content:flex-end;margin-top:6px">
           <button class="btn small" id="btn-speak-sentence" title="Listen to context sentence" style="padding:5px 12px;font-size:0.82rem;background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3);cursor:pointer">
-            🔊 Read Example Sentence
+            🔊 Recite Example Sentence
           </button>
         </div>
       </div>
-      ${stars(c.id)}
+
+      <!-- Arcane Self-Assessment Revision Buttons -->
+      <div class="modal-status-box">
+        <span class="modal-status-label">Mastery Assessment:</span>
+        <div class="arcane-status-btn-group">
+          <button class="arcane-status-btn challenging ${curStatus === 'challenging' ? 'active' : ''}" data-status="challenging" title="Mark as Challenging (Needs Drill)">
+            <span class="btn-icon">🔮</span>
+            <span class="btn-text"><b>Challenging</b><small>Needs Drill</small></span>
+          </button>
+          <button class="arcane-status-btn familiar ${curStatus === 'familiar' ? 'active' : ''}" data-status="familiar" title="Mark as Familiar (In Progress)">
+            <span class="btn-icon">📖</span>
+            <span class="btn-text"><b>Familiar</b><small>In Progress</small></span>
+          </button>
+          <button class="arcane-status-btn mastered ${curStatus === 'mastered' ? 'active' : ''}" data-status="mastered" title="Mark as Mastered (Spell Perfected)">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-text"><b>Mastered</b><small>Spell Perfected!</small></span>
+          </button>
+        </div>
+      </div>
+
+      <div id="modal-stars-wrap">${stars(c.id)}</div>
     </div>
   `;
 }
@@ -452,6 +528,42 @@ function showWord(c, list = (window.VOCAB || [])) {
       setTimeout(() => { if (speakSentenceBtn) speakSentenceBtn.style.transform = ""; }, 250);
     };
   }
+
+  // Handle Self-Assessment clicks inside modal
+  $$(".modal-status-box .arcane-status-btn").forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const st = btn.dataset.status;
+      Store.setWordStatus(c, st);
+      if (st === "mastered") {
+        if (Sfx.spellCast) Sfx.spellCast();
+        Fx.confetti(60);
+        Store.addXP(10);
+        toast("⚡ Spell Perfected! Marked as Mastered (+10 XP)", true);
+      } else if (st === "challenging") {
+        if (Sfx.spellChallenging) Sfx.spellChallenging();
+        Store.addXP(5);
+        toast("🔮 Marked as Challenging — Queued for extra drill (+5 XP)");
+      } else {
+        if (Sfx.click) Sfx.click();
+        Store.addXP(5);
+        toast("📖 Marked as Familiar (+5 XP)");
+      }
+      $$(".modal-status-box .arcane-status-btn").forEach(b => b.classList.toggle("active", b.dataset.status === st));
+      const badgeWrap = $("#modal-status-badge-wrap");
+      if (badgeWrap) {
+        badgeWrap.innerHTML = st === "mastered"
+          ? `<span class="arcane-status-pill mastered">⚡ Mastered</span>`
+          : st === "familiar"
+          ? `<span class="arcane-status-pill familiar">📖 Familiar</span>`
+          : `<span class="arcane-status-pill challenging">🔮 Challenging</span>`;
+      }
+      const starsWrap = $("#modal-stars-wrap");
+      if (starsWrap) starsWrap.innerHTML = stars(c.id);
+
+      if (typeof App !== "undefined" && App.renderTop) App.renderTop();
+    };
+  });
 }
 
 /* Shared results screen */

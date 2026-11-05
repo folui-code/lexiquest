@@ -216,7 +216,8 @@ const Leaderboard = {
             seen: allWords[rawId].seen || 0,
             ok: allWords[rawId].ok || 0,
             bad: allWords[rawId].bad || 0,
-            ef: allWords[rawId].ef || 2.5
+            ef: allWords[rawId].ef || 2.5,
+            status: allWords[rawId].status || ""
           };
         }
       }
