@@ -49,32 +49,36 @@ def parse_meaning(raw_meaning):
             chin = parts[1].strip()
 
     if not (eng and chin):
-        match = re.search(r"[\(（]([^\)）]*[\u4e00-\u9fff][^\)）]*)[\)）]", text)
-        if match:
-            chin = match.group(1).strip()
-            eng = re.sub(r"[\(（][^\)）]*[\u4e00-\u9fff][^\)）]*[\)）]", "", text).strip()
+        non_ch = [l for l in lines if not re.search(r"[\u4e00-\u9fff]", l)]
+        ch = [l for l in lines if re.search(r"[\u4e00-\u9fff]", l)]
+        if non_ch and ch:
+            eng = " ".join(non_ch).strip()
+            chin = " ".join(ch).strip()
         elif " / " in text:
+            # Find a ' / ' separator where left is purely English and right has Chinese
             parts = text.split(" / ", 1)
-            if re.search(r"[\u4e00-\u9fff]", parts[1]):
+            if not re.search(r"[\u4e00-\u9fff]", parts[0]) and re.search(r"[\u4e00-\u9fff]", parts[1]):
                 eng = parts[0].strip()
                 chin = parts[1].strip()
-            elif re.search(r"[\u4e00-\u9fff]", parts[0]):
+            elif re.search(r"[\u4e00-\u9fff]", parts[0]) and not re.search(r"[\u4e00-\u9fff]", parts[1]):
                 chin = parts[0].strip()
                 eng = parts[1].strip()
-        elif "/" in text:
-            parts = text.split("/", 1)
-            if re.search(r"[\u4e00-\u9fff]", parts[1]):
-                eng = parts[0].strip()
-                chin = parts[1].strip()
-            elif re.search(r"[\u4e00-\u9fff]", parts[0]):
-                chin = parts[0].strip()
-                eng = parts[1].strip()
-        elif len(lines) >= 2:
-            non_ch = [l for l in lines if not re.search(r"[\u4e00-\u9fff]", l)]
-            ch = [l for l in lines if re.search(r"[\u4e00-\u9fff]", l)]
-            if non_ch and ch:
-                eng = " ".join(non_ch).strip()
-                chin = " ".join(ch).strip()
+        if not (eng and chin):
+            # Match parenthetical block containing Chinese (greedy inner so nested parens like (慷慨（關愛）) stay intact)
+            match = re.search(r"[\(（]([^\(（]*[\u4e00-\u9fff].*)[\)）]\s*$", text)
+            if not match:
+                match = re.search(r"[\(（]([^\)）]*[\u4e00-\u9fff][^\)）]*)[\)）]", text)
+            if match:
+                chin = match.group(1).strip()
+                eng = (text[:match.start()] + text[match.end():]).strip()
+            elif "/" in text:
+                parts = text.split("/", 1)
+                if not re.search(r"[\u4e00-\u9fff]", parts[0]) and re.search(r"[\u4e00-\u9fff]", parts[1]):
+                    eng = parts[0].strip()
+                    chin = parts[1].strip()
+                elif re.search(r"[\u4e00-\u9fff]", parts[0]) and not re.search(r"[\u4e00-\u9fff]", parts[1]):
+                    chin = parts[0].strip()
+                    eng = parts[1].strip()
 
     if not eng:
         eng = text
@@ -86,7 +90,11 @@ def parse_meaning(raw_meaning):
     eng = re.sub(r"^ENG:\s*", "", eng, flags=re.IGNORECASE).strip()
     eng = re.sub(r"[\(（]\s*[\)）]", "", eng).strip()
     chin = re.sub(r"^CHIN:\s*", "", chin, flags=re.IGNORECASE).strip()
-    chin = chin.strip("()（） ")
+    chin = chin.strip()
+    if len(chin) >= 2 and chin[0] in "(（" and chin[-1] in ")）":
+        chin = chin[1:-1].strip()
+    if "（" in chin and "）" not in chin and ")" not in chin:
+        chin += "）"
 
     full = eng
     if chin and chin not in eng:

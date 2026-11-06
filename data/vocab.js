@@ -9,12 +9,12 @@ window.VOCAB = [
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "To be paying complete, undivided attention to something without looking away. (緊盯著 / 黏在…上 (如螢幕)",
+    "meaning": "To be paying complete, undivided attention to something without looking away. (緊盯著 / 黏在…上 (如螢幕))",
     "meaning_eng": "To be paying complete, undivided attention to something without looking away.",
-    "meaning_chin": "緊盯著 / 黏在…上 (如螢幕",
+    "meaning_chin": "緊盯著 / 黏在…上 (如螢幕)",
     "synonyms": [
       "緊盯著",
-      "黏在…上 (如螢幕"
+      "黏在…上 (如螢幕)"
     ],
     "context": "Nowadays, many teenagers ___ their smartphone screens for hours every evening.",
     "raw_sentence": "Nowadays, many teenagers are glued to their smartphone screens for hours every evening."
@@ -294,11 +294,11 @@ window.VOCAB = [
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Categories of artistic, musical, or literary composition characterized by a particular style or content. (體裁、藝術、音樂等的) 類型 / 流派)",
+    "meaning": "Categories of artistic, musical, or literary composition characterized by a particular style or content. ((體裁、藝術、音樂等的) 類型 / 流派)",
     "meaning_eng": "Categories of artistic, musical, or literary composition characterized by a particular style or content.",
-    "meaning_chin": "體裁、藝術、音樂等的) 類型 / 流派",
+    "meaning_chin": "(體裁、藝術、音樂等的) 類型 / 流派",
     "synonyms": [
-      "體裁、藝術、音樂等的) 類型",
+      "(體裁、藝術、音樂等的) 類型",
       "流派"
     ],
     "context": "She enjoys reading various literary ___, ranging from historical fiction to mystery novels.",
@@ -656,11 +656,11 @@ window.VOCAB = [
     "set": "1",
     "content": "Writing 1 Sample (Technology)",
     "topic": "Set 1 · Writing 1 Sample (Technology)",
-    "meaning": "Young people in the process of developing from children into adults (typically teenagers). (青少年 (通常指12–18歲)",
+    "meaning": "Young people in the process of developing from children into adults (typically teenagers). (青少年 (通常指12–18歲))",
     "meaning_eng": "Young people in the process of developing from children into adults (typically teenagers).",
-    "meaning_chin": "青少年 (通常指12–18歲",
+    "meaning_chin": "青少年 (通常指12–18歲)",
     "synonyms": [
-      "青少年 (通常指12–18歲"
+      "青少年 (通常指12–18歲)"
     ],
     "context": "Many ___ struggle with peer pressure and identity formation during high school.",
     "raw_sentence": "Many adolescents struggle with peer pressure and identity formation during high school."
@@ -2015,19 +2015,19 @@ window.VOCAB = [
     "id": 107,
     "key": "S4:lavish",
     "word": "lavish",
-    "pos": "Adjective",
+    "pos": "Verb",
     "level": "S4",
     "set": "4",
     "content": "Writing 2 Sample (Social Service)",
     "topic": "Set 4 · Writing 2 Sample (Social Service)",
-    "meaning": "Sumptuous, rich, elaborate, or luxurious (奢華的、豐富的)",
-    "meaning_eng": "Sumptuous, rich, elaborate, or luxurious",
-    "meaning_chin": "奢華的、豐富的",
+    "meaning": "To give, bestow, or spend generously or in excessive amounts (慷慨給予、傾注（關愛、讚賞等）)",
+    "meaning_eng": "To give, bestow, or spend generously or in excessive amounts",
+    "meaning_chin": "慷慨給予、傾注（關愛、讚賞等）",
     "synonyms": [
-      "奢華的、豐富的"
+      "慷慨給予、傾注（關愛、讚賞等）"
     ],
-    "context": "The hotel hosted a ___ banquet for the international guests.",
-    "raw_sentence": "The hotel hosted a lavish banquet for the international guests."
+    "context": "The grandparents love to ___ gifts and affection on their newborn granddaughter.",
+    "raw_sentence": "The grandparents love to lavish gifts and affection on their newborn granddaughter."
   },
   {
     "id": 108,
@@ -2398,11 +2398,11 @@ window.VOCAB = [
     "set": "4",
     "content": "Writing 2 Sample (Social Service)",
     "topic": "Set 4 · Writing 2 Sample (Social Service)",
-    "meaning": "Parents who closely monitor, control, and overprotect their children / 直升機父母 (過分管束與保護子女的父母)",
-    "meaning_eng": "Parents who closely monitor, control, and overprotect their children / 直升機父母",
-    "meaning_chin": "過分管束與保護子女的父母",
+    "meaning": "Parents who closely monitor, control, and overprotect their children (直升機父母（過分管束與保護子女的父母）)",
+    "meaning_eng": "Parents who closely monitor, control, and overprotect their children",
+    "meaning_chin": "直升機父母（過分管束與保護子女的父母）",
     "synonyms": [
-      "過分管束與保護子女的父母"
+      "直升機父母（過分管束與保護子女的父母）"
     ],
     "context": "___ often hinder their child's ability to solve problems independently.",
     "raw_sentence": "Helicopter parents' often hinder their child's ability to solve problems independently."
@@ -2650,11 +2650,11 @@ window.VOCAB = [
     "set": "4",
     "content": "Writing 2 Sample (Social Service)",
     "topic": "Set 4 · Writing 2 Sample (Social Service)",
-    "meaning": "Sharpens, refines, or perfects a skill over time / 磨練、提升 (技能)",
-    "meaning_eng": "Sharpens, refines, or perfects a skill over time / 磨練、提升",
-    "meaning_chin": "技能",
+    "meaning": "Sharpens, refines, or perfects a skill over time (磨練、提升（技能）)",
+    "meaning_eng": "Sharpens, refines, or perfects a skill over time",
+    "meaning_chin": "磨練、提升（技能）",
     "synonyms": [
-      "技能"
+      "磨練、提升（技能）"
     ],
     "context": "Daily practice ___ her public speaking skills and boosts her confidence.",
     "raw_sentence": "Daily practice hones her public speaking skills and boosts her confidence."
