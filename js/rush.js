@@ -285,6 +285,7 @@ const Rush = {
   selectedSet: "all",    // "all" or set topic key
   seed: null,            // non-null => deterministic question order + scrambles
   ghost: null,           // duel opponent run {n,h,sc,c,tl}
+  duel: null,            // live/async duel room session {room, seed, set, state}
   arena: null,           // class arena session
 
   getAvailableSets() {
@@ -312,6 +313,7 @@ const Rush = {
   /* ================= INTRO / MODE PICKER ================= */
   intro() {
     this.seed = null; this.ghost = null;
+    if (this.duel) { this.stopPolling(); this.duel = null; }
     if (this.arena) this.leaveArena();
     const sets = this.getAvailableSets();
     if (this.selectedSet !== "all" && !sets.some(s => s.key === this.selectedSet)) this.selectedSet = "all";
@@ -416,15 +418,15 @@ const Rush = {
       panel.innerHTML = `
         <div class="duel-panel">
           <div class="duel-option">
-            <h3>⚔️ Issue a Challenge</h3>
-            <p class="muted">Play a 60s round first. Then you'll get a link + code to send on WhatsApp / Teams. Your rival gets the <b>same questions</b> and races your ghost.</p>
+            <h3>⚔️ Challenge Another Player (1 v 1)</h3>
+            <p class="muted">Generate a <b>Duel Link &amp; 6-digit Code</b> to send to a friend. Both of you compete on the <b>exact same question set</b> and see each other's live score &amp; ghost pace!</p>
           </div>
           ${this.setGridHtml()}
-          <div class="row"><button class="btn rush big-cta" id="duel-create">⚔️ Play &amp; Create Duel</button></div>
-          <div class="duel-divider"><span>or accept a challenge</span></div>
+          <div class="row"><button class="btn rush big-cta" id="duel-create">⚔️ Generate Duel Link &amp; Code</button></div>
+          <div class="duel-divider"><span>or enter a friend's duel code / link</span></div>
           <div class="duel-join-row">
             <input id="duel-code-input" type="text" placeholder="Enter duel code (e.g. K7QM2X) or paste link" autocomplete="off" />
-            <button class="btn primary" id="duel-join">Accept ⚔️</button>
+            <button class="btn primary" id="duel-join">Join Duel ⚔️</button>
           </div>
         </div>`;
       this.bindSetGrid();
@@ -485,7 +487,11 @@ const Rush = {
       timeline: [[0, 0]], lastPush: 0, ended: false
     });
 
-    const modeTag = this.arena ? `🏰 Room ${esc(this.arena.room)}` : this.ghost ? "⚔️ Duel" : "🧙 Solo";
+    const isDuel = Boolean(this.duel || this.ghost);
+    const modeTag = this.arena ? `🏰 Room ${esc(this.arena.room)}`
+                  : this.duel ? `⚔️ Duel ${esc(this.duel.room)}`
+                  : this.ghost ? "⚔️ Duel" : "🧙 Solo";
+    const oppInit = this.getDuelOpponent();
     const el = $("#screen-rush");
     el.innerHTML = `
       <div class="game-head">
@@ -498,11 +504,11 @@ const Rush = {
         </div>
       </div>
 
-      ${this.ghost ? `
+      ${isDuel ? `
         <div class="duel-live-hud" id="duel-hud">
           <div class="duel-player-tag me"><span class="dp-name">YOU</span><b id="dh-me">0</b></div>
-          <div class="duel-vs"><span id="dh-status">⚔️ GO!</span><div class="duel-tug"><i id="dh-tug" style="width:50%"></i></div></div>
-          <div class="duel-player-tag opp" style="--hc:${HOUSE_COLORS[this.ghost.h] || '#a78bfa'}"><span class="dp-name">👻 ${esc(this.ghost.n)}</span><b id="dh-opp">0</b></div>
+          <div class="duel-vs"><span id="dh-status">⚔️ DUEL ON!</span><div class="duel-tug"><i id="dh-tug" style="width:50%"></i></div></div>
+          <div class="duel-player-tag opp" id="dh-opp-wrap" style="--hc:${HOUSE_COLORS[(oppInit && oppInit.h) || ''] || '#a78bfa'}"><span class="dp-name" id="dh-opp-name">${oppInit ? `⚔️ ${esc(oppInit.n)}` : `⏳ Rival (${esc(this.duel ? this.duel.room : '')})`}</span><b id="dh-opp">0</b></div>
         </div>` : ""}
 
       ${this.arena ? `
@@ -535,8 +541,8 @@ const Rush = {
     `;
 
     $("#rush-quit").onclick = () => {
-      if (this.arena && !confirm("Leave the Class Arena round? Your current score will be submitted.")) return;
-      if (this.arena) { this.end(); return; }
+      if ((this.arena || this.duel) && !confirm("Finish your round early and submit your current score?")) return;
+      if (this.arena || this.duel) { this.end(); return; }
       this.stop(); this.intro();
     };
     $("#r-hint-btn").onclick = () => this.useHintLetter();
@@ -572,7 +578,8 @@ const Rush = {
     this.elapsed += dt;
     this.time -= dt * this.drain();
 
-    if (this.ghost) this.renderGhost();
+    if (this.ghost || this.duel) this.renderGhost();
+    if (this.duel && this.elapsed - this.lastPush > 2.5) { this.lastPush = this.elapsed; this.pushDuel(false); }
     if (this.arena && this.elapsed - this.lastPush > 3) { this.lastPush = this.elapsed; this.pushArena(false); }
 
     if (this.time <= 0) { this.time = 0; this.renderTimer(); return this.end(); }
@@ -589,24 +596,44 @@ const Rush = {
     const w = $("#r-timer"); if (w) w.classList.toggle("danger", this.time < 10);
   },
 
+  getDuelOpponent() {
+    if (this.duel && this.duel.state && Array.isArray(this.duel.state.players)) {
+      const me = RushNet.me();
+      const opp = this.duel.state.players.find(p => p.pid !== me.pid);
+      if (opp) return { n: opp.n, h: opp.h, sc: opp.s || 0, c: opp.c || 0, d: opp.d || 0, tl: opp.tl || [] };
+    }
+    if (this.ghost) return this.ghost;
+    return null;
+  },
+
   /* ghost score at the current elapsed time (from the opponent's recorded timeline) */
-  ghostScoreAt(t) {
-    const tl = this.ghost.tl || [];
+  ghostScoreAt(t, customTl = null) {
+    const tl = customTl || (this.ghost && this.ghost.tl) || [];
     let s = 0;
     for (let i = 0; i < tl.length; i += 2) { if (tl[i] / 10 <= t) s = tl[i + 1]; else break; }
     return s;
   },
 
   renderGhost() {
-    const opp = this.ghostScoreAt(this.elapsed);
-    const me = this.score;
     const meEl = $("#dh-me"), oppEl = $("#dh-opp"), st = $("#dh-status"), tug = $("#dh-tug");
     if (!meEl) return;
+    const me = this.score;
+    meEl.textContent = fmt(me);
+    const oppObj = this.getDuelOpponent();
+    if (!oppObj) {
+      st.textContent = `⚔️ Setting Target (Code: ${this.duel ? this.duel.room : ""})`;
+      st.className = "lead";
+      tug.style.width = me > 0 ? "75%" : "50%";
+      return;
+    }
+    const oppNameEl = $("#dh-opp-name"), oppWrap = $("#dh-opp-wrap");
+    if (oppNameEl) oppNameEl.textContent = `${oppObj.d ? "👻" : "⚔️"} ${oppObj.n}`;
+    if (oppWrap && oppObj.h && HOUSE_COLORS[oppObj.h]) oppWrap.style.setProperty("--hc", HOUSE_COLORS[oppObj.h]);
+    const opp = (oppObj.d && oppObj.tl && oppObj.tl.length) ? this.ghostScoreAt(this.elapsed, oppObj.tl) : (oppObj.sc || 0);
     if (oppEl.textContent !== fmt(opp)) {
       oppEl.textContent = fmt(opp);
       oppEl.parentElement.classList.remove("bump"); void oppEl.offsetWidth; oppEl.parentElement.classList.add("bump");
     }
-    meEl.textContent = fmt(me);
     const diff = me - opp;
     st.textContent = diff > 0 ? `🔥 Leading +${fmt(diff)}` : diff < 0 ? `😰 Behind ${fmt(-diff)}` : "⚖️ Tied";
     st.className = diff > 0 ? "lead" : diff < 0 ? "behind" : "";
@@ -872,6 +899,7 @@ const Rush = {
     $("#r-score").textContent = fmt(this.score);
     if (!this.isMixed) $("#r-mult").textContent = this.mult();
     else $("#r-mult-pill").textContent = `🔥 ${(this.mult() * 1.25).toFixed(2)}x`;
+    if (this.duel) this.pushDuel(false);
     if (this.arena) this.pushArena(false);
 
     setTimeout(() => { if (!this.over) this.nextCard(); }, 450);
@@ -925,62 +953,262 @@ const Rush = {
   },
 
   /* ================= ⚔️ WIZARDS' DUEL ================= */
-  createDuel() {
-    this.seed = RushNet.newSeed();
-    this.ghost = null;
-    this.start({ onEnd: (r) => this.finishCreateDuel(r) });
+  duelLink(room) { return `${RushNet.baseUrl()}?duel=${room}`; },
+
+  async createDuel() {
+    const me = RushNet.me();
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let room = "";
+    for (let i = 0; i < 6; i++) room += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    const seed = RushNet.newSeed();
+    toast("⚔️ Opening Wizards' Duel Chamber…");
+    try {
+      await RushNet.call("arena_create", { room, seed, set: this.selectedSet, name: me.name, role: "staff" });
+      const res = await RushNet.call("arena_join", { room, pid: me.pid, name: me.name, house: me.house, score: 0, correct: 0, done: "0" });
+      this.duel = { room, seed, set: this.selectedSet, state: res.arena, started: false };
+      this.seed = seed;
+      this.ghost = null;
+      this.renderDuelLobby();
+    } catch (e) {
+      toast("❌ Could not create duel: " + esc(e.message));
+    }
+  },
+
+  renderDuelLobby() {
+    const d = this.duel;
+    if (!d) return this.intro();
+    const link = this.duelLink(d.room);
+    const me = RushNet.me();
+    const msg = `⚔️ ${me.name} challenges you to a 1v1 Cryptic Rush Wizards' Duel! Same questions, live score race — join with code ${d.room} or click: ${link}`;
+    const el = $("#screen-rush");
+    el.innerHTML = `
+      <button class="back-btn" id="dlob-back">← Cryptic Rush</button>
+      <div class="card duel-share-card">
+        <div class="duel-invite-crest">⚔️</div>
+        <div class="duel-invite-kicker">WIZARDS' DUEL CHAMBER · 1 v 1</div>
+        <h1>Share Link or Code with Your Rival</h1>
+        <p class="muted">📚 ${esc(this.setLabel(d.set))} · Both players get the <b>exact same question set &amp; tile scrambles</b></p>
+
+        <div class="duel-code-big" title="Duel Code">${esc(d.room)}</div>
+        <p class="muted" style="margin-top:-6px;font-size:.82rem">Your friend can enter this 6-digit code in <b>Cryptic Rush → Wizards' Duel</b>, or open the link below:</p>
+
+        <div class="duel-link-box"><input readonly value="${esc(link)}" id="duel-link-input" /></div>
+        <div class="duel-share-actions">
+          <button class="btn primary" id="duel-copy">📋 Copy Duel Link</button>
+          <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">💬 WhatsApp</a>
+          ${navigator.share ? `<button class="btn" id="duel-native">📤 Share…</button>` : ""}
+        </div>
+
+        <div class="duel-vs-stage" id="dlob-vs"></div>
+
+        <div class="row" style="margin-top:16px;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn rush big-cta" id="dlob-start">⚔️ Start Duel Now</button>
+        </div>
+        <p class="muted" id="dlob-hint" style="margin-top:8px;font-size:.82rem">
+          💡 Wait for your friend to join for a <b>live head-to-head race</b>, or click <b>Start Duel Now</b> to set your target score first (your friend can race your live ghost whenever they click the link!).
+        </p>
+      </div>`;
+
+    $("#dlob-back").onclick = () => { this.stopPolling(); this.duel = null; this.playMode = "duel"; this.intro(); };
+    $("#duel-copy").onclick = () => RushNet.copy(link);
+    $("#duel-link-input").onclick = (e) => e.target.select();
+    if ($("#duel-native")) $("#duel-native").onclick = () => navigator.share({ title: "Cryptic Rush Duel", text: msg }).catch(() => {});
+    $("#dlob-start").onclick = async () => {
+      if (!this.duel || this.duel.started) return;
+      this.duel.started = true;
+      this.stopPolling();
+      Sfx.click();
+      try { await RushNet.call("arena_start", { room: d.room, role: "staff" }); } catch {}
+      this.seed = d.state.seed || d.seed;
+      this.selectedSet = d.state.set || d.set || "all";
+      this.countdown(() => this.start({ onEnd: (res) => this.finishDuelRoom(res) }), 3);
+    };
+
+    showScreen("rush");
+    currentCleanup = () => this.stopPolling();
+    this.renderDuelLobbyState(d.state);
+    this.poll(async () => {
+      try {
+        const r = await RushNet.call("arena_state", { room: d.room });
+        this.renderDuelLobbyState(r.arena);
+      } catch (e) { console.warn(e); }
+    }, 2000);
+  },
+
+  renderDuelLobbyState(s) {
+    if (!s || !this.duel || this.duel.started) return;
+    this.duel.state = s;
+    const me = RushNet.me();
+    const players = s.players || [];
+    const myEntry = players.find(p => p.pid === me.pid) || { n: me.name, h: me.house, s: 0, d: 0 };
+    const opp = players.find(p => p.pid !== me.pid);
+    const vsEl = $("#dlob-vs");
+    if (vsEl) {
+      vsEl.innerHTML = `
+        <div class="duel-fighter-card ready" style="--hc:${HOUSE_COLORS[myEntry.h] || '#38bdf8'}">
+          <div class="dfc-tag">YOU</div>
+          <div class="dfc-name">${esc(myEntry.n)}</div>
+          ${myEntry.h ? `<div class="dfc-house">House ${esc(myEntry.h)}</div>` : ""}
+          <div class="dfc-status">✅ Ready</div>
+        </div>
+        <div class="duel-vs-badge">⚔️ VS</div>
+        ${opp ? `
+          <div class="duel-fighter-card ready" style="--hc:${HOUSE_COLORS[opp.h] || '#f43f5e'}">
+            <div class="dfc-tag">RIVAL</div>
+            <div class="dfc-name">${esc(opp.n)}</div>
+            ${opp.h ? `<div class="dfc-house">House ${esc(opp.h)}</div>` : ""}
+            <div class="dfc-status">${opp.d ? `🏆 Finished (${fmt(opp.s)} pts)` : "⚡ Joined & Ready!"}</div>
+          </div>` : `
+          <div class="duel-fighter-card waiting">
+            <div class="dfc-tag">RIVAL</div>
+            <div class="dfc-name">⏳ Waiting for rival…</div>
+            <div class="dfc-status">Send the link or code above</div>
+          </div>`}
+      `;
+    }
+    const startBtn = $("#dlob-start");
+    if (startBtn) {
+      startBtn.innerHTML = opp
+        ? (opp.d ? `⚔️ Beat ${esc(opp.n)}'s ${fmt(opp.s)} pts!` : `⚔️ Launch Live 1v1 vs ${esc(opp.n)}!`)
+        : `⚡ Start My 60s Duel Run Now`;
+    }
+    // If the rival clicked "Launch Live 1v1" while both of us are in the chamber, auto-start!
+    if (s.status === "live" && opp && !opp.d) {
+      this.duel.started = true;
+      this.stopPolling();
+      this.seed = s.seed;
+      this.selectedSet = s.set || "all";
+      this.countdown(() => this.start({ onEnd: (res) => this.finishDuelRoom(res) }), 3);
+    }
+  },
+
+  async pushDuel(done) {
+    if (!this.duel || (this.pushingDuel && !done)) return;
+    this.pushingDuel = true;
+    const me = RushNet.me();
+    try {
+      const r = await RushNet.call("arena_update", {
+        room: this.duel.room, pid: me.pid, name: me.name, house: me.house,
+        score: this.score, correct: this.correct, done: done ? "1" : "0",
+        tl: JSON.stringify(this.timeline.flat())
+      });
+      if (this.duel) {
+        this.duel.state = r.arena;
+        this.renderGhost();
+      }
+      return r.arena;
+    } catch (e) { console.warn("[Duel] update failed", e); }
+    finally { this.pushingDuel = false; }
+  },
+
+  async finishDuelRoom(r) {
+    this.recordRun(r.score);
+    await this.pushDuel(true);
+    this.renderDuelRoomPodium();
+  },
+
+  renderDuelRoomPodium() {
+    const d = this.duel;
+    if (!d) return this.intro();
+    const room = d.room;
+    const link = this.duelLink(room);
+    const me = RushNet.me();
+    const el = $("#screen-rush");
+    el.innerHTML = `<div class="card duel-result-podium" id="drp-card"></div>`;
+    showScreen("rush");
+    currentCleanup = () => this.stopPolling();
+    let celebrated = false;
+
+    const render = (s) => {
+      const box = $("#drp-card");
+      if (!s || !box) return;
+      d.state = s;
+      const players = s.players || [];
+      const mine = players.find(p => p.pid === me.pid) || { n: me.name, h: me.house, s: this.score || 0, c: this.correct || 0, d: 1 };
+      const opp = players.find(p => p.pid !== me.pid);
+      const bothDone = Boolean(opp && opp.d && mine.d);
+      const win = bothDone && mine.s > opp.s;
+      const tie = bothDone && mine.s === opp.s;
+      const title = bothDone
+        ? (tie ? "⚖️ A Perfect Tie!" : win ? "🏆 VICTORY!" : "💀 Defeated…")
+        : opp ? `⏳ ${esc(opp.n)} is battling live (${fmt(opp.s)} pts)…` : "⚔️ Target Set! Send to Your Rival";
+      box.className = `card duel-result-podium ${bothDone ? (tie ? "tie" : win ? "win" : "lose") : ""}`;
+      const maxSc = Math.max(1, mine.s || 0, opp ? (opp.s || 0) : 0);
+      const msg = `⚔️ ${mine.n} scored ${fmt(mine.s)} pts in Cryptic Rush! Can you beat it on the SAME questions? Code: ${room} · ${link}`;
+
+      box.innerHTML = `
+        <div class="duel-invite-kicker">WIZARDS' DUEL · CODE ${esc(room)}</div>
+        <div class="duel-result-banner">${title}</div>
+        <p class="muted">${esc(this.setLabel(s.set))}</p>
+
+        <div class="duel-podium-row">
+          <div class="duel-podium-col ${bothDone && mine.s >= opp.s ? "top" : ""}" style="--hc:${HOUSE_COLORS[mine.h] || '#38bdf8'}">
+            <div class="dpc-crown">${bothDone && mine.s > opp.s ? "👑" : ""}</div>
+            <div class="dpc-name">YOU (${esc(mine.n)})</div>
+            ${mine.h ? `<div class="dpc-house">House ${esc(mine.h)}</div>` : ""}
+            <div class="dpc-bar"><i style="height:${Math.max(10, ((mine.s || 0) / maxSc) * 100)}%"></i></div>
+            <div class="dpc-score">${fmt(mine.s || 0)}</div>
+            <div class="dpc-meta">${mine.c || 0} solved</div>
+          </div>
+
+          <div class="duel-podium-col ${bothDone && opp.s >= mine.s ? "top" : ""}" style="--hc:${HOUSE_COLORS[(opp && opp.h) || ''] || '#f43f5e'}">
+            <div class="dpc-crown">${bothDone && opp.s > mine.s ? "👑" : ""}</div>
+            <div class="dpc-name">${opp ? esc(opp.n) : "⏳ Waiting for Rival"}</div>
+            ${opp && opp.h ? `<div class="dpc-house">House ${esc(opp.h)}</div>` : `<div class="dpc-house">Code: ${esc(room)}</div>`}
+            <div class="dpc-bar"><i style="height:${opp ? Math.max(10, ((opp.s || 0) / maxSc) * 100) : 12}%"></i></div>
+            <div class="dpc-score">${opp ? fmt(opp.s || 0) : "—"}</div>
+            <div class="dpc-meta">${opp ? (opp.d ? `${opp.c || 0} solved ✅` : `Playing live (${opp.c || 0} solved)…`) : "Not joined yet"}</div>
+          </div>
+        </div>
+
+        ${!bothDone ? `
+          <div class="duel-code-big" style="font-size:1.7rem;padding:6px 18px;margin:6px auto">${esc(room)}</div>
+          <div class="duel-link-box"><input readonly value="${esc(link)}" id="drp-link-input" /></div>
+        ` : ""}
+
+        <div class="duel-share-actions">
+          <button class="btn primary" id="drp-copy">📋 Copy Challenge Link</button>
+          <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">💬 WhatsApp</a>
+          <button class="btn rush" id="drp-rematch">🔄 Play Another Round</button>
+          <button class="btn" id="drp-home">🏠 Home</button>
+        </div>
+      `;
+
+      if (bothDone && !celebrated) {
+        celebrated = true;
+        if (win) { Sfx.fanfare(); Fx.confetti(200); }
+      }
+      if ($("#drp-link-input")) $("#drp-link-input").onclick = (e) => e.target.select();
+      $("#drp-copy").onclick = () => RushNet.copy(link);
+      $("#drp-rematch").onclick = async () => {
+        Sfx.click();
+        try {
+          const res = await RushNet.call("arena_reset", { room, role: "staff", seed: RushNet.newSeed() });
+          this.duel = { room, seed: res.arena.seed, set: res.arena.set, state: res.arena, started: false };
+          this.renderDuelLobby();
+        } catch {
+          this.playMode = "duel"; this.intro();
+        }
+      };
+      $("#drp-home").onclick = () => { this.stopPolling(); this.duel = null; showScreen("home"); };
+    };
+
+    if (d.state) render(d.state);
+    this.poll(async () => {
+      try {
+        const res = await RushNet.call("arena_state", { room });
+        if (res.arena && res.arena.status === "lobby" && d.state && (res.arena.roundId || 1) > (d.state.roundId || 1)) {
+          this.duel = { room, seed: res.arena.seed, set: res.arena.set, state: res.arena, started: false };
+          return this.renderDuelLobby();
+        }
+        render(res.arena);
+      } catch (e) { console.warn(e); }
+    }, 2500);
   },
 
   runSummary(r) {
     const me = RushNet.me();
     return { n: me.name, h: me.house, sc: r.score, c: r.correct, mc: r.maxCombo, tl: r.timeline.flat() };
-  },
-
-  async finishCreateDuel(r) {
-    this.recordRun(r.score);
-    const payload = { v: 1, k: "c", s: this.seed, set: this.selectedSet, ...this.runSummary(r) };
-    const enc = RushNet.encode(payload);
-    const link = `${RushNet.baseUrl()}?duel=${enc}`;
-    this.renderDuelShare(payload, link, null);
-    try {
-      const res = await RushNet.call("duel_save", { payload: enc });
-      if (res.code) {
-        const shortLink = `${RushNet.baseUrl()}?duel=${res.code}`;
-        this.renderDuelShare(payload, shortLink, res.code);
-      }
-    } catch (e) {
-      console.info("[Duel] short code unavailable, using full link", e.message);
-    }
-  },
-
-  renderDuelShare(p, link, code) {
-    const el = $("#screen-rush");
-    const msg = `⚔️ ${p.n} challenges you to a Cryptic Rush duel! Beat ${fmt(p.sc)} pts on the SAME questions: ${link}`;
-    el.innerHTML = `
-      <div class="card duel-share-card">
-        <div class="big-emoji">⚔️</div>
-        <h1>Challenge Ready!</h1>
-        <p class="muted">You scored <b class="grad-text" style="font-size:1.4rem">${fmt(p.sc)}</b> pts · ${p.c} solved · ${esc(this.setLabel(p.set))}</p>
-        <p>Send this to a friend. They'll get the <b>exact same questions</b> and race your ghost live.</p>
-        ${code ? `<div class="duel-code-big" title="Duel code">${esc(code)}</div><p class="muted" style="margin-top:-6px">Duel code — friends can type this in Cryptic Rush → Wizards' Duel</p>`
-               : `<p class="muted"><small>⏳ Generating short code…</small></p>`}
-        <div class="duel-link-box"><input readonly value="${esc(link)}" id="duel-link-input" /></div>
-        <div class="duel-share-actions">
-          <button class="btn primary" id="duel-copy">📋 Copy Link</button>
-          <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">💬 WhatsApp</a>
-          ${navigator.share ? `<button class="btn" id="duel-native">📤 Share…</button>` : ""}
-        </div>
-        <div class="row" style="margin-top:18px">
-          <button class="btn rush" id="duel-again">⚔️ New Duel</button>
-          <button class="btn" id="duel-home">🏠 Home</button>
-        </div>
-      </div>`;
-    $("#duel-copy").onclick = () => RushNet.copy(link);
-    $("#duel-link-input").onclick = (e) => e.target.select();
-    if ($("#duel-native")) $("#duel-native").onclick = () => navigator.share({ title: "Cryptic Rush Duel", text: msg }).catch(() => {});
-    $("#duel-again").onclick = () => { this.playMode = "duel"; this.intro(); };
-    $("#duel-home").onclick = () => showScreen("home");
-    showScreen("rush");
   },
 
   async joinDuelFromInput() {
@@ -996,9 +1224,20 @@ const Rush = {
     let str = String(raw).trim();
     try {
       if (/^[A-Za-z0-9]{4,8}$/.test(str)) {
-        toast("🔎 Looking up duel code…");
-        const res = await RushNet.call("duel_get", { code: str.toUpperCase() });
-        str = res.payload;
+        const room = str.toUpperCase();
+        toast(`⚔️ Joining Duel ${esc(room)}…`);
+        try {
+          const me = RushNet.me();
+          const r = await RushNet.call("arena_join", { room, pid: me.pid, name: me.name, house: me.house, score: 0, correct: 0, done: "0" });
+          this.duel = { room, seed: r.arena.seed, set: r.arena.set || "all", state: r.arena, started: false };
+          this.seed = r.arena.seed;
+          this.selectedSet = r.arena.set || "all";
+          this.ghost = null;
+          return this.renderDuelLobby();
+        } catch {
+          const res = await RushNet.call("duel_get", { code: room });
+          str = res.payload;
+        }
       }
       const p = RushNet.decode(str);
       if (!p || !p.s && p.k !== "r") throw new Error("bad payload");
@@ -1159,17 +1398,24 @@ const Rush = {
   },
 
   podiumHtml(players) {
+    if (!players || !players.length) return "";
     const p = players.slice(0, 3);
     const order = [p[1], p[0], p[2]];
     const cls = ["second", "first", "third"];
-    const medal = ["🥈", "🥇", "🥉"];
-    return `<div class="arena-podium">${order.map((x, i) => x ? `
-      <div class="arena-podium-col ${cls[i]}" style="--hc:${HOUSE_COLORS[x.h] || '#a78bfa'}">
-        <div class="apc-medal">${medal[i]}</div>
-        <div class="apc-name">${esc(x.n)}</div>
-        <div class="apc-score">${fmt(x.s)}</div>
-        <div class="apc-block">${x.h ? esc(x.h) : ""}</div>
-      </div>` : `<div class="arena-podium-col ${cls[i]} empty"></div>`).join("")}</div>`;
+    const medal = ["🥈 2nd", "🥇 1st", "🥉 3rd"];
+    return `
+      <div class="arena-top3-section">
+        <h3>👑 Top 3 Wizards</h3>
+        <div class="arena-podium">${order.map((x, i) => x ? `
+          <div class="arena-podium-col ${cls[i]}" style="--hc:${HOUSE_COLORS[x.h] || '#a78bfa'}">
+            <div class="apc-medal">${medal[i]}</div>
+            <div class="apc-name">${esc(x.n)}</div>
+            <div class="apc-score">${fmt(x.s || 0)} pts</div>
+            <div class="apc-meta">${x.c || 0} solved</div>
+            <div class="apc-block">${x.h ? `House ${esc(x.h)}` : ""}</div>
+          </div>` : `<div class="arena-podium-col ${cls[i]} empty"></div>`).join("")}
+        </div>
+      </div>`;
   },
 
   houseCupHtml(players) {
@@ -1276,13 +1522,13 @@ const Rush = {
     if (s.status === "lobby") {
       $("#cah-podium").innerHTML = "";
       $("#cah-lb").innerHTML = players.length
-        ? `<div class="arena-roster">${players.map(p => `<span class="arena-chip" style="--hc:${HOUSE_COLORS[p.h] || '#94a3b8'}">${esc(p.n)}</span>`).join("")}</div>`
+        ? `<div class="arena-roster">${players.map(p => `<span class="arena-chip" style="--hc:${HOUSE_COLORS[p.h] || '#94a3b8'}">${esc(p.n)}${p.h ? ` (${esc(p.h)})` : ""}</span>`).join("")}</div>`
         : `<div class="muted arena-empty">Waiting for students to scan the QR code…</div>`;
       $("#cah-house").innerHTML = "";
     } else {
-      $("#cah-podium").innerHTML = s.status === "ended" ? this.podiumHtml(players) : "";
-      $("#cah-lb").innerHTML = this.leaderboardHtml(players, null);
-      $("#cah-house").innerHTML = `<h3>🏆 House Cup this round</h3>${this.houseCupHtml(players)}`;
+      $("#cah-podium").innerHTML = this.podiumHtml(players);
+      $("#cah-house").innerHTML = `<h3>🏆 Four Houses Mark Comparison</h3>${this.houseCupHtml(players)}`;
+      $("#cah-lb").innerHTML = `<h3>📋 Full Class Standings</h3>${this.leaderboardHtml(players, null)}`;
     }
   },
 
@@ -1387,6 +1633,7 @@ const Rush = {
         <p class="muted">${r.correct} solved · max combo ${r.maxCombo}x</p>
         <div class="arena-my-rank" id="ar-rank">Calculating rank…</div>
         <div id="ar-podium"></div>
+        <div id="ar-house"></div>
         <div class="arena-lb" id="ar-lb"></div>
         <div class="row" style="margin-top:16px"><button class="btn" id="ar-home">🏠 Leave Arena</button></div>
       </div>`;
@@ -1403,8 +1650,9 @@ const Rush = {
       $("#ar-rank").innerHTML = s.status === "ended"
         ? `🏁 Final rank: <b>#${i + 1}</b> of ${players.length}`
         : `Current rank: <b>#${i + 1}</b> of ${players.length} · ${done}/${players.length} finished`;
-      $("#ar-podium").innerHTML = s.status === "ended" ? this.podiumHtml(players) : "";
-      $("#ar-lb").innerHTML = this.leaderboardHtml(players, me.pid, 10);
+      $("#ar-podium").innerHTML = this.podiumHtml(players);
+      $("#ar-house").innerHTML = `<h3>🏆 Four Houses Mark Comparison</h3>${this.houseCupHtml(players)}`;
+      $("#ar-lb").innerHTML = `<h3>📋 Class Leaderboard</h3>${this.leaderboardHtml(players, me.pid, 20)}`;
       if (s.status === "ended") {
         // keep polling quietly so a teacher's "New Round" brings everyone back
         if (!celebrated) { celebrated = true; if (i === 0) { Sfx.fanfare(); Fx.confetti(220); } }
