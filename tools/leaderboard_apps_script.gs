@@ -100,6 +100,11 @@ function handleRequest(params) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  // Cryptic Rush multiplayer: 1v1 duel short codes + live Class Arena rooms
+  if (String(action).indexOf("duel_") === 0 || String(action).indexOf("arena_") === 0) {
+    return jsonOut(handleMultiplayer(action, params));
+  }
+
   // Action: Submit a score
   if (action === "submit") {
     const name = String(params.name || "Scholar").trim().substring(0, 30);
@@ -221,4 +226,126 @@ function getAllLeaderboards(lbSheet) {
   }
 
   return res;
+}
+
+/* ===================================================================
+ * CRYPTIC RUSH MULTIPLAYER (added v3.8)
+ * - duel_save / duel_get : short 6-char codes for 1v1 challenge runs
+ *   (stored in the "Duels" sheet so codes survive for weeks)
+ * - arena_create / arena_join / arena_start / arena_update / arena_state / arena_end
+ *   Live Class Arena rooms held in CacheService (fast, auto-expire after 6h).
+ *   Each player writes to their own cache key, so 30+ students can update
+ *   simultaneously without overwriting each other.
+ * =================================================================== */
+function jsonOut(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+const ARENA_TTL = 21600; // 6 hours (CacheService maximum)
+
+function arenaKey(room) { return "arena:" + String(room).replace(/[^0-9A-Za-z]/g, "").toUpperCase(); }
+
+function readJson(cache, key) {
+  const raw = cache.get(key);
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch (e) { return null; }
+}
+
+function arenaSnapshot(cache, room) {
+  const base = arenaKey(room);
+  const meta = readJson(cache, base);
+  if (!meta) return null;
+  const roster = readJson(cache, base + ":roster") || [];
+  const keys = roster.map(function (pid) { return base + ":p:" + pid; });
+  const got = keys.length ? cache.getAll(keys) : {};
+  const players = [];
+  roster.forEach(function (pid) {
+    const raw = got[base + ":p:" + pid];
+    if (!raw) return;
+    try { players.push(JSON.parse(raw)); } catch (e) {}
+  });
+  players.sort(function (a, b) { return (b.s || 0) - (a.s || 0); });
+  return { room: meta.room, seed: meta.seed, set: meta.set, host: meta.host, status: meta.status,
+           startAt: meta.startAt || 0, now: Date.now(), players: players };
+}
+
+function handleMultiplayer(action, p) {
+  const cache = CacheService.getScriptCache();
+
+  // ---------- 1v1 Duel short codes ----------
+  if (action === "duel_save") {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sh = ss.getSheetByName("Duels");
+    if (!sh) { sh = ss.insertSheet("Duels"); sh.appendRow(["Code", "Payload", "Created"]); sh.setFrozenRows(1); }
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "";
+    for (let i = 0; i < 6; i++) code += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    const payload = String(p.payload || "").substring(0, 4000);
+    sh.appendRow([code, payload, new Date()]);
+    cache.put("duel:" + code, payload, ARENA_TTL);
+    return { status: "success", code: code };
+  }
+  if (action === "duel_get") {
+    const code = String(p.code || "").trim().toUpperCase();
+    let payload = cache.get("duel:" + code);
+    if (!payload) {
+      const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Duels");
+      if (sh) {
+        const rows = sh.getDataRange().getValues();
+        for (let i = rows.length - 1; i >= 1; i--) {
+          if (String(rows[i][0]).toUpperCase() === code) { payload = String(rows[i][1]); break; }
+        }
+      }
+    }
+    return payload ? { status: "success", payload: payload } : { status: "error", msg: "Duel code not found" };
+  }
+
+  // ---------- Live Class Arena ----------
+  const room = String(p.room || "").trim().toUpperCase();
+  const base = arenaKey(room);
+
+  if (action === "arena_create") {
+    if (String(p.role || "") !== "staff") return { status: "error", msg: "Only teachers can host a Class Arena." };
+    const meta = { room: room, seed: String(p.seed || ""), set: String(p.set || "all"),
+                   host: String(p.name || "Teacher").substring(0, 40), status: "lobby", startAt: 0, created: Date.now() };
+    cache.put(base, JSON.stringify(meta), ARENA_TTL);
+    cache.put(base + ":roster", "[]", ARENA_TTL);
+    return { status: "success", arena: arenaSnapshot(cache, room) };
+  }
+
+  if (!readJson(cache, base)) return { status: "error", msg: "Room not found or expired." };
+
+  if (action === "arena_join" || action === "arena_update") {
+    const pid = String(p.pid || "").replace(/[^0-9A-Za-z_-]/g, "").substring(0, 24);
+    if (!pid) return { status: "error", msg: "Missing player id" };
+    const player = { pid: pid, n: String(p.name || "Scholar").substring(0, 30), h: String(p.house || "").substring(0, 4),
+                     s: parseInt(p.score, 10) || 0, c: parseInt(p.correct, 10) || 0, d: p.done === "1" ? 1 : 0, t: Date.now() };
+    if (action === "arena_join") {
+      const lock = LockService.getScriptLock();
+      lock.waitLock(8000);
+      try {
+        const roster = readJson(cache, base + ":roster") || [];
+        if (roster.indexOf(pid) === -1) { roster.push(pid); cache.put(base + ":roster", JSON.stringify(roster), ARENA_TTL); }
+      } finally { lock.releaseLock(); }
+    }
+    cache.put(base + ":p:" + pid, JSON.stringify(player), ARENA_TTL);
+    return { status: "success", arena: arenaSnapshot(cache, room) };
+  }
+
+  if (action === "arena_start" || action === "arena_end" || action === "arena_reset") {
+    if (String(p.role || "") !== "staff") return { status: "error", msg: "Teacher only." };
+    const meta = readJson(cache, base);
+    if (action === "arena_start") { meta.status = "live"; meta.startAt = Date.now() + 5000; }
+    if (action === "arena_end") { meta.status = "ended"; }
+    if (action === "arena_reset") { meta.status = "lobby"; meta.startAt = 0; meta.seed = String(p.seed || meta.seed); }
+    cache.put(base, JSON.stringify(meta), ARENA_TTL);
+    return { status: "success", arena: arenaSnapshot(cache, room) };
+  }
+
+  if (action === "arena_state") {
+    return { status: "success", arena: arenaSnapshot(cache, room) };
+  }
+
+  return { status: "error", msg: "Unknown action" };
 }

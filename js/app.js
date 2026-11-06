@@ -91,6 +91,20 @@ const App = {
 
     // Enforce HPCCSS authentication and whitelist check
     await Auth.checkAuth();
+
+    // Check URL parameters for 1v1 Challenge Duel or Teacher Class Arena
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      if (sp.has("duel")) {
+        const payload = sp.get("duel");
+        if (payload && typeof Rush !== "undefined" && Rush.handleDuelUrl) Rush.handleDuelUrl(payload);
+      } else if (sp.has("arena") || sp.has("class")) {
+        const room = sp.get("arena") || sp.get("class");
+        if (room && typeof Rush !== "undefined" && Rush.handleArenaUrl) Rush.handleArenaUrl(room);
+      }
+    } catch (e) {
+      console.error("Routing error:", e);
+    }
   },
 
   showAccountModal() {

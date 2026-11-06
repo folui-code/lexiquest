@@ -87,7 +87,7 @@ const Store = {
 
   load() {
     try { this.d = JSON.parse(localStorage.getItem(this.KEY)); } catch { this.d = null; }
-    this.d = Object.assign({ name: "", xp: 0, streak: 0, lastPlay: null, freezes: 0, best: {}, words: {}, ach: {}, daily: {}, lb: {}, muted: false, games: 0 }, this.d || {});
+    this.d = Object.assign({ name: "", xp: 0, streak: 0, lastPlay: null, freezes: 0, best: {}, words: {}, ach: {}, daily: {}, lb: {}, muted: false, games: 0, duels: {}, arenaRooms: {} }, this.d || {});
     if (this.d.daily.date !== todayKey()) this.d.daily = { date: todayKey(), q: {}, chest: false, matrixDone: false };
 
     // Automatic Migration: Upgrade any legacy numeric IDs to permanent scoped word keys!

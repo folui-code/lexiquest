@@ -48,24 +48,40 @@ def parse_meaning(raw_meaning):
             parts = line.split("CHIN:", 1)
             chin = parts[1].strip()
 
-    if not chin:
+    if not (eng and chin):
         match = re.search(r"[\(（]([^\)）]*[\u4e00-\u9fff][^\)）]*)[\)）]", text)
         if match:
             chin = match.group(1).strip()
-            if not eng:
-                eng = re.sub(r"[\(（][^\)）]*[\u4e00-\u9fff][^\)）]*[\)）]", "", text).strip()
-        else:
-            for line in lines:
-                if re.search(r"[\u4e00-\u9fff]", line):
-                    chin = line.strip()
-                    break
+            eng = re.sub(r"[\(（][^\)）]*[\u4e00-\u9fff][^\)）]*[\)）]", "", text).strip()
+        elif " / " in text:
+            parts = text.split(" / ", 1)
+            if re.search(r"[\u4e00-\u9fff]", parts[1]):
+                eng = parts[0].strip()
+                chin = parts[1].strip()
+            elif re.search(r"[\u4e00-\u9fff]", parts[0]):
+                chin = parts[0].strip()
+                eng = parts[1].strip()
+        elif "/" in text:
+            parts = text.split("/", 1)
+            if re.search(r"[\u4e00-\u9fff]", parts[1]):
+                eng = parts[0].strip()
+                chin = parts[1].strip()
+            elif re.search(r"[\u4e00-\u9fff]", parts[0]):
+                chin = parts[0].strip()
+                eng = parts[1].strip()
+        elif len(lines) >= 2:
+            non_ch = [l for l in lines if not re.search(r"[\u4e00-\u9fff]", l)]
+            ch = [l for l in lines if re.search(r"[\u4e00-\u9fff]", l)]
+            if non_ch and ch:
+                eng = " ".join(non_ch).strip()
+                chin = " ".join(ch).strip()
 
     if not eng:
-        non_chin_lines = [l for l in lines if not re.search(r"[\u4e00-\u9fff]", l)]
-        if non_chin_lines:
-            eng = " ".join(non_chin_lines).strip()
-        else:
-            eng = text
+        eng = text
+    if not chin:
+        match_ch = re.search(r"[\u4e00-\u9fff]+.*", text)
+        if match_ch:
+            chin = match_ch.group(0).strip()
 
     eng = re.sub(r"^ENG:\s*", "", eng, flags=re.IGNORECASE).strip()
     eng = re.sub(r"[\(（]\s*[\)）]", "", eng).strip()
@@ -73,8 +89,8 @@ def parse_meaning(raw_meaning):
     chin = chin.strip("()（） ")
 
     full = eng
-    if chin:
-        full = f"{eng} ({chin})" if eng else chin
+    if chin and chin not in eng:
+        full = f"{eng} ({chin})"
     return full, eng, chin
 
 

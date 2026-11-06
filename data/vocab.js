@@ -2010,5 +2010,815 @@ window.VOCAB = [
     ],
     "context": "Studying in London provides students with a natural ___.",
     "raw_sentence": "Studying in London provides students with a natural English-speaking environment."
+  },
+  {
+    "id": 107,
+    "key": "S4:lavish",
+    "word": "lavish",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Sumptuous, rich, elaborate, or luxurious (奢華的、豐富的)",
+    "meaning_eng": "Sumptuous, rich, elaborate, or luxurious",
+    "meaning_chin": "奢華的、豐富的",
+    "synonyms": [
+      "奢華的、豐富的"
+    ],
+    "context": "The hotel hosted a ___ banquet for the international guests.",
+    "raw_sentence": "The hotel hosted a lavish banquet for the international guests."
+  },
+  {
+    "id": 108,
+    "key": "S4:an astronomical amount of",
+    "word": "an astronomical amount of",
+    "pos": "Prepositional phrase / Quantifier",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "An extremely large or overwhelming quantity of something (天文數字般的、極大量的)",
+    "meaning_eng": "An extremely large or overwhelming quantity of something",
+    "meaning_chin": "天文數字般的、極大量的",
+    "synonyms": [
+      "天文數字般的、極大量的"
+    ],
+    "context": "Repairing the historical building will cost ___ money.",
+    "raw_sentence": "Repairing the historical building will cost an astronomical amount of money."
+  },
+  {
+    "id": 109,
+    "key": "S4:accompany",
+    "word": "accompany",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To go somewhere with someone as a companion (陪伴、伴隨)",
+    "meaning_eng": "To go somewhere with someone as a companion",
+    "meaning_chin": "陪伴、伴隨",
+    "synonyms": [
+      "陪伴、伴隨"
+    ],
+    "context": "Volunteers will ___ the senior citizens during the day trip.",
+    "raw_sentence": "Volunteers will accompany the senior citizens during the day trip."
+  },
+  {
+    "id": 110,
+    "key": "S4:overly pampered children",
+    "word": "overly pampered children",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Children who are excessively spoiled or overprotected (過分溺愛的孩子)",
+    "meaning_eng": "Children who are excessively spoiled or overprotected",
+    "meaning_chin": "過分溺愛的孩子",
+    "synonyms": [
+      "過分溺愛的孩子"
+    ],
+    "context": "___ often struggle to cope with hardship independently.",
+    "raw_sentence": "Overly pampered children often struggle to cope with hardship independently."
+  },
+  {
+    "id": 111,
+    "key": "S4:self-management",
+    "word": "self-management",
+    "pos": "Noun",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "The ability to regulate one's behavior, emotions, and duties (自我管理)",
+    "meaning_eng": "The ability to regulate one's behavior, emotions, and duties",
+    "meaning_chin": "自我管理",
+    "synonyms": [
+      "自我管理"
+    ],
+    "context": "Good time allocation and ___ are key factors in academic success.",
+    "raw_sentence": "Good time allocation and self-management are key factors in academic success."
+  },
+  {
+    "id": 112,
+    "key": "S4:remedies",
+    "word": "remedies",
+    "pos": "Noun (plural)",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Solutions or treatments to cure a problem or difficulty (補救方法、對策)",
+    "meaning_eng": "Solutions or treatments to cure a problem or difficulty",
+    "meaning_chin": "補救方法、對策",
+    "synonyms": [
+      "補救方法、對策"
+    ],
+    "context": "The committee discussed several effective ___ for the city's traffic congestion.",
+    "raw_sentence": "The committee discussed several effective remedies for the city's traffic congestion."
+  },
+  {
+    "id": 113,
+    "key": "S4:partake in",
+    "word": "partake in",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To participate or take part in an activity (參與、參加)",
+    "meaning_eng": "To participate or take part in an activity",
+    "meaning_chin": "參與、參加",
+    "synonyms": [
+      "參與、參加"
+    ],
+    "context": "All students are encouraged to ___ the annual community service project.",
+    "raw_sentence": "All students are encouraged to partake in the annual community service project."
+  },
+  {
+    "id": 114,
+    "key": "S4:delves into",
+    "word": "delves into",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Investigates or explores a topic thoroughly (深入探討、鑽研)",
+    "meaning_eng": "Investigates or explores a topic thoroughly",
+    "meaning_chin": "深入探討、鑽研",
+    "synonyms": [
+      "深入探討、鑽研"
+    ],
+    "context": "The documentary ___ the psychological effects of social media usage.",
+    "raw_sentence": "The documentary delves into the psychological effects of social media usage."
+  },
+  {
+    "id": 115,
+    "key": "S4:uproot the problem",
+    "word": "uproot the problem",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To completely eradicate or eliminate the root cause of an issue (根治問題、徹底消除問題)",
+    "meaning_eng": "To completely eradicate or eliminate the root cause of an issue",
+    "meaning_chin": "根治問題、徹底消除問題",
+    "synonyms": [
+      "根治問題、徹底消除問題"
+    ],
+    "context": "Education reform must ___ of inequality in low-income schools.",
+    "raw_sentence": "Education reform must uproot the problem of inequality in low-income schools."
+  },
+  {
+    "id": 116,
+    "key": "S4:adapt to",
+    "word": "adapt to",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To adjust or conform to new conditions or environments (適應)",
+    "meaning_eng": "To adjust or conform to new conditions or environments",
+    "meaning_chin": "適應",
+    "synonyms": [
+      "適應"
+    ],
+    "context": "Freshmen need time to ___ the demanding workload of university life.",
+    "raw_sentence": "Freshmen need time to adapt to the demanding workload of university life."
+  },
+  {
+    "id": 117,
+    "key": "S4:spoilt",
+    "word": "spoilt",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Badly behaved because of being given everything one wants (被寵壞的、嬌縱的)",
+    "meaning_eng": "Badly behaved because of being given everything one wants",
+    "meaning_chin": "被寵壞的、嬌縱的",
+    "synonyms": [
+      "被寵壞的、嬌縱的"
+    ],
+    "context": "Giving in to every demand will only make a child ___ and ungrateful.",
+    "raw_sentence": "Giving in to every demand will only make a child spoilt and ungrateful."
+  },
+  {
+    "id": 118,
+    "key": "S4:plentiful",
+    "word": "plentiful",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Existing in great quantities; abundant (豐富的、充足的)",
+    "meaning_eng": "Existing in great quantities; abundant",
+    "meaning_chin": "豐富的、充足的",
+    "synonyms": [
+      "豐富的、充足的"
+    ],
+    "context": "Fresh fruits and vegetables were ___ at the local morning market.",
+    "raw_sentence": "Fresh fruits and vegetables were plentiful at the local morning market."
+  },
+  {
+    "id": 119,
+    "key": "S4:volunteer",
+    "word": "volunteer",
+    "pos": "Verb / Noun",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To offer services willingly without pay (自願做、志工)",
+    "meaning_eng": "To offer services willingly without pay",
+    "meaning_chin": "自願做、志工",
+    "synonyms": [
+      "自願做、志工"
+    ],
+    "context": "Many teenagers ___ at the local food bank during their summer vacations.",
+    "raw_sentence": "Many teenagers volunteer at the local food bank during their summer vacations."
+  },
+  {
+    "id": 120,
+    "key": "S4:eye checkups",
+    "word": "eye checkups",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Medical examinations of vision and eye health (眼睛檢查)",
+    "meaning_eng": "Medical examinations of vision and eye health",
+    "meaning_chin": "眼睛檢查",
+    "synonyms": [
+      "眼睛檢查"
+    ],
+    "context": "Regular ___ are essential for detecting vision problems early.",
+    "raw_sentence": "Regular eye checkups are essential for detecting vision problems early."
+  },
+  {
+    "id": 121,
+    "key": "S4:steady the nerves",
+    "word": "steady the nerves",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To make someone feel calm and composed under tension (穩定情緒、鎮定神經)",
+    "meaning_eng": "To make someone feel calm and composed under tension",
+    "meaning_chin": "穩定情緒、鎮定神經",
+    "synonyms": [
+      "穩定情緒、鎮定神經"
+    ],
+    "context": "Taking a deep breath before public speaking helps to ___.",
+    "raw_sentence": "Taking a deep breath before public speaking helps to steady the nerves."
+  },
+  {
+    "id": 122,
+    "key": "S4:of vital importance to",
+    "word": "of vital importance to",
+    "pos": "Prepositional phrase / Adjective phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Extremely essential, crucial, or necessary for someone/something (對⋯極其重要)",
+    "meaning_eng": "Extremely essential, crucial, or necessary for someone/something",
+    "meaning_chin": "對⋯極其重要",
+    "synonyms": [
+      "對⋯極其重要"
+    ],
+    "context": "Developing strong communication skills is ___ career advancement.",
+    "raw_sentence": "Developing strong communication skills is of vital importance to career advancement."
+  },
+  {
+    "id": 123,
+    "key": "S4:hands-on experience",
+    "word": "hands-on experience",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Practical knowledge gained from direct, real-world practice (親身實踐經驗)",
+    "meaning_eng": "Practical knowledge gained from direct, real-world practice",
+    "meaning_chin": "親身實踐經驗",
+    "synonyms": [
+      "親身實踐經驗"
+    ],
+    "context": "The internship provided students with valuable ___ in software design.",
+    "raw_sentence": "The internship provided students with valuable hands-on experience in software design."
+  },
+  {
+    "id": 124,
+    "key": "S4:derive a better understanding",
+    "word": "derive a better understanding",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To gain or develop a clearer comprehension of something (獲得更深入的理解)",
+    "meaning_eng": "To gain or develop a clearer comprehension of something",
+    "meaning_chin": "獲得更深入的理解",
+    "synonyms": [
+      "獲得更深入的理解"
+    ],
+    "context": "Through field research, scientists ___ of local ecosystems.",
+    "raw_sentence": "Through field research, scientists derive a better understanding of local ecosystems."
+  },
+  {
+    "id": 125,
+    "key": "S4:on the cusp of adulthood",
+    "word": "on the cusp of adulthood",
+    "pos": "Prepositional phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "At the transition point or threshold of becoming an adult (即將踏入成年階段、在成年的邊緣)",
+    "meaning_eng": "At the transition point or threshold of becoming an adult",
+    "meaning_chin": "即將踏入成年階段、在成年的邊緣",
+    "synonyms": [
+      "即將踏入成年階段、在成年的邊緣"
+    ],
+    "context": "Teenagers ___ must learn to take personal responsibility.",
+    "raw_sentence": "Teenagers on the cusp of adulthood must learn to take personal responsibility."
+  },
+  {
+    "id": 126,
+    "key": "S4:a rite of passage",
+    "word": "a rite of passage",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "An event marking an important stage or milestone in life (成年禮、人生過渡儀式)",
+    "meaning_eng": "An event marking an important stage or milestone in life",
+    "meaning_chin": "成年禮、人生過渡儀式",
+    "synonyms": [
+      "成年禮、人生過渡儀式"
+    ],
+    "context": "Graduation from high school is widely considered ___ for youth.",
+    "raw_sentence": "Graduation from high school is widely considered a rite of passage for youth."
+  },
+  {
+    "id": 127,
+    "key": "S4:indispensable",
+    "word": "indispensable",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Absolutely necessary or essential; impossible to do without (不可或缺的)",
+    "meaning_eng": "Absolutely necessary or essential; impossible to do without",
+    "meaning_chin": "不可或缺的",
+    "synonyms": [
+      "不可或缺的"
+    ],
+    "context": "Teamwork and clear communication are ___ skills in any modern workplace.",
+    "raw_sentence": "Teamwork and clear communication are indispensable skills in any modern workplace."
+  },
+  {
+    "id": 128,
+    "key": "S4:helicopter parents'",
+    "word": "helicopter parents'",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Parents who closely monitor, control, and overprotect their children / 直升機父母 (過分管束與保護子女的父母)",
+    "meaning_eng": "Parents who closely monitor, control, and overprotect their children / 直升機父母",
+    "meaning_chin": "過分管束與保護子女的父母",
+    "synonyms": [
+      "過分管束與保護子女的父母"
+    ],
+    "context": "___ often hinder their child's ability to solve problems independently.",
+    "raw_sentence": "Helicopter parents' often hinder their child's ability to solve problems independently."
+  },
+  {
+    "id": 129,
+    "key": "S4:is ascribed to",
+    "word": "is ascribed to",
+    "pos": "Verb phrase (passive)",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Is attributed to or considered to be caused by (歸因於、歸咎於)",
+    "meaning_eng": "Is attributed to or considered to be caused by",
+    "meaning_chin": "歸因於、歸咎於",
+    "synonyms": [
+      "歸因於、歸咎於"
+    ],
+    "context": "The company's financial turnaround ___ its innovative leadership.",
+    "raw_sentence": "The company's financial turnaround is ascribed to its innovative leadership."
+  },
+  {
+    "id": 130,
+    "key": "S4:pampered",
+    "word": "pampered",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Treated with excessive comfort, care, or indulgence (受嬌慣的、享樂過度的)",
+    "meaning_eng": "Treated with excessive comfort, care, or indulgence",
+    "meaning_chin": "受嬌慣的、享樂過度的",
+    "synonyms": [
+      "受嬌慣的、享樂過度的"
+    ],
+    "context": "The ___ house pet enjoyed sleeping on a soft heated bed all day.",
+    "raw_sentence": "The pampered house pet enjoyed sleeping on a soft heated bed all day."
+  },
+  {
+    "id": 131,
+    "key": "S4:reluctant",
+    "word": "reluctant",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Unwilling, hesitant, or disinclined to do something (不情願的、勉強的)",
+    "meaning_eng": "Unwilling, hesitant, or disinclined to do something",
+    "meaning_chin": "不情願的、勉強的",
+    "synonyms": [
+      "不情願的、勉強的"
+    ],
+    "context": "He was ___ to admit his mistake during the team meeting.",
+    "raw_sentence": "He was reluctant to admit his mistake during the team meeting."
+  },
+  {
+    "id": 132,
+    "key": "S4:cultivate",
+    "word": "cultivate",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To foster, develop, or nurture a quality or skill (培養、培植)",
+    "meaning_eng": "To foster, develop, or nurture a quality or skill",
+    "meaning_chin": "培養、培植",
+    "synonyms": [
+      "培養、培植"
+    ],
+    "context": "Schools strive to ___ critical thinking skills among their students.",
+    "raw_sentence": "Schools strive to cultivate critical thinking skills among their students."
+  },
+  {
+    "id": 133,
+    "key": "S4:of utmost importance",
+    "word": "of utmost importance",
+    "pos": "Prepositional phrase / Adjective phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Of the greatest significance or highest priority (至關重要、極其重要)",
+    "meaning_eng": "Of the greatest significance or highest priority",
+    "meaning_chin": "至關重要、極其重要",
+    "synonyms": [
+      "至關重要、極其重要"
+    ],
+    "context": "Ensuring patient safety during surgery is ___ to doctors.",
+    "raw_sentence": "Ensuring patient safety during surgery is of utmost importance to doctors."
+  },
+  {
+    "id": 134,
+    "key": "S4:elderly home visits",
+    "word": "elderly home visits",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Visits made to residential care facilities for senior citizens (探訪安老院、老人院探訪)",
+    "meaning_eng": "Visits made to residential care facilities for senior citizens",
+    "meaning_chin": "探訪安老院、老人院探訪",
+    "synonyms": [
+      "探訪安老院、老人院探訪"
+    ],
+    "context": "Student volunteers organize monthly ___ to spend time with seniors.",
+    "raw_sentence": "Student volunteers organize monthly elderly home visits to spend time with seniors."
+  },
+  {
+    "id": 135,
+    "key": "S4:orphanage",
+    "word": "orphanage",
+    "pos": "Noun",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "A residential institution dedicated to the care of orphans (孤兒院)",
+    "meaning_eng": "A residential institution dedicated to the care of orphans",
+    "meaning_chin": "孤兒院",
+    "synonyms": [
+      "孤兒院"
+    ],
+    "context": "The charity raised funds to donate books and toys to the local ___.",
+    "raw_sentence": "The charity raised funds to donate books and toys to the local orphanage."
+  },
+  {
+    "id": 136,
+    "key": "S4:the underprivileged",
+    "word": "the underprivileged",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "People who suffer from economic or social disadvantages (弱勢群體、貧困人士)",
+    "meaning_eng": "People who suffer from economic or social disadvantages",
+    "meaning_chin": "弱勢群體、貧困人士",
+    "synonyms": [
+      "弱勢群體、貧困人士"
+    ],
+    "context": "The social welfare program provides food and clothing for ___.",
+    "raw_sentence": "The social welfare program provides food and clothing for the underprivileged."
+  },
+  {
+    "id": 137,
+    "key": "S4:a heart of giving back",
+    "word": "a heart of giving back",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "A compassionate spirit devoted to contributing to society (回饋社會的心)",
+    "meaning_eng": "A compassionate spirit devoted to contributing to society",
+    "meaning_chin": "回饋社會的心",
+    "synonyms": [
+      "回饋社會的心"
+    ],
+    "context": "Having ___ motivates her to spend weekends volunteering.",
+    "raw_sentence": "Having a heart of giving back motivates her to spend weekends volunteering."
+  },
+  {
+    "id": 138,
+    "key": "S4:shoulder more responsibilities",
+    "word": "shoulder more responsibilities",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To accept or take on greater duties and tasks (承擔更多責任)",
+    "meaning_eng": "To accept or take on greater duties and tasks",
+    "meaning_chin": "承擔更多責任",
+    "synonyms": [
+      "承擔更多責任"
+    ],
+    "context": "As employees mature in their careers, they are expected to ___.",
+    "raw_sentence": "As employees mature in their careers, they are expected to shoulder more responsibilities."
+  },
+  {
+    "id": 139,
+    "key": "S4:contribute to",
+    "word": "contribute to",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To help bring about an outcome; to add to (助長、促成、捐助)",
+    "meaning_eng": "To help bring about an outcome; to add to",
+    "meaning_chin": "助長、促成、捐助",
+    "synonyms": [
+      "助長、促成、捐助"
+    ],
+    "context": "Regular exercise and a balanced diet ___ better long-term health.",
+    "raw_sentence": "Regular exercise and a balanced diet contribute to better long-term health."
+  },
+  {
+    "id": 140,
+    "key": "S4:reliance on",
+    "word": "reliance on",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Dependence on or trust in someone or something (對⋯的依賴)",
+    "meaning_eng": "Dependence on or trust in someone or something",
+    "meaning_chin": "對⋯的依賴",
+    "synonyms": [
+      "對⋯的依賴"
+    ],
+    "context": "Over-___ smartphones can negatively impact face-to-face interaction.",
+    "raw_sentence": "Over-reliance on smartphones can negatively impact face-to-face interaction."
+  },
+  {
+    "id": 141,
+    "key": "S4:protective cocoon",
+    "word": "protective cocoon",
+    "pos": "Noun phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "A safe, sheltered environment shielding someone from stress (安全屏障、過度保護的環境)",
+    "meaning_eng": "A safe, sheltered environment shielding someone from stress",
+    "meaning_chin": "安全屏障、過度保護的環境",
+    "synonyms": [
+      "安全屏障、過度保護的環境"
+    ],
+    "context": "Leaving the ___ of the family home allows young adults to grow.",
+    "raw_sentence": "Leaving the protective cocoon of the family home allows young adults to grow."
+  },
+  {
+    "id": 142,
+    "key": "S4:hones",
+    "word": "hones",
+    "pos": "Verb",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Sharpens, refines, or perfects a skill over time / 磨練、提升 (技能)",
+    "meaning_eng": "Sharpens, refines, or perfects a skill over time / 磨練、提升",
+    "meaning_chin": "技能",
+    "synonyms": [
+      "技能"
+    ],
+    "context": "Daily practice ___ her public speaking skills and boosts her confidence.",
+    "raw_sentence": "Daily practice hones her public speaking skills and boosts her confidence."
+  },
+  {
+    "id": 143,
+    "key": "S4:grapple with",
+    "word": "grapple with",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To struggle to deal with or overcome a difficult problem (努力解決、與⋯搏鬥)",
+    "meaning_eng": "To struggle to deal with or overcome a difficult problem",
+    "meaning_chin": "努力解決、與⋯搏鬥",
+    "synonyms": [
+      "努力解決、與⋯搏鬥"
+    ],
+    "context": "City officials continue to ___ the growing problem of affordable housing.",
+    "raw_sentence": "City officials continue to grapple with the growing problem of affordable housing."
+  },
+  {
+    "id": 144,
+    "key": "S4:hindrances",
+    "word": "hindrances",
+    "pos": "Noun (plural)",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Obstacles, barriers, or things that cause delay (阻礙、障礙)",
+    "meaning_eng": "Obstacles, barriers, or things that cause delay",
+    "meaning_chin": "阻礙、障礙",
+    "synonyms": [
+      "阻礙、障礙"
+    ],
+    "context": "Poor internet connections were major ___ to effective remote learning.",
+    "raw_sentence": "Poor internet connections were major hindrances to effective remote learning."
+  },
+  {
+    "id": 145,
+    "key": "S4:bursting into tears",
+    "word": "bursting into tears",
+    "pos": "Participle phrase / Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Suddenly breaking into heavy crying (突然大哭)",
+    "meaning_eng": "Suddenly breaking into heavy crying",
+    "meaning_chin": "突然大哭",
+    "synonyms": [
+      "突然大哭"
+    ],
+    "context": "Upon hearing the heartwarming news, she couldn't help ___.",
+    "raw_sentence": "Upon hearing the heartwarming news, she couldn't help bursting into tears."
+  },
+  {
+    "id": 146,
+    "key": "S4:throwing tantrums",
+    "word": "throwing tantrums",
+    "pos": "Participle phrase / Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Displaying outbursts of childish anger or frustration (發脾氣、耍耍賴)",
+    "meaning_eng": "Displaying outbursts of childish anger or frustration",
+    "meaning_chin": "發脾氣、耍耍賴",
+    "synonyms": [
+      "發脾氣、耍耍賴"
+    ],
+    "context": "Toddlers often start ___ when they feel tired or hungry.",
+    "raw_sentence": "Toddlers often start throwing tantrums when they feel tired or hungry."
+  },
+  {
+    "id": 147,
+    "key": "S4:never yield to pressure",
+    "word": "never yield to pressure",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To remain firm and never submit under stress (絕不屈服於壓力)",
+    "meaning_eng": "To remain firm and never submit under stress",
+    "meaning_chin": "絕不屈服於壓力",
+    "synonyms": [
+      "絕不屈服於壓力"
+    ],
+    "context": "Principled leaders ___ from external interest groups.",
+    "raw_sentence": "Principled leaders never yield to pressure from external interest groups."
+  },
+  {
+    "id": 148,
+    "key": "S4:shelter them from",
+    "word": "shelter them from",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "To protect or shield individuals from harm or harsh realities (為他們遮風擋雨、保護他們免受)",
+    "meaning_eng": "To protect or shield individuals from harm or harsh realities",
+    "meaning_chin": "為他們遮風擋雨、保護他們免受",
+    "synonyms": [
+      "為他們遮風擋雨、保護他們免受"
+    ],
+    "context": "Parents cannot completely ___ the inevitable challenges of life.",
+    "raw_sentence": "Parents cannot completely shelter them from the inevitable challenges of life."
+  },
+  {
+    "id": 149,
+    "key": "S4:unpredictable storms",
+    "word": "unpredictable storms",
+    "pos": "Noun phrase (plural)",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Unexpected crises, hardships, or turbulent events (無法預測的風暴、不可預知的困難)",
+    "meaning_eng": "Unexpected crises, hardships, or turbulent events",
+    "meaning_chin": "無法預測的風暴、不可預知的困難",
+    "synonyms": [
+      "無法預測的風暴、不可預知的困難"
+    ],
+    "context": "Resilient individuals know how to navigate the ___ of life.",
+    "raw_sentence": "Resilient individuals know how to navigate the unpredictable storms of life."
+  },
+  {
+    "id": 150,
+    "key": "S4:beneficial",
+    "word": "beneficial",
+    "pos": "Adjective",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Favorable, advantageous, or producing good results (有益的、有利的)",
+    "meaning_eng": "Favorable, advantageous, or producing good results",
+    "meaning_chin": "有益的、有利的",
+    "synonyms": [
+      "有益的、有利的"
+    ],
+    "context": "Regular physical activity is ___ to both mental and physical health.",
+    "raw_sentence": "Regular physical activity is beneficial to both mental and physical health."
+  },
+  {
+    "id": 151,
+    "key": "S4:embarked on",
+    "word": "embarked on",
+    "pos": "Verb phrase",
+    "level": "S4",
+    "set": "4",
+    "content": "Writing 2 Sample (Social Service)",
+    "topic": "Set 4 · Writing 2 Sample (Social Service)",
+    "meaning": "Started or commenced a new venture, journey, or task (開始、着手進行)",
+    "meaning_eng": "Started or commenced a new venture, journey, or task",
+    "meaning_chin": "開始、着手進行",
+    "synonyms": [
+      "開始、着手進行"
+    ],
+    "context": "After graduation, she ___ a new career in digital marketing.",
+    "raw_sentence": "After graduation, she embarked on a new career in digital marketing."
   }
 ];
