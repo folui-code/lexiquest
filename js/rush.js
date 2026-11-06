@@ -12,6 +12,10 @@
 
 /* ---------- Networking + payload helpers ---------- */
 const RushNet = {
+  memRooms: {},
+  myRecord: {},
+  bc: (typeof BroadcastChannel !== "undefined") ? new BroadcastChannel("lexiquest_rush") : null,
+
   encode(obj) {
     const bytes = new TextEncoder().encode(JSON.stringify(obj));
     let bin = "";
@@ -31,15 +35,222 @@ const RushNet = {
   apiUrl() {
     return (typeof Leaderboard !== "undefined" && Leaderboard.API_URL) || "";
   },
-  async call(action, params = {}) {
+
+  localGet(key) {
+    try {
+      const raw = localStorage.getItem("lexiquest.net." + key);
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  },
+  localPut(key, val) {
+    try {
+      localStorage.setItem("lexiquest.net." + key, JSON.stringify(val));
+      if (this.bc) this.bc.postMessage({ key, val });
+    } catch {}
+  },
+
+  async cloudGet(key) {
     const url = this.apiUrl();
-    if (!url) throw new Error("No cloud backend configured");
-    const qs = new URLSearchParams({ action, ...params, _t: Date.now() });
+    if (!url) return null;
+    const qs = new URLSearchParams({ action: "sync_pull", hash: key, _t: Date.now() });
     const resp = await fetch(`${url}${url.includes("?") ? "&" : "?"}${qs}`, { method: "GET", cache: "no-store" });
     if (!resp.ok) throw new Error("HTTP " + resp.status);
     const data = await resp.json();
-    if (!data || data.status !== "success") throw new Error((data && data.msg) || "Cloud backend does not support this yet");
-    return data;
+    if (data && data.profile && data.profile.words && typeof data.profile.words === "object") {
+      return data.profile.words;
+    }
+    return null;
+  },
+
+  async cloudPut(key, obj, label = "Arena") {
+    this.localPut(key, obj);
+    const url = this.apiUrl();
+    if (!url) return { status: "success" };
+    const qs = new URLSearchParams({
+      action: "sync_push",
+      hash: key,
+      name: String(label || "Arena").slice(0, 30),
+      role: "staff",
+      xp: "0",
+      streak: "0",
+      words: JSON.stringify(obj),
+      _t: Date.now()
+    });
+    const resp = await fetch(`${url}${url.includes("?") ? "&" : "?"}${qs}`, { method: "GET", cache: "no-store" });
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    return await resp.json();
+  },
+
+  mergeRoom(a, b) {
+    if (!a || !a.room) return b ? JSON.parse(JSON.stringify(b)) : null;
+    if (!b || !b.room) return JSON.parse(JSON.stringify(a));
+    const ra = a.roundId || 1, rb = b.roundId || 1;
+    if (rb > ra) return JSON.parse(JSON.stringify(b));
+    if (ra > rb) return JSON.parse(JSON.stringify(a));
+    const rank = { lobby: 0, live: 1, ended: 2 };
+    const status = (rank[b.status] || 0) >= (rank[a.status] || 0) ? (b.status || "lobby") : (a.status || "lobby");
+    const pMap = {};
+    const pa = a.pMap || {}, pb = b.pMap || {};
+    new Set([...Object.keys(pa), ...Object.keys(pb)]).forEach(pid => {
+      const x = pa[pid], y = pb[pid];
+      if (!x) pMap[pid] = { ...y };
+      else if (!y) pMap[pid] = { ...x };
+      else pMap[pid] = {
+        pid,
+        n: y.n || x.n,
+        h: y.h || x.h,
+        s: Math.max(x.s || 0, y.s || 0),
+        c: Math.max(x.c || 0, y.c || 0),
+        d: Math.max(x.d || 0, y.d || 0),
+        t: Math.max(x.t || 0, y.t || 0)
+      };
+    });
+    return {
+      room: b.room || a.room,
+      roundId: rb,
+      seed: b.seed || a.seed,
+      set: b.set || a.set || "all",
+      host: b.host || a.host || "Teacher",
+      status,
+      startAt: b.startAt || a.startAt || 0,
+      pMap
+    };
+  },
+
+  toSnapshot(raw) {
+    if (!raw || !raw.room) return null;
+    const players = Object.values(raw.pMap || {}).sort((a, b) => (b.s || 0) - (a.s || 0));
+    return {
+      room: raw.room,
+      roundId: raw.roundId || 1,
+      seed: raw.seed,
+      set: raw.set || "all",
+      host: raw.host || "Teacher",
+      status: raw.status || "lobby",
+      startAt: raw.startAt || 0,
+      now: Date.now(),
+      players
+    };
+  },
+
+  async call(action, params = {}) {
+    // 1. 1v1 Duel short codes (stored via sync_push / sync_pull)
+    if (action === "duel_save") {
+      const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 6; i++) code += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+      const payload = String(params.payload || "");
+      await this.cloudPut("duel_code_" + code, { payload, t: Date.now() }, "Duel " + code);
+      return { status: "success", code };
+    }
+    if (action === "duel_get") {
+      const code = String(params.code || "").trim().toUpperCase();
+      const key = "duel_code_" + code;
+      const data = this.localGet(key) || await this.cloudGet(key);
+      if (data && data.payload) return { status: "success", payload: data.payload };
+      throw new Error("Duel code not found");
+    }
+
+    // 2. Class Arena live room actions (CRDT over sync_push / sync_pull + local BroadcastChannel)
+    const room = String(params.room || "").trim().toUpperCase();
+    const key = "arena_room_" + room;
+
+    if (action === "arena_create") {
+      const raw = {
+        room,
+        roundId: 1,
+        seed: String(params.seed || this.newSeed()),
+        set: String(params.set || "all"),
+        host: String(params.name || "Teacher").slice(0, 40),
+        status: "lobby",
+        startAt: 0,
+        pMap: {}
+      };
+      this.memRooms[room] = raw;
+      await this.cloudPut(key, raw, raw.host);
+      return { status: "success", arena: this.toSnapshot(raw) };
+    }
+
+    let remote = null;
+    try { remote = await this.cloudGet(key); } catch (e) { console.warn("[RushNet] cloudGet fallback:", e); }
+    const local = this.mergeRoom(this.memRooms[room], this.localGet(key));
+    let cur = this.mergeRoom(local, remote);
+    if (!cur || !cur.room) throw new Error("Room not found or expired");
+
+    if (action === "arena_join" || action === "arena_update") {
+      const pid = String(params.pid || "").replace(/[^0-9A-Za-z_-]/g, "").slice(0, 24);
+      const prev = (cur.pMap && cur.pMap[pid]) || {};
+      const player = {
+        pid,
+        n: String(params.name || prev.n || "Scholar").slice(0, 30),
+        h: String(params.house || prev.h || "").slice(0, 4),
+        s: Math.max(action === "arena_join" ? 0 : (prev.s || 0), parseInt(params.score, 10) || 0),
+        c: Math.max(action === "arena_join" ? 0 : (prev.c || 0), parseInt(params.correct, 10) || 0),
+        d: params.done === "1" ? 1 : (action === "arena_join" ? 0 : (prev.d || 0)),
+        t: Date.now()
+      };
+      cur.pMap = cur.pMap || {};
+      cur.pMap[pid] = player;
+      this.myRecord[room] = { roundId: cur.roundId || 1, player };
+      this.memRooms[room] = cur;
+      await this.cloudPut(key, cur, cur.host);
+      return { status: "success", arena: this.toSnapshot(cur) };
+    }
+
+    if (action === "arena_start" || action === "arena_end" || action === "arena_reset") {
+      if (action === "arena_start") {
+        cur.status = "live";
+        cur.startAt = Date.now() + 3500;
+      } else if (action === "arena_end") {
+        cur.status = "ended";
+      } else if (action === "arena_reset") {
+        cur.roundId = (cur.roundId || 1) + 1;
+        cur.status = "lobby";
+        cur.startAt = 0;
+        cur.seed = String(params.seed || this.newSeed());
+        Object.values(cur.pMap || {}).forEach(p => { p.s = 0; p.c = 0; p.d = 0; p.t = Date.now(); });
+      }
+      this.memRooms[room] = cur;
+      await this.cloudPut(key, cur, cur.host);
+      return { status: "success", arena: this.toSnapshot(cur) };
+    }
+
+    if (action === "arena_state") {
+      let needHeal = false;
+      const rec = this.myRecord[room];
+      if (rec && rec.player) {
+        if ((cur.roundId || 1) > (rec.roundId || 1)) {
+          rec.roundId = cur.roundId;
+          rec.player = { ...rec.player, s: 0, c: 0, d: 0, t: Date.now() };
+        }
+        const rp = remote && remote.pMap && remote.pMap[rec.player.pid];
+        if (!rp || (rp.s || 0) < (rec.player.s || 0) || (rp.d || 0) < (rec.player.d || 0)) {
+          cur.pMap = cur.pMap || {};
+          cur.pMap[rec.player.pid] = {
+            ...rec.player,
+            s: Math.max((cur.pMap[rec.player.pid] && cur.pMap[rec.player.pid].s) || 0, rec.player.s || 0),
+            c: Math.max((cur.pMap[rec.player.pid] && cur.pMap[rec.player.pid].c) || 0, rec.player.c || 0),
+            d: Math.max((cur.pMap[rec.player.pid] && cur.pMap[rec.player.pid].d) || 0, rec.player.d || 0)
+          };
+          needHeal = true;
+        }
+      }
+      if (typeof Rush !== "undefined" && Rush.arena && Rush.arena.host && Rush.arena.room === room && remote) {
+        const localCount = Object.keys(cur.pMap || {}).length;
+        const remoteCount = Object.keys(remote.pMap || {}).length;
+        if (localCount > remoteCount || cur.status !== remote.status || (cur.roundId || 1) !== (remote.roundId || 1)) {
+          needHeal = true;
+        }
+      }
+      this.memRooms[room] = cur;
+      this.localPut(key, cur);
+      if (needHeal) {
+        this.cloudPut(key, cur, cur.host).catch(() => {});
+      }
+      return { status: "success", arena: this.toSnapshot(cur) };
+    }
+
+    throw new Error("Unknown action: " + action);
   },
   me() {
     const a = (Store.d && Store.d.auth) || {};
@@ -49,12 +260,12 @@ const RushNet = {
       pid,
       name: Store.d.name || a.name || "Scholar",
       house: (Store.d.house || a.house || "").toUpperCase(),
-      role: a.role || "student"
+      role: this.isTeacher() ? "staff" : (a.role || "student")
     };
   },
   isTeacher() {
     const a = (Store.d && Store.d.auth) || {};
-    return a.role === "staff";
+    return a.role === "staff" || a.role === "teacher" || localStorage.getItem("lexiquest.teacher_unlock") === "1";
   },
   newSeed() {
     return Math.random().toString(36).slice(2, 10);
@@ -235,8 +446,21 @@ const Rush = {
           <input id="arena-code-input" type="text" inputmode="numeric" maxlength="6" placeholder="Room code (e.g. 4821)" autocomplete="off" />
           <button class="btn primary" id="arena-join">Join Arena 🏰</button>
         </div>
+        ${!teacher ? `<div style="text-align:center;margin-top:14px"><button class="btn small secondary" id="arena-unlock-teacher">🔑 Teacher? Unlock Whiteboard Host</button></div>` : ``}
       </div>`;
     if (teacher) { this.bindSetGrid(); $("#arena-host").onclick = () => this.hostArena(); }
+    if ($("#arena-unlock-teacher")) {
+      $("#arena-unlock-teacher").onclick = () => {
+        const code = (prompt("Enter Teacher Passcode to host Class Arena:") || "").trim().toLowerCase();
+        if (code === "hpccss" || code === "teacher" || code === "staff") {
+          localStorage.setItem("lexiquest.teacher_unlock", "1");
+          toast("🎓 Teacher Whiteboard Mode unlocked!");
+          this.intro();
+        } else if (code) {
+          toast("❌ Incorrect teacher passcode.");
+        }
+      };
+    }
     $("#arena-join").onclick = () => { const v = $("#arena-code-input").value.trim(); if (v) this.handleArenaUrl(v); };
     $("#arena-code-input").onkeydown = (e) => { if (e.key === "Enter") $("#arena-join").click(); };
   },
