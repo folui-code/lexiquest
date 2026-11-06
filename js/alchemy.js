@@ -1219,13 +1219,7 @@ const Alchemy = {
       </div>
     `;
 
-    $("#btn-alch-toggle-clue").onclick = () => {
-      const box = $("#alch-context-box");
-      if (!box) return;
-      this.contextShown = !this.contextShown;
-      box.classList.toggle("hidden", !this.contextShown);
-      $("#btn-alch-toggle-clue").textContent = this.contextShown ? "📜 Hide Context Sentence" : "📜 Show Academic Context Sentence";
-    };
+    // No extra toggle button needed since the sentence is already directly shown in full!
   },
 
   nextQuestion() {
