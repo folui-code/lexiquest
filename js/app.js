@@ -58,6 +58,10 @@ const App = {
     $("#btn-user").onclick = () => this.showAccountModal();
     $("#player-name").onclick = () => this.showAccountModal();
     $("#mode-rush").onclick = () => { Sfx.click(); Rush.intro(); };
+    const alchemyModeBtn = $("#mode-alchemy");
+    if (alchemyModeBtn) {
+      alchemyModeBtn.onclick = () => { Sfx.click(); Alchemy.intro(); };
+    }
     $("#mode-wordle").onclick = () => { Sfx.click(); Wordle.intro(); };
     $("#mode-matrix").onclick = () => { Sfx.click(); Matrix.intro(); };
     const blitzModeBtn = $("#mode-blitz");
@@ -95,7 +99,13 @@ const App = {
     // Check URL parameters for 1v1 Challenge Duel or Teacher Class Arena
     try {
       const sp = new URLSearchParams(window.location.search);
-      if (sp.has("duel")) {
+      if (sp.has("alchduel")) {
+        const payload = sp.get("alchduel");
+        if (payload && typeof Alchemy !== "undefined" && Alchemy.handleDuelUrl) Alchemy.handleDuelUrl(payload);
+      } else if (sp.has("alchclass") || sp.has("alcharena")) {
+        const room = sp.get("alchclass") || sp.get("alcharena");
+        if (room && typeof Alchemy !== "undefined" && Alchemy.handleArenaUrl) Alchemy.handleArenaUrl(room);
+      } else if (sp.has("duel")) {
         const payload = sp.get("duel");
         if (payload && typeof Rush !== "undefined" && Rush.handleDuelUrl) Rush.handleDuelUrl(payload);
       } else if (sp.has("arena") || sp.has("class")) {
@@ -270,6 +280,10 @@ const App = {
 
     // bests
     $("#best-rush").textContent = `Best ${fmt(d.best.rush || 0)}`;
+    const bestAlchEl = $("#best-alchemy");
+    if (bestAlchEl) {
+      bestAlchEl.textContent = d.best && d.best.alchemy ? `Best ${fmt(d.best.alchemy)}` : "Play Now";
+    }
     $("#best-wordle").textContent = d.daily.wordle ? (d.daily.wordle.won ? "Daily ✓" : "Daily ✗") : "Daily Ready!";
     $("#best-matrix").textContent = d.daily.matrix ? (d.daily.matrix.won ? "Daily ✓" : "Daily ✗") : "Daily ready!";
     const bestBlitzEl = $("#best-blitz");
@@ -431,6 +445,13 @@ const App = {
         { n: "Marcus T. (S4B)", s: 2340 },
         { n: "Kelly L. (S5C)", s: 1950 },
         { n: "HPCCSS Scholar", s: 1400 }
+      ],
+      alchemy: [
+        { n: "Chloe C. (S6A)", s: 4200 },
+        { n: "Alex W. (S5D)", s: 3600 },
+        { n: "Hannah T. (S5C)", s: 3100 },
+        { n: "Marcus T. (S4B)", s: 2650 },
+        { n: "Kelly L. (S4A)", s: 2100 }
       ],
       blitz: [
         { n: "Marcus T. (S4B)", s: 3850 },

@@ -15,10 +15,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="css/base.css?v=4.1" />
-  <link rel="stylesheet" href="css/style.css?v=4.1" />
-  <link rel="stylesheet" href="css/modes.css?v=4.1" />
-  <link rel="stylesheet" href="css/houses.css?v=4.1" />
+  <link rel="stylesheet" href="css/base.css?v=4.2" />
+  <link rel="stylesheet" href="css/style.css?v=4.2" />
+  <link rel="stylesheet" href="css/modes.css?v=4.2" />
+  <link rel="stylesheet" href="css/houses.css?v=4.2" />
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -168,6 +168,13 @@
           <div class="mode-foot"><span class="tag">Solo · 1v1 Duel · Class Arena</span><span class="best" id="best-rush">Best
               —</span></div>
         </button>
+        <button class="mode-card alchemy" id="mode-alchemy">
+          <div class="mode-icon">⚗️</div>
+          <h3>Collocation Alchemy</h3>
+          <p>Forge academic collocations (Verb+Noun, Prepositions)! Bidirectional bonds in Solo 60s, 1v1 Duel &amp; Class Arena.</p>
+          <div class="mode-foot"><span class="tag">250 Collocations · 4 Patterns</span><span class="best" id="best-alchemy">Best
+              —</span></div>
+        </button>
         <button class="mode-card wordle" id="mode-wordle">
           <div class="mode-icon">🟩</div>
           <h3>LexiWordle</h3>
@@ -202,6 +209,7 @@
           </div>
           <div class="scoreboard-tabs" id="sb-tabs">
             <button class="sb-tab active" data-tab="rush">⚡ Cryptic Rush</button>
+            <button class="sb-tab" data-tab="alchemy">⚗️ Alchemy</button>
             <button class="sb-tab" data-tab="blitz">⚡ Grammar Blitz</button>
             <button class="sb-tab" data-tab="wordle">🟩 Wordle</button>
             <button class="sb-tab" data-tab="matrix">🧩 Matrix</button>
@@ -215,6 +223,7 @@
 
     <section id="screen-blitz" class="screen"></section>
     <section id="screen-rush" class="screen"></section>
+    <section id="screen-alchemy" class="screen"></section>
     <section id="screen-wordle" class="screen"></section>
     <section id="screen-matrix" class="screen"></section>
     <section id="screen-vault" class="screen"></section>
@@ -225,20 +234,22 @@
   <div id="toasts" class="toasts"></div>
   <canvas id="fx-canvas"></canvas>
 
-  <script src="data/whitelist_hashes.js?v=4.1"></script>
-  <script src="data/grammar_data.js?v=4.1"></script>
-  <script src="data/vocab.js?v=4.1"></script>
-  <script src="data/groups.js?v=4.1"></script>
-  <script src="data/wordle_dict.js?v=4.1"></script>
-  <script src="js/core.js?v=4.1"></script>
-  <script src="js/auth.js?v=4.1"></script>
-  <script src="js/leaderboard.js?v=4.1"></script>
-  <script src="js/blitz.js?v=4.1"></script>
-  <script src="js/qrcode.js?v=4.1"></script>
-  <script src="js/rush.js?v=4.1"></script>
-  <script src="js/wordle.js?v=4.1"></script>
-  <script src="js/matrix.js?v=4.1"></script>
-  <script src="js/app.js?v=4.1"></script>
+  <script src="data/whitelist_hashes.js?v=4.2"></script>
+  <script src="data/grammar_data.js?v=4.2"></script>
+  <script src="data/vocab.js?v=4.2"></script>
+  <script src="data/collocations.js?v=4.2"></script>
+  <script src="data/groups.js?v=4.2"></script>
+  <script src="data/wordle_dict.js?v=4.2"></script>
+  <script src="js/core.js?v=4.2"></script>
+  <script src="js/auth.js?v=4.2"></script>
+  <script src="js/leaderboard.js?v=4.2"></script>
+  <script src="js/blitz.js?v=4.2"></script>
+  <script src="js/qrcode.js?v=4.2"></script>
+  <script src="js/rush.js?v=4.2"></script>
+  <script src="js/alchemy.js?v=4.2"></script>
+  <script src="js/wordle.js?v=4.2"></script>
+  <script src="js/matrix.js?v=4.2"></script>
+  <script src="js/app.js?v=4.2"></script>
 </body>
 
 </html>

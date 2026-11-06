@@ -806,8 +806,305 @@
 
 
 /* ===================================================================
-   CRYPTIC RUSH v3.8 — Solo / Wizards' Duel / Class Arena
+   COLLOCATION ALCHEMY STYLES
    =================================================================== */
+.mode-card.alchemy {
+  border-color: rgba(168, 85, 247, 0.35);
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(15, 23, 42, 0.7) 100%);
+}
+.mode-card.alchemy:hover {
+  border-color: #c084fc;
+  box-shadow: 0 0 24px -4px rgba(192, 132, 252, 0.4);
+}
+.alch-brand {
+  text-align: center;
+  margin: 12px 0 18px;
+}
+.alch-icon-big {
+  font-size: 3.5rem;
+  display: inline-block;
+  animation: pulse 1.8s infinite alternate;
+}
+.alch-best-pill {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.15);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.alch-cat-box {
+  margin: 22px 0;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.65);
+}
+.alch-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.alch-panel-head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.alch-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.alch-cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  color: var(--text);
+  cursor: pointer;
+  transition: all .2s ease;
+  text-align: left;
+}
+.alch-cat-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(192, 132, 252, 0.5);
+}
+.alch-cat-btn.active {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: #c084fc;
+  box-shadow: 0 0 16px -2px rgba(168, 85, 247, 0.4);
+}
+.alch-cat-btn .ac-icon {
+  font-size: 1.3rem;
+}
+.alch-cat-btn .ac-info {
+  display: flex;
+  flex-direction: column;
+}
+.alch-cat-btn .ac-info b {
+  font-size: 0.88rem;
+}
+.alch-cat-btn .ac-info small {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* In-Game Cauldron Stage */
+.alch-game-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.alch-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.alch-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.alch-mode-pill {
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.2);
+  color: #e9d5ff;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+.alch-score-box, .alch-combo-box, .alch-timer-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+.alch-score-box b {
+  font-family: var(--font-n);
+  color: #fde68a;
+  font-size: 1.25rem;
+}
+.alch-combo-box {
+  color: #fb923c;
+  font-weight: 800;
+}
+.alch-timer-box b {
+  font-family: var(--font-n);
+  font-size: 1.3rem;
+  color: #7dd3fc;
+}
+.alch-timer-box.urgent b {
+  color: #f43f5e;
+  animation: pulse .6s infinite alternate;
+}
+
+.alch-prompt-card {
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  background: radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.15) 0%, rgba(15, 23, 42, 0.85) 100%);
+  border: 2px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 32px -8px rgba(168, 85, 247, 0.25);
+}
+.alch-prompt-head {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.alch-cat-badge, .alch-dir-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.alch-cat-badge {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fef08a;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+.alch-dir-badge {
+  background: rgba(56, 189, 248, 0.2);
+  color: #bae6fd;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.alch-bond-cauldron {
+  position: relative;
+  padding: 18px 10px;
+  margin: 10px 0;
+}
+.alch-prompt-title {
+  font-family: var(--font-h);
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
+}
+.alch-target-blank {
+  display: inline-block;
+  margin: 10px auto;
+  padding: 6px 20px;
+  border-radius: 12px;
+  font-family: var(--font-h);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.12);
+  border: 2px dashed rgba(168, 85, 247, 0.55);
+  min-width: 140px;
+  transition: all .25s ease;
+}
+.alch-target-blank.filled {
+  color: #34d399;
+  border-color: #34d399;
+  background: rgba(52, 211, 153, 0.18);
+  border-style: solid;
+  transform: scale(1.08);
+}
+.alch-meaning-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-top: 6px;
+}
+
+.alch-context-wrap {
+  margin-top: 14px;
+}
+.alch-clue-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color .2s;
+}
+.alch-clue-toggle-btn:hover {
+  color: #fde68a;
+}
+.alch-context-sentence {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #e2e8f0;
+}
+.alch-context-sentence.hidden {
+  display: none;
+}
+
+/* 4 Options Grid */
+.alch-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (max-width: 540px) {
+  .alch-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.alch-vial-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all .2s ease;
+  user-select: none;
+  text-align: left;
+}
+.alch-vial-btn:hover {
+  transform: translateY(-2px);
+  border-color: #c084fc;
+  background: rgba(168, 85, 247, 0.15);
+  box-shadow: 0 0 20px -4px rgba(168, 85, 247, 0.4);
+}
+.alch-vial-btn .avb-flask {
+  font-size: 1.5rem;
+}
+.alch-vial-btn .avb-text {
+  font-family: var(--font-h);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.alch-vial-btn.correct {
+  background: rgba(16, 185, 129, 0.25) !important;
+  border-color: #10b981 !important;
+  color: #6ee7b7 !important;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.5) !important;
+  transform: scale(1.03);
+}
+.alch-vial-btn.wrong {
+  background: rgba(244, 63, 94, 0.25) !important;
+  border-color: #f43f5e !important;
+  color: #fda4af !important;
+  animation: shake .4s ease;
+}
+
 .rush-mode-grid.three { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 720px) { .rush-mode-grid.three { grid-template-columns: 1fr; } }
 .rush-mode-badge.duel { background: rgba(244, 63, 94, .18); color: #fda4af; border: 1px solid rgba(244, 63, 94, .45); }
