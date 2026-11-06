@@ -313,6 +313,76 @@ const Alchemy = {
   // Distractor Pool
   PREPOSITIONS: ["to", "for", "of", "with", "about", "in", "on", "at", "from", "into", "towards", "between", "over", "by"],
 
+  IRREGULARS: {
+    give: { base: "give", past: "gave", part: "given", ing: "giving", s: "gives" },
+    have: { base: "have", past: "had", part: "had", ing: "having", s: "has" },
+    overcome: { base: "overcome", past: "overcame", part: "overcome", ing: "overcoming", s: "overcomes" },
+    pay: { base: "pay", past: "paid", part: "paid", ing: "paying", s: "pays" },
+    break: { base: "break", past: "broke", part: "broken", ing: "breaking", s: "breaks" },
+    keep: { base: "keep", past: "kept", part: "kept", ing: "keeping", s: "keeps" },
+    beat: { base: "beat", past: "beat", part: "beaten", ing: "beating", s: "beats" },
+    catch: { base: "catch", past: "caught", part: "caught", ing: "catching", s: "catches" },
+    do: { base: "do", past: "did", part: "done", ing: "doing", s: "does" },
+    hold: { base: "hold", past: "held", part: "held", ing: "holding", s: "holds" },
+    lose: { base: "lose", past: "lost", part: "lost", ing: "losing", s: "loses" },
+    make: { base: "make", past: "made", part: "made", ing: "making", s: "makes" },
+    run: { base: "run", past: "ran", part: "run", ing: "running", s: "runs" },
+    set: { base: "set", past: "set", part: "set", ing: "setting", s: "sets" },
+    take: { base: "take", past: "took", part: "taken", ing: "taking", s: "takes" },
+    tell: { base: "tell", past: "told", part: "told", ing: "telling", s: "tells" },
+    win: { base: "win", past: "won", part: "won", ing: "winning", s: "wins" },
+    throw: { base: "throw", past: "threw", part: "thrown", ing: "throwing", s: "throws" },
+    hear: { base: "hear", past: "heard", part: "heard", ing: "hearing", s: "hears" },
+    lead: { base: "lead", past: "led", part: "led", ing: "leading", s: "leads" },
+    find: { base: "find", past: "found", part: "found", ing: "finding", s: "finds" },
+    bring: { base: "bring", past: "brought", part: "brought", ing: "bringing", s: "brings" },
+    fall: { base: "fall", past: "fell", part: "fallen", ing: "falling", s: "falls" },
+    rise: { base: "rise", past: "rose", part: "risen", ing: "rising", s: "rises" },
+    grow: { base: "grow", past: "grew", part: "grown", ing: "growing", s: "grows" },
+    see: { base: "see", past: "saw", part: "seen", ing: "seeing", s: "sees" },
+    speak: { base: "speak", past: "spoke", part: "spoken", ing: "speaking", s: "speaks" },
+    stand: { base: "stand", past: "stood", part: "stood", ing: "standing", s: "stands" },
+    spend: { base: "spend", past: "spent", part: "spent", ing: "spending", s: "spends" },
+    write: { base: "write", past: "wrote", part: "written", ing: "writing", s: "writes" },
+    apologise: { base: "apologise", past: "apologized", part: "apologized", ing: "apologizing", s: "apologizes" },
+    criticise: { base: "criticise", past: "criticized", part: "criticized", ing: "criticizing", s: "criticizes" }
+  },
+
+  conjugateVerb(baseVerb) {
+    const b = (baseVerb || "").toLowerCase().trim();
+    if (this.IRREGULARS[b]) return this.IRREGULARS[b];
+    const res = { base: b };
+    if (b.endsWith("e")) {
+      res.past = b + "d";
+      res.part = b + "d";
+      res.s = b + "s";
+      res.ing = b.slice(0, -1) + "ing";
+    } else if (b.endsWith("y") && b.length > 2 && !"aeiou".includes(b[b.length - 2])) {
+      res.past = b.slice(0, -1) + "ied";
+      res.part = b.slice(0, -1) + "ied";
+      res.s = b.slice(0, -1) + "ies";
+      res.ing = b + "ing";
+    } else if (b.endsWith("sh") || b.endsWith("ch") || b.endsWith("ss") || b.endsWith("x") || b.endsWith("o")) {
+      res.past = b + "ed";
+      res.part = b + "ed";
+      res.s = b + "es";
+      res.ing = b + "ing";
+    } else {
+      const doubleC = b.length >= 3 && !"aeiouywer".includes(b[b.length - 1]) && "aeiou".includes(b[b.length - 2]) && !"aeiou".includes(b[b.length - 3]);
+      const c = doubleC ? b[b.length - 1] : "";
+      res.past = b + c + "ed";
+      res.part = b + c + "ed";
+      res.s = b + "s";
+      res.ing = b + c + "ing";
+    }
+    return res;
+  },
+
+  inflectVerbToTense(baseVerb, tense) {
+    const forms = this.conjugateVerb(baseVerb);
+    return forms[tense] || forms.base || baseVerb;
+  },
+
   getDataset() {
     return (window.COLLOCATIONS && window.COLLOCATIONS.length) ? window.COLLOCATIONS : [];
   },
@@ -368,42 +438,101 @@ const Alchemy = {
   },
 
   createQuestion(item, isForward, pool, rng) {
-    const isPrepCat = item.cat !== "Verb + Noun";
-    const correctVal = isForward ? (isPrepCat ? (item.prep || item.partner) : item.partner) : item.head;
+    const sent = item.sentence || "";
+    const ht = item.head_token || {};
+    const pt = item.partner_token || {};
 
-    // Build 3 distractors
+    // isForward: test Partner (Preposition / Noun)
+    // !isForward: test Head (Verb / Adjective / Noun)
+    let testTarget = isForward ? "partner" : "head";
+    let token = isForward ? pt : ht;
+    let targetType = token.type || (isForward ? (item.cat === "Verb + Noun" ? "noun" : "preposition") : ("Verb" in item.cat ? "verb" : "head"));
+
+    let correctVal = token.word || (isForward ? (item.prep || item.partner) : item.head);
+    let correctBase = token.base || correctVal;
+
+    // Blank out the sentence with ****
+    let sentenceWithBlank = sent;
+    if (token.start !== undefined && token.end !== undefined) {
+      sentenceWithBlank = sent.slice(0, token.start) + "****" + sent.slice(token.end);
+    } else {
+      sentenceWithBlank = sent.replace(new RegExp(`\\b${this.escapeRegex(correctVal)}\\b`, "i"), "****");
+    }
+
+    // Build 3 distractors consistent in type, category, and grammatical tense
     const distractors = new Set();
-    const maxAttempts = 50;
+    const maxAttempts = 60;
     let attempts = 0;
 
-    if (isForward && isPrepCat && item.prep) {
+    if (targetType === "preposition") {
       // Pick other prepositions
-      const prepPool = this.PREPOSITIONS.filter(p => p !== item.prep.toLowerCase());
+      const prepPool = this.PREPOSITIONS.filter(p => p.toLowerCase() !== correctVal.toLowerCase());
       while (distractors.size < 3 && attempts++ < maxAttempts) {
         const cand = prepPool[Math.floor(rng() * prepPool.length)];
-        if (cand && cand !== item.prep.toLowerCase()) distractors.add(cand);
+        if (cand && cand.toLowerCase() !== correctVal.toLowerCase()) {
+          distractors.add(cand);
+        }
       }
-    } else if (isForward) {
-      // Verb + Noun partner distractors
-      const sameCat = pool.filter(p => p.cat === item.cat && p.partner !== correctVal);
+    } else if (targetType === "verb") {
+      // Must match EXACT same tense as correctVal in context sentence
+      const targetTense = ht.tense || "base";
+      // Pick other verbs from the pool
+      const verbPool = [];
+      pool.forEach(p => {
+        if (p.head_token && p.head_token.type === "verb" && p.head_token.base.toLowerCase() !== correctBase.toLowerCase()) {
+          verbPool.push(p.head_token.base);
+        }
+      });
+
+      const uniqueBases = Array.from(new Set(verbPool));
       while (distractors.size < 3 && attempts++ < maxAttempts) {
-        const cand = sameCat[Math.floor(rng() * sameCat.length)];
-        if (cand && cand.partner && cand.partner !== correctVal) distractors.add(cand.partner);
+        const b = uniqueBases[Math.floor(rng() * uniqueBases.length)];
+        if (b) {
+          const inflected = this.inflectVerbToTense(b, targetTense);
+          if (inflected && inflected.toLowerCase() !== correctVal.toLowerCase()) {
+            distractors.add(inflected);
+          }
+        }
+      }
+    } else if (targetType === "adjective") {
+      const adjPool = [];
+      pool.forEach(p => {
+        if (p.head_token && p.head_token.type === "adjective" && p.head_token.word.toLowerCase() !== correctVal.toLowerCase()) {
+          adjPool.push(p.head_token.word);
+        }
+      });
+      const uniqueAdjs = Array.from(new Set(adjPool));
+      while (distractors.size < 3 && attempts++ < maxAttempts) {
+        const a = uniqueAdjs[Math.floor(rng() * uniqueAdjs.length)];
+        if (a && a.toLowerCase() !== correctVal.toLowerCase()) {
+          distractors.add(a);
+        }
       }
     } else {
-      // Reverse direction: Head distractors from same category
-      const sameCat = pool.filter(p => p.cat === item.cat && p.head !== correctVal);
+      // Noun target
+      const nounPool = [];
+      pool.forEach(p => {
+        const candTok = isForward ? p.partner_token : p.head_token;
+        if (candTok && candTok.word && candTok.word.toLowerCase() !== correctVal.toLowerCase()) {
+          nounPool.push(candTok.word);
+        }
+      });
+      const uniqueNouns = Array.from(new Set(nounPool));
       while (distractors.size < 3 && attempts++ < maxAttempts) {
-        const cand = sameCat[Math.floor(rng() * sameCat.length)];
-        if (cand && cand.head && cand.head !== correctVal) distractors.add(cand.head);
+        const n = uniqueNouns[Math.floor(rng() * uniqueNouns.length)];
+        if (n && n.toLowerCase() !== correctVal.toLowerCase()) {
+          distractors.add(n);
+        }
       }
     }
 
-    // Fallback if not enough distractors
+    // Safety fallback
     while (distractors.size < 3) {
-      const fallback = pool[Math.floor(rng() * pool.length)];
-      const cand = isForward ? (fallback.partner || fallback.prep) : fallback.head;
-      if (cand && cand !== correctVal) distractors.add(cand);
+      const fb = pool[Math.floor(rng() * pool.length)];
+      const cand = isForward ? (fb.partner_token?.word || fb.partner) : (fb.head_token?.word || fb.head);
+      if (cand && cand.toLowerCase() !== correctVal.toLowerCase()) {
+        distractors.add(cand);
+      }
     }
 
     const options = [correctVal, ...Array.from(distractors).slice(0, 3)];
@@ -413,15 +542,16 @@ const Alchemy = {
       [options[i], options[j]] = [options[j], options[i]];
     }
 
+    const promptTitle = isForward ? `${item.phrase.split(" ")[0]} ...` : `... ${item.phrase.split(" ").slice(-1)[0]}`;
+
     return {
       item,
       isForward,
-      directionText: isForward ? "Find the Missing Partner / Preposition" : "Find the Matching Headword",
-      promptHead: isForward ? item.head : `... ${item.partner}`,
-      targetBlank: isForward ? `[ ? ]` : `[ ? ] ${item.partner}`,
+      targetType,
+      directionText: `Fill in the missing ${targetType.toUpperCase()}`,
+      sentenceWithBlank,
       correctVal,
-      options,
-      sentenceBlanked: this.blankSentence(item.sentence, item.phrase, item.head, item.partner)
+      options
     };
   },
 
@@ -1071,21 +1201,15 @@ const Alchemy = {
           <div class="alch-prompt-card card">
             <div class="alch-prompt-head">
               <span class="alch-cat-badge" id="alch-q-cat">Verb + Noun</span>
-              <span class="alch-dir-badge" id="alch-q-dir">Bidirectional Bond</span>
+              <span class="alch-dir-badge" id="alch-q-dir">Complete the Sentence</span>
             </div>
 
-            <!-- Big Interactive Word Bond Slot -->
-            <div class="alch-bond-cauldron">
-              <div class="alch-bubble-fx"><span></span><span></span><span></span></div>
-              <div class="alch-prompt-title" id="alch-q-prompt">Accept</div>
-              <div class="alch-target-blank" id="alch-q-blank">[ ? ]</div>
+            <!-- Contextualized Sentence with **** Slot -->
+            <div class="alch-sentence-stage">
+              <div class="alch-context-sentence-main" id="alch-sentence-display">
+                <!-- Dynamically filled with sentence containing **** -->
+              </div>
               <div class="alch-meaning-text" id="alch-q-meaning">接受決定</div>
-            </div>
-
-            <!-- Optional Sentence Clue -->
-            <div class="alch-context-wrap">
-              <button class="alch-clue-toggle-btn" id="btn-alch-toggle-clue">📜 Toggle Academic Context Sentence</button>
-              <div class="alch-context-sentence hidden" id="alch-context-box"></div>
             </div>
           </div>
 
@@ -1112,13 +1236,17 @@ const Alchemy = {
     this.currentQ = q;
 
     $("#alch-q-cat").textContent = q.item.cat;
-    $("#alch-q-dir").textContent = q.isForward ? "Forward Bond (Find Partner)" : "Reverse Bond (Find Head)";
-    $("#alch-q-prompt").textContent = q.promptHead;
-    $("#alch-q-blank").textContent = q.isForward ? "[ ? ]" : "[ ? ]";
-    $("#alch-q-meaning").textContent = q.item.meaning_chin ? `${q.item.meaning_chin} · ${q.item.meaning_eng}` : q.item.meaning_eng;
+    $("#alch-q-dir").textContent = q.directionText;
+    $("#alch-q-meaning").textContent = q.item.meaning_chin ? `${q.item.meaning_chin} (${q.item.meaning_eng})` : q.item.meaning_eng;
 
-    const ctxBox = $("#alch-context-box");
-    if (ctxBox) ctxBox.textContent = q.sentenceBlanked || q.item.sentence;
+    // Render sentence with glowing **** badge
+    const sentDisplay = $("#alch-sentence-display");
+    if (sentDisplay) {
+      const parts = q.sentenceWithBlank.split("****");
+      sentDisplay.innerHTML = `
+        ${esc(parts[0])}<span class="alch-blank-pill" id="alch-live-blank">****</span>${esc(parts[1] || "")}
+      `;
+    }
 
     const optsContainer = $("#alch-options");
     if (!optsContainer) return;
@@ -1140,6 +1268,8 @@ const Alchemy = {
     const q = this.currentQ;
     const isCorrect = (selectedVal.trim().toLowerCase() === q.correctVal.trim().toLowerCase());
 
+    const blankEl = $("#alch-live-blank");
+
     if (isCorrect) {
       Sfx.correct();
       this.streak++;
@@ -1153,8 +1283,10 @@ const Alchemy = {
       this.timer += this.BASE_ADD;
 
       btnEl.classList.add("correct");
-      $("#alch-q-blank").textContent = q.correctVal;
-      $("#alch-q-blank").classList.add("filled");
+      if (blankEl) {
+        blankEl.textContent = q.correctVal;
+        blankEl.classList.add("filled");
+      }
 
       toast(`⚡ +${points} pts! (${mult}x Multiplier)`);
     } else {
@@ -1162,6 +1294,10 @@ const Alchemy = {
       this.streak = 0;
       this.timer = Math.max(0, this.timer - 2);
       btnEl.classList.add("wrong");
+      if (blankEl) {
+        blankEl.textContent = q.correctVal;
+        blankEl.classList.add("revealed");
+      }
       toast(`❌ Unstable bond! Correct: "${q.correctVal}"`);
     }
 
@@ -1189,7 +1325,6 @@ const Alchemy = {
 
     setTimeout(() => {
       if (this.active) {
-        $("#alch-q-blank")?.classList.remove("filled");
         this.nextQuestion();
       }
     }, isCorrect ? 400 : 800);
@@ -1402,3 +1537,4 @@ const Alchemy = {
     $("#btn-alch-class-home").onclick = () => this.intro();
   }
 };
+
