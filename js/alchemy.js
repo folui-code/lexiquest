@@ -16,6 +16,8 @@
          3) 🏰 Class Arena (Teacher whiteboard with live QR code, 4-digit PIN, live roster, Top 3 Wizards + Four Houses standings)
    =================================================================== */
 
+const ALCH_HOUSE_COLORS = { TAK: "#e11d48", CHI: "#10b981", KIN: "#f59e0b", KAN: "#3b82f6" };
+
 const AlchemyNet = {
   // Re-use RushNet infrastructure for seamless zero-backend-redeploy cloud sync
   memRooms: {},
@@ -809,7 +811,7 @@ const Alchemy = {
         <div class="duel-code-big" id="alch-duel-code-display">${d.room}</div>
 
         <div class="duel-vs-stage" id="alch-dlob-vs">
-          <div class="duel-fighter-card ready" style="--hc:${HOUSE_COLORS[me.house] || "#38bdf8"}">
+          <div class="duel-fighter-card ready" style="--hc:${ALCH_HOUSE_COLORS[me.house] || "#38bdf8"}">
             <span class="dfc-tag">YOU</span>
             <div class="dfc-name">${esc(me.name)}</div>
             <span class="dfc-house">${me.house || "ROGUE"}</span>
@@ -854,9 +856,9 @@ const Alchemy = {
         if (rival) {
           const rName = $("#alch-rival-name"), rHouse = $("#alch-rival-house"), rStatus = $("#alch-rival-status"), rCard = $("#alch-dfc-rival");
           if (rName) rName.textContent = rival.n;
-          if (rHouse) { rHouse.textContent = rival.h || "ROGUE"; rHouse.style.color = HOUSE_COLORS[rival.h] || "#cbd5e1"; }
+          if (rHouse) { rHouse.textContent = rival.h || "ROGUE"; rHouse.style.color = ALCH_HOUSE_COLORS[rival.h] || "#cbd5e1"; }
           if (rStatus) rStatus.textContent = rival.d ? "Finished" : (rival.s > 0 ? `Racing (${rival.s} pts)` : "Connected");
-          if (rCard) { rCard.classList.remove("waiting"); rCard.classList.add("ready"); rCard.style.setProperty("--hc", HOUSE_COLORS[rival.h] || "#fda4af"); }
+          if (rCard) { rCard.classList.remove("waiting"); rCard.classList.add("ready"); rCard.style.setProperty("--hc", ALCH_HOUSE_COLORS[rival.h] || "#fda4af"); }
         }
       } catch {}
     }, 2500);
@@ -1007,7 +1009,7 @@ const Alchemy = {
         rosterEl.innerHTML = `<div class="arena-empty muted">Waiting for students to scan the QR code...</div>`;
       } else {
         rosterEl.innerHTML = snap.players.map(p => `
-          <div class="arena-chip" style="--hc:${HOUSE_COLORS[p.h] || "#38bdf8"}">
+          <div class="arena-chip" style="--hc:${ALCH_HOUSE_COLORS[p.h] || "#38bdf8"}">
             <b>${esc(p.n)}</b> <small>(${p.h || "ROGUE"})</small> · <b>${fmt(p.s)} pts</b> ${p.d ? "✓" : ""}
           </div>
         `).join("");
@@ -1038,7 +1040,7 @@ const Alchemy = {
         const sc = houseScores[h];
         const pct = Math.min(100, Math.round((sc / maxH) * 100));
         return `
-          <div class="ahc-row" style="--hc:${HOUSE_COLORS[h]}">
+          <div class="ahc-row" style="--hc:${ALCH_HOUSE_COLORS[h]}">
             <span>${h}</span>
             <div class="ahc-bar"><i style="width:${pct}%"></i></div>
             <b>${fmt(sc)} pts</b>
@@ -1055,7 +1057,7 @@ const Alchemy = {
     const col = (p, rank, cls, medal) => {
       if (!p) return `<div class="arena-podium-col empty"></div>`;
       return `
-        <div class="arena-podium-col ${cls}" style="--hc:${HOUSE_COLORS[p.h] || "#fde68a"}">
+        <div class="arena-podium-col ${cls}" style="--hc:${ALCH_HOUSE_COLORS[p.h] || "#fde68a"}">
           <div class="apc-medal">${medal}</div>
           <div class="apc-name">${esc(p.n)}</div>
           <div class="apc-score">${fmt(p.s)} pts</div>
@@ -1083,7 +1085,7 @@ const Alchemy = {
         <h2>Class Arena Lobby</h2>
         <p class="muted">Connected to Room <b>${a.room}</b>. Waiting for teacher to start!</p>
 
-        <div class="duel-fighter-card ready" style="--hc:${HOUSE_COLORS[me.house] || "#38bdf8"};margin:16px auto;max-width:280px">
+        <div class="duel-fighter-card ready" style="--hc:${ALCH_HOUSE_COLORS[me.house] || "#38bdf8"};margin:16px auto;max-width:280px">
           <span class="dfc-tag">YOUR FIGHTER</span>
           <div class="dfc-name">${esc(me.name)}</div>
           <span class="dfc-house">${me.house || "ROGUE"}</span>
@@ -1182,7 +1184,7 @@ const Alchemy = {
 
         <!-- DUEL LIVE PACING (IF DUEL MODE) -->
         <div id="alch-duel-hud" style="display:${this.playMode === 'duel' ? 'grid' : 'none'}" class="duel-live-hud">
-          <div class="duel-player-tag me" style="--hc:${HOUSE_COLORS[me.house] || "#38bdf8"}">
+          <div class="duel-player-tag me" style="--hc:${ALCH_HOUSE_COLORS[me.house] || "#38bdf8"}">
             <span class="dp-name">${esc(me.name)} (You)</span>
             <b id="alch-duel-my-score">0</b>
           </div>
@@ -1473,7 +1475,7 @@ const Alchemy = {
             <div class="dpc-crown">${won ? "👑" : ""}</div>
             <div class="dpc-name">${esc(me.name)} (You)</div>
             <div class="dpc-house">${me.house || "ROGUE"}</div>
-            <div class="dpc-bar" style="--hc:${HOUSE_COLORS[me.house] || "#38bdf8"}"><i style="height:${Math.min(100, Math.round((this.score / Math.max(1, this.score, opp.s)) * 100))}%"></i></div>
+            <div class="dpc-bar" style="--hc:${ALCH_HOUSE_COLORS[me.house] || "#38bdf8"}"><i style="height:${Math.min(100, Math.round((this.score / Math.max(1, this.score, opp.s)) * 100))}%"></i></div>
             <div class="dpc-score">${fmt(this.score)}</div>
             <div class="dpc-meta">${this.solvedCount} solved</div>
           </div>
@@ -1481,7 +1483,7 @@ const Alchemy = {
             <div class="dpc-crown">${!won && !tied ? "👑" : ""}</div>
             <div class="dpc-name">${esc(opp.n)}</div>
             <div class="dpc-house">${opp.h || "ROGUE"}</div>
-            <div class="dpc-bar" style="--hc:${HOUSE_COLORS[opp.h] || "#fda4af"}"><i style="height:${Math.min(100, Math.round(((opp.s || 0) / Math.max(1, this.score, opp.s)) * 100))}%"></i></div>
+            <div class="dpc-bar" style="--hc:${ALCH_HOUSE_COLORS[opp.h] || "#fda4af"}"><i style="height:${Math.min(100, Math.round(((opp.s || 0) / Math.max(1, this.score, opp.s)) * 100))}%"></i></div>
             <div class="dpc-score">${fmt(opp.s || 0)}</div>
             <div class="dpc-meta">${opp.c || 0} solved</div>
           </div>
