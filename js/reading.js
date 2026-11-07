@@ -1,12 +1,13 @@
 /* ===================================================================
-   LexiQuest - Reading Oracle (HKDSE Daily Micro-Passage Arena)
+   LexiQuest - Reading Oracle (HKDSE Daily Reading Challenge)
+   Organized by authentic Calendar Days (e.g. 1 Nov 2026, 7 Nov 2026).
    Allows seamless back-and-forth switching between passage and MC answers.
-   Includes Line Numbers, Skill Badges, Missed-Day Catchup Calendar &
+   Includes Line Numbers, Skill Badges, Missed-Date Catchup &
    Interactive Examiner's Note Distractor Analysis.
    =================================================================== */
 
 const Reading = {
-  activeDayId: null,
+  activeDateId: null,
   activeQIdx: 0,
   userAnswers: {},   // { [qId]: "A" | "B" | "C" | "D" }
   submitted: false,
@@ -14,7 +15,7 @@ const Reading = {
 
   getStore() {
     Store.d.reading = Store.d.reading || {
-      completed: {}, // { [dayId]: { score, total, date, answers } }
+      completed: {}, // { [dateId]: { score, total, date, answers } }
       streak: 0,
       lastDate: null
     };
@@ -22,7 +23,7 @@ const Reading = {
   },
 
   /* ---------------------------------------------------------------
-     INTRO / CALENDAR VIEW
+     INTRO / CALENDAR VIEW (NOVEMBER 2026 DATES)
      --------------------------------------------------------------- */
   intro() {
     showScreen("reading");
@@ -45,8 +46,8 @@ const Reading = {
     });
     const avgAcc = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
 
-    // Today index (1-based day matching current date day-of-month or day sequence)
-    const todayNum = ((new Date().getDate() - 1) % totalDays) + 1;
+    // Today's ISO date string: YYYY-MM-DD (e.g. "2026-11-07")
+    const todayStr = todayKey();
 
     container.innerHTML = `
       <div class="reading-wrap">
@@ -56,7 +57,7 @@ const Reading = {
             <button class="btn ghost small" id="btn-reading-back">← Back to Hub</button>
             <div style="display:flex;align-items:center;gap:8px">
               <span class="alch-cat-badge" style="background:rgba(56,189,248,0.18);border-color:#38bdf8;color:#e0f2fe">
-                📖 HKDSE Paper 1 Standard (1200L)
+                📅 November 2026 · HKDSE Paper 1 (1200L)
               </span>
             </div>
           </div>
@@ -77,7 +78,7 @@ const Reading = {
                 <span class="rd-sp-icon">📅</span>
                 <div>
                   <div class="rd-sp-val">${completedCount} / ${totalDays}</div>
-                  <div class="rd-sp-lbl">Days Completed</div>
+                  <div class="rd-sp-lbl">Dates Done</div>
                 </div>
               </div>
               <div class="rd-stat-pill">
@@ -103,11 +104,11 @@ const Reading = {
           <div style="display:flex;align-items:center;gap:12px">
             <span style="font-size:1.6rem">📆</span>
             <div>
-              <div style="font-weight:700;color:#f8fafc;font-size:0.96rem">Daily Habit Calendar (No Lockout)</div>
-              <div class="muted" style="font-size:0.85rem">Missed previous days? You can open and complete any past challenge at any time to catch up your streak!</div>
+              <div style="font-weight:700;color:#f8fafc;font-size:0.96rem">Daily Calendar Schedule · Catch Up Anytime</div>
+              <div class="muted" style="font-size:0.85rem">Missed earlier dates (1 Nov – 6 Nov)? Click any previous day to catch up without penalty!</div>
             </div>
           </div>
-          <button class="btn primary small" id="btn-jump-today" style="background:#0284c7;border-color:#38bdf8">⚡ Jump to Today's Passage</button>
+          <button class="btn primary small" id="btn-jump-today" style="background:#0284c7;border-color:#38bdf8">⚡ Jump to Today (${todayStr === "2026-11-07" ? "7 Nov" : todayStr})</button>
         </div>
 
         <!-- CALENDAR GRID -->
@@ -115,8 +116,8 @@ const Reading = {
           ${data.map(item => {
             const isCompleted = !!completedMap[item.id];
             const compData = completedMap[item.id] || {};
-            const isToday = item.day === todayNum;
-            const isMissed = !isCompleted && item.day < todayNum;
+            const isToday = item.date === todayStr;
+            const isMissed = !isCompleted && item.date < todayStr;
 
             let statusBadge = "";
             let cardClass = "rd-card";
@@ -131,13 +132,16 @@ const Reading = {
               cardClass += " missed";
               statusBadge = `<span class="rd-badge missed">⏳ Catch Up (Missed)</span>`;
             } else {
-              statusBadge = `<span class="rd-badge upcoming">Day ${item.day}</span>`;
+              statusBadge = `<span class="rd-badge upcoming">Upcoming</span>`;
             }
 
             return `
-              <div class="${cardClass} card" data-day="${item.id}">
+              <div class="${cardClass} card" data-id="${item.id}">
                 <div class="rd-card-top">
-                  <span class="rd-day-num">DAY ${item.day}</span>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span class="rd-day-num">${esc(item.displayDate)}</span>
+                    <span class="muted" style="font-size:0.75rem;font-weight:700">(${item.dayOfWeek})</span>
+                  </div>
                   ${statusBadge}
                 </div>
                 <h3 class="rd-card-title">${esc(item.title)}</h3>
@@ -148,7 +152,7 @@ const Reading = {
                 <div class="rd-card-foot">
                   <span class="rd-q-count">❓ ${item.questions.length} DSE Questions</span>
                   <button class="btn small ${isCompleted ? "ghost" : (isToday ? "primary" : "secondary")}" style="padding:6px 14px">
-                    ${isCompleted ? "Review Analysis" : (isToday ? "Start Today" : "Start Passage")}
+                    ${isCompleted ? "Review Analysis" : (isToday ? "Start Today" : (isMissed ? "Catch Up" : "Start Passage"))}
                   </button>
                 </div>
               </div>
@@ -163,7 +167,7 @@ const Reading = {
     const jumpBtn = $("#btn-jump-today");
     if (jumpBtn) {
       jumpBtn.onclick = () => {
-        const todayItem = data.find(d => d.day === todayNum) || data[0];
+        const todayItem = data.find(d => d.date === todayStr) || data[0];
         if (todayItem) this.openDay(todayItem.id);
       };
     }
@@ -171,20 +175,20 @@ const Reading = {
     $$(".rd-card").forEach(card => {
       card.onclick = () => {
         Sfx.click();
-        this.openDay(card.dataset.day);
+        this.openDay(card.dataset.id);
       };
     });
   },
 
   /* ---------------------------------------------------------------
-     OPEN A SPECIFIC DAY'S PASSAGE
+     OPEN A SPECIFIC CALENDAR DAY'S PASSAGE
      --------------------------------------------------------------- */
-  openDay(dayId) {
+  openDay(id) {
     const data = typeof DSE_READING_DATA !== "undefined" ? DSE_READING_DATA : [];
-    const item = data.find(d => d.id === dayId) || data[0];
+    const item = data.find(d => d.id === id) || data[0];
     if (!item) return;
 
-    this.activeDayId = item.id;
+    this.activeDateId = item.id;
     this.activeQIdx = 0;
     this.mobileTab = "split";
 
@@ -224,7 +228,9 @@ const Reading = {
             <div style="display:flex;align-items:center;gap:10px">
               <button class="btn ghost small" id="btn-chamber-back">← Calendar</button>
               <div>
-                <span class="alch-cat-badge" style="font-size:0.75rem;padding:2px 8px">DAY ${item.day}</span>
+                <span class="alch-cat-badge" style="font-size:0.75rem;padding:2px 8px;background:rgba(56,189,248,0.2);color:#38bdf8;border-color:#38bdf8">
+                  📅 ${esc(item.displayDate)}
+                </span>
                 <span style="font-weight:700;color:#f8fafc;margin-left:6px;font-size:0.95rem">${esc(item.title)}</span>
               </div>
             </div>
@@ -372,7 +378,7 @@ const Reading = {
               <div style="display:flex;gap:8px">
                 ${!this.submitted && this.allAnswered(item) ? `
                   <button class="btn primary small" id="btn-submit-day" style="background:#059669;border-color:#10b981">
-                    ✓ Submit Daily Passage
+                    ✓ Submit (${esc(item.displayDate)})
                   </button>
                 ` : ""}
 
@@ -499,7 +505,7 @@ const Reading = {
     rStore.completed[item.id] = {
       score,
       total,
-      date: todayKey(),
+      date: item.date,
       answers: Object.assign({}, this.userAnswers)
     };
 
