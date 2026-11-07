@@ -1,9 +1,9 @@
 /* ===================================================================
    LexiQuest - Reading Oracle (HKDSE Daily Reading Challenge)
-   Organized by authentic Calendar Days (e.g. 1 Nov 2026, 7 Nov 2026).
+   Starts from 7 Nov 2026.
+   Auto-locking for future dates (8 Nov onwards unlock automatically on their date).
+   No line numbers: clean responsive paragraphs with bold & asterisk markers.
    Allows seamless back-and-forth switching between passage and MC answers.
-   Includes Line Numbers, Skill Badges, Missed-Date Catchup &
-   Interactive Examiner's Note Distractor Analysis.
    =================================================================== */
 
 const Reading = {
@@ -23,7 +23,7 @@ const Reading = {
   },
 
   /* ---------------------------------------------------------------
-     INTRO / CALENDAR VIEW (NOVEMBER 2026 DATES)
+     INTRO / CALENDAR VIEW (STARTING 7 NOV 2026)
      --------------------------------------------------------------- */
   intro() {
     showScreen("reading");
@@ -35,7 +35,6 @@ const Reading = {
     const completedMap = rStore.completed || {};
 
     const completedCount = Object.keys(completedMap).length;
-    const totalDays = data.length;
     const currentStreak = rStore.streak || 0;
 
     // Calculate total score percentage across completed
@@ -77,8 +76,8 @@ const Reading = {
               <div class="rd-stat-pill">
                 <span class="rd-sp-icon">📅</span>
                 <div>
-                  <div class="rd-sp-val">${completedCount} / ${totalDays}</div>
-                  <div class="rd-sp-lbl">Dates Done</div>
+                  <div class="rd-sp-val">${completedCount}</div>
+                  <div class="rd-sp-lbl">Completed</div>
                 </div>
               </div>
               <div class="rd-stat-pill">
@@ -99,16 +98,16 @@ const Reading = {
           </div>
         </div>
 
-        <!-- CALENDAR INSTRUCTIONS & CATCH-UP NOTICE -->
+        <!-- CALENDAR INSTRUCTIONS & AUTO-SCHEDULE NOTICE -->
         <div class="reading-banner card" style="margin:16px 0;background:rgba(30,41,59,0.5);border-color:rgba(56,189,248,0.25);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:14px 18px">
           <div style="display:flex;align-items:center;gap:12px">
             <span style="font-size:1.6rem">📆</span>
             <div>
-              <div style="font-weight:700;color:#f8fafc;font-size:0.96rem">Daily Calendar Schedule · Catch Up Anytime</div>
-              <div class="muted" style="font-size:0.85rem">Missed earlier dates (1 Nov – 6 Nov)? Click any previous day to catch up without penalty!</div>
+              <div style="font-weight:700;color:#f8fafc;font-size:0.96rem">Daily Automated Calendar (Starts 7 Nov 2026)</div>
+              <div class="muted" style="font-size:0.85rem">Each challenge unlocks automatically on its date. Missed a day? Past passages remain open so you can always catch up!</div>
             </div>
           </div>
-          <button class="btn primary small" id="btn-jump-today" style="background:#0284c7;border-color:#38bdf8">⚡ Jump to Today (${todayStr === "2026-11-07" ? "7 Nov" : todayStr})</button>
+          <button class="btn primary small" id="btn-jump-today" style="background:#0284c7;border-color:#38bdf8">⚡ Jump to Today's Passage</button>
         </div>
 
         <!-- CALENDAR GRID -->
@@ -117,26 +116,38 @@ const Reading = {
             const isCompleted = !!completedMap[item.id];
             const compData = completedMap[item.id] || {};
             const isToday = item.date === todayStr;
+            const isFuture = item.date > todayStr;
             const isMissed = !isCompleted && item.date < todayStr;
 
             let statusBadge = "";
             let cardClass = "rd-card";
+            let btnLabel = "";
+            let btnClass = "btn small ";
 
             if (isCompleted) {
               cardClass += " completed";
               statusBadge = `<span class="rd-badge comp">✓ Completed (${compData.score}/${compData.total})</span>`;
+              btnLabel = "Review Analysis";
+              btnClass += "ghost";
             } else if (isToday) {
               cardClass += " today";
               statusBadge = `<span class="rd-badge today">🔥 Today's Challenge</span>`;
+              btnLabel = "Start Today";
+              btnClass += "primary";
             } else if (isMissed) {
               cardClass += " missed";
               statusBadge = `<span class="rd-badge missed">⏳ Catch Up (Missed)</span>`;
-            } else {
-              statusBadge = `<span class="rd-badge upcoming">Upcoming</span>`;
+              btnLabel = "Catch Up";
+              btnClass += "secondary";
+            } else if (isFuture) {
+              cardClass += " locked";
+              statusBadge = `<span class="rd-badge locked">🔒 Unlocks ${esc(item.dayLabel)}</span>`;
+              btnLabel = "Locked";
+              btnClass += "ghost disabled";
             }
 
             return `
-              <div class="${cardClass} card" data-id="${item.id}">
+              <div class="${cardClass} card" data-id="${item.id}" data-date="${item.date}" data-locked="${isFuture ? "1" : "0"}">
                 <div class="rd-card-top">
                   <div style="display:flex;align-items:center;gap:8px">
                     <span class="rd-day-num">${esc(item.displayDate)}</span>
@@ -151,8 +162,8 @@ const Reading = {
                 </div>
                 <div class="rd-card-foot">
                   <span class="rd-q-count">❓ ${item.questions.length} DSE Questions</span>
-                  <button class="btn small ${isCompleted ? "ghost" : (isToday ? "primary" : "secondary")}" style="padding:6px 14px">
-                    ${isCompleted ? "Review Analysis" : (isToday ? "Start Today" : (isMissed ? "Catch Up" : "Start Passage"))}
+                  <button class="${btnClass}" style="padding:6px 14px">
+                    ${btnLabel}
                   </button>
                 </div>
               </div>
@@ -174,10 +185,38 @@ const Reading = {
 
     $$(".rd-card").forEach(card => {
       card.onclick = () => {
+        const isLocked = card.dataset.locked === "1";
+        if (isLocked) {
+          Sfx.wrong();
+          const targetItem = data.find(d => d.id === card.dataset.id);
+          toast(`🔒 This passage unlocks on ${targetItem ? targetItem.displayDate : "its date"}. Check back then!`);
+          return;
+        }
         Sfx.click();
         this.openDay(card.dataset.id);
       };
     });
+  },
+
+  /* ---------------------------------------------------------------
+     FORMAT PASSAGE PARAGRAPH (HIGHLIGHT TARGETS WITHOUT LINE NUMBERS)
+     --------------------------------------------------------------- */
+  formatPassage(rawText, activeMarker) {
+    if (!rawText) return "";
+    let s = esc(rawText);
+
+    // Format markdown bold: ***phrase*** and **phrase**
+    s = s.replace(/\*\*\*([^*]+)\*\*\*/g, `<b class="rd-bold-heavy">$1</b>`);
+    s = s.replace(/\*\*([^*]+)\*\*/g, `<b class="rd-bold-term">$1</b>`);
+
+    // Format markers like [*], [**], [***]
+    s = s.replace(/\[(\*{1,3})\]/g, (match, stars) => {
+      const isTarget = activeMarker === `[${stars}]`;
+      const cls = isTarget ? "rd-marker-pill active-marker" : "rd-marker-pill";
+      return `<span class="${cls}">${stars}</span>`;
+    });
+
+    return s;
   },
 
   /* ---------------------------------------------------------------
@@ -187,6 +226,12 @@ const Reading = {
     const data = typeof DSE_READING_DATA !== "undefined" ? DSE_READING_DATA : [];
     const item = data.find(d => d.id === id) || data[0];
     if (!item) return;
+
+    // Safety check: Cannot open future locked days
+    if (item.date > todayKey()) {
+      toast(`🔒 This passage unlocks on ${item.displayDate}!`);
+      return;
+    }
 
     this.activeDateId = item.id;
     this.activeQIdx = 0;
@@ -216,9 +261,7 @@ const Reading = {
     const q = item.questions[this.activeQIdx];
     const totalQ = item.questions.length;
     const isAnswered = this.userAnswers[q.id] !== undefined;
-
-    // Check highlighted target lines for this question
-    const targetLines = q.targetLines || [];
+    const activeMarker = q.targetMarker || null;
 
     container.innerHTML = `
       <div class="reading-wrap chamber">
@@ -268,7 +311,7 @@ const Reading = {
 
         <!-- MAIN STAGE (SPLIT OR FOCUSED) -->
         <div class="reading-stage-layout ${this.mobileTab}">
-          <!-- LEFT: THE LINE-NUMBERED PASSAGE -->
+          <!-- LEFT: THE CLEAN RESPONSIVE PARAGRAPH (NO LINE NUMBERS) -->
           <div class="reading-passage-panel card" id="passage-panel">
             <div class="rd-panel-header">
               <div style="display:flex;align-items:center;gap:8px">
@@ -279,30 +322,21 @@ const Reading = {
               <span class="alch-cat-badge" style="font-size:0.75rem">${item.lexile}</span>
             </div>
 
-            <!-- LINE NUMBERED GUTTER & TEXT -->
+            <!-- CLEAN FORMATTED PARAGRAPH -->
             <div class="rd-passage-text-scroll">
-              <div class="rd-passage-table">
-                ${item.lines.map((lineText, lIdx) => {
-                  const lineNum = lIdx + 1;
-                  const isHighlighted = targetLines.includes(lineNum);
-                  return `
-                    <div class="rd-line-row ${isHighlighted ? "highlighted-line" : ""}" id="rd-line-${lineNum}">
-                      <span class="rd-line-gutter">[Line ${lineNum < 10 ? "&nbsp;" + lineNum : lineNum}]</span>
-                      <span class="rd-line-content">${esc(lineText)}</span>
-                    </div>
-                  `;
-                }).join("")}
+              <div class="rd-passage-prose">
+                ${this.formatPassage(item.text, activeMarker)}
               </div>
             </div>
 
             <div class="rd-panel-footer">
-              ${targetLines.length ? `
+              ${activeMarker ? `
                 <div class="rd-target-notice">
-                  💡 Question references <b>Lines ${targetLines.join("–")}</b> (highlighted in cyan above)
+                  💡 This question examines target marked with <span class="rd-marker-pill active-marker">${activeMarker.replace(/[\[\]]/g, "")}</span> in the passage.
                 </div>
               ` : `
                 <div class="rd-target-notice muted">
-                  Read carefully before answering the question on the right.
+                  💡 Read the passage carefully, then select the best option on the right.
                 </div>
               `}
             </div>
@@ -313,10 +347,10 @@ const Reading = {
             <div class="rd-panel-header">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                 <span class="rd-skill-badge">${esc(q.skill)}</span>
-                ${targetLines.length ? `
-                  <button class="btn small ghost rd-jump-line-btn" id="btn-jump-target">
-                    📍 Focus Lines ${targetLines.join("–")}
-                  </button>
+                ${activeMarker ? `
+                  <span class="alch-cat-badge" style="font-size:0.75rem;background:rgba(56,189,248,0.15);color:#38bdf8;border-color:#38bdf8">
+                    Target: ${activeMarker}
+                  </span>
                 ` : ""}
               </div>
               <span class="muted" style="font-size:0.85rem">Question ${this.activeQIdx + 1} of ${totalQ}</span>
@@ -421,20 +455,6 @@ const Reading = {
         this.renderChamber(item);
       };
     });
-
-    // Jump to target lines
-    const jumpBtn = $("#btn-jump-target");
-    if (jumpBtn && targetLines.length) {
-      jumpBtn.onclick = () => {
-        Sfx.click();
-        const firstLineEl = $(`#rd-line-${targetLines[0]}`);
-        if (firstLineEl) {
-          firstLineEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          firstLineEl.classList.add("flash-line");
-          setTimeout(() => firstLineEl.classList.remove("flash-line"), 1200);
-        }
-      };
-    }
 
     // Options selection
     $$(".rd-opt-card").forEach(optCard => {

@@ -1900,3 +1900,61 @@
   padding-top: 14px;
   border-top: 1px solid var(--line);
 }
+
+
+/* Clean Prose Typography (No Line Numbers) */
+.rd-passage-prose {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #e2e8f0;
+  padding: 6px 2px;
+  letter-spacing: 0.01em;
+}
+.rd-bold-term {
+  color: #38bdf8;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rd-bold-heavy {
+  color: #fde68a;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rd-marker-pill {
+  display: inline-block;
+  padding: 1px 7px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  color: #94a3b8;
+  margin: 0 4px;
+  vertical-align: middle;
+  transition: all .2s ease;
+}
+.rd-marker-pill.active-marker {
+  background: rgba(251, 191, 36, 0.25);
+  border-color: #fbbf24;
+  color: #fef08a;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+  transform: scale(1.08);
+}
+
+/* Locked Card Styling */
+.rd-card.locked {
+  opacity: 0.65;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.rd-card.locked:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.rd-badge.locked {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}

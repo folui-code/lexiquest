@@ -817,3 +817,4 @@ with open('/Users/kelvinluimacbookair/.gemini/antigravity-ide/scratch/vocab-game
   f.write(js_content)
 
 print(f"Generated data/dse_reading.js with {len(CURRICULUM)} daily calendar passages!")
+
