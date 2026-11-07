@@ -92,8 +92,8 @@
         <!-- Rendered dynamically by App.renderClassHonorRoll() -->
       </section>
 
-      <!-- GREAT HALL HOUSE CUP STANDINGS (Hidden for now as requested) -->
-      <section class="card house-cup-card" id="house-cup-card" style="display:none">
+      <!-- GREAT HALL HOUSE CUP STANDINGS (Under class results) -->
+      <section class="card house-cup-card" id="house-cup-card">
         <div class="house-cup-head">
           <div class="house-cup-title">
             <span class="house-cup-trophy">🏆</span>
@@ -188,23 +188,8 @@
         <button class="mode-card reading" id="mode-reading" style="border-color:rgba(56,189,248,0.4)">
           <div class="mode-icon">📜</div>
           <h3>Reading Oracle</h3>
-          <p>Daily 140-word DSE Part B2 micro-passages (Economist/Guardian)! Line numbers, MC analysis &amp; missed-day catchup.</p>
+          <p>Daily 140-word DSE Part B2 micro-passages (Economist/Guardian)! MC analysis, bold markers &amp; missed-day catchup.</p>
           <div class="mode-foot"><span class="tag" style="background:rgba(56,189,248,0.18);color:#38bdf8">Daily · DSE Paper 1 (1200L)</span><span class="best" id="best-reading">Daily Ready!</span></div>
-        </button>
-        <button class="mode-card wordle" id="mode-wordle">
-          <div class="mode-icon">🟩</div>
-          <h3>LexiWordle</h3>
-          <p>Guess the secret academic word in 6 tries. Green, yellow and gray tiles guide your deduction. Daily +
-            Practice!</p>
-          <div class="mode-foot"><span class="tag">Deduction · Logic</span><span class="best" id="best-wordle">Daily
-              —</span></div>
-        </button>
-        <button class="mode-card matrix" id="mode-matrix">
-          <div class="mode-icon">🧩</div>
-          <h3>Semantic Matrix</h3>
-          <p>16 academic items, 4 hidden groups. Find the connections before you run out of lives.</p>
-          <div class="mode-foot"><span class="tag">Meaning · Polysemy</span><span class="best" id="best-matrix">Daily
-              —</span></div>
         </button>
       </div>
 
@@ -227,8 +212,7 @@
             <button class="sb-tab active" data-tab="rush">⚡ Cryptic Rush</button>
             <button class="sb-tab" data-tab="alchemy">⚗️ Alchemy</button>
             <button class="sb-tab" data-tab="blitz">⚡ Grammar Blitz</button>
-            <button class="sb-tab" data-tab="wordle">🟩 Wordle</button>
-            <button class="sb-tab" data-tab="matrix">🧩 Matrix</button>
+            <button class="sb-tab" data-tab="reading">📜 Reading Oracle</button>
           </div>
         </div>
         <div class="scoreboard-body" id="sb-list">
@@ -241,8 +225,6 @@
     <section id="screen-rush" class="screen"></section>
     <section id="screen-alchemy" class="screen"></section>
     <section id="screen-reading" class="screen"></section>
-    <section id="screen-wordle" class="screen"></section>
-    <section id="screen-matrix" class="screen"></section>
     <section id="screen-vault" class="screen"></section>
     <section id="screen-results" class="screen"></section>
   </main>
@@ -251,25 +233,21 @@
   <div id="toasts" class="toasts"></div>
   <canvas id="fx-canvas"></canvas>
 
-  <script src="data/whitelist_hashes.js?v=5.2"></script>
-  <script src="data/grammar_data.js?v=5.2"></script>
-  <script src="data/vocab.js?v=5.2"></script>
-  <script src="data/collocations.js?v=5.2"></script>
-  <script src="data/dse_reading.js?v=5.2"></script>
-  <script src="data/class_leaderboard.js?v=5.2"></script>
-  <script src="data/groups.js?v=5.2"></script>
-  <script src="data/wordle_dict.js?v=5.2"></script>
-  <script src="js/core.js?v=5.2"></script>
-  <script src="js/auth.js?v=5.2"></script>
-  <script src="js/leaderboard.js?v=5.2"></script>
-  <script src="js/blitz.js?v=5.2"></script>
-  <script src="js/qrcode.js?v=5.2"></script>
-  <script src="js/rush.js?v=5.2"></script>
-  <script src="js/alchemy.js?v=5.2"></script>
-  <script src="js/reading.js?v=5.2"></script>
-  <script src="js/wordle.js?v=5.2"></script>
-  <script src="js/matrix.js?v=5.2"></script>
-  <script src="js/app.js?v=5.2"></script>
+  <script src="data/whitelist_hashes.js?v=5.3"></script>
+  <script src="data/grammar_data.js?v=5.3"></script>
+  <script src="data/vocab.js?v=5.3"></script>
+  <script src="data/collocations.js?v=5.3"></script>
+  <script src="data/dse_reading.js?v=5.3"></script>
+  <script src="data/class_leaderboard.js?v=5.3"></script>
+  <script src="js/core.js?v=5.3"></script>
+  <script src="js/auth.js?v=5.3"></script>
+  <script src="js/leaderboard.js?v=5.3"></script>
+  <script src="js/blitz.js?v=5.3"></script>
+  <script src="js/qrcode.js?v=5.3"></script>
+  <script src="js/rush.js?v=5.3"></script>
+  <script src="js/alchemy.js?v=5.3"></script>
+  <script src="js/reading.js?v=5.3"></script>
+  <script src="js/app.js?v=5.3"></script>
 </body>
 
 </html>

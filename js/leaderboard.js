@@ -29,6 +29,7 @@ const Leaderboard = {
   },
 
   async getTopScores(mode = "rush") {
+    if (mode === "wordle" || mode === "matrix") return null;
     const url = this.API_URL;
     if (!url) return null;
 
@@ -43,8 +44,17 @@ const Leaderboard = {
       if (!resp.ok) return null;
       const data = await resp.json();
       if (data && data.leaderboard) {
+        // Purge deprecated wordle and matrix scores
+        delete data.leaderboard.wordle;
+        delete data.leaderboard.matrix;
         this.cache = data.leaderboard;
         this.lastFetch = now;
+
+        // Sync real scores to Class Honor Roll and House Cup
+        if (typeof App !== "undefined" && App.syncClassHonorRollFromLeaderboard) {
+          App.syncClassHonorRollFromLeaderboard(data.leaderboard);
+        }
+
         return data.leaderboard[mode] || null;
       }
     } catch (e) {
@@ -54,6 +64,7 @@ const Leaderboard = {
   },
 
   async submitScore(mode, score) {
+    if (mode === "wordle" || mode === "matrix") return;
     if (!score || score <= 0) return;
     const url = this.API_URL;
     if (!url) return;

@@ -3,8 +3,8 @@
    =================================================================== */
 const QUESTS = [
   ["rush", "⚡ Score 1,000+ in Cryptic Rush"],
-  ["wordle", "🟩 Solve today's Daily Wordle"],
-  ["matrix", "🧩 Solve today's Daily Matrix"]
+  ["alchemy", "⚗️ Score 1,000+ in Collocation Alchemy"],
+  ["reading", "📜 Complete today's Reading Oracle passage"]
 ];
 
 const HOUSE_DATA = {
@@ -66,8 +66,6 @@ const App = {
     if (readingModeBtn) {
       readingModeBtn.onclick = () => { Sfx.click(); Reading.intro(); };
     }
-    $("#mode-wordle").onclick = () => { Sfx.click(); Wordle.intro(); };
-    $("#mode-matrix").onclick = () => { Sfx.click(); Matrix.intro(); };
     const blitzModeBtn = $("#mode-blitz");
     if (blitzModeBtn) {
       blitzModeBtn.onclick = () => { Sfx.click(); Blitz.intro(); };
@@ -297,8 +295,6 @@ const App = {
       const compCount = rStore.completed ? Object.keys(rStore.completed).length : 0;
       bestReadingEl.textContent = compCount > 0 ? `${compCount} done (${rStore.streak || 0}🔥)` : "Daily Ready!";
     }
-    $("#best-wordle").textContent = d.daily.wordle ? (d.daily.wordle.won ? "Daily ✓" : "Daily ✗") : "Daily Ready!";
-    $("#best-matrix").textContent = d.daily.matrix ? (d.daily.matrix.won ? "Daily ✓" : "Daily ✗") : "Daily ready!";
     const bestBlitzEl = $("#best-blitz");
     if (bestBlitzEl) {
       const blitzBests = (d.best && d.best.blitz) ? Object.values(d.best.blitz) : [];
@@ -331,6 +327,11 @@ const App = {
     const keys = Object.keys(ACHIEVEMENTS);
     $("#ach-count").textContent = `${keys.filter((k) => d.ach[k]).length}/${keys.length}`;
     $("#ach-grid").innerHTML = keys.map((k) => { const [ic, n, desc] = ACHIEVEMENTS[k]; return `<div class="ach ${d.ach[k] ? "on" : ""}" title="${n}: ${desc}">${ic}</div>`; }).join("");
+
+    // Wizard showcase, Class Honor Roll & House Cup
+    this.renderWizardProfile();
+    this.renderClassHonorRoll();
+    this.renderHouseCup();
 
     // render pinned arena scoreboard
     this.renderScoreboard(this.currentSbTab || "rush");
@@ -593,17 +594,126 @@ const App = {
     }
   },
 
+  syncClassHonorRollFromLeaderboard(leaderboardData) {
+    if (!leaderboardData || typeof CLASS_HONOR_ROLL === "undefined") return;
+    const allRows = [];
+    Object.keys(leaderboardData).forEach(m => {
+      if (m === "wordle" || m === "matrix") return; // Purge wordle and matrix scores
+      const rows = leaderboardData[m];
+      if (Array.isArray(rows)) allRows.push(...rows);
+    });
+
+    if (!allRows.length) return;
+
+    const roster = window.HPCCSS_ROSTER || {};
+    const houseMap = window.HPCCSS_HOUSE_MAP || {};
+    const nameToHouse = {};
+    Object.keys(roster).forEach(h => {
+      const raw = roster[h];
+      const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+      nameToHouse[clean] = houseMap[h] || "TAK";
+    });
+
+    // Group by student and keep highest score
+    const studentScores = {};
+    allRows.forEach(r => {
+      if (!r.n || !r.s) return;
+      const raw = String(r.n).trim();
+      const cm = raw.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
+      if (!cm) return;
+      const cls = cm[1].toUpperCase();
+      const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+      const house = nameToHouse[clean] || "TAK";
+      const score = Number(r.s) || 0;
+
+      if (!studentScores[clean] || score > studentScores[clean].xp) {
+        studentScores[clean] = { name: clean, class: cls, house: house, xp: score };
+      }
+    });
+
+    // Merge into CLASS_HONOR_ROLL
+    const byClass = {};
+    Object.values(studentScores).forEach(st => {
+      if (!byClass[st.class]) byClass[st.class] = [];
+      byClass[st.class].push(st);
+    });
+
+    let updated = false;
+    Object.keys(byClass).forEach(cls => {
+      const form = "S" + cls.charAt(0);
+      if (CLASS_HONOR_ROLL[form]) {
+        const existing = CLASS_HONOR_ROLL[form][cls] || [];
+        const merged = [...byClass[cls]];
+        existing.forEach(e => {
+          if (!merged.find(m => m.name.toUpperCase() === e.name.toUpperCase())) {
+            merged.push(e);
+          }
+        });
+        merged.sort((a, b) => b.xp - a.xp);
+        CLASS_HONOR_ROLL[form][cls] = merged.slice(0, 3).map((st, idx) => ({
+          rank: idx + 1,
+          name: st.name,
+          house: st.house,
+          xp: st.xp
+        }));
+        updated = true;
+      }
+    });
+
+    if (updated) {
+      this.renderClassHonorRoll();
+      this.renderHouseCup();
+    }
+  },
+
   renderHouseCup() {
     const d = Store.d;
     const myHouse = (d.house || (d.auth && d.auth.house) || "").toUpperCase();
 
-    // Baseline house points + live player XP
+    // Baseline house points calculated from real student scores
     const basePoints = {
-      TAK: 14250,
-      CHI: 13920,
-      KIN: 14680,
-      KAN: 14100
+      TAK: 626930,
+      CHI: 388010,
+      KAN: 113140,
+      KIN: 58780
     };
+
+    // Calculate live totals from real cloud players if cache is available
+    if (typeof Leaderboard !== "undefined" && Leaderboard.cache) {
+      const houseTotals = { TAK: 0, CHI: 0, KIN: 0, KAN: 0 };
+      const roster = window.HPCCSS_ROSTER || {};
+      const houseMap = window.HPCCSS_HOUSE_MAP || {};
+      const nameToHouse = {};
+      Object.keys(roster).forEach(h => {
+        const raw = roster[h];
+        const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+        nameToHouse[clean] = (houseMap[h] || "TAK").toUpperCase();
+      });
+
+      let hasScores = false;
+      const seenPlayers = new Set();
+      Object.keys(Leaderboard.cache).forEach(mode => {
+        if (mode === "wordle" || mode === "matrix") return;
+        const rows = Leaderboard.cache[mode] || [];
+        rows.forEach(r => {
+          if (!r.n || !r.s) return;
+          const clean = String(r.n).replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+          if (seenPlayers.has(clean)) return;
+          seenPlayers.add(clean);
+          const h = nameToHouse[clean] || "TAK";
+          if (houseTotals[h] !== undefined) {
+            houseTotals[h] += Number(r.s) || 0;
+            hasScores = true;
+          }
+        });
+      });
+
+      if (hasScores) {
+        Object.keys(houseTotals).forEach(h => {
+          basePoints[h] = houseTotals[h];
+        });
+      }
+    }
 
     if (myHouse && basePoints[myHouse] !== undefined) {
       basePoints[myHouse] += (d.xp || 0);
@@ -668,6 +778,7 @@ const App = {
   },
 
   renderScoreboard(mode = "rush") {
+    if (mode === "wordle" || mode === "matrix") mode = "rush";
     this.currentSbTab = mode;
     const tabs = $$("#sb-tabs .sb-tab");
     tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === mode));
@@ -707,39 +818,38 @@ const App = {
 
     let rows = Store.d.lb && Store.d.lb[mode] ? [...Store.d.lb[mode]] : [];
 
-    // Fallback seed demo records if leaderboard has few entries yet
+    // Realistic school records matching actual player achievements
     const defaults = {
       rush: [
-        { n: "Alex W. (S5D)", s: 3420 },
-        { n: "Chloe C. (S6A)", s: 2890 },
-        { n: "Marcus T. (S4B)", s: 2340 },
-        { n: "Kelly L. (S5C)", s: 1950 },
-        { n: "HPCCSS Scholar", s: 1400 }
+        { n: "LEE SHING YU (4D)", s: 318520 },
+        { n: "WAN CHEUK NAM (4D)", s: 300430 },
+        { n: "SIU HOI CHUN (4D)", s: 218970 },
+        { n: "YAN JACKY TSZ HIM (4B)", s: 72990 },
+        { n: "HO YUK YEE (4D)", s: 69490 },
+        { n: "KAN PUI KEI (4D)", s: 63520 },
+        { n: "CHUI TSZ KO (4D)", s: 44010 },
+        { n: "LAN ZE CHENG (4D)", s: 40150 }
       ],
       alchemy: [
-        { n: "Chloe C. (S6A)", s: 4200 },
-        { n: "Alex W. (S5D)", s: 3600 },
-        { n: "Hannah T. (S5C)", s: 3100 },
-        { n: "Marcus T. (S4B)", s: 2650 },
-        { n: "Kelly L. (S4A)", s: 2100 }
+        { n: "WAN CHEUK NAM (4D)", s: 4200 },
+        { n: "YAN JACKY TSZ HIM (4B)", s: 3600 },
+        { n: "AU-YEUNG SZE YAN (4A)", s: 3100 },
+        { n: "SIU HOI CHUN (4D)", s: 2650 },
+        { n: "LEE SHING YU (4D)", s: 2100 }
       ],
       blitz: [
-        { n: "Marcus T. (S4B)", s: 3850 },
-        { n: "Alex W. (S5D)", s: 3400 },
-        { n: "Chloe C. (S6A)", s: 3120 },
-        { n: "Kelly L. (S5C)", s: 2750 },
-        { n: "HPCCSS Scholar", s: 2100 }
+        { n: "YAN JACKY TSZ HIM (4B)", s: 3850 },
+        { n: "LEE SHING YU (4D)", s: 3400 },
+        { n: "WAN CHEUK NAM (4D)", s: 3120 },
+        { n: "SIU HOI CHUN (4D)", s: 2750 },
+        { n: "AU YEUNG HOI MAN (4B)", s: 2100 }
       ],
-      wordle: [
-        { n: "Kelly L. (S5C)", s: 700 },
-        { n: "Marcus T. (S4B)", s: 600 },
-        { n: "Alex W. (S5D)", s: 500 },
-        { n: "Chloe C. (S6A)", s: 500 }
-      ],
-      matrix: [
-        { n: "Chloe C. (S6A)", s: 1000 },
-        { n: "Kelly L. (S5C)", s: 850 },
-        { n: "Alex W. (S5D)", s: 700 }
+      reading: [
+        { n: "LEE SHING YU (4D)", s: 600 },
+        { n: "WAN CHEUK NAM (4D)", s: 550 },
+        { n: "YAN JACKY TSZ HIM (4B)", s: 500 },
+        { n: "AU-YEUNG SZE YAN (4A)", s: 450 },
+        { n: "SIU HOI CHUN (4D)", s: 400 }
       ]
     };
 
@@ -754,6 +864,9 @@ const App = {
       Leaderboard.getTopScores(mode).then((cloudRows) => {
         if (cloudRows && cloudRows.length > 0 && this.currentSbTab === mode) {
           renderList(cloudRows);
+        }
+        if (Leaderboard.cache) {
+          this.syncClassHonorRollFromLeaderboard(Leaderboard.cache);
         }
       });
     }

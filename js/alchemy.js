@@ -1805,6 +1805,8 @@ const Alchemy = {
     if (Store.d.auth && me.house) {
       Store.addXP(Math.round(this.score / 5));
     }
+    if (this.score >= 1000) Store.quest("alchemy");
+    if (this.solvedCount >= 10) Store.unlock("alchemist");
 
     // Submit to cloud leaderboard
     if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) {

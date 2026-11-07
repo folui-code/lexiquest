@@ -545,6 +545,8 @@ const Reading = {
       // Award XP and House Points
       const xpEarned = score * 50 + (score === total ? 50 : 0);
       Store.d.xp = (Store.d.xp || 0) + xpEarned;
+      Store.quest("reading");
+      Store.unlock("oracleReader");
 
       // If user belongs to a house, award points
       if (typeof HouseSync !== "undefined" && HouseSync.getUserHouse) {

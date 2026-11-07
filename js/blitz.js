@@ -313,6 +313,7 @@ const Blitz = {
       }
     }
     Store.setBest("blitz", finalScore);
+    if (this.correctCount >= 8) Store.unlock("grammarMaster");
 
     // Add to local Leaderboard
     Store.addLB("blitz", finalScore);

@@ -67,7 +67,25 @@ FINAL_CLASS_DATA = {
 
 houses_cycle = ['TAK', 'CHI', 'KIN', 'KAN']
 
+# Known real scores from active student play (Cryptic Rush)
+real_student_scores = {
+    '4D': [
+        {'rank': 1, 'name': 'LEE SHING YU', 'house': 'CHI', 'xp': 318520},
+        {'rank': 2, 'name': 'WAN CHEUK NAM', 'house': 'TAK', 'xp': 300430},
+        {'rank': 3, 'name': 'SIU HOI CHUN', 'house': 'TAK', 'xp': 218970}
+    ],
+    '4B': [
+        {'rank': 1, 'name': 'YAN JACKY TSZ HIM', 'house': 'KAN', 'xp': 72990},
+        {'rank': 2, 'name': 'AU YEUNG HOI MAN', 'house': 'CHI', 'xp': 4650},
+        {'rank': 3, 'name': 'CHAN PO KA', 'house': 'KIN', 'xp': 4280}
+    ]
+}
+
 for i, c in enumerate(['4A', '4B', '4C', '4D', '4E']):
+    if c in real_student_scores:
+        FINAL_CLASS_DATA['S4'][c] = real_student_scores[c]
+        continue
+
     scores = score_presets[i]
     st_list = class_students[c]
     top3 = []
@@ -133,3 +151,4 @@ with open('/Users/kelvinluimacbookair/.gemini/antigravity-ide/scratch/vocab-game
     f.write(js_content)
 
 print("Generated data/class_leaderboard.js successfully!")
+

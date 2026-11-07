@@ -28,21 +28,21 @@ const CLASS_HONOR_ROLL = {
     "4B": [
       {
         "rank": 1,
+        "name": "YAN JACKY TSZ HIM",
+        "house": "KAN",
+        "xp": 72990
+      },
+      {
+        "rank": 2,
         "name": "AU YEUNG HOI MAN",
         "house": "CHI",
         "xp": 4650
       },
       {
-        "rank": 2,
+        "rank": 3,
         "name": "CHAN PO KA",
         "house": "KIN",
         "xp": 4280
-      },
-      {
-        "rank": 3,
-        "name": "CHAN TING YAN",
-        "house": "TAK",
-        "xp": 3850
       }
     ],
     "4C": [
@@ -68,21 +68,21 @@ const CLASS_HONOR_ROLL = {
     "4D": [
       {
         "rank": 1,
-        "name": "CHUI TSZ KI",
-        "house": "TAK",
-        "xp": 4780
+        "name": "LEE SHING YU",
+        "house": "CHI",
+        "xp": 318520
       },
       {
         "rank": 2,
-        "name": "FU WING YI",
-        "house": "KIN",
-        "xp": 4390
+        "name": "WAN CHEUK NAM",
+        "house": "TAK",
+        "xp": 300430
       },
       {
         "rank": 3,
-        "name": "HO YUK YEE",
-        "house": "CHI",
-        "xp": 3950
+        "name": "SIU HOI CHUN",
+        "house": "TAK",
+        "xp": 218970
       }
     ],
     "4E": [

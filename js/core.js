@@ -43,9 +43,9 @@ const ACHIEVEMENTS = {
   combo25: ["🌪️", "Unstoppable", "Hit a 15x combo in Cryptic Rush"],
   rush2k: ["⏳", "Clock Bender", "Score 2,000+ in Cryptic Rush"],
   marathon: ["🏃", "Marathon", "Survive 90 seconds in Cryptic Rush"],
-  wordleWin: ["🟩", "LexiWordle Whiz", "Solve an Academic Wordle"],
-  wordleGenius: ["🎯", "Word Genius", "Solve Wordle in 3 tries or fewer"],
-  flawless: ["💎", "Flawless Matrix", "Solve a Matrix with no mistakes"],
+  alchemist: ["⚗️", "Master Alchemist", "Forge 10 collocations in Alchemy"],
+  grammarMaster: ["⚡", "Grammar Virtuoso", "Score 8+ in a Grammar Blitz unit"],
+  oracleReader: ["📜", "Oracle Scholar", "Complete a Daily Reading Oracle passage"],
   streak3: ["🔥", "On Fire", "Reach a 3-day streak"],
   streak7: ["🌋", "Unbreakable", "Reach a 7-day streak"],
   master10: ["⭐", "Collector", "Get 10 words to 3★ mastery"],
@@ -88,7 +88,22 @@ const Store = {
   load() {
     try { this.d = JSON.parse(localStorage.getItem(this.KEY)); } catch { this.d = null; }
     this.d = Object.assign({ name: "", xp: 0, streak: 0, lastPlay: null, freezes: 0, best: {}, words: {}, ach: {}, daily: {}, lb: {}, muted: false, games: 0, duels: {}, arenaRooms: {} }, this.d || {});
-    if (this.d.daily.date !== todayKey()) this.d.daily = { date: todayKey(), q: {}, chest: false, matrixDone: false };
+    if (this.d.daily.date !== todayKey()) this.d.daily = { date: todayKey(), q: {}, chest: false };
+
+    // Clean up deprecated Wordle & Matrix data
+    if (this.d.best) {
+      delete this.d.best.wordle;
+      delete this.d.best.matrix;
+    }
+    if (this.d.daily) {
+      delete this.d.daily.wordle;
+      delete this.d.daily.matrix;
+      delete this.d.daily.matrixDone;
+    }
+    if (this.d.lb) {
+      delete this.d.lb.wordle;
+      delete this.d.lb.matrix;
+    }
 
     // Automatic Migration: Upgrade any legacy numeric IDs to permanent scoped word keys!
     if (this.d.words && typeof this.d.words === "object") {

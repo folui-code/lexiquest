@@ -205,10 +205,12 @@ function updateLeaderboard(lbSheet, logSheet, targetMode) {
 
 function getAllLeaderboards(lbSheet) {
   const data = lbSheet.getDataRange().getValues();
-  const res = { rush: [], blitz: [], wordle: [], matrix: [] };
+  const res = { rush: [], alchemy: [], blitz: [], reading: [] };
 
   for (let i = 1; i < data.length; i++) {
     const mode = String(data[i][0]).toLowerCase();
+    // Exclude deprecated Wordle and Matrix modes
+    if (mode === "wordle" || mode === "matrix") continue;
     const rank = Number(data[i][1]);
     const name = String(data[i][2]);
     const score = Number(data[i][3]);
