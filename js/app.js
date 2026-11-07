@@ -50,6 +50,26 @@ const HOUSE_DATA = {
   }
 };
 
+function isStaffMember(name, role) {
+  if (role === "staff") return true;
+  if (!name) return false;
+  const n = String(name).trim().toUpperCase();
+  if (n.includes("(VP)") || n.includes("(P)") || n.includes("(STAFF)") || n.includes("TEACHER") || n.startsWith("MR.") || n.startsWith("MS.") || n.startsWith("MRS.")) {
+    return true;
+  }
+  const knownStaff = [
+    "AU MING TAK", "CHAN KWUN TAT", "CHOI KA LAI CARRIE", "CHU HAU YING",
+    "CHU WAI KEE GEORGE", "FONG HING PAN", "HSU TING LANG", "HUI YUK WAH",
+    "IP CHOI WAN", "KONG KWOK LING", "LO YIU CHUEN", "NGAI KWAI MING",
+    "POON KAM LUN", "STEPHEN WILLIAM HENRY", "TSE YUEN YING", "WONG CHIN LEUNG",
+    "YICK YING LIN AUDREY", "LEE WING CHEUNG ALISTAIR", "WONG PUI SZE",
+    "NG CHUNG HIN", "TSANG LAI SHEUNG", "WONG LEUNG KEE", "LUI FU ON"
+  ];
+  const cleanName = n.replace(/\s*\([^)]*\)/g, "").trim();
+  if (knownStaff.some(s => cleanName === s || cleanName.includes(s))) return true;
+  return false;
+}
+
 const App = {
   async init() {
     Store.load();
@@ -446,17 +466,17 @@ const App = {
     `;
   },
 
-  renderClassHonorRoll(selectedForm) {
+  renderClassHonorRoll(selectedClass, selectedForm) {
     const card = $("#class-honor-roll-card");
     if (!card) return;
 
     const d = Store.d || {};
     const auth = d.auth || {};
-    const isStaff = auth.role === "staff" || (d.name || "").toLowerCase().includes("staff");
+    const isStaff = isStaffMember(d.name, auth.role);
 
-    // Detect user's class and form
+    // Detect user's own class and form
     let userForm = "S4";
-    let userClass = "4A";
+    let userClass = "4D"; // default to 4D where active players exist
     const rawName = auth.name || d.name || "";
     const cm = rawName.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
     if (cm) {
@@ -465,28 +485,78 @@ const App = {
     }
     const cleanUserName = rawName.replace(/\s*\([^)]*\)/g, "").trim().toLowerCase();
 
-    // Active form selection: Staff can switch across S4, S5, S6, or ALL.
-    // Students only see their own form's 5 classes!
-    const activeForm = isStaff ? (selectedForm || this.activeStaffForm || "S4") : userForm;
-    this.activeStaffForm = activeForm;
+    // Determine active form and active class
+    // Default to user's own class on initial load
+    this.chrActiveForm = selectedForm || this.chrActiveForm || userForm;
+    const formPrefix = this.chrActiveForm.replace("S", "");
+    const availableClasses = ['A', 'B', 'C', 'D', 'E'].map(sub => formPrefix + sub);
+
+    if (selectedClass) {
+      this.chrActiveClass = selectedClass;
+    } else if (!this.chrActiveClass || !availableClasses.includes(this.chrActiveClass)) {
+      this.chrActiveClass = (this.chrActiveForm === userForm && availableClasses.includes(userClass)) ? userClass : availableClasses[0];
+    }
+
+    const activeClass = this.chrActiveClass;
+    const activeForm = this.chrActiveForm;
+    const isMyClass = !isStaff && (userClass === activeClass);
 
     const data = typeof CLASS_HONOR_ROLL !== "undefined" ? CLASS_HONOR_ROLL : { S4: {}, S5: {}, S6: {} };
 
-    // Determine which classes to render
-    let classesToRender = [];
-    if (activeForm === "ALL" && isStaff) {
-      classesToRender = [
-        ...['4A', '4B', '4C', '4D', '4E'].map(c => ({ form: 'S4', class: c })),
-        ...['5A', '5B', '5C', '5D', '5E'].map(c => ({ form: 'S5', class: c })),
-        ...['6A', '6B', '6C', '6D', '6E'].map(c => ({ form: 'S6', class: c }))
-      ];
-    } else {
-      const formKey = activeForm in data ? activeForm : "S4";
-      const subClasses = ['A', 'B', 'C', 'D', 'E'].map(s => formKey.replace("S", "") + s);
-      classesToRender = subClasses.map(c => ({ form: formKey, class: c }));
+    // Get verified real scores for the selected class (strictly exclude teachers/staff)
+    let rawList = (data[activeForm] && data[activeForm][activeClass]) ? [...data[activeForm][activeClass]] : [];
+    rawList = rawList.filter(st => !isStaffMember(st.name, st.role) && Number(st.xp) > 0);
+
+    // Incorporate current user's live score if in this class and has score > 0
+    if (isMyClass && cleanUserName && (d.xp || 0) > 0 && !isStaff) {
+      const userHouse = (d.house || auth.house || "TAK").toUpperCase();
+      const existingIdx = rawList.findIndex(s => s.name.toLowerCase().includes(cleanUserName));
+      const userEntry = {
+        name: auth.name ? auth.name.replace(/\s*\([^)]*\)/g, "").trim() : d.name,
+        house: userHouse,
+        xp: d.xp || 0,
+        isUser: true
+      };
+
+      if (existingIdx >= 0) {
+        if ((d.xp || 0) >= rawList[existingIdx].xp) {
+          rawList[existingIdx] = userEntry;
+        } else {
+          rawList[existingIdx].isUser = true;
+        }
+      } else {
+        rawList.push(userEntry);
+      }
     }
 
-    const formTitle = activeForm === "ALL" ? "All Forms (S4, S5, S6)" : `Form ${activeForm.replace("S", "")} (${classesToRender.map(x => x.class).join(", ")})`;
+    rawList.sort((a, b) => b.xp - a.xp);
+
+    // Prepare 3 ranks: fill missing or unplayed slots with "/"
+    const top3 = [];
+    for (let i = 0; i < 3; i++) {
+      if (i < rawList.length) {
+        top3.push({
+          rank: i + 1,
+          name: rawList[i].name,
+          house: rawList[i].house || "TAK",
+          xp: rawList[i].xp,
+          isUser: rawList[i].isUser,
+          empty: false
+        });
+      } else {
+        top3.push({
+          rank: i + 1,
+          name: "—",
+          house: "—",
+          xp: "/",
+          isUser: false,
+          empty: true
+        });
+      }
+    }
+
+    const medals = ["🥇", "🥈", "🥉"];
+    const hasAnyScore = rawList.length > 0;
 
     card.innerHTML = `
       <div class="chr-header">
@@ -494,104 +564,97 @@ const App = {
           <span class="chr-icon">🏆</span>
           <div>
             <h2>Class Honor Roll · Top 3 Scholars</h2>
-            <p class="muted" style="margin:0;font-size:0.88rem">${formTitle} · Top scholars in each class</p>
+            <p class="muted" style="margin:0;font-size:0.85rem">Viewing Class ${esc(activeClass)} · Defaulting to your class</p>
           </div>
         </div>
 
-        ${isStaff ? `
-          <div class="chr-form-tabs">
-            <button class="chr-form-tab ${activeForm === 'S4' ? 'active' : ''}" data-form="S4">Form 4 (4A–4E)</button>
-            <button class="chr-form-tab ${activeForm === 'S5' ? 'active' : ''}" data-form="S5">Form 5 (5A–5E)</button>
-            <button class="chr-form-tab ${activeForm === 'S6' ? 'active' : ''}" data-form="S6">Form 6 (6A–6E)</button>
-            <button class="chr-form-tab ${activeForm === 'ALL' ? 'active' : ''}" data-form="ALL">All 15 Classes</button>
-          </div>
-        ` : `
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="alch-cat-badge" style="background:rgba(56,189,248,0.18);border-color:#38bdf8;color:#e0f2fe;font-size:0.8rem">
-              Form ${userForm.replace("S", "")} Classes (Top 3)
-            </span>
-          </div>
-        `}
+        <!-- Form Switcher: Form 4, 5, 6 -->
+        <div class="chr-form-tabs">
+          <button class="chr-form-tab ${activeForm === 'S4' ? 'active' : ''}" data-form="S4">Form 4</button>
+          <button class="chr-form-tab ${activeForm === 'S5' ? 'active' : ''}" data-form="S5">Form 5</button>
+          <button class="chr-form-tab ${activeForm === 'S6' ? 'active' : ''}" data-form="S6">Form 6</button>
+        </div>
       </div>
 
-      <div class="class-honor-grid" style="${classesToRender.length > 5 ? 'grid-template-columns:repeat(auto-fill, minmax(200px, 1fr))' : ''}">
-        ${classesToRender.map(ci => {
-          const cName = ci.class;
-          const fKey = ci.form;
-          const isMyClass = !isStaff && userClass === cName;
-
-          // Retrieve and sort top 3 students
-          let top3 = (data[fKey] && data[fKey][cName]) ? [...data[fKey][cName]] : [];
-
-          // If current user is in this class, incorporate user's live score
-          if (isMyClass && cleanUserName) {
-            const userHouse = (d.house || auth.house || "TAK").toUpperCase();
-            const existingIdx = top3.findIndex(s => s.name.toLowerCase().includes(cleanUserName));
-            const userEntry = {
-              name: auth.name ? auth.name.replace(/\s*\([^)]*\)/g, "").trim() : d.name,
-              house: userHouse,
-              xp: d.xp || 0,
-              isUser: true
-            };
-
-            if (existingIdx >= 0) {
-              if ((d.xp || 0) > top3[existingIdx].xp) {
-                top3[existingIdx] = userEntry;
-              } else {
-                top3[existingIdx].isUser = true;
-              }
-            } else {
-              top3.push(userEntry);
-            }
-
-            top3.sort((a, b) => b.xp - a.xp);
-            top3 = top3.slice(0, 3);
-            top3.forEach((s, idx) => s.rank = idx + 1);
-          }
-
-          const medals = ["🥇", "🥈", "🥉"];
-
+      <!-- Class Switcher Pills: 4A, 4B, 4C, 4D, 4E -->
+      <div class="chr-class-pills-bar">
+        ${availableClasses.map(c => {
+          const isOwn = (!isStaff && c === userClass);
+          const isActive = (c === activeClass);
           return `
-            <div class="class-honor-box ${isMyClass ? "is-my-class" : ""}">
-              <div class="chb-head">
-                <span class="chb-class-title">Class ${esc(cName)}</span>
-                <span class="chb-badge">${isMyClass ? "Your Class ★" : "Top 3"}</span>
-              </div>
-              <div class="chb-students-list">
-                ${top3.map((st, idx) => {
-                  const medal = medals[idx] || `#${idx + 1}`;
-                  const hKey = (st.house || "TAK").toUpperCase();
-                  const isCur = st.isUser || (cleanUserName && st.name.toLowerCase().includes(cleanUserName));
-
-                  return `
-                    <div class="chb-student-row ${isCur ? "is-user" : ""}">
-                      <span class="chb-medal">${medal}</span>
-                      <div class="chb-info">
-                        <div class="chb-name" title="${esc(st.name)}">
-                          ${esc(st.name)} ${isCur ? '<b style="color:#38bdf8">(You)</b>' : ''}
-                        </div>
-                      </div>
-                      <span class="chb-house-pill ${hKey.toLowerCase()}">${hKey}</span>
-                      <span class="chb-xp">${fmt(st.xp)}</span>
-                    </div>
-                  `;
-                }).join("")}
-              </div>
-            </div>
+            <button class="chr-class-pill ${isActive ? 'active' : ''} ${isOwn ? 'is-own-class' : ''}" data-class="${c}">
+              ${isOwn ? '★ ' : ''}Class ${c}
+              ${isOwn ? '<span class="chr-pill-tag">You</span>' : ''}
+            </button>
           `;
         }).join("")}
       </div>
+
+      <!-- Focused Single Class Podium Showcase -->
+      <div class="chr-single-showcase ${isMyClass ? 'is-my-class' : ''}">
+        <div class="chr-showcase-head">
+          <div style="display:flex;align-items:center;gap:10px">
+            <h3 class="chr-class-big-title">Class ${esc(activeClass)}</h3>
+            ${isMyClass ? '<span class="chr-own-badge">★ Your Class</span>' : ''}
+          </div>
+          <span class="muted" style="font-size:0.82rem">
+            ${hasAnyScore ? `Verified top scholars (${rawList.length} ranked)` : `No games recorded yet`}
+          </span>
+        </div>
+
+        <div class="chr-podium-list">
+          ${top3.map((st, idx) => {
+            const medal = medals[idx];
+            const isCur = st.isUser || (!st.empty && cleanUserName && st.name.toLowerCase().includes(cleanUserName));
+            const hKey = st.house ? st.house.toUpperCase() : "—";
+            const scoreDisplay = st.empty ? `<span class="chr-slash">/</span>` : `${fmt(st.xp)} <small style="font-size:0.75rem;color:var(--muted)">XP</small>`;
+
+            return `
+              <div class="chr-podium-row rank-${st.rank} ${st.empty ? 'is-empty' : ''} ${isCur ? 'is-user' : ''}">
+                <span class="chr-medal">${medal}</span>
+                <div class="chr-student-details">
+                  <div class="chr-student-name">
+                    ${st.empty ? '<span class="muted">—</span>' : esc(st.name)}
+                    ${isCur ? '<b style="color:#38bdf8;margin-left:6px">(You)</b>' : ''}
+                  </div>
+                </div>
+                <div class="chr-house-wrap">
+                  ${st.empty || hKey === "—" ? '<span class="muted">—</span>' : `<span class="chb-house-pill ${hKey.toLowerCase()}">${hKey}</span>`}
+                </div>
+                <div class="chr-score-col">
+                  ${scoreDisplay}
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+
+        ${!hasAnyScore ? `
+          <div class="chr-empty-notice muted">
+            ✦ No student in Class ${esc(activeClass)} has recorded a score yet. Play Cryptic Rush, Alchemy, or Reading to claim 1st place!
+          </div>
+        ` : ''}
+      </div>
     `;
 
-    // Staff tab event listeners
-    if (isStaff) {
-      $$(".chr-form-tab", card).forEach(tab => {
-        tab.onclick = () => {
-          Sfx.click();
-          this.renderClassHonorRoll(tab.dataset.form);
-        };
-      });
-    }
+    // Event listeners for Form tabs
+    $$(".chr-form-tab", card).forEach(tab => {
+      tab.onclick = () => {
+        Sfx.click();
+        const newForm = tab.dataset.form;
+        const newPrefix = newForm.replace("S", "");
+        const newDefaultClass = (newForm === userForm) ? userClass : (newPrefix + "A");
+        this.renderClassHonorRoll(newDefaultClass, newForm);
+      };
+    });
+
+    // Event listeners for Class pills
+    $$(".chr-class-pill", card).forEach(pill => {
+      pill.onclick = () => {
+        Sfx.click();
+        this.renderClassHonorRoll(pill.dataset.class, activeForm);
+      };
+    });
   },
 
   syncClassHonorRollFromLeaderboard(leaderboardData) {
@@ -614,17 +677,21 @@ const App = {
       nameToHouse[clean] = houseMap[h] || "TAK";
     });
 
-    // Group by student and keep highest score
+    // Group by student and keep highest score (STRICTLY EXCLUDE TEACHERS/STAFF)
     const studentScores = {};
     allRows.forEach(r => {
       if (!r.n || !r.s) return;
+      if (isStaffMember(r.n, r.role)) return; // Exclude teachers!
       const raw = String(r.n).trim();
       const cm = raw.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
-      if (!cm) return;
+      if (!cm) return; // Must have valid student class
       const cls = cm[1].toUpperCase();
       const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-      const house = nameToHouse[clean] || "TAK";
+      if (isStaffMember(clean, r.role)) return;
+
+      const house = nameToHouse[clean] || (cls === "4D" ? "TAK" : "TAK");
       const score = Number(r.s) || 0;
+      if (score <= 0) return;
 
       if (!studentScores[clean] || score > studentScores[clean].xp) {
         studentScores[clean] = { name: clean, class: cls, house: house, xp: score };
@@ -642,7 +709,7 @@ const App = {
     Object.keys(byClass).forEach(cls => {
       const form = "S" + cls.charAt(0);
       if (CLASS_HONOR_ROLL[form]) {
-        const existing = CLASS_HONOR_ROLL[form][cls] || [];
+        const existing = (CLASS_HONOR_ROLL[form][cls] || []).filter(e => !isStaffMember(e.name, e.role) && Number(e.xp) > 0);
         const merged = [...byClass[cls]];
         existing.forEach(e => {
           if (!merged.find(m => m.name.toUpperCase() === e.name.toUpperCase())) {
@@ -795,7 +862,9 @@ const App = {
     if (!listEl) return;
 
     const renderList = (rows) => {
-      const sorted = [...rows].sort((a, b) => b.s - a.s);
+      // Exclude teachers/staff from student top score list
+      const studentRows = (rows || []).filter(entry => !isStaffMember(entry.n, entry.role));
+      const sorted = [...studentRows].sort((a, b) => b.s - a.s);
       const userName = (Store.d.name || "").toLowerCase().trim();
 
       listEl.innerHTML = sorted.slice(0, 8).map((entry, idx) => {

@@ -180,6 +180,9 @@ function updateLeaderboard(lbSheet, logSheet, targetMode) {
       const pRole = String(data[i][4]) || "student";
       const pDate = data[i][0];
 
+      // Exclude teachers/staff from student top score list
+      if (pRole === "staff" || pName.indexOf("(VP)") !== -1 || pName.indexOf("(Staff)") !== -1) continue;
+
       if (!scoresByPlayer[pName] || pScore > scoresByPlayer[pName].s) {
         scoresByPlayer[pName] = { n: pName, s: pScore, role: pRole, date: pDate };
       }
@@ -215,6 +218,9 @@ function getAllLeaderboards(lbSheet) {
     const name = String(data[i][2]);
     const score = Number(data[i][3]);
     const role = String(data[i][4]);
+
+    // Exclude teachers/staff from student top score list
+    if (role === "staff" || name.indexOf("(VP)") !== -1 || name.indexOf("(Staff)") !== -1) continue;
 
     if (!res[mode]) {
       res[mode] = [];
