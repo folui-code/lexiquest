@@ -840,6 +840,130 @@ const Alchemy = {
     };
   },
 
+  /* ---------------------------------------------------------
+     GLOSSARY REVISION VIEW (INDEPENDENT FROM WORD VAULT)
+     --------------------------------------------------------- */
+  showGlossary(activeTab = "all", searchQuery = "") {
+    const el = $("#screen-alchemy");
+    if (!el) return;
+
+    const data = this.getDataset();
+    const categories = [
+      { id: "all", name: "All (250)" },
+      { id: "Verb + Noun", name: "Verb + Noun (75)" },
+      { id: "Verb + Preposition", name: "Verb + Prep (47)" },
+      { id: "Noun + Preposition", name: "Noun + Prep (60)" },
+      { id: "Adjective + Preposition", name: "Adj + Prep (68)" }
+    ];
+
+    let filtered = activeTab === "all" ? [...data] : data.filter(d => d.cat === activeTab);
+    const q = searchQuery.toLowerCase().trim();
+    if (q) {
+      filtered = filtered.filter(d => 
+        d.phrase.toLowerCase().includes(q) || 
+        d.meaning_chin.toLowerCase().includes(q) || 
+        d.meaning_eng.toLowerCase().includes(q) ||
+        d.sentence.toLowerCase().includes(q)
+      );
+    }
+
+    el.innerHTML = `
+      <div class="alch-glossary-view">
+        <div class="alch-glossary-head">
+          <button class="back-btn" id="btn-alch-glossary-back">← Alchemy Arena</button>
+          <div style="text-align:center;flex:1">
+            <h2 style="font-family:var(--font-h);margin:0;color:#fde68a">⚗️ Collocation Revision Glossary</h2>
+            <p class="muted" style="margin:4px 0 0;font-size:0.88rem">Master the complete curriculum of 250 Academic Collocations &amp; Sentence Patterns</p>
+          </div>
+        </div>
+
+        <!-- SEARCH & CATEGORY FILTER BAR -->
+        <div class="alch-glossary-controls card" style="margin:16px 0;padding:14px">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+            <div style="flex:1;min-width:240px;position:relative">
+              <input type="text" id="alch-glossary-search" placeholder="🔍 Search phrase, preposition, or Chinese meaning..." value="${esc(searchQuery)}" style="width:100%;margin:0;font-size:0.92rem;padding:10px 14px" />
+            </div>
+            <span class="muted" style="font-size:0.85rem">Showing <b>${filtered.length}</b> of ${data.length} collocations</span>
+          </div>
+
+          <div class="alch-glossary-tabs">
+            ${categories.map(c => `
+              <button class="alch-glossary-tab ${c.id === activeTab ? "active" : ""}" data-tab="${c.id}">${c.name}</button>
+            `).join("")}
+          </div>
+        </div>
+
+        <!-- CARDS LIST -->
+        <div class="alch-glossary-list">
+          ${filtered.length ? filtered.map((item, idx) => `
+            <div class="alch-glossary-card card">
+              <div class="agc-head">
+                <span class="agc-num">#${item.id}</span>
+                <span class="alch-cat-badge">${esc(item.cat)}</span>
+                <span class="agc-pos">${esc(item.pos)}</span>
+              </div>
+              <div class="agc-phrase-row">
+                <h3 class="agc-phrase">${esc(item.phrase)}</h3>
+                <span class="agc-meaning-chin">${esc(item.meaning_chin)}</span>
+              </div>
+              <div class="agc-meaning-eng muted">${esc(item.meaning_eng)}</div>
+              <div class="agc-sentence-box">
+                <span class="agc-sentence-icon">💡</span>
+                <div class="agc-sentence-text">${this.highlightCollocationInSentence(item)}</div>
+              </div>
+            </div>
+          `).join("") : `
+            <div class="card" style="text-align:center;padding:40px;color:var(--muted)">
+              No collocations found matching "<b>${esc(searchQuery)}</b>".
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+
+    $("#btn-alch-glossary-back").onclick = () => this.intro();
+
+    // Tab switching
+    $$(".alch-glossary-tab").forEach(tab => {
+      tab.onclick = () => {
+        Sfx.click();
+        this.showGlossary(tab.dataset.tab, $("#alch-glossary-search").value);
+      };
+    });
+
+    // Search input
+    const searchInput = $("#alch-glossary-search");
+    if (searchInput) {
+      searchInput.oninput = () => {
+        this.showGlossary(activeTab, searchInput.value);
+      };
+    }
+  },
+
+  highlightCollocationInSentence(item) {
+    const s = item.sentence || "";
+    const ht = item.head_token;
+    const pt = item.partner_token;
+
+    if (ht && pt && ht.start !== undefined && pt.start !== undefined) {
+      // Order by start
+      const first = ht.start < pt.start ? ht : pt;
+      const second = ht.start < pt.start ? pt : ht;
+
+      if (first.end <= second.start) {
+        return (
+          esc(s.slice(0, first.start)) +
+          `<b class="agc-highlight">${esc(s.slice(first.start, first.end))}</b>` +
+          esc(s.slice(first.end, second.start)) +
+          `<b class="agc-highlight">${esc(s.slice(second.start, second.end))}</b>` +
+          esc(s.slice(second.end))
+        );
+      }
+    }
+
+    return esc(s);
+  },
+
   blankSentence(sentence, phrase, head, partner) {
     if (!sentence) return "";
     let s = sentence;
@@ -883,7 +1007,10 @@ const Alchemy = {
             <h1>Collocation Alchemy</h1>
             <p>Master bidirectional academic bonds across Verb + Noun, Verb + Prep, Noun + Prep &amp; Adjective + Prep!</p>
           </div>
-          <div class="alch-best-pill">🏆 Personal Best: <b>${fmt(best)}</b></div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin-bottom:14px">
+            <div class="alch-best-pill" style="margin-bottom:0">🏆 Personal Best: <b>${fmt(best)}</b></div>
+            <button class="btn small" id="btn-alch-glossary" style="border-color:#c084fc;color:#e9d5ff;background:rgba(168,85,247,0.18)">📖 Study Revision Glossary (250)</button>
+          </div>
         </div>
 
         <!-- 3 GAME MODES CAROUSEL / GRID -->
@@ -939,6 +1066,8 @@ const Alchemy = {
     `;
 
     $("#btn-alch-back").onclick = () => showScreen("home");
+    const glossaryBtn = $("#btn-alch-glossary");
+    if (glossaryBtn) glossaryBtn.onclick = () => this.showGlossary();
 
     // Mode switching
     $$(".rush-mode-card").forEach(card => {
