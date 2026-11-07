@@ -315,6 +315,255 @@ const Alchemy = {
   // Distractor Pool
   PREPOSITIONS: ["to", "for", "of", "with", "about", "in", "on", "at", "from", "into", "towards", "between", "over", "by"],
 
+  // Exam Traps for Prepositions (common Hong Kong / DSE / IELTS student errors)
+  PREP_TRAPS: {
+    "accuse": ["for", "with", "about"],
+    "agree": ["on", "to", "at"],
+    "apologise": ["to", "about", "with"],
+    "apologize": ["to", "about", "with"],
+    "argue": ["about", "on", "to"],
+    "ask": ["to", "about", "with"],
+    "belong": ["with", "for", "in"],
+    "beware": ["for", "to", "with"],
+    "borrow": ["with", "to", "by"],
+    "bump": ["with", "to", "at"],
+    "care": ["with", "on", "to"],
+    "complain": ["with", "for", "on"],
+    "concentrate": ["in", "at", "to"],
+    "congratulate": ["for", "to", "about"],
+    "consist": ["with", "in", "by"],
+    "depend": ["in", "of", "to"],
+    "grin": ["to", "on", "with"],
+    "hear": ["with", "to", "for"],
+    "hope": ["to", "about", "on"],
+    "insist": ["to", "in", "for"],
+    "know": ["with", "of", "to"],
+    "laugh": ["to", "with", "for"],
+    "listen": ["for", "at", "with"],
+    "look": ["to", "at", "on"],
+    "participate": ["to", "at", "with"],
+    "pay": ["to", "with", "about"],
+    "praise": ["to", "with", "on"],
+    "prefer": ["than", "with", "over"],
+    "prevent": ["to", "from", "against"],
+    "provide": ["to", "for", "in"],
+    "qualify": ["to", "with", "in"],
+    "recover": ["of", "to", "with"],
+    "refer": ["with", "about", "on"],
+    "rely": ["in", "to", "with"],
+    "remind": ["about", "to", "with"],
+    "smile": ["to", "on", "with"],
+    "speak": ["with", "at", "for"],
+    "talk": ["with", "at", "for"],
+    "succeed": ["at", "to", "on"],
+    "suffer": ["of", "with", "by"],
+    "wait": ["to", "about", "with"],
+    "warn": ["to", "for", "with"],
+    "write": ["on", "with", "for"],
+
+    // Adjectives + Prepositions
+    "absent": ["in", "at", "to"],
+    "accustomed": ["with", "in", "for"],
+    "addicted": ["with", "on", "in"],
+    "afraid": ["to", "with", "about"],
+    "amazed": ["with", "to", "about"],
+    "amused": ["with", "at", "to"],
+    "angry": ["to", "for", "in"],
+    "annoyed": ["to", "for", "in"],
+    "anxious": ["with", "for", "to"],
+    "ashamed": ["with", "to", "about"],
+    "aware": ["to", "with", "about"],
+    "bad": ["in", "with", "to"],
+    "bored": ["at", "to", "for"],
+    "capable": ["to", "in", "with"],
+    "careful": ["for", "to", "in"],
+    "clever": ["in", "with", "to"],
+    "concerned": ["for", "with", "to"],
+    "conscious": ["to", "with", "about"],
+    "convinced": ["with", "to", "about"],
+    "delighted": ["to", "for", "about"],
+    "different": ["with", "to", "than"],
+    "dressed": ["with", "at", "on"],
+    "easy": ["to", "with", "of"],
+    "difficult": ["to", "with", "of"],
+    "envious": ["to", "with", "about"],
+    "essential": ["for", "with", "of"],
+    "experienced": ["at", "with", "to"],
+    "faithful": ["with", "for", "in"],
+    "familiar": ["about", "to", "for"],
+    "famous": ["with", "to", "in"],
+    "fond": ["with", "to", "about"],
+    "frightened": ["with", "to", "about"],
+    "full": ["with", "in", "to"],
+    "furious": ["to", "for", "in"],
+    "generous": ["for", "with", "about"],
+    "good": ["in", "with", "for"],
+    "guilty": ["with", "for", "to"],
+    "happy": ["for", "to", "in"],
+    "impatient": ["to", "for", "about"],
+    "impressed": ["to", "at", "about"],
+    "incapable": ["to", "in", "with"],
+    "interested": ["on", "about", "to"],
+    "jealous": ["with", "to", "about"],
+    "keen": ["in", "at", "about"],
+    "kind": ["with", "for", "at"],
+    "late": ["to", "at", "in"],
+    "nervous": ["with", "to", "for"],
+    "opposed": ["with", "for", "against"],
+    "pleased": ["to", "for", "about"],
+    "polite": ["with", "for", "at"],
+    "popular": ["to", "in", "for"],
+    "proud": ["with", "to", "for"],
+    "qualified": ["to", "with", "in"],
+    "ready": ["to", "with", "in"],
+    "related": ["with", "for", "about"],
+    "responsible": ["to", "with", "of"],
+    "safe": ["against", "with", "to"],
+    "satisfied": ["to", "for", "about"],
+    "scared": ["with", "to", "about"],
+    "sensitive": ["with", "for", "about"],
+    "shocked": ["with", "to", "about"],
+    "short": ["with", "in", "to"],
+    "similar": ["with", "as", "like"],
+    "sorry": ["to", "with", "in"],
+    "successful": ["at", "to", "on"],
+    "suitable": ["with", "to", "of"],
+    "sure": ["with", "to", "in"],
+    "surprised": ["with", "to", "for"],
+    "suspicious": ["with", "to", "about"],
+    "terrified": ["with", "to", "about"],
+    "tired": ["with", "at", "to"],
+    "typical": ["with", "for", "to"],
+    "upset": ["with", "to", "for"],
+    "used": ["with", "for", "in"],
+    "welcome": ["for", "with", "at"],
+    "worried": ["with", "for", "to"],
+
+    // Noun + Prepositions
+    "cause": ["for", "to", "about"],
+    "chance": ["for", "to", "in"],
+    "choice": ["among", "with", "in"],
+    "criticism": ["to", "on", "about"],
+    "decrease": ["of", "at", "to"],
+    "decline": ["of", "at", "to"],
+    "drop": ["of", "at", "to"],
+    "fall": ["of", "at", "to"],
+    "increase": ["of", "at", "to"],
+    "rise": ["of", "at", "to"],
+    "demand": ["of", "to", "with"],
+    "difference": ["among", "with", "in"],
+    "difficulty": ["for", "to", "about"],
+    "disadvantage": ["to", "for", "in"],
+    "example": ["to", "for", "with"],
+    "excuse": ["of", "to", "about"],
+    "invitation": ["for", "at", "of"],
+    "reaction": ["on", "about", "for"],
+    "reason": ["of", "to", "about"],
+    "solution": ["of", "for", "with"],
+    "answer": ["of", "for", "with"],
+    "attitude": ["on", "about", "with"],
+    "control": ["in", "with", "to"]
+  },
+
+  // Plausible Confusable Pairs for Verbs & Nouns
+  CONFUSABLE_VERBS: {
+    "make": ["do", "take", "create"],
+    "do": ["make", "take", "conduct"],
+    "take": ["make", "have", "bring"],
+    "have": ["take", "make", "hold"],
+    "conduct": ["do", "make", "perform"],
+    "perform": ["conduct", "make", "do"],
+    "gain": ["earn", "win", "get"],
+    "win": ["beat", "gain", "earn"],
+    "beat": ["win", "defeat", "overcome"],
+    "lose": ["miss", "waste", "drop"],
+    "catch": ["take", "get", "contract"],
+    "cause": ["make", "bring", "lead"],
+    "handle": ["cope", "tackle", "manage"],
+    "raise": ["rise", "lift", "increase"],
+    "rise": ["raise", "arise", "grow"],
+    "say": ["tell", "speak", "talk"],
+    "tell": ["say", "speak", "talk"],
+    "speak": ["talk", "say", "tell"],
+    "talk": ["speak", "say", "tell"],
+    "break": ["violate", "spoil", "destroy"],
+    "keep": ["hold", "retain", "maintain"],
+    "pay": ["give", "offer", "grant"],
+    "give": ["offer", "provide", "grant"],
+    "throw": ["waste", "cast", "dump"],
+    "overcome": ["beat", "defeat", "surpass"],
+    "seek": ["find", "look", "search"],
+    "accept": ["receive", "admit", "agree"],
+    "answer": ["reply", "respond", "take"],
+    "join": ["enter", "attend", "unite"],
+    "set": ["fix", "put", "establish"],
+    "score": ["win", "gain", "make"],
+    "spend": ["waste", "cost", "take"],
+    "hurt": ["harm", "damage", "injure"],
+    "fight": ["battle", "struggle", "combat"],
+    "start": ["begin", "commence", "initiate"],
+    "express": ["show", "voice", "convey"]
+  },
+
+  CONFUSABLE_NOUNS: {
+    "decision": ["choice", "resolution", "verdict"],
+    "situation": ["condition", "circumstance", "position"],
+    "responsibility": ["blame", "duty", "fault"],
+    "promise": ["pledge", "vow", "agreement"],
+    "record": ["benchmark", "history", "score"],
+    "rules": ["laws", "orders", "guidelines"],
+    "cold": ["flu", "fever", "illness"],
+    "fire": ["flame", "heat", "burn"],
+    "trouble": ["problem", "distress", "issue"],
+    "mind": ["thought", "opinion", "idea"],
+    "search": ["seeking", "lookout", "quest"],
+    "survey": ["questionnaire", "poll", "census"],
+    "experiment": ["trial", "test", "investigation"],
+    "research": ["study", "investigation", "analysis"],
+    "dishes": ["plates", "bowls", "cups"],
+    "disapproval": ["objection", "dislike", "criticism"],
+    "injustice": ["unfairness", "inequality", "prejudice"],
+    "prejudice": ["bias", "discrimination", "racism"],
+    "poverty": ["hardship", "scarcity", "need"],
+    "racism": ["discrimination", "bias", "prejudice"],
+    "fame": ["popularity", "reputation", "celebrity"],
+    "finances": ["funds", "money", "budget"],
+    "pressure": ["stress", "tension", "strain"],
+    "weight": ["body", "mass", "fat"],
+    "welcome": ["greeting", "reception", "entry"],
+    "word": ["promise", "trust", "pledge"],
+    "hand": ["aid", "favor", "help"],
+    "argument": ["debate", "dispute", "quarrel"],
+    "disagreement": ["conflict", "division", "clash"],
+    "effect": ["affect", "result", "outcome"],
+    "feelings": ["emotions", "hearts", "sensations"],
+    "team": ["squad", "group", "crew"],
+    "opponent": ["rival", "enemy", "competitor"],
+    "opposition": ["opponents", "rivals", "adversaries"],
+    "difference": ["change", "contrast", "gap"],
+    "mistake": ["fault", "error", "blunder"],
+    "effort": ["attempt", "try", "endeavor"],
+    "hurdles": ["barriers", "fences", "obstacles"],
+    "obstacles": ["hurdles", "barriers", "blocks"],
+    "compliment": ["flattery", "praise", "honor"],
+    "trick": ["joke", "prank", "deceit"],
+    "aspirations": ["ambitions", "dreams", "goals"],
+    "expectations": ["demands", "hopes", "assumptions"],
+    "funds": ["finances", "money", "capital"],
+    "hopes": ["dreams", "wishes", "expectations"],
+    "prayers": ["wishes", "blessings", "grace"],
+    "grace": ["thanks", "blessing", "prayer"],
+    "goal": ["target", "aim", "purpose"],
+    "advice": ["suggestion", "counsel", "recommendation"],
+    "task": ["duty", "assignment", "job"],
+    "chance": ["opportunity", "luck", "possibility"],
+    "risk": ["danger", "hazard", "threat"],
+    "opportunity": ["chance", "occasion", "opening"],
+    "secret": ["mystery", "private", "confidential"],
+    "truth": ["fact", "reality", "veracity"],
+    "party": ["celebration", "feast", "gathering"]
+  },
+
   IRREGULARS: {
     give: { base: "give", past: "gave", part: "given", ing: "giving", s: "gives" },
     have: { base: "have", past: "had", part: "had", ing: "having", s: "has" },
@@ -462,12 +711,22 @@ const Alchemy = {
     }
 
     // Build 3 distractors consistent in type, category, and grammatical tense
+    // Prioritize pedagogical "Exam Traps" & plausible confusable distractors
     const distractors = new Set();
     const maxAttempts = 60;
     let attempts = 0;
 
     if (targetType === "preposition") {
-      // Pick other prepositions
+      // 1. Try curated exam trap prepositions for this headword
+      const headKey = (ht.base || item.head || "").toLowerCase().trim();
+      const traps = this.PREP_TRAPS[headKey] || [];
+      traps.forEach(t => {
+        if (t.toLowerCase() !== correctVal.toLowerCase() && distractors.size < 2) {
+          distractors.add(t.toLowerCase());
+        }
+      });
+
+      // 2. Fill remaining from pool
       const prepPool = this.PREPOSITIONS.filter(p => p.toLowerCase() !== correctVal.toLowerCase());
       while (distractors.size < 3 && attempts++ < maxAttempts) {
         const cand = prepPool[Math.floor(rng() * prepPool.length)];
@@ -478,7 +737,20 @@ const Alchemy = {
     } else if (targetType === "verb") {
       // Must match EXACT same tense as correctVal in context sentence
       const targetTense = ht.tense || "base";
-      // Pick other verbs from the pool
+      const baseKey = (ht.base || "").toLowerCase().trim();
+
+      // 1. Check for curated confusable verbs (e.g. make vs do, say vs tell, raise vs rise, win vs beat)
+      const confusableBases = this.CONFUSABLE_VERBS[baseKey] || [];
+      confusableBases.forEach(cb => {
+        if (distractors.size < 2) {
+          const inflected = this.inflectVerbToTense(cb, targetTense);
+          if (inflected && inflected.toLowerCase() !== correctVal.toLowerCase()) {
+            distractors.add(inflected);
+          }
+        }
+      });
+
+      // 2. Pick other verbs from the active pool in the exact same tense
       const verbPool = [];
       pool.forEach(p => {
         if (p.head_token && p.head_token.type === "verb" && p.head_token.base.toLowerCase() !== correctBase.toLowerCase()) {
@@ -512,6 +784,17 @@ const Alchemy = {
       }
     } else {
       // Noun target
+      const nounKey = (token.base || correctVal || "").toLowerCase().trim();
+
+      // 1. Check for plausible confusable nouns (e.g. decision vs choice, cold vs flu, mistake vs fault)
+      const confusableNouns = this.CONFUSABLE_NOUNS[nounKey] || [];
+      confusableNouns.forEach(cn => {
+        if (distractors.size < 2 && cn.toLowerCase() !== correctVal.toLowerCase()) {
+          distractors.add(cn);
+        }
+      });
+
+      // 2. Pick other nouns from the pool
       const nounPool = [];
       pool.forEach(p => {
         const candTok = isForward ? p.partner_token : p.head_token;

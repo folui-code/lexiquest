@@ -245,9 +245,9 @@ def extract_token_spans(cat, phrase, head, partner, sentence):
                     }
                     break
     elif cat == "Verb + Noun":
-        clean = re.sub(r"^(a|an|the|your|his|her|their|our)\s+", "", partner, flags=re.I).strip()
-        clean = re.sub(r"\(.*?\)", "", clean).strip()
-        cands = [w.lower().strip() for w in re.split(r"[/,\s]+", clean) if w.strip() and w.lower() not in ("for", "to", "from", "with", "about")]
+        clean = re.sub(r"\(.*?\)", "", partner).strip()
+        clean = re.sub(r"['’]s\b", "", clean).strip()
+        cands = [w.lower().strip() for w in re.split(r"[/,\s]+", clean) if w.strip() and w.lower() not in ("a", "an", "the", "your", "his", "her", "their", "our", "for", "to", "from", "with", "about", "away", "s.o.", "s.t.")]
         if not cands and phrase == "Admire (s.o.) for (s.t.)":
             cands = ["research"]
         search_start = head_token["end"] if head_token else 0

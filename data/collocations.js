@@ -858,10 +858,10 @@ window.COLLOCATIONS = [
     },
     "partner_token": {
       "type": "noun",
-      "base": "a",
-      "word": "a",
-      "start": 32,
-      "end": 33
+      "base": "hand",
+      "word": "hand",
+      "start": 34,
+      "end": 38
     }
   },
   {
@@ -1047,10 +1047,10 @@ window.COLLOCATIONS = [
     },
     "partner_token": {
       "type": "noun",
-      "base": "'s",
-      "word": "'s",
-      "start": 86,
-      "end": 88
+      "base": "feelings",
+      "word": "feelings",
+      "start": 89,
+      "end": 97
     }
   },
   {
@@ -1317,10 +1317,10 @@ window.COLLOCATIONS = [
     },
     "partner_token": {
       "type": "noun",
-      "base": "a",
-      "word": "a",
-      "start": 31,
-      "end": 32
+      "base": "compliment",
+      "word": "compliment",
+      "start": 38,
+      "end": 48
     }
   },
   {
@@ -1884,10 +1884,10 @@ window.COLLOCATIONS = [
     },
     "partner_token": {
       "type": "noun",
-      "base": "a",
-      "word": "a",
-      "start": 70,
-      "end": 71
+      "base": "secret",
+      "word": "secret",
+      "start": 72,
+      "end": 78
     }
   },
   {
@@ -1992,10 +1992,10 @@ window.COLLOCATIONS = [
     },
     "partner_token": {
       "type": "noun",
-      "base": "away",
-      "word": "away",
-      "start": 67,
-      "end": 71
+      "base": "chance",
+      "word": "chance",
+      "start": 83,
+      "end": 89
     }
   },
   {
@@ -2019,10 +2019,10 @@ window.COLLOCATIONS = [
     },
     "partner_token": {
       "type": "noun",
-      "base": "away",
-      "word": "away",
-      "start": 44,
-      "end": 48
+      "base": "opportunity",
+      "word": "opportunity",
+      "start": 52,
+      "end": 63
     }
   },
   {
