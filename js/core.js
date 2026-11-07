@@ -34,8 +34,11 @@ function posGroup(card) {
 
 /* ---------------- Ranks & achievements ---------------- */
 const RANKS = [
-  [0, "Novice Scribe"], [300, "Word Apprentice"], [800, "Lexicon Knight"], [1600, "Syntax Sage"],
-  [3000, "Rhetoric Master"], [5000, "Vocab Virtuoso"], [8000, "Lexical Legend"]
+  [0, "Apprentice"],
+  [1000, "Adept"],
+  [10000, "Scholar"],
+  [50000, "Sorcerer"],
+  [150000, "Arch-Mage"]
 ];
 const ACHIEVEMENTS = {
   first: ["🎮", "First Steps", "Finish your first game"],
@@ -207,11 +210,11 @@ const Store = {
     return pool.sort((a, b) => b.k - a.k).slice(0, n).map((x) => x.c);
   },
 
-  /* --- XP / rank --- */
+  /* --- XP / rank (5 Academy tiers) --- */
   rank(xp = this.d.xp) {
     let i = 0; while (i + 1 < RANKS.length && xp >= RANKS[i + 1][0]) i++;
-    const [lo, name] = RANKS[i], hi = RANKS[i + 1]?.[0] ?? lo + 5000;
-    return { name, pct: Math.min(100, ((xp - lo) / (hi - lo)) * 100), idx: i };
+    const [lo, name] = RANKS[i], hi = RANKS[i + 1]?.[0] ?? (lo + 100000);
+    return { name, pct: Math.min(100, Math.max(0, ((xp - lo) / (hi - lo)) * 100)), idx: i };
   },
   addXP(n) {
     const before = this.rank().idx;

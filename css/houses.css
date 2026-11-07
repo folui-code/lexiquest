@@ -50,6 +50,12 @@
   color: #93c5fd;
   box-shadow: 0 0 14px -3px var(--house-kan-glow);
 }
+.house-pill.dragon {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(192, 132, 252, 0.6);
+  color: #f3e8ff;
+  box-shadow: 0 0 16px -2px rgba(168, 85, 247, 0.45);
+}
 .house-pill:hover {
   transform: translateY(-1px);
 }
@@ -1000,6 +1006,7 @@
 .chb-house-pill.chi { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
 .chb-house-pill.kin { background: rgba(245, 158, 11, 0.2); color: #fde68a; }
 .chb-house-pill.kan { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+.chb-house-pill.dragon { background: rgba(168, 85, 247, 0.25); color: #e9d5ff; }
 
 .chb-xp {
   font-family: var(--font-n);

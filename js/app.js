@@ -47,6 +47,16 @@ const HOUSE_DATA = {
     badge: "🔵 KAN · Scholar",
     crest: "🐟",
     desc: "Scholars of profound syntax and illuminated manuscripts"
+  },
+  DRAGON: {
+    key: "DRAGON",
+    name: "DRAGON",
+    role: "FACULTY ARCH-MAGE",
+    mascot: "Shadow Dragon",
+    color: "#c084fc",
+    badge: "🐉 House of Dragon · Faculty",
+    crest: "🐉",
+    desc: "The High Council of Faculty and Masters of the Arcane"
   }
 };
 
@@ -226,22 +236,32 @@ const App = {
 
   renderTop() {
     const s = Store.liveStreak(), r = Store.rank();
+    const d = Store.d || {};
+    const auth = d.auth || {};
+    const isStaff = isStaffMember(d.name, auth.role);
+
     $("#streak-count").textContent = s;
     $("#streak-pill").classList.toggle("cold", Store.d.lastPlay !== todayKey());
     $("#streak-pill").classList.toggle("hot", Store.d.lastPlay === todayKey() && s >= 3);
     $("#streak-pill").title = `Daily streak · 🧊 ${Store.d.freezes} freeze(s)`;
-    $("#rank-name").textContent = `${r.name} · ${fmt(Store.d.xp)} XP`;
-    $("#xp-fill").style.width = r.pct + "%";
+    
+    if (isStaff) {
+      $("#rank-name").textContent = `Faculty Arch-Mage`;
+      $("#xp-fill").style.width = "100%";
+    } else {
+      $("#rank-name").textContent = `${r.name} · ${fmt(Store.d.xp)} XP`;
+      $("#xp-fill").style.width = r.pct + "%";
+    }
     $("#btn-mute").textContent = Store.d.muted ? "🔇" : "🔊";
 
     const housePill = $("#house-pill");
     if (housePill) {
-      const houseKey = (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
+      const houseKey = isStaff ? "DRAGON" : (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
       const hInfo = HOUSE_DATA[houseKey];
       if (hInfo) {
         housePill.className = `pill house-pill ${houseKey.toLowerCase()}`;
         housePill.textContent = hInfo.badge;
-        housePill.title = `Your House: ${hInfo.name} — ${hInfo.role} (${hInfo.mascot})\nClick to view Great Hall`;
+        housePill.title = isStaff ? "Faculty Council: House of Dragon" : `Your House: ${hInfo.name} — ${hInfo.role} (${hInfo.mascot})\nClick to view Great Hall`;
         housePill.classList.remove("hidden");
         housePill.onclick = () => {
           const stage = $("#great-hall-stage");
@@ -263,12 +283,15 @@ const App = {
     else { msg.className = "streak-msg"; msg.textContent = d.games ? "Your streak went cold. Start a fresh one today! 💪" : "Play your first game to start a daily streak 🔥"; }
 
     // Great Hall welcome text & House status
-    const houseKey = (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
+    const isStaff = isStaffMember(d.name, (d.auth && d.auth.role));
+    const houseKey = isStaff ? "DRAGON" : (Store.d.house || (Store.d.auth && Store.d.auth.house) || "").toUpperCase();
     const hInfo = HOUSE_DATA[houseKey];
     const houseMsg = $("#house-greeting-msg");
     if (houseMsg) {
-      if (hInfo) {
-        houseMsg.innerHTML = `Assigned to House <b>${hInfo.name}</b> (✦ ${hInfo.role} · Mascot: ${hInfo.mascot} ✦)`;
+      if (isStaff) {
+        houseMsg.innerHTML = `Faculty High Council · <b style="color:${hInfo.color}">House of Dragon</b> (✦ Shadow Dragon ✦)`;
+      } else if (hInfo) {
+        houseMsg.innerHTML = `Assigned to House <b style="color:${hInfo.color}">${hInfo.name}</b> (✦ ${hInfo.role} · Mascot: ${hInfo.mascot} ✦)`;
       } else {
         houseMsg.innerHTML = `HPCCSS Academy of Wizardry · Four Houses Arena`;
       }
@@ -363,25 +386,25 @@ const App = {
 
     const d = Store.d || {};
     const auth = d.auth || {};
-    const houseKey = (d.house || auth.house || "TAK").toUpperCase();
-    const hInfo = HOUSE_DATA[houseKey] || HOUSE_DATA.TAK;
-    const r = Store.rank ? Store.rank() : { name: "Novice Scribe" };
+    const isStaff = isStaffMember(d.name, auth.role);
+    const houseKey = isStaff ? "DRAGON" : (d.house || auth.house || "TAK").toUpperCase();
+    const hInfo = HOUSE_DATA[houseKey] || HOUSE_DATA.DRAGON;
+    const r = isStaff ? { name: "Faculty Arch-Mage" } : (Store.rank ? Store.rank() : { name: "Apprentice" });
 
-    const isStaff = auth.role === "staff" || (d.name || "").toLowerCase().includes("staff");
-    let className = "4A";
-    let formName = "S4";
+    let className = isStaff ? "Staff" : "4A";
+    let formName = isStaff ? "Faculty High Council" : "S4";
 
-    const rawName = auth.name || d.name || "Scholar";
-    const classMatch = rawName.match(/\((4[A-E]|5[A-E]|6[A-E]|\d[A-E]|Staff)\)/i);
+    const rawName = auth.name || d.name || (isStaff ? "Teacher" : "Scholar");
+    const classMatch = rawName.match(/\((4[A-E]|5[A-E]|6[A-E]|\d[A-E]|Staff|VP|P)\)/i);
     if (classMatch) {
       className = classMatch[1].toUpperCase();
-      if (className === "STAFF") {
+      if (className === "STAFF" || className === "VP" || className === "P") {
         formName = "Faculty";
       } else {
         formName = "S" + className.charAt(0);
       }
     }
-    const cleanName = rawName.replace(/\s*\([^)]*\)/g, "").trim() || "Scholar";
+    const cleanName = rawName.replace(/\s*\([^)]*\)/g, "").trim() || (isStaff ? "Teacher" : "Scholar");
 
     // Mastered words count
     let masteredCount = 0;
@@ -390,14 +413,14 @@ const App = {
       if (st === "mastered") masteredCount++;
     });
 
-    const crestImg = `assets/houses/crests/${houseKey.toLowerCase()}.png`;
-    const avatarImg = `assets/houses/avatars/${houseKey.toLowerCase()}.png`;
+    const crestImg = isStaff ? "assets/houses/crests/dragon.png" : `assets/houses/crests/${houseKey.toLowerCase()}.png`;
+    const avatarImg = isStaff ? "assets/houses/avatars/dragon.png" : `assets/houses/avatars/${houseKey.toLowerCase()}.png`;
 
     showcase.innerHTML = `
       <!-- LEFT: HOUSE LOGO -->
       <div class="wp-house-logo-col">
         <img src="${crestImg}" alt="${hInfo.name} House Crest" class="wp-house-crest" onerror="this.onerror=null;this.src='assets/houses/house_concept_design.png';" />
-        <span class="wp-house-name-tag" style="border-color:${hInfo.color};color:${hInfo.color}">HOUSE ${esc(hInfo.name)}</span>
+        <span class="wp-house-name-tag" style="border-color:${hInfo.color};color:${hInfo.color}">${isStaff ? "HOUSE OF DRAGON" : "HOUSE " + esc(hInfo.name)}</span>
       </div>
 
       <!-- AVATAR PICTURE -->
@@ -414,8 +437,8 @@ const App = {
         </div>
         <h2 class="wp-name">${esc(cleanName)}</h2>
         <div class="wp-meta-row">
-          <span class="wp-meta-item">🏫 Class: <b>${isStaff ? "Staff" : esc(className)}</b></span>
-          <span class="wp-meta-item">🛡️ House: <b style="color:${hInfo.color}">${esc(hInfo.name)} (${esc(hInfo.mascot)})</b></span>
+          <span class="wp-meta-item">🏫 Class: <b>${isStaff ? "Faculty" : esc(className)}</b></span>
+          <span class="wp-meta-item">🛡️ Order: <b style="color:${hInfo.color}">${isStaff ? "House of Dragon" : esc(hInfo.name) + " (" + esc(hInfo.mascot) + ")"}</b></span>
           <span class="wp-meta-item">🎖️ Rank: <b>${esc(r.name)}</b></span>
         </div>
         <div class="wp-stats-bar">
@@ -735,7 +758,9 @@ const App = {
 
   renderHouseCup() {
     const d = Store.d;
-    const myHouse = (d.house || (d.auth && d.auth.house) || "").toUpperCase();
+    const auth = d.auth || {};
+    const isStaff = isStaffMember(d.name, auth.role);
+    const myHouse = isStaff ? null : (d.house || auth.house || "").toUpperCase();
 
     // Baseline house points calculated from real student scores
     const basePoints = {
