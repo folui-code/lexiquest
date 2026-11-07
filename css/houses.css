@@ -431,3 +431,404 @@
   }
 }
 
+
+
+/* ===================================================================
+   WIZARD PERSONAL PROFILE & COLLECTION SHOWCASE
+   =================================================================== */
+.wizard-profile-showcase {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.82));
+  border: 1px solid rgba(215, 175, 75, 0.35);
+  border-radius: 24px;
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.6), 0 0 24px -6px rgba(215, 175, 75, 0.15);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wizard-profile-showcase::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #e11d48, #10b981, #f59e0b, #3b82f6);
+  opacity: 0.8;
+}
+
+/* 1. House Logo on the Far Left */
+.wp-house-logo-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  width: 90px;
+}
+.wp-house-crest {
+  width: 72px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+  transition: transform .25s ease;
+}
+.wp-house-crest:hover {
+  transform: scale(1.06);
+}
+.wp-house-name-tag {
+  font-family: var(--font-h);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  color: #f8fafc;
+  text-align: center;
+}
+
+/* 2. Avatar Picture Next */
+.wp-avatar-col {
+  flex-shrink: 0;
+}
+.wp-avatar-frame {
+  width: 92px;
+  height: 110px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 2px solid rgba(215, 175, 75, 0.5);
+  box-shadow: 0 0 20px -3px rgba(215, 175, 75, 0.35);
+  background: #0f172a;
+  position: relative;
+}
+.wp-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform .25s;
+}
+.wp-avatar-frame:hover .wp-avatar-img {
+  transform: scale(1.05);
+}
+
+/* 3. Personal Info (Middle) */
+.wp-info-col {
+  flex: 1;
+  min-width: 220px;
+}
+.wp-role-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  margin-bottom: 6px;
+}
+.wp-name {
+  margin: 0 0 6px;
+  font-family: var(--font-h);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.25;
+}
+.wp-meta-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.wp-meta-item {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.wp-stats-bar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.wp-stat {
+  display: flex;
+  flex-direction: column;
+}
+.wp-stat-num {
+  font-family: var(--font-h);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fde047;
+}
+.wp-stat-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* 4. Space for Tools, Spells & Items on the Right */
+.wp-collection-col {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-left: 20px;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.wp-collection-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.wp-slots-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.wp-item-slot {
+  width: 48px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px dashed rgba(168, 85, 247, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.wp-item-slot:hover {
+  border-color: #c084fc;
+  background: rgba(168, 85, 247, 0.15);
+  transform: translateY(-2px);
+}
+.wp-slot-icon {
+  font-size: 1.35rem;
+  opacity: 0.7;
+}
+.wp-slot-lock {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 0.7rem;
+  background: #0f172a;
+  border-radius: 999px;
+  padding: 1px 3px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.wp-collection-footer {
+  font-size: 0.74rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .wizard-profile-showcase {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wp-collection-col {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 0;
+    padding-top: 16px;
+  }
+}
+
+/* ===================================================================
+   CLASS HONOR ROLL (TOP 3 STUDENTS IN EACH CLASS)
+   =================================================================== */
+.class-honor-roll-card {
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+.chr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.chr-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chr-icon {
+  font-size: 2rem;
+}
+.chr-title-group h2 {
+  margin: 0 0 4px;
+  font-family: var(--font-h);
+  font-size: 1.35rem;
+  color: #f8fafc;
+}
+.chr-form-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.chr-form-tab {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.chr-form-tab:hover {
+  color: #f8fafc;
+}
+.chr-form-tab.active {
+  background: rgba(56, 189, 248, 0.22);
+  color: #e0f2fe;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+.class-honor-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+@media (max-width: 1080px) {
+  .class-honor-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .class-honor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.class-honor-box {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s ease, border-color .2s ease;
+}
+.class-honor-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+.class-honor-box.is-my-class {
+  border-color: #38bdf8;
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), rgba(15, 23, 42, 0.85));
+  box-shadow: 0 0 16px -4px rgba(56, 189, 248, 0.3);
+}
+
+.chb-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.chb-class-title {
+  font-family: var(--font-h);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+.chb-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+.class-honor-box.is-my-class .chb-badge {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.chb-students-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chb-student-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.84rem;
+  transition: background .15s;
+}
+.chb-student-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.chb-student-row.is-user {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+.chb-medal {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+.chb-info {
+  flex: 1;
+  min-width: 0;
+}
+.chb-name {
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.82rem;
+}
+.chb-house-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.chb-house-pill.tak { background: rgba(225, 29, 72, 0.2); color: #fda4af; }
+.chb-house-pill.chi { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+.chb-house-pill.kin { background: rgba(245, 158, 11, 0.2); color: #fde68a; }
+.chb-house-pill.kan { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+
+.chb-xp {
+  font-family: var(--font-n);
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #fde047;
+  flex-shrink: 0;
+}

@@ -268,8 +268,11 @@ const App = {
       }
     });
 
-    // Render House Cup Standings
-    this.renderHouseCup();
+    // Render Wizard Personal Profile & Collection Showcase
+    this.renderWizardProfile();
+
+    // Render Class Honor Roll (Top 3 Students per class)
+    this.renderClassHonorRoll();
 
     // daily quests
     const q = d.daily.q;
@@ -331,6 +334,263 @@ const App = {
 
     // render pinned arena scoreboard
     this.renderScoreboard(this.currentSbTab || "rush");
+  },
+
+  renderWizardProfile() {
+    const showcase = $("#wizard-profile-showcase");
+    if (!showcase) return;
+
+    const d = Store.d || {};
+    const auth = d.auth || {};
+    const houseKey = (d.house || auth.house || "TAK").toUpperCase();
+    const hInfo = HOUSE_DATA[houseKey] || HOUSE_DATA.TAK;
+    const r = Store.rank ? Store.rank() : { name: "Novice Scribe" };
+
+    const isStaff = auth.role === "staff" || (d.name || "").toLowerCase().includes("staff");
+    let className = "4A";
+    let formName = "S4";
+
+    const rawName = auth.name || d.name || "Scholar";
+    const classMatch = rawName.match(/\((4[A-E]|5[A-E]|6[A-E]|\d[A-E]|Staff)\)/i);
+    if (classMatch) {
+      className = classMatch[1].toUpperCase();
+      if (className === "STAFF") {
+        formName = "Faculty";
+      } else {
+        formName = "S" + className.charAt(0);
+      }
+    }
+    const cleanName = rawName.replace(/\s*\([^)]*\)/g, "").trim() || "Scholar";
+
+    // Mastered words count
+    let masteredCount = 0;
+    (window.VOCAB || []).forEach(c => {
+      const st = Store.getWordStatus ? Store.getWordStatus(c) : "new";
+      if (st === "mastered") masteredCount++;
+    });
+
+    const crestImg = `assets/houses/crests/${houseKey.toLowerCase()}.png`;
+    const avatarImg = `assets/houses/avatars/${houseKey.toLowerCase()}.png`;
+
+    showcase.innerHTML = `
+      <!-- LEFT: HOUSE LOGO -->
+      <div class="wp-house-logo-col">
+        <img src="${crestImg}" alt="${hInfo.name} House Crest" class="wp-house-crest" onerror="this.onerror=null;this.src='assets/houses/house_concept_design.png';" />
+        <span class="wp-house-name-tag" style="border-color:${hInfo.color};color:${hInfo.color}">HOUSE ${esc(hInfo.name)}</span>
+      </div>
+
+      <!-- AVATAR PICTURE -->
+      <div class="wp-avatar-col">
+        <div class="wp-avatar-frame" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
+          <img src="${avatarImg}" alt="${esc(cleanName)} Avatar" class="wp-avatar-img" onerror="this.onerror=null;this.src='assets/houses/house_concept_design.png';" />
+        </div>
+      </div>
+
+      <!-- PERSONAL INFO (MIDDLE) -->
+      <div class="wp-info-col">
+        <div class="wp-role-badge">
+          ${isStaff ? "🎓 Faculty / Staff Member" : `🎓 ${esc(formName)} Student`}
+        </div>
+        <h2 class="wp-name">${esc(cleanName)}</h2>
+        <div class="wp-meta-row">
+          <span class="wp-meta-item">🏫 Class: <b>${isStaff ? "Staff" : esc(className)}</b></span>
+          <span class="wp-meta-item">🛡️ House: <b style="color:${hInfo.color}">${esc(hInfo.name)} (${esc(hInfo.mascot)})</b></span>
+          <span class="wp-meta-item">🎖️ Rank: <b>${esc(r.name)}</b></span>
+        </div>
+        <div class="wp-stats-bar">
+          <div class="wp-stat">
+            <span class="wp-stat-num">${fmt(d.xp || 0)}</span>
+            <span class="wp-stat-label">House XP</span>
+          </div>
+          <div class="wp-stat">
+            <span class="wp-stat-num">${Store.liveStreak ? Store.liveStreak() : 0}🔥</span>
+            <span class="wp-stat-label">Daily Streak</span>
+          </div>
+          <div class="wp-stat">
+            <span class="wp-stat-num">${masteredCount}</span>
+            <span class="wp-stat-label">Words Mastered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: SPACE FOR TOOLS, SPELLS & ITEMS (ARSENAL) -->
+      <div class="wp-collection-col">
+        <div class="wp-collection-header">
+          <span style="font-size:1.2rem">🔮</span>
+          <div>
+            <div style="font-weight:800;font-size:0.9rem;color:#f8fafc">Arcane Arsenal</div>
+            <div class="muted" style="font-size:0.75rem">Tools &amp; Spells Collection</div>
+          </div>
+        </div>
+        <div class="wp-slots-grid">
+          <div class="wp-item-slot" title="Elder Wand of Syntax (Available in upcoming quest)">
+            <span class="wp-slot-icon">🪄</span>
+            <span class="wp-slot-lock">🔒</span>
+          </div>
+          <div class="wp-item-slot" title="Ancient Spell Grimoire (Available in upcoming quest)">
+            <span class="wp-slot-icon">📜</span>
+            <span class="wp-slot-lock">🔒</span>
+          </div>
+          <div class="wp-item-slot" title="Alchemical Focus Elixir (Available in upcoming quest)">
+            <span class="wp-slot-icon">🧪</span>
+            <span class="wp-slot-lock">🔒</span>
+          </div>
+          <div class="wp-item-slot" title="Phoenix Feather Charm (Available in upcoming quest)">
+            <span class="wp-slot-icon">🪶</span>
+            <span class="wp-slot-lock">🔒</span>
+          </div>
+        </div>
+        <div class="wp-collection-footer muted">✦ 4 Artifact slots reserved for collection</div>
+      </div>
+    `;
+  },
+
+  renderClassHonorRoll(selectedForm) {
+    const card = $("#class-honor-roll-card");
+    if (!card) return;
+
+    const d = Store.d || {};
+    const auth = d.auth || {};
+    const isStaff = auth.role === "staff" || (d.name || "").toLowerCase().includes("staff");
+
+    // Detect user's class and form
+    let userForm = "S4";
+    let userClass = "4A";
+    const rawName = auth.name || d.name || "";
+    const cm = rawName.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
+    if (cm) {
+      userClass = cm[1].toUpperCase();
+      userForm = "S" + userClass.charAt(0);
+    }
+    const cleanUserName = rawName.replace(/\s*\([^)]*\)/g, "").trim().toLowerCase();
+
+    // Active form selection: Staff can switch across S4, S5, S6, or ALL.
+    // Students only see their own form's 5 classes!
+    const activeForm = isStaff ? (selectedForm || this.activeStaffForm || "S4") : userForm;
+    this.activeStaffForm = activeForm;
+
+    const data = typeof CLASS_HONOR_ROLL !== "undefined" ? CLASS_HONOR_ROLL : { S4: {}, S5: {}, S6: {} };
+
+    // Determine which classes to render
+    let classesToRender = [];
+    if (activeForm === "ALL" && isStaff) {
+      classesToRender = [
+        ...['4A', '4B', '4C', '4D', '4E'].map(c => ({ form: 'S4', class: c })),
+        ...['5A', '5B', '5C', '5D', '5E'].map(c => ({ form: 'S5', class: c })),
+        ...['6A', '6B', '6C', '6D', '6E'].map(c => ({ form: 'S6', class: c }))
+      ];
+    } else {
+      const formKey = activeForm in data ? activeForm : "S4";
+      const subClasses = ['A', 'B', 'C', 'D', 'E'].map(s => formKey.replace("S", "") + s);
+      classesToRender = subClasses.map(c => ({ form: formKey, class: c }));
+    }
+
+    const formTitle = activeForm === "ALL" ? "All Forms (S4, S5, S6)" : `Form ${activeForm.replace("S", "")} (${classesToRender.map(x => x.class).join(", ")})`;
+
+    card.innerHTML = `
+      <div class="chr-header">
+        <div class="chr-title-group">
+          <span class="chr-icon">🏆</span>
+          <div>
+            <h2>Class Honor Roll · Top 3 Scholars</h2>
+            <p class="muted" style="margin:0;font-size:0.88rem">${formTitle} · Top scholars in each class</p>
+          </div>
+        </div>
+
+        ${isStaff ? `
+          <div class="chr-form-tabs">
+            <button class="chr-form-tab ${activeForm === 'S4' ? 'active' : ''}" data-form="S4">Form 4 (4A–4E)</button>
+            <button class="chr-form-tab ${activeForm === 'S5' ? 'active' : ''}" data-form="S5">Form 5 (5A–5E)</button>
+            <button class="chr-form-tab ${activeForm === 'S6' ? 'active' : ''}" data-form="S6">Form 6 (6A–6E)</button>
+            <button class="chr-form-tab ${activeForm === 'ALL' ? 'active' : ''}" data-form="ALL">All 15 Classes</button>
+          </div>
+        ` : `
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="alch-cat-badge" style="background:rgba(56,189,248,0.18);border-color:#38bdf8;color:#e0f2fe;font-size:0.8rem">
+              Form ${userForm.replace("S", "")} Classes (Top 3)
+            </span>
+          </div>
+        `}
+      </div>
+
+      <div class="class-honor-grid" style="${classesToRender.length > 5 ? 'grid-template-columns:repeat(auto-fill, minmax(200px, 1fr))' : ''}">
+        ${classesToRender.map(ci => {
+          const cName = ci.class;
+          const fKey = ci.form;
+          const isMyClass = !isStaff && userClass === cName;
+
+          // Retrieve and sort top 3 students
+          let top3 = (data[fKey] && data[fKey][cName]) ? [...data[fKey][cName]] : [];
+
+          // If current user is in this class, incorporate user's live score
+          if (isMyClass && cleanUserName) {
+            const userHouse = (d.house || auth.house || "TAK").toUpperCase();
+            const existingIdx = top3.findIndex(s => s.name.toLowerCase().includes(cleanUserName));
+            const userEntry = {
+              name: auth.name ? auth.name.replace(/\s*\([^)]*\)/g, "").trim() : d.name,
+              house: userHouse,
+              xp: d.xp || 0,
+              isUser: true
+            };
+
+            if (existingIdx >= 0) {
+              if ((d.xp || 0) > top3[existingIdx].xp) {
+                top3[existingIdx] = userEntry;
+              } else {
+                top3[existingIdx].isUser = true;
+              }
+            } else {
+              top3.push(userEntry);
+            }
+
+            top3.sort((a, b) => b.xp - a.xp);
+            top3 = top3.slice(0, 3);
+            top3.forEach((s, idx) => s.rank = idx + 1);
+          }
+
+          const medals = ["🥇", "🥈", "🥉"];
+
+          return `
+            <div class="class-honor-box ${isMyClass ? "is-my-class" : ""}">
+              <div class="chb-head">
+                <span class="chb-class-title">Class ${esc(cName)}</span>
+                <span class="chb-badge">${isMyClass ? "Your Class ★" : "Top 3"}</span>
+              </div>
+              <div class="chb-students-list">
+                ${top3.map((st, idx) => {
+                  const medal = medals[idx] || `#${idx + 1}`;
+                  const hKey = (st.house || "TAK").toUpperCase();
+                  const isCur = st.isUser || (cleanUserName && st.name.toLowerCase().includes(cleanUserName));
+
+                  return `
+                    <div class="chb-student-row ${isCur ? "is-user" : ""}">
+                      <span class="chb-medal">${medal}</span>
+                      <div class="chb-info">
+                        <div class="chb-name" title="${esc(st.name)}">
+                          ${esc(st.name)} ${isCur ? '<b style="color:#38bdf8">(You)</b>' : ''}
+                        </div>
+                      </div>
+                      <span class="chb-house-pill ${hKey.toLowerCase()}">${hKey}</span>
+                      <span class="chb-xp">${fmt(st.xp)}</span>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+
+    // Staff tab event listeners
+    if (isStaff) {
+      $$(".chr-form-tab", card).forEach(tab => {
+        tab.onclick = () => {
+          Sfx.click();
+          this.renderClassHonorRoll(tab.dataset.form);
+        };
+      });
+    }
   },
 
   renderHouseCup() {
