@@ -539,3 +539,4 @@ with open('/Users/kelvinluimacbookair/.gemini/antigravity-ide/scratch/vocab-game
   f.write(js_content)
 
 print(f"Generated clean calendar passages starting from 7 Nov 2026! Total: {len(PASSAGES)}")
+

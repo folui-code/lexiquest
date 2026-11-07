@@ -562,7 +562,8 @@ const Reading = {
       Sfx.wrong();
     }
 
-    // Re-render chamber in review mode
+    // Start review from the first question (Q1)
+    this.activeQIdx = 0;
     this.renderChamber(item);
   }
 };
