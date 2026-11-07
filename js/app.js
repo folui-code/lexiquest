@@ -62,6 +62,10 @@ const App = {
     if (alchemyModeBtn) {
       alchemyModeBtn.onclick = () => { Sfx.click(); Alchemy.intro(); };
     }
+    const readingModeBtn = $("#mode-reading");
+    if (readingModeBtn) {
+      readingModeBtn.onclick = () => { Sfx.click(); Reading.intro(); };
+    }
     $("#mode-wordle").onclick = () => { Sfx.click(); Wordle.intro(); };
     $("#mode-matrix").onclick = () => { Sfx.click(); Matrix.intro(); };
     const blitzModeBtn = $("#mode-blitz");
@@ -283,6 +287,12 @@ const App = {
     const bestAlchEl = $("#best-alchemy");
     if (bestAlchEl) {
       bestAlchEl.textContent = d.best && d.best.alchemy ? `Best ${fmt(d.best.alchemy)}` : "Play Now";
+    }
+    const bestReadingEl = $("#best-reading");
+    if (bestReadingEl) {
+      const rStore = d.reading || {};
+      const compCount = rStore.completed ? Object.keys(rStore.completed).length : 0;
+      bestReadingEl.textContent = compCount > 0 ? `${compCount} done (${rStore.streak || 0}🔥)` : "Daily Ready!";
     }
     $("#best-wordle").textContent = d.daily.wordle ? (d.daily.wordle.won ? "Daily ✓" : "Daily ✗") : "Daily Ready!";
     $("#best-matrix").textContent = d.daily.matrix ? (d.daily.matrix.won ? "Daily ✓" : "Daily ✗") : "Daily ready!";
