@@ -2820,5 +2820,691 @@ window.VOCAB = [
     ],
     "context": "After graduation, she ___ a new career in digital marketing.",
     "raw_sentence": "After graduation, she embarked on a new career in digital marketing."
+  },
+  {
+    "id": 152,
+    "key": "S4:entrepreneur",
+    "word": "Entrepreneur",
+    "pos": "n.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "A person who sets up a business, taking on financial risks for profit. (創業家；企業家)",
+    "meaning_eng": "A person who sets up a business, taking on financial risks for profit.",
+    "meaning_chin": "創業家；企業家",
+    "synonyms": [
+      "創業家；企業家"
+    ],
+    "context": "Driven by a vision for sustainable fashion, the ambitious ___ launched an online store on Instagram to sell eco-friendly apparel directly to consumers.",
+    "raw_sentence": "Driven by a vision for sustainable fashion, the ambitious entrepreneur launched an online store on Instagram to sell eco-friendly apparel directly to consumers."
+  },
+  {
+    "id": 153,
+    "key": "S4:overhead",
+    "word": "Overhead",
+    "pos": "n.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Regular operational expenses (e.g., rent, utilities) of running a business. (經常性開支；營運成本)",
+    "meaning_eng": "Regular operational expenses (e.g., rent, utilities) of running a business.",
+    "meaning_chin": "經常性開支；營運成本",
+    "synonyms": [
+      "經常性開支；營運成本"
+    ],
+    "context": "By operating exclusively through social media channels instead of renting commercial space, the online merchant successfully reduced monthly ___.",
+    "raw_sentence": "By operating exclusively through social media channels instead of renting commercial space, the online merchant successfully reduced monthly overhead."
+  },
+  {
+    "id": 154,
+    "key": "S4:logistics",
+    "word": "Logistics",
+    "pos": "n.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "The organization and management of product transportation and delivery. (物流；後勤)",
+    "meaning_eng": "The organization and management of product transportation and delivery.",
+    "meaning_chin": "物流；後勤",
+    "synonyms": [
+      "物流；後勤"
+    ],
+    "context": "Coordinating international ___ efficiently requires automated tracking systems to ensure parcels reach online shoppers without unexpected transit delays.",
+    "raw_sentence": "Coordinating international logistics efficiently requires automated tracking systems to ensure parcels reach online shoppers without unexpected transit delays."
+  },
+  {
+    "id": 155,
+    "key": "S4:stakeholder",
+    "word": "Stakeholder",
+    "pos": "n.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Any individual or group with an interest or concern in a business (e.g., owners, buyers, couriers). (利益相關者)",
+    "meaning_eng": "Any individual or group with an interest or concern in a business (e.g., owners, buyers, couriers).",
+    "meaning_chin": "利益相關者",
+    "synonyms": [
+      "利益相關者"
+    ],
+    "context": "The digital platform updated its seller policies after consulting key ___s, including independent store owners, payment processors, and courier services.",
+    "raw_sentence": "The digital platform updated its seller policies after consulting key stakeholders, including independent store owners, payment processors, and courier services."
+  },
+  {
+    "id": 156,
+    "key": "S4:lucrative",
+    "word": "Lucrative",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Producing a great deal of profit; highly profitable. (獲利的；利潤豐厚的)",
+    "meaning_eng": "Producing a great deal of profit; highly profitable.",
+    "meaning_chin": "獲利的；利潤豐厚的",
+    "synonyms": [
+      "獲利的；利潤豐厚的"
+    ],
+    "context": "Selling customized electronic accessories online proved to be a highly ___ business model for the small design studio during peak holiday seasons.",
+    "raw_sentence": "Selling customized electronic accessories online proved to be a highly lucrative business model for the small design studio during peak holiday seasons."
+  },
+  {
+    "id": 157,
+    "key": "S4:cost-effective",
+    "word": "Cost-effective",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Economical; delivering good value for the money spent. (具成本效益的；划算的)",
+    "meaning_eng": "Economical; delivering good value for the money spent.",
+    "meaning_chin": "具成本效益的；划算的",
+    "synonyms": [
+      "具成本效益的；划算的"
+    ],
+    "context": "Promoting products through targeted social media advertising offers a far more ___ strategy for small online businesses than traditional print marketing.",
+    "raw_sentence": "Promoting products through targeted social media advertising offers a far more cost-effective strategy for small online businesses than traditional print marketing."
+  },
+  {
+    "id": 158,
+    "key": "S4:bespoke",
+    "word": "Bespoke",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Custom-made or tailored specifically to an individual customer's order. (訂製的；客製化的)",
+    "meaning_eng": "Custom-made or tailored specifically to an individual customer's order.",
+    "meaning_chin": "訂製的；客製化的",
+    "synonyms": [
+      "訂製的；客製化的"
+    ],
+    "context": "The Instagram boutique gained a loyal following by crafting ___ leather goods tailored to the specific design requests of each buyer.",
+    "raw_sentence": "The Instagram boutique gained a loyal following by crafting bespoke leather goods tailored to the specific design requests of each buyer."
+  },
+  {
+    "id": 159,
+    "key": "S4:burgeoning",
+    "word": "Burgeoning",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Rapidly growing, expanding, or flourishing. (蓬勃發展的；迅速成長的)",
+    "meaning_eng": "Rapidly growing, expanding, or flourishing.",
+    "meaning_chin": "蓬勃發展的；迅速成長的",
+    "synonyms": [
+      "蓬勃發展的；迅速成長的"
+    ],
+    "context": "Venture capitalists are eager to invest in the ___ e-commerce sector as more consumers shift their daily purchasing habits online.",
+    "raw_sentence": "Venture capitalists are eager to invest in the burgeoning e-commerce sector as more consumers shift their daily purchasing habits online."
+  },
+  {
+    "id": 160,
+    "key": "S4:leverage",
+    "word": "Leverage",
+    "pos": "v.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "To use a tool or platform to its maximum advantage. (利用；杠桿化)",
+    "meaning_eng": "To use a tool or platform to its maximum advantage.",
+    "meaning_chin": "利用；杠桿化",
+    "synonyms": [
+      "利用；杠桿化"
+    ],
+    "context": "Independent retailers frequently ___ live-streaming features on social networks to demonstrate product quality and boost real-time sales engagement.",
+    "raw_sentence": "Independent retailers frequently leverage live-streaming features on social networks to demonstrate product quality and boost real-time sales engagement."
+  },
+  {
+    "id": 161,
+    "key": "S4:streamline",
+    "word": "Streamline",
+    "pos": "v.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "To make a process or business operation smoother, simpler, and more efficient. (簡化；精簡)",
+    "meaning_eng": "To make a process or business operation smoother, simpler, and more efficient.",
+    "meaning_chin": "簡化；精簡",
+    "synonyms": [
+      "簡化；精簡"
+    ],
+    "context": "Integrating automated order confirmation software allowed the boutique to ___ its fulfillment process and handle double the daily sales volume.",
+    "raw_sentence": "Integrating automated order confirmation software allowed the boutique to streamline its fulfillment process and handle double the daily sales volume."
+  },
+  {
+    "id": 162,
+    "key": "S4:capitalize (on)",
+    "word": "Capitalize (on)",
+    "pos": "v.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "To take full advantage of a market trend or commercial opportunity. (利用……獲利)",
+    "meaning_eng": "To take full advantage of a market trend or commercial opportunity.",
+    "meaning_chin": "利用……獲利",
+    "synonyms": [
+      "利用……獲利"
+    ],
+    "context": "Young shop owners quickly designed new product lines to ___ the sudden surge in public interest toward sustainable lifestyle products.",
+    "raw_sentence": "Young shop owners quickly designed new product lines to capitalize on the sudden surge in public interest toward sustainable lifestyle products."
+  },
+  {
+    "id": 163,
+    "key": "S4:empower",
+    "word": "Empower",
+    "pos": "v.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "To give someone the power, confidence, or means to achieve something. (賦能；授權)",
+    "meaning_eng": "To give someone the power, confidence, or means to achieve something.",
+    "meaning_chin": "賦能；授權",
+    "synonyms": [
+      "賦能；授權"
+    ],
+    "context": "User-friendly online storefront setups ___ aspiring creators to start their own retail businesses without needing extensive technical expertise.",
+    "raw_sentence": "User-friendly online storefront setups empower aspiring creators to start their own retail businesses without needing extensive technical expertise."
+  },
+  {
+    "id": 164,
+    "key": "S4:cater (to)",
+    "word": "Cater (to)",
+    "pos": "v.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "To provide exactly what is needed or desired by a specific target audience. (迎合；滿足需求)",
+    "meaning_eng": "To provide exactly what is needed or desired by a specific target audience.",
+    "meaning_chin": "迎合；滿足需求",
+    "synonyms": [
+      "迎合；滿足需求"
+    ],
+    "context": "Specialized online shops curate unique hand-knitted items to ___ aesthetic-conscious youth looking for personalized fashion choices.",
+    "raw_sentence": "Specialized online shops curate unique hand-knitted items to cater to aesthetic-conscious youth looking for personalized fashion choices."
+  },
+  {
+    "id": 165,
+    "key": "S4:exponentially",
+    "word": "Exponentially",
+    "pos": "adv.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Increasing or growing at an extraordinarily rapid rate. (成倍地；呈指數級地)",
+    "meaning_eng": "Increasing or growing at an extraordinarily rapid rate.",
+    "meaning_chin": "成倍地；呈指數級地",
+    "synonyms": [
+      "成倍地；呈指數級地"
+    ],
+    "context": "Following a viral endorsement from a popular influencer, traffic to the brand's Instagram shop grew ___ within twenty-four hours.",
+    "raw_sentence": "Following a viral endorsement from a popular influencer, traffic to the brand's Instagram shop grew exponentially within twenty-four hours."
+  },
+  {
+    "id": 166,
+    "key": "S4:undeniably",
+    "word": "Undeniably",
+    "pos": "adv.",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Clearly true; indisputably. (不可否認地)",
+    "meaning_eng": "Clearly true; indisputably.",
+    "meaning_chin": "不可否認地",
+    "synonyms": [
+      "不可否認地"
+    ],
+    "context": "Social media storefronts have ___ revolutionized how young entrepreneurs conduct retail operations in Hong Kong.",
+    "raw_sentence": "Social media storefronts have undeniably revolutionized how young entrepreneurs conduct retail operations in Hong Kong."
+  },
+  {
+    "id": 167,
+    "key": "S4:lower the barrier to entry",
+    "word": "Lower the barrier to entry",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Reduces the financial and operational obstacles needed to launch a new business. (降低准入門檻)",
+    "meaning_eng": "Reduces the financial and operational obstacles needed to launch a new business.",
+    "meaning_chin": "降低准入門檻",
+    "synonyms": [
+      "降低准入門檻"
+    ],
+    "context": "Free registration on social platforms helps ___ for student entrepreneurs who lack startup capital for a physical storefront.",
+    "raw_sentence": "Free registration on social platforms helps lower the barrier to entry for student entrepreneurs who lack startup capital for a physical storefront."
+  },
+  {
+    "id": 168,
+    "key": "S4:physical store constraints",
+    "word": "Physical store constraints",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Limitations tied to traditional brick-and-mortar shops, such as expensive rent and fixed trading hours. (實體店面限制)",
+    "meaning_eng": "Limitations tied to traditional brick-and-mortar shops, such as expensive rent and fixed trading hours.",
+    "meaning_chin": "實體店面限制",
+    "synonyms": [
+      "實體店面限制"
+    ],
+    "context": "Setting up an e-commerce page allows micro-businesses to bypass ___ such as high commercial rents and fixed opening hours.",
+    "raw_sentence": "Setting up an e-commerce page allows micro-businesses to bypass physical store constraints such as high commercial rents and fixed opening hours."
+  },
+  {
+    "id": 169,
+    "key": "S4:build customer rapport",
+    "word": "Build customer rapport",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Establish direct, trusting relationships with buyers through personalized social media interaction. (建立良好的客戶關係)",
+    "meaning_eng": "Establish direct, trusting relationships with buyers through personalized social media interaction.",
+    "meaning_chin": "建立良好的客戶關係",
+    "synonyms": [
+      "建立良好的客戶關係"
+    ],
+    "context": "Answering direct messages promptly and sharing behind-the-scenes content allows IG shop owners to ___ with buyers.",
+    "raw_sentence": "Answering direct messages promptly and sharing behind-the-scenes content allows IG shop owners to build strong customer rapport with buyers."
+  },
+  {
+    "id": 170,
+    "key": "S4:niche market",
+    "word": "Niche market",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "A specialized segment of the market catering to unique products (e.g., handmade crafts or vintage items). (利基市場；特定小眾市場)",
+    "meaning_eng": "A specialized segment of the market catering to unique products (e.g., handmade crafts or vintage items).",
+    "meaning_chin": "利基市場；特定小眾市場",
+    "synonyms": [
+      "利基市場；特定小眾市場"
+    ],
+    "context": "Focusing on vintage mechanical watches enabled the digital seller to dominate a profitable ___ with very few local competitors.",
+    "raw_sentence": "Focusing on vintage mechanical watches enabled the digital seller to dominate a profitable niche market with very few local competitors."
+  },
+  {
+    "id": 171,
+    "key": "S4:spun-off opportunities",
+    "word": "Spun-off opportunities",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "5",
+    "content": "Writing 2 (Input) (IG Stores)",
+    "topic": "Set 5 · Writing 2 (Input) (IG Stores)",
+    "meaning": "Secondary business and job opportunities generated for supporting industries, such as courier services and electronic payment gateways. (衍生出的機遇)",
+    "meaning_eng": "Secondary business and job opportunities generated for supporting industries, such as courier services and electronic payment gateways.",
+    "meaning_chin": "衍生出的機遇",
+    "synonyms": [
+      "衍生出的機遇"
+    ],
+    "context": "The rapid rise of social media commerce has created valuable ___ for local logistics firms, digital payment gateways, and freelance content creators.",
+    "raw_sentence": "The rapid rise of social media commerce has created valuable spun-off opportunities for local logistics firms, digital payment gateways, and freelance content creators."
+  },
+  {
+    "id": 172,
+    "key": "S4:resilience",
+    "word": "Resilience",
+    "pos": "n.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "The capacity to recover quickly from difficulties; mental toughness. (韌性；復原力)",
+    "meaning_eng": "The capacity to recover quickly from difficulties; mental toughness.",
+    "meaning_chin": "韌性；復原力",
+    "synonyms": [
+      "韌性；復原力"
+    ],
+    "context": "Developing emotional ___ enables secondary school students to recover quickly from academic setbacks and maintain focus on their long-term goals.",
+    "raw_sentence": "Developing emotional resilience enables secondary school students to recover quickly from academic setbacks and maintain focus on their long-term goals."
+  },
+  {
+    "id": 173,
+    "key": "S4:solidarity",
+    "word": "Solidarity",
+    "pos": "n.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "Unity or agreement of feeling/action among individuals with a common goal. (團結一致；齊心協力)",
+    "meaning_eng": "Unity or agreement of feeling/action among individuals with a common goal.",
+    "meaning_chin": "團結一致；齊心協力",
+    "synonyms": [
+      "團結一致；齊心協力"
+    ],
+    "context": "Demonstrating true ___, the student body organized a charity drive to support classmates whose families were facing sudden financial hardship.",
+    "raw_sentence": "Demonstrating true solidarity, the student body organized a charity drive to support classmates whose families were facing sudden financial hardship."
+  },
+  {
+    "id": 174,
+    "key": "S4:adversity",
+    "word": "Adversity",
+    "pos": "n.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "A difficult or challenging situation; hardship. (逆境；不幸)",
+    "meaning_eng": "A difficult or challenging situation; hardship.",
+    "meaning_chin": "逆境；不幸",
+    "synonyms": [
+      "逆境；不幸"
+    ],
+    "context": "Young people who learn to navigate severe ___ during their formative years often develop greater maturity and problem-solving capabilities.",
+    "raw_sentence": "Young people who learn to navigate severe adversity during their formative years often develop greater maturity and problem-solving capabilities."
+  },
+  {
+    "id": 175,
+    "key": "S4:cornerstone",
+    "word": "Cornerstone",
+    "pos": "n.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "An essential foundation or central principle on which something is built. (基石；柱石)",
+    "meaning_eng": "An essential foundation or central principle on which something is built.",
+    "meaning_chin": "基石；柱石",
+    "synonyms": [
+      "基石；柱石"
+    ],
+    "context": "Mutual respect serves as the ___ of any healthy educational environment where students feel safe to express their diverse opinions.",
+    "raw_sentence": "Mutual respect serves as the cornerstone of any healthy educational environment where students feel safe to express their diverse opinions."
+  },
+  {
+    "id": 176,
+    "key": "S4:holistic",
+    "word": "Holistic",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "Considering the whole person rather than just academic parts (e.g., holistic development). (整體的；全盤的)",
+    "meaning_eng": "Considering the whole person rather than just academic parts (e.g., holistic development).",
+    "meaning_chin": "整體的；全盤的",
+    "synonyms": [
+      "整體的；全盤的"
+    ],
+    "context": "Secondary schools are increasingly adopting a ___ learning framework that balances rigorous academic study with mental wellbeing and physical health.",
+    "raw_sentence": "Secondary schools are increasingly adopting a holistic learning framework that balances rigorous academic study with mental wellbeing and physical health."
+  },
+  {
+    "id": 177,
+    "key": "S4:cohesive",
+    "word": "Cohesive",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "Sticking together as a united, harmonious group. (有凝聚力的；緊密結合的)",
+    "meaning_eng": "Sticking together as a united, harmonious group.",
+    "meaning_chin": "有凝聚力的；緊密結合的",
+    "synonyms": [
+      "有凝聚力的；緊密結合的"
+    ],
+    "context": "Participating in team sports helps transform individual players into a ___ group that works seamlessly together during competitions.",
+    "raw_sentence": "Participating in team sports helps transform individual players into a cohesive group that works seamlessly together during competitions."
+  },
+  {
+    "id": 178,
+    "key": "S4:paramount",
+    "word": "Paramount",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "Of supreme importance; more important than anything else. (至高無上的；首要的)",
+    "meaning_eng": "Of supreme importance; more important than anything else.",
+    "meaning_chin": "至高無上的；首要的",
+    "synonyms": [
+      "至高無上的；首要的"
+    ],
+    "context": "Maintaining student well-being during stressful examination periods should be of ___ concern for both school administrators and parents.",
+    "raw_sentence": "Maintaining student well-being during stressful examination periods should be of paramount concern for both school administrators and parents."
+  },
+  {
+    "id": 179,
+    "key": "S4:instill",
+    "word": "Instill",
+    "pos": "v.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To gradually and firmly establish a value or quality in someone's mind. (灌輸；漸漸培養)",
+    "meaning_eng": "To gradually and firmly establish a value or quality in someone's mind.",
+    "meaning_chin": "灌輸；漸漸培養",
+    "synonyms": [
+      "灌輸；漸漸培養"
+    ],
+    "context": "Effective teachers strive to ___ a sense of civic responsibility in their students through community service projects and open classroom discussions.",
+    "raw_sentence": "Effective teachers strive to instill a sense of civic responsibility in their students through community service projects and open classroom discussions."
+  },
+  {
+    "id": 180,
+    "key": "S4:surmount",
+    "word": "Surmount",
+    "pos": "v.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To overcome or prevail over a barrier or obstacle. (克服；戰勝)",
+    "meaning_eng": "To overcome or prevail over a barrier or obstacle.",
+    "meaning_chin": "克服；戰勝",
+    "synonyms": [
+      "克服；戰勝"
+    ],
+    "context": "With dedicated support from tutors and peers, she was able to ___ her initial language barriers and excel in her English writing assessments.",
+    "raw_sentence": "With dedicated support from tutors and peers, she was able to surmount her initial language barriers and excel in her English writing assessments."
+  },
+  {
+    "id": 181,
+    "key": "S4:foster",
+    "word": "Foster",
+    "pos": "v.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To encourage the growth or development of a skill, feeling, or environment. (促進；培養)",
+    "meaning_eng": "To encourage the growth or development of a skill, feeling, or environment.",
+    "meaning_chin": "促進；培養",
+    "synonyms": [
+      "促進；培養"
+    ],
+    "context": "Schools should design interactive group activities to ___ a spirit of active collaboration and open dialogue among students of different backgrounds.",
+    "raw_sentence": "Schools should design interactive group activities to foster a spirit of active collaboration and open dialogue among students of different backgrounds."
+  },
+  {
+    "id": 182,
+    "key": "S4:bolster",
+    "word": "Bolster",
+    "pos": "v.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To support, strengthen, or reinforce. (加強；改善)",
+    "meaning_eng": "To support, strengthen, or reinforce.",
+    "meaning_chin": "加強；改善",
+    "synonyms": [
+      "加強；改善"
+    ],
+    "context": "Providing constructive feedback on writing assignments helps ___ student confidence before they sit for their public examinations.",
+    "raw_sentence": "Providing constructive feedback on writing assignments helps bolster student confidence before they sit for their public examinations."
+  },
+  {
+    "id": 183,
+    "key": "S4:unwavering",
+    "word": "Unwavering",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "Firm, steady, and resolute; not faltering under pressure. (堅定不移的)",
+    "meaning_eng": "Firm, steady, and resolute; not faltering under pressure.",
+    "meaning_chin": "堅定不移的",
+    "synonyms": [
+      "堅定不移的"
+    ],
+    "context": "Despite facing repeated rejections, the student maintained ___ determination to secure a place in his dream university program.",
+    "raw_sentence": "Despite facing repeated rejections, the student maintained unwavering determination to secure a place in his dream university program."
+  },
+  {
+    "id": 184,
+    "key": "S4:invaluable",
+    "word": "Invaluable",
+    "pos": "adj.",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "Extremely useful; of priceless worth. (極其寶貴的；無價的)",
+    "meaning_eng": "Extremely useful; of priceless worth.",
+    "meaning_chin": "極其寶貴的；無價的",
+    "synonyms": [
+      "極其寶貴的；無價的"
+    ],
+    "context": "The career guidance counseling sessions provided ___ insights for senior students planning their tertiary education pathways.",
+    "raw_sentence": "The career guidance counseling sessions provided invaluable insights for senior students planning their tertiary education pathways."
+  },
+  {
+    "id": 185,
+    "key": "S4:in the face of adversity",
+    "word": "In the face of adversity",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "When encountering hardship or daunting challenges. (身處逆境；面對困境)",
+    "meaning_eng": "When encountering hardship or daunting challenges.",
+    "meaning_chin": "身處逆境；面對困境",
+    "synonyms": [
+      "身處逆境；面對困境"
+    ],
+    "context": "Remaining calm and persistent ___ is a defining characteristic of successful student leaders.",
+    "raw_sentence": "Remaining calm and persistent in the face of adversity is a defining characteristic of successful student leaders."
+  },
+  {
+    "id": 186,
+    "key": "S4:put oneself in another's shoes",
+    "word": "Put oneself in another's shoes",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To practice empathy by actively trying to understand someone else's perspective. (設身處地；換位思考)",
+    "meaning_eng": "To practice empathy by actively trying to understand someone else's perspective.",
+    "meaning_chin": "設身處地；換位思考",
+    "synonyms": [
+      "設身處地；換位思考"
+    ],
+    "context": "Learning to ___ allows teenagers to resolve interpersonal conflicts peacefully and build meaningful relationships.",
+    "raw_sentence": "Learning to put oneself in another's shoes allows teenagers to resolve interpersonal conflicts peacefully and build meaningful relationships."
+  },
+  {
+    "id": 187,
+    "key": "S4:stand shoulder to shoulder",
+    "word": "Stand shoulder to shoulder",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To work closely and cooperatively with others in complete unity. (肩並肩；團結一致)",
+    "meaning_eng": "To work closely and cooperatively with others in complete unity.",
+    "meaning_chin": "肩並肩；團結一致",
+    "synonyms": [
+      "肩並肩；團結一致"
+    ],
+    "context": "During the annual sports day event, students ___ to cheer for their house teammates until the final race ended.",
+    "raw_sentence": "During the annual sports day event, students stood shoulder to shoulder to cheer for their house teammates until the final race ended."
+  },
+  {
+    "id": 188,
+    "key": "S4:shape well-rounded individuals",
+    "word": "Shape well-rounded individuals",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "To help students develop intellectually, morally, and socially. (培養全人/全面發展的人才)",
+    "meaning_eng": "To help students develop intellectually, morally, and socially.",
+    "meaning_chin": "培養全人/全面發展的人才",
+    "synonyms": [
+      "培養全人",
+      "全面發展的人才"
+    ],
+    "context": "A balanced curriculum that incorporates arts, athletics, and values education helps ___ ready for future challenges.",
+    "raw_sentence": "A balanced curriculum that incorporates arts, athletics, and values education helps shape well-rounded individuals ready for future challenges."
+  },
+  {
+    "id": 189,
+    "key": "S4:a tight-knit community",
+    "word": "A tight-knit community",
+    "pos": "Phrase",
+    "level": "S4",
+    "set": "6",
+    "content": "Writing 2 (Input) (Values Edu)",
+    "topic": "Set 6 · Writing 2 (Input) (Values Edu)",
+    "meaning": "A group of people bound closely together by strong relationships and mutual trust. (緊密團結的群體/社區)",
+    "meaning_eng": "A group of people bound closely together by strong relationships and mutual trust.",
+    "meaning_chin": "緊密團結的群體/社區",
+    "synonyms": [
+      "緊密團結的群體",
+      "社區"
+    ],
+    "context": "Our school functions as ___ where senior students routinely volunteer to mentor younger peers across various subjects.",
+    "raw_sentence": "Our school functions as a tight-knit community where senior students routinely volunteer to mentor younger peers across various subjects."
   }
 ];

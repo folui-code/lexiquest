@@ -102,6 +102,22 @@ def parse_meaning(raw_meaning):
     return full, eng, chin
 
 
+IRREGULARS = {
+    "stand": "stood",
+    "take": "took",
+    "give": "gave",
+    "lead": "led",
+    "build": "built",
+    "keep": "kept",
+    "bring": "brought",
+    "seek": "sought",
+    "hold": "held",
+    "grow": "grew",
+    "arise": "arose",
+    "fall": "fell"
+}
+
+
 def format_context_blank(word, sentence):
     if not sentence:
         return ""
@@ -116,10 +132,30 @@ def format_context_blank(word, sentence):
             s = pattern.sub(r"___ \1 ___", s)
             return s
 
-    # Exact or word boundary regex match
-    pattern = re.compile(rf"\b{re.escape(w)}\b", re.IGNORECASE)
-    if pattern.search(s):
-        return pattern.sub("___", s)
+    # 1. Clean parentheses e.g. 'Capitalize (on)' -> 'Capitalize on'
+    w_no_paren = re.sub(r"[\(\)]", "", w).strip()
+    w_no_paren = re.sub(r"\s+", " ", w_no_paren)
+
+    candidates = [w, w_no_paren]
+
+    # Add tense variants (e.g. stand -> stood)
+    for base, past in IRREGULARS.items():
+        if re.search(rf"\b{base}\b", w_no_paren, re.IGNORECASE):
+            candidates.append(re.sub(rf"\b{base}\b", past, w_no_paren, flags=re.IGNORECASE))
+
+    for cand in candidates:
+        pat = re.compile(rf"\b{re.escape(cand)}\b", re.IGNORECASE)
+        if pat.search(s):
+            return pat.sub("___", s)
+
+    # 2. Phrasal split or embedded adjective e.g. 'Build customer rapport' vs 'build strong customer rapport'
+    tokens = [t for t in w_no_paren.split() if t]
+    if len(tokens) >= 2:
+        first = re.escape(tokens[0])
+        rest = re.escape(" ".join(tokens[1:]))
+        pat_flex = re.compile(rf"\b{first}\b(?:\s+\w+)?\s+\b{rest}\b", re.IGNORECASE)
+        if pat_flex.search(s):
+            return pat_flex.sub("___", s)
 
     # Substring search fallback
     idx = s.lower().find(w.lower())
