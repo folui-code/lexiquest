@@ -29,7 +29,6 @@ const Leaderboard = {
   },
 
   async getTopScores(mode = "rush", force = false) {
-    if (mode === "wordle" || mode === "matrix") return null;
     const url = this.API_URL;
     if (!url) return null;
 
@@ -44,9 +43,6 @@ const Leaderboard = {
       if (!resp.ok) return null;
       const data = await resp.json();
       if (data && data.leaderboard) {
-        // Purge deprecated wordle and matrix scores
-        delete data.leaderboard.wordle;
-        delete data.leaderboard.matrix;
         this.cache = data.leaderboard;
         this.lastFetch = now;
 
@@ -95,9 +91,6 @@ const Leaderboard = {
       if (resp.ok) {
         const data = await resp.json();
         if (data && data.leaderboard) {
-          // Purge deprecated wordle and matrix scores
-          delete data.leaderboard.wordle;
-          delete data.leaderboard.matrix;
           this.cache = data.leaderboard;
           this.lastFetch = Date.now();
           if (typeof App !== "undefined") {

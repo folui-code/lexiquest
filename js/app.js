@@ -73,7 +73,8 @@ function isStaffMember(name, role) {
     "IP CHOI WAN", "KONG KWOK LING", "LO YIU CHUEN", "NGAI KWAI MING",
     "POON KAM LUN", "STEPHEN WILLIAM HENRY", "TSE YUEN YING", "WONG CHIN LEUNG",
     "YICK YING LIN AUDREY", "LEE WING CHEUNG ALISTAIR", "WONG PUI SZE",
-    "NG CHUNG HIN", "TSANG LAI SHEUNG", "WONG LEUNG KEE", "LUI FU ON"
+    "NG CHUNG HIN", "TSANG LAI SHEUNG", "WONG LEUNG KEE", "LUI FU ON",
+    "CHEUNG TSZ TUNG"
   ];
   const cleanName = n.replace(/\s*\([^)]*\)/g, "").trim();
   if (knownStaff.some(s => cleanName === s || cleanName.includes(s))) return true;
@@ -658,6 +659,29 @@ const App = {
           }).join("")}
         </div>
 
+        ${rawList.length > 3 ? `
+          <div class="chr-runners-up" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(255,255,255,0.08)">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Honorable Mentions · Class ${esc(activeClass)} Scholars</div>
+            ${rawList.slice(3).map((st, idx) => {
+              const rankNum = idx + 4;
+              const hKey = st.house ? st.house.toUpperCase() : "TAK";
+              const isCur = st.isUser || (cleanUserName && st.name.toLowerCase().includes(cleanUserName));
+              return `
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,0.025);border-radius:8px;margin-bottom:5px;border:1px solid rgba(255,255,255,0.05);font-size:0.86rem;${isCur ? 'border-color:rgba(56,189,248,0.4);background:rgba(56,189,248,0.08);' : ''}">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="color:var(--muted);font-weight:700;font-size:0.75rem;min-width:22px">#${rankNum}</span>
+                    <span style="font-weight:600">${esc(st.name)} ${isCur ? '<b style="color:#38bdf8;font-size:0.75rem">(You)</b>' : ''}</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span class="chb-house-pill ${hKey.toLowerCase()}" style="font-size:0.7rem;padding:2px 7px">${hKey}</span>
+                    <span style="font-weight:700;color:var(--cyan);font-size:0.88rem">${fmt(st.xp)} <small style="font-size:0.7rem;color:var(--muted);font-weight:500">XP</small></span>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        ` : ''}
+
         ${!hasAnyScore ? `
           <div class="chr-empty-notice muted">
             ✦ No student in Class ${esc(activeClass)} has recorded a score yet. Play Cryptic Rush, Alchemy, or Reading to claim 1st place!
@@ -721,11 +745,21 @@ const App = {
         { n: "YAN JACKY TSZ HIM (4B)", s: 500 },
         { n: "AU-YEUNG SZE YAN (4A)", s: 450 },
         { n: "SIU HOI CHUN (4D)", s: 400 }
+      ],
+      wordle: [
+        { n: "CHIU DEX HOI TING (4B)", s: 700 },
+        { n: "CHU YAT CHUN (4B)", s: 700 },
+        { n: "TAN HUNG YU (4B)", s: 700 },
+        { n: "YEUNG SUNG YAN (4B)", s: 700 },
+        { n: "TSUI CHEUK TUNG (4B)", s: 700 },
+        { n: "CHUI TSZ KO (4D)", s: 700 },
+        { n: "KAN PUI KEI (4D)", s: 700 },
+        { n: "WONG YEE MAN (4D)", s: 700 }
       ]
     };
 
     const combinedData = Object.assign({}, defaults, leaderboardData || {});
-    ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+    ["rush", "alchemy", "blitz", "reading", "wordle"].forEach(m => {
       if (!combinedData[m] || !combinedData[m].length) {
         if (defaults[m]) combinedData[m] = defaults[m];
       }
@@ -733,7 +767,6 @@ const App = {
 
     const allRows = [];
     Object.keys(combinedData).forEach(m => {
-      if (m === "wordle" || m === "matrix") return; // Purge wordle and matrix scores
       const rows = combinedData[m];
       if (Array.isArray(rows)) allRows.push(...rows);
     });
@@ -799,7 +832,7 @@ const App = {
           }
         });
         merged.sort((a, b) => b.xp - a.xp);
-        CLASS_HONOR_ROLL[form][cls] = merged.slice(0, 3).map((st, idx) => ({
+        CLASS_HONOR_ROLL[form][cls] = merged.map((st, idx) => ({
           rank: idx + 1,
           name: st.name,
           house: st.house,
@@ -854,10 +887,10 @@ const App = {
       let hasScores = false;
       const seenPlayers = new Set();
       Object.keys(Leaderboard.cache).forEach(mode => {
-        if (mode === "wordle" || mode === "matrix") return;
         const rows = Leaderboard.cache[mode] || [];
         rows.forEach(r => {
           if (!r.n || !r.s) return;
+          if (isStaffMember(r.n, r.role)) return; // Strictly exclude staff from house cup
           const clean = String(r.n).replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
           if (seenPlayers.has(clean)) return;
           seenPlayers.add(clean);
@@ -939,7 +972,6 @@ const App = {
   },
 
   renderScoreboard(mode = "rush") {
-    if (mode === "wordle" || mode === "matrix") mode = "rush";
     this.currentSbTab = mode;
     const tabs = $$("#sb-tabs .sb-tab");
     tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === mode));
@@ -1013,6 +1045,16 @@ const App = {
         { n: "YAN JACKY TSZ HIM (4B)", s: 500 },
         { n: "AU-YEUNG SZE YAN (4A)", s: 450 },
         { n: "SIU HOI CHUN (4D)", s: 400 }
+      ],
+      wordle: [
+        { n: "CHIU DEX HOI TING (4B)", s: 700 },
+        { n: "CHU YAT CHUN (4B)", s: 700 },
+        { n: "TAN HUNG YU (4B)", s: 700 },
+        { n: "YEUNG SUNG YAN (4B)", s: 700 },
+        { n: "TSUI CHEUK TUNG (4B)", s: 700 },
+        { n: "CHUI TSZ KO (4D)", s: 700 },
+        { n: "KAN PUI KEI (4D)", s: 700 },
+        { n: "WONG YEE MAN (4D)", s: 700 }
       ]
     };
 

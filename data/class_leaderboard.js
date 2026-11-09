@@ -25,6 +25,36 @@ const CLASS_HONOR_ROLL = {
         "name": "AU YEUNG HOI MAN",
         "house": "CHI",
         "xp": 2100
+      },
+      {
+        "rank": 3,
+        "name": "CHIU DEX HOI TING",
+        "house": "KIN",
+        "xp": 700
+      },
+      {
+        "rank": 4,
+        "name": "CHU YAT CHUN",
+        "house": "KAN",
+        "xp": 700
+      },
+      {
+        "rank": 5,
+        "name": "TAN HUNG YU",
+        "house": "CHI",
+        "xp": 700
+      },
+      {
+        "rank": 6,
+        "name": "YEUNG SUNG YAN",
+        "house": "KIN",
+        "xp": 700
+      },
+      {
+        "rank": 7,
+        "name": "TSUI CHEUK TUNG",
+        "house": "KIN",
+        "xp": 700
       }
     ],
     "4C": [],
