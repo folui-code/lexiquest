@@ -414,7 +414,9 @@ const App = {
     });
 
     const crestImg = isStaff ? "assets/houses/crests/dragon.png" : `assets/houses/crests/${houseKey.toLowerCase()}.png`;
-    const avatarImg = isStaff ? "assets/houses/avatars/dragon.png" : `assets/houses/avatars/${houseKey.toLowerCase()}.png`;
+    const tierNum = Math.min(5, Math.max(1, (r.idx !== undefined ? r.idx : 0) + 1));
+    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png" : `assets/houses/avatars/${houseKey.toLowerCase()}.png`;
+    const avatarImg = isStaff ? defaultAvatarImg : `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png`;
 
     showcase.innerHTML = `
       <!-- LEFT: HOUSE LOGO -->
@@ -426,7 +428,7 @@ const App = {
       <!-- AVATAR PICTURE -->
       <div class="wp-avatar-col">
         <div class="wp-avatar-frame" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
-          <img src="${avatarImg}" alt="${esc(cleanName)} Avatar" class="wp-avatar-img" onerror="this.onerror=null;this.src='assets/houses/house_concept_design.png';" />
+          <img src="${avatarImg}" alt="${esc(cleanName)} Avatar (Tier ${tierNum})" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
         </div>
       </div>
 
