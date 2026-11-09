@@ -544,7 +544,16 @@ const Reading = {
 
       // Award XP and House Points
       const xpEarned = score * 50 + (score === total ? 50 : 0);
-      Store.d.xp = (Store.d.xp || 0) + xpEarned;
+      Store.addXP(xpEarned);
+      Store.recordPlay();
+
+      const readingScore = score * 100 + (score === total ? 100 : 0);
+      Store.setBest("reading", readingScore);
+      Store.addLB("reading", readingScore);
+      if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) {
+        Leaderboard.submitScore("reading", readingScore);
+      }
+
       Store.quest("reading");
       Store.unlock("oracleReader");
 

@@ -220,6 +220,17 @@ const Store = {
     const before = this.rank().idx;
     this.d.xp += Math.round(n); this.save();
     const r = this.rank();
+
+    // Immediately reflect new XP in UI
+    if (typeof window !== "undefined" && window.App) {
+      if (App.renderTop) App.renderTop();
+      if (App.renderWizardProfile) App.renderWizardProfile();
+      if (App.renderHouseCup) App.renderHouseCup();
+    }
+    if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
+      Leaderboard.queueProfilePush();
+    }
+
     if (r.idx > before) setTimeout(() => {
       toast(`🎖️ Rank up! You are now a <b>${r.name}</b> · Tier ${r.idx + 1} Avatar Unlocked! 🪄`, true);
       Sfx.fanfare(); Fx.confetti(160);
@@ -258,6 +269,10 @@ const Store = {
   },
   quest(key) { if (!this.d.daily.q[key]) { this.d.daily.q[key] = true; this.save(); toast("🎯 Daily quest complete!"); } },
   setBest(mode, score) { const prev = this.d.best[mode] || 0; if (score > prev) { this.d.best[mode] = score; this.save(); return prev > 0 || score > 0; } return false; },
+  addScore(mode, score) {
+    this.setBest(mode, score);
+    return this.addLB(mode, score);
+  },
   addLB(mode, score) {
     const list = (this.d.lb[mode] ||= []);
     const entry = { n: this.d.name || "You", s: score, t: Date.now() };

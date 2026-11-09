@@ -128,6 +128,9 @@ const App = {
     // Enforce HPCCSS authentication and whitelist check
     await Auth.checkAuth();
 
+    // Start real-time auto-sync loop for leaderboard, class rank, and house cup
+    this.startAutoSyncLoop();
+
     // Check URL parameters for 1v1 Challenge Duel or Teacher Class Arena
     try {
       const sp = new URLSearchParams(window.location.search);
@@ -966,6 +969,74 @@ const App = {
           this.syncClassHonorRollFromLeaderboard(Leaderboard.cache);
         }
       });
+    }
+  },
+
+  startAutoSyncLoop() {
+    // Bind refresh button click in Hall of Fame header
+    const refreshBtn = $("#btn-refresh-scores");
+    if (refreshBtn) {
+      refreshBtn.onclick = () => {
+        Sfx.click();
+        this.refreshLiveScores(true);
+      };
+    }
+
+    // Auto-refresh every 30 seconds
+    if (this._syncInterval) clearInterval(this._syncInterval);
+    this._syncInterval = setInterval(() => {
+      // Only refresh if page is visible to conserve mobile battery / quota
+      if (document.visibilityState === "visible") {
+        this.refreshLiveScores(false);
+      }
+    }, 30000);
+
+    // Refresh immediately on tab focus / visibility return
+    if (!this._visibilityListenerBound) {
+      this._visibilityListenerBound = true;
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+          this.refreshLiveScores(false);
+        }
+      });
+    }
+  },
+
+  async refreshLiveScores(manual = false) {
+    const refreshBtn = $("#btn-refresh-scores");
+    if (refreshBtn) refreshBtn.classList.add("spinning");
+
+    try {
+      if (typeof Leaderboard !== "undefined") {
+        const mode = this.currentSbTab || "rush";
+        const cloudRows = await Leaderboard.getTopScores(mode, manual);
+        if (cloudRows && cloudRows.length > 0) {
+          this.renderScoreboard(mode);
+        }
+        if (Leaderboard.cache) {
+          this.syncClassHonorRollFromLeaderboard(Leaderboard.cache);
+        }
+
+        // Pull latest cross-device profile XP & Word Vault
+        if (Leaderboard.syncProfilePull) {
+          await Leaderboard.syncProfilePull();
+        }
+
+        // Re-render UI components with latest synchronized state
+        this.renderHouseCup();
+        this.renderTop();
+        if (this.renderWizardProfile) this.renderWizardProfile();
+      }
+
+      if (manual) {
+        toast("⚡ Scores & House Cup synchronized live!", true);
+      }
+    } catch (e) {
+      console.warn("[App] Live sync refresh notice:", e);
+    } finally {
+      if (refreshBtn) {
+        setTimeout(() => refreshBtn.classList.remove("spinning"), 600);
+      }
     }
   },
 

@@ -1797,14 +1797,15 @@ const Alchemy = {
     this.active = false;
     if (this.timerId) clearInterval(this.timerId);
 
-    // Record score in local leaderboard
-    Store.addScore("alchemy", this.score);
-    const me = AlchemyNet.me();
+    // Record score in local leaderboard & best score
+    Store.setBest("alchemy", this.score);
+    Store.addLB("alchemy", this.score);
+    Store.recordPlay();
 
-    // Add House Points & XP
-    if (Store.d.auth && me.house) {
-      Store.addXP(Math.round(this.score / 5));
-    }
+    // Award XP (proportional to score)
+    const xpAward = Math.max(10, Math.round(this.score / 5));
+    Store.addXP(xpAward);
+
     if (this.score >= 1000) Store.quest("alchemy");
     if (this.solvedCount >= 10) Store.unlock("alchemist");
 

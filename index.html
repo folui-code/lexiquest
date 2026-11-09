@@ -15,10 +15,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="css/base.css?v=5.5" />
-  <link rel="stylesheet" href="css/style.css?v=5.5" />
-  <link rel="stylesheet" href="css/modes.css?v=5.5" />
-  <link rel="stylesheet" href="css/houses.css?v=6.0" />
+  <link rel="stylesheet" href="css/base.css?v=6.2" />
+  <link rel="stylesheet" href="css/style.css?v=6.2" />
+  <link rel="stylesheet" href="css/modes.css?v=6.2" />
+  <link rel="stylesheet" href="css/houses.css?v=6.2" />
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -208,11 +208,16 @@
               <p class="muted">Top scores across the school arena</p>
             </div>
           </div>
-          <div class="scoreboard-tabs" id="sb-tabs">
-            <button class="sb-tab active" data-tab="rush">⚡ Cryptic Rush</button>
-            <button class="sb-tab" data-tab="alchemy">⚗️ Alchemy</button>
-            <button class="sb-tab" data-tab="blitz">⚡ Grammar Blitz</button>
-            <button class="sb-tab" data-tab="reading">📜 Reading Oracle</button>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div class="scoreboard-tabs" id="sb-tabs">
+              <button class="sb-tab active" data-tab="rush">⚡ Cryptic Rush</button>
+              <button class="sb-tab" data-tab="alchemy">⚗️ Alchemy</button>
+              <button class="sb-tab" data-tab="blitz">⚡ Grammar Blitz</button>
+              <button class="sb-tab" data-tab="reading">📜 Reading Oracle</button>
+            </div>
+            <button id="btn-refresh-scores" class="sb-refresh-btn" title="Refresh live scores from cloud">
+              <span class="sb-refresh-icon">🔄</span> Live Sync
+            </button>
           </div>
         </div>
         <div class="scoreboard-body" id="sb-list">
@@ -239,15 +244,15 @@
   <script src="data/collocations.js?v=5.5"></script>
   <script src="data/dse_reading.js?v=5.5"></script>
   <script src="data/class_leaderboard.js?v=5.5"></script>
-  <script src="js/core.js?v=6.0"></script>
-  <script src="js/auth.js?v=5.5"></script>
-  <script src="js/leaderboard.js?v=5.5"></script>
-  <script src="js/blitz.js?v=5.5"></script>
-  <script src="js/qrcode.js?v=5.5"></script>
-  <script src="js/rush.js?v=5.5"></script>
-  <script src="js/alchemy.js?v=5.5"></script>
-  <script src="js/reading.js?v=5.5"></script>
-  <script src="js/app.js?v=6.0"></script>
+  <script src="js/core.js?v=6.2"></script>
+  <script src="js/auth.js?v=6.2"></script>
+  <script src="js/leaderboard.js?v=6.2"></script>
+  <script src="js/blitz.js?v=6.2"></script>
+  <script src="js/qrcode.js?v=6.2"></script>
+  <script src="js/rush.js?v=6.2"></script>
+  <script src="js/alchemy.js?v=6.2"></script>
+  <script src="js/reading.js?v=6.2"></script>
+  <script src="js/app.js?v=6.2"></script>
 </body>
 
 </html>

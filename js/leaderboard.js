@@ -28,13 +28,13 @@ const Leaderboard = {
     }
   },
 
-  async getTopScores(mode = "rush") {
+  async getTopScores(mode = "rush", force = false) {
     if (mode === "wordle" || mode === "matrix") return null;
     const url = this.API_URL;
     if (!url) return null;
 
     const now = Date.now();
-    if (this.cache && (now - this.lastFetch < this.CACHE_TTL_MS)) {
+    if (!force && this.cache && (now - this.lastFetch < this.CACHE_TTL_MS)) {
       return this.cache[mode] || null;
     }
 
@@ -95,10 +95,16 @@ const Leaderboard = {
       if (resp.ok) {
         const data = await resp.json();
         if (data && data.leaderboard) {
+          // Purge deprecated wordle and matrix scores
+          delete data.leaderboard.wordle;
+          delete data.leaderboard.matrix;
           this.cache = data.leaderboard;
           this.lastFetch = Date.now();
-          if (typeof App !== "undefined" && App.renderScoreboard) {
-            App.renderScoreboard(mode);
+          if (typeof App !== "undefined") {
+            if (App.renderScoreboard) App.renderScoreboard(mode);
+            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(data.leaderboard);
+            if (App.renderHouseCup) App.renderHouseCup();
+            if (App.renderWizardProfile) App.renderWizardProfile();
           }
         }
       }
@@ -108,6 +114,14 @@ const Leaderboard = {
 
     // Also push Word Vault & XP progress in background
     await this.syncProfilePush();
+  },
+
+  _pushTimer: null,
+  queueProfilePush() {
+    if (this._pushTimer) clearTimeout(this._pushTimer);
+    this._pushTimer = setTimeout(() => {
+      this.syncProfilePush();
+    }, 2000);
   },
 
   // Pull student's cross-device Word Vault & XP record from Google Sheets

@@ -379,6 +379,36 @@
   display: none;
 }
 
+.sb-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--cyan);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.sb-refresh-btn:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: var(--cyan);
+  transform: translateY(-1px);
+}
+.sb-refresh-btn.spinning .sb-refresh-icon {
+  display: inline-block;
+  animation: sb-spin 0.8s linear infinite;
+}
+@keyframes sb-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .sb-tab {
   padding: 8px 14px;
   border-radius: 9px;
