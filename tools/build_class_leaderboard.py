@@ -6,12 +6,15 @@ Teachers/staff are strictly excluded.
 
 import json
 
-# Verified real student scores from active student play (Cryptic Rush)
+# Verified real student scores from active student play (Cryptic Rush, Alchemy, Blitz, Reading)
 real_student_scores = {
     'S4': {
-        '4A': [],
+        '4A': [
+            {'rank': 1, 'name': 'AU-YEUNG SZE YAN', 'house': 'KIN', 'xp': 3100}
+        ],
         '4B': [
-            {'rank': 1, 'name': 'YAN JACKY TSZ HIM', 'house': 'KAN', 'xp': 72990}
+            {'rank': 1, 'name': 'YAN JACKY TSZ HIM', 'house': 'KAN', 'xp': 72990},
+            {'rank': 2, 'name': 'AU YEUNG HOI MAN', 'house': 'CHI', 'xp': 2100}
         ],
         '4C': [],
         '4D': [

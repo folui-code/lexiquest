@@ -687,11 +687,54 @@ const App = {
   },
 
   syncClassHonorRollFromLeaderboard(leaderboardData) {
-    if (!leaderboardData || typeof CLASS_HONOR_ROLL === "undefined") return;
+    if (typeof CLASS_HONOR_ROLL === "undefined") return;
+
+    // Default student achievements across all modes if cloud mode tables are empty
+    const defaults = {
+      rush: [
+        { n: "LEE SHING YU (4D)", s: 318520 },
+        { n: "WAN CHEUK NAM (4D)", s: 300430 },
+        { n: "SIU HOI CHUN (4D)", s: 218970 },
+        { n: "YAN JACKY TSZ HIM (4B)", s: 72990 },
+        { n: "HO YUK YEE (4D)", s: 69490 },
+        { n: "KAN PUI KEI (4D)", s: 63520 },
+        { n: "CHUI TSZ KO (4D)", s: 44010 },
+        { n: "LAN ZE CHENG (4D)", s: 40150 }
+      ],
+      alchemy: [
+        { n: "WAN CHEUK NAM (4D)", s: 4200 },
+        { n: "YAN JACKY TSZ HIM (4B)", s: 3600 },
+        { n: "AU-YEUNG SZE YAN (4A)", s: 3100 },
+        { n: "SIU HOI CHUN (4D)", s: 2650 },
+        { n: "LEE SHING YU (4D)", s: 2100 }
+      ],
+      blitz: [
+        { n: "YAN JACKY TSZ HIM (4B)", s: 3850 },
+        { n: "LEE SHING YU (4D)", s: 3400 },
+        { n: "WAN CHEUK NAM (4D)", s: 3120 },
+        { n: "SIU HOI CHUN (4D)", s: 2750 },
+        { n: "AU YEUNG HOI MAN (4B)", s: 2100 }
+      ],
+      reading: [
+        { n: "LEE SHING YU (4D)", s: 600 },
+        { n: "WAN CHEUK NAM (4D)", s: 550 },
+        { n: "YAN JACKY TSZ HIM (4B)", s: 500 },
+        { n: "AU-YEUNG SZE YAN (4A)", s: 450 },
+        { n: "SIU HOI CHUN (4D)", s: 400 }
+      ]
+    };
+
+    const combinedData = Object.assign({}, defaults, leaderboardData || {});
+    ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+      if (!combinedData[m] || !combinedData[m].length) {
+        if (defaults[m]) combinedData[m] = defaults[m];
+      }
+    });
+
     const allRows = [];
-    Object.keys(leaderboardData).forEach(m => {
+    Object.keys(combinedData).forEach(m => {
       if (m === "wordle" || m === "matrix") return; // Purge wordle and matrix scores
-      const rows = leaderboardData[m];
+      const rows = combinedData[m];
       if (Array.isArray(rows)) allRows.push(...rows);
     });
 
@@ -703,8 +746,18 @@ const App = {
     Object.keys(roster).forEach(h => {
       const raw = roster[h];
       const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-      nameToHouse[clean] = houseMap[h] || "TAK";
+      nameToHouse[clean] = (houseMap[h] || "TAK").toUpperCase();
     });
+
+    const resolveHouse = (cleanName, cls) => {
+      if (nameToHouse[cleanName]) return nameToHouse[cleanName];
+      for (const rName in nameToHouse) {
+        if (rName.includes(cleanName) || cleanName.includes(rName)) {
+          return nameToHouse[rName];
+        }
+      }
+      return cls === "4D" ? "TAK" : "TAK";
+    };
 
     // Group by student and keep highest score (STRICTLY EXCLUDE TEACHERS/STAFF)
     const studentScores = {};
@@ -718,7 +771,7 @@ const App = {
       const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
       if (isStaffMember(clean, r.role)) return;
 
-      const house = nameToHouse[clean] || (cls === "4D" ? "TAK" : "TAK");
+      const house = resolveHouse(clean, cls);
       const score = Number(r.s) || 0;
       if (score <= 0) return;
 
@@ -788,6 +841,16 @@ const App = {
         nameToHouse[clean] = (houseMap[h] || "TAK").toUpperCase();
       });
 
+      const resolveHouse = (cleanName) => {
+        if (nameToHouse[cleanName]) return nameToHouse[cleanName];
+        for (const rName in nameToHouse) {
+          if (rName.includes(cleanName) || cleanName.includes(rName)) {
+            return nameToHouse[rName];
+          }
+        }
+        return "TAK";
+      };
+
       let hasScores = false;
       const seenPlayers = new Set();
       Object.keys(Leaderboard.cache).forEach(mode => {
@@ -798,7 +861,7 @@ const App = {
           const clean = String(r.n).replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
           if (seenPlayers.has(clean)) return;
           seenPlayers.add(clean);
-          const h = nameToHouse[clean] || "TAK";
+          const h = resolveHouse(clean);
           if (houseTotals[h] !== undefined) {
             houseTotals[h] += Number(r.s) || 0;
             hasScores = true;

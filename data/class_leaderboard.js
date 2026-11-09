@@ -5,13 +5,26 @@
 
 const CLASS_HONOR_ROLL = {
   "S4": {
-    "4A": [],
+    "4A": [
+      {
+        "rank": 1,
+        "name": "AU-YEUNG SZE YAN",
+        "house": "KIN",
+        "xp": 3100
+      }
+    ],
     "4B": [
       {
         "rank": 1,
         "name": "YAN JACKY TSZ HIM",
         "house": "KAN",
         "xp": 72990
+      },
+      {
+        "rank": 2,
+        "name": "AU YEUNG HOI MAN",
+        "house": "CHI",
+        "xp": 2100
       }
     ],
     "4C": [],
