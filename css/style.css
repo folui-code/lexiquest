@@ -409,6 +409,27 @@
   }
 }
 
+.chr-xp-info-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--cyan);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.chr-xp-info-btn:hover {
+  background: rgba(56, 189, 248, 0.24);
+  border-color: var(--cyan);
+  transform: translateY(-1px);
+}
+
 .sb-tab {
   padding: 8px 14px;
   border-radius: 9px;

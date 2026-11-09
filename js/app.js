@@ -593,8 +593,11 @@ const App = {
         <div class="chr-title-group">
           <span class="chr-icon">🏆</span>
           <div>
-            <h2>Class Honor Roll · Top 3 Scholars</h2>
-            <p class="muted" style="margin:0;font-size:0.85rem">Viewing Class ${esc(activeClass)} · Defaulting to your class</p>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <h2 style="margin:0">Class Honor Roll · Top Scholars</h2>
+              <button class="chr-xp-info-btn" id="btn-chr-xp-info" title="How to earn Class &amp; House XP">❓ Ways to Earn XP</button>
+            </div>
+            <p class="muted" style="margin:0;font-size:0.85rem">Viewing Class ${esc(activeClass)} · Combined XP from 4 Game Modes + Word Vault + Daily Chest</p>
           </div>
         </div>
 
@@ -684,11 +687,87 @@ const App = {
 
         ${!hasAnyScore ? `
           <div class="chr-empty-notice muted">
-            ✦ No student in Class ${esc(activeClass)} has recorded a score yet. Play Cryptic Rush, Alchemy, or Reading to claim 1st place!
+            ✦ No student in Class ${esc(activeClass)} has recorded a score yet. Earn XP through <b>Cryptic Rush</b>, <b>Alchemy</b>, <b>Grammar Blitz</b>, <b>Reading Oracle</b>, <b>Word Vault mastery</b>, or the <b>Daily Chest</b> to claim 1st place!
           </div>
         ` : ''}
       </div>
     `;
+
+    // Event listener for XP info modal
+    const xpInfoBtn = $("#btn-chr-xp-info", card);
+    if (xpInfoBtn) {
+      xpInfoBtn.onclick = () => {
+        Sfx.click();
+        modal(`
+          <div style="text-align:left;padding:8px 4px">
+            <div style="text-align:center;margin-bottom:14px">
+              <div style="font-size:3rem">✨</div>
+              <h2 style="margin:0 0 6px">Ways to Earn Class &amp; House XP</h2>
+              <p class="muted" style="margin:0;font-size:0.88rem">All XP gained contributes directly to your personal level, your Class Rank, and your House Cup standing!</p>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0">
+              <div style="display:flex;gap:12px;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                <div style="font-size:1.8rem">⚡</div>
+                <div>
+                  <b style="color:var(--cyan)">1. Cryptic Rush</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Fast-paced vocabulary guessing under the clock. Earn XP proportional to speed, combos, and round score.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                <div style="font-size:1.8rem">⚗️</div>
+                <div>
+                  <b style="color:#c084fc">2. Alchemy (Collocations)</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Match academic words into authentic collocations. Earn cauldron brew XP and combo multipliers.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                <div style="font-size:1.8rem">⚡</div>
+                <div>
+                  <b style="color:#fde047">3. Grammar Blitz</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Rapid-fire grammar drills across DSE sentence patterns. Earn accuracy and unit completion XP.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                <div style="font-size:1.8rem">📜</div>
+                <div>
+                  <b style="color:#38bdf8">4. Reading Oracle (Daily)</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Daily 140-word DSE Part B2 micro-passages. Earn <b>+50 XP</b> per correct answer and <b>+50 Bonus XP</b> for 100% accuracy.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;background:rgba(56,189,248,0.08);padding:10px 14px;border-radius:10px;border:1px solid rgba(56,189,248,0.28)">
+                <div style="font-size:1.8rem">📖</div>
+                <div>
+                  <b style="color:#34d399">5. Word Vault &amp; Grimoire Study</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">
+                    Review cards and self-assess your vocab mastery:<br>
+                    • <b>+10 XP</b> every time you mark a word as <b>⚡ Mastered</b><br>
+                    • <b>+5 XP</b> when marked as <b>📖 Familiar</b> or <b>🔴 Challenging</b><br>
+                    • <b>+50 Bonus XP</b> upon completing a 10-card Tome revision deck!
+                  </p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                <div style="font-size:1.8rem">🎁</div>
+                <div>
+                  <b style="color:#fbbf24">6. Daily Mystery Chest</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Open your free chest once a day on the homepage for <b>+100 to +400 instant XP</b>!</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn primary" id="btn-close-xp-modal" style="width:100%;margin-top:14px">Got it, Let's Level Up! 🚀</button>
+          </div>
+        `);
+        const closeBtn = $("#btn-close-xp-modal");
+        if (closeBtn) closeBtn.onclick = () => closeModal();
+      };
+    }
 
     // Event listeners for Form tabs
     $$(".chr-form-tab", card).forEach(tab => {

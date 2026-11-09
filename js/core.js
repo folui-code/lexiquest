@@ -226,6 +226,7 @@ const Store = {
       if (App.renderTop) App.renderTop();
       if (App.renderWizardProfile) App.renderWizardProfile();
       if (App.renderHouseCup) App.renderHouseCup();
+      if (App.renderClassHonorRoll) App.renderClassHonorRoll();
     }
     if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
       Leaderboard.queueProfilePush();
