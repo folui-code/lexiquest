@@ -431,8 +431,9 @@ const App = {
 
       <!-- AVATAR PICTURE -->
       <div class="wp-avatar-col">
-        <div class="wp-avatar-frame" title="${isStaff ? 'Faculty High Council' : `Tier ${tierNum} Avatar · ${esc(r.name)}`}" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
+        <div class="wp-avatar-frame" id="wp-avatar-clickable" title="Click to view Wardrobe &amp; Tier Skin details" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
           <img src="${avatarImg}" alt="${esc(cleanName)} Avatar (Tier ${tierNum})" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
+          <span class="wp-avatar-inspect-pill">🔍 View</span>
           ${!isStaff ? `<span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>` : ''}
         </div>
       </div>
@@ -494,6 +495,110 @@ const App = {
         <div class="wp-collection-footer muted">✦ 4 Artifact slots reserved for collection</div>
       </div>
     `;
+
+    // Clicking avatar frame opens wardrobe inspection modal
+    const avFrame = $("#wp-avatar-clickable", showcase);
+    if (avFrame) {
+      avFrame.onclick = () => {
+        Sfx.click();
+        this.showWardrobeModal(tierNum, houseKey, r.name, cleanName, avatarImg, hInfo, isStaff);
+      };
+    }
+  },
+
+  showWardrobeModal(tierNum, houseKey, rankName, cleanName, avatarImg, hInfo, isStaff) {
+    const tierDescriptions = [
+      {
+        tier: 1,
+        title: "Apprentice",
+        uniform: "👔 Novice Academy Shirt",
+        desc: "Crisp white button-down with open collar. The comfortable everyday uniform worn upon entering LexiQuest Academy.",
+        req: "0 XP"
+      },
+      {
+        tier: 2,
+        title: "Seeker",
+        uniform: "👔 Official House Necktie & Shirt",
+        desc: "Buttoned formal collar paired with the woven silk tie of your house. Worn by scholars formally inducted into their house order.",
+        req: "1,000 XP"
+      },
+      {
+        tier: 3,
+        title: "Scholar",
+        uniform: "🧥 Academy Knit Cardigan & Tie",
+        desc: "V-neck knit cardigan with contrast collar trim over the house tie. The esteemed uniform of dedicated vocabulary scholars.",
+        req: "10,000 XP"
+      },
+      {
+        tier: 4,
+        title: "Sorcerer",
+        uniform: "🧙 Ceremonial Wizard Robe",
+        desc: "Heavy draped dark robes with high-shouldered folds and house crest chest embroidery. Worn by advanced practitioners.",
+        req: "50,000 XP"
+      },
+      {
+        tier: 5,
+        title: "Master",
+        uniform: "👑 Archmage High Regalia",
+        desc: "Ornate velvet gown with radiant gold brocade trim, high standing collar, and illuminated house sigil. The supreme rank.",
+        req: "150,000 XP"
+      }
+    ];
+
+    const cur = tierDescriptions[tierNum - 1] || tierDescriptions[0];
+
+    modal(`
+      <div style="text-align:center;padding:8px 4px">
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
+          <span style="font-size:1.4rem">✨</span>
+          <h2 style="margin:0;font-size:1.4rem">Wizard Wardrobe &amp; Avatar Skin</h2>
+        </div>
+
+        <!-- Large Portrait Frame -->
+        <div style="width:160px;height:192px;margin:0 auto 14px;border-radius:20px;overflow:hidden;border:3px solid ${hInfo.color};box-shadow:0 0 24px -2px ${hInfo.color}88;background:#0f172a;position:relative">
+          <img src="${avatarImg}" alt="${esc(cleanName)} Avatar" style="width:100%;height:100%;object-fit:cover;object-position:center center" />
+          <span style="position:absolute;bottom:8px;right:8px;font-size:0.75rem;font-weight:900;padding:2px 8px;border-radius:999px;background:rgba(15,23,42,0.9);border:1px solid ${hInfo.color};color:#fff">Tier ${tierNum}</span>
+        </div>
+
+        <div style="display:inline-block;padding:3px 12px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid ${hInfo.color};font-weight:800;color:${hInfo.color};font-size:0.85rem;margin-bottom:8px">
+          ${isStaff ? "Faculty High Council" : `Tier ${tierNum} · ${cur.title}`}
+        </div>
+
+        <h3 style="margin:4px 0 6px;font-size:1.15rem">${isStaff ? "Grand Dragon Master Regalia" : cur.uniform}</h3>
+        <p style="margin:0 0 16px;color:#cbd5e1;font-size:0.88rem;line-height:1.5;max-width:380px;margin-left:auto;margin-right:auto">
+          ${isStaff ? "The ancient ceremonial dragon robe of the Faculty High Council." : cur.desc}
+        </p>
+
+        ${!isStaff ? `
+          <!-- 5-Tier Wardrobe Roadmap -->
+          <div style="background:rgba(255,255,255,0.025);border-radius:12px;border:1px solid rgba(255,255,255,0.07);padding:12px 10px;margin-bottom:14px;text-align:left">
+            <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;text-align:center">
+              Wardrobe Progression Roadmap
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:6px">
+              ${tierDescriptions.map((td, idx) => {
+                const isUnlocked = tierNum >= td.tier;
+                const isCurrent = tierNum === td.tier;
+                const tImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${td.tier}.png`;
+                return `
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;border:1px solid ${isCurrent ? hInfo.color : isUnlocked ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.05)'};background:${isCurrent ? 'rgba(56,189,248,0.12)' : isUnlocked ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.3)'};opacity:${isUnlocked ? 1 : 0.45}">
+                    <div style="width:40px;height:48px;margin:0 auto 4px;border-radius:6px;overflow:hidden;border:1px solid ${isCurrent ? hInfo.color : 'rgba(255,255,255,0.15)'}">
+                      <img src="${tImg}" alt="T${td.tier}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='${avatarImg}'" />
+                    </div>
+                    <div style="font-size:0.68rem;font-weight:800;color:${isCurrent ? hInfo.color : '#cbd5e1'}">T${td.tier}</div>
+                    <div style="font-size:0.6rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${td.req}</div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        ` : ''}
+
+        <button class="btn primary small" id="btn-close-wardrobe" style="min-width:140px">Close</button>
+      </div>
+    `);
+    const closeBtn = $("#btn-close-wardrobe");
+    if (closeBtn) closeBtn.onclick = () => closeModal();
   },
 
   renderClassHonorRoll(selectedClass, selectedForm) {
