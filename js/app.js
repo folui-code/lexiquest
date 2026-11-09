@@ -1842,47 +1842,70 @@ const App = {
       setTimeout(() => { if (b) b.style.transform = ""; }, 250);
     };
 
-    // Assessment handler
+    // Assessment handler - debounced, single XP per word per session, auto-advance
+    let isAssessing = false;
     const assessCard = (status) => {
+      if (isAssessing) return;
+      isAssessing = true;
+
+      // Lock buttons immediately to prevent rapid multi-clicks
+      const btnC = $("#btn-mark-challenging");
+      const btnF = $("#btn-mark-familiar");
+      const btnM = $("#btn-mark-mastered");
+      [btnC, btnF, btnM].forEach(b => {
+        if (b) {
+          b.disabled = true;
+          b.style.pointerEvents = "none";
+        }
+      });
+
       Store.setWordStatus(c, status);
-      if (status === "mastered") {
-        if (Sfx.spellCast) Sfx.spellCast();
-        Fx.confetti(75);
-        Store.addXP(10);
-        toast("⚡ Marked as Mastered! (+10 XP)", true);
-      } else if (status === "challenging") {
-        if (Sfx.spellChallenging) Sfx.spellChallenging();
-        Store.addXP(5);
-        toast("🔴 Marked as Difficult — Queued for practice (+5 XP)");
+      const xpAmt = status === "mastered" ? 10 : 5;
+      const xpRes = Store.awardWordXP(c, xpAmt);
+
+      if (xpRes.awarded) {
+        if (status === "mastered") {
+          if (Sfx.spellCast) Sfx.spellCast();
+          Fx.confetti(75);
+          toast("⚡ Marked as Mastered! (+10 XP)", true);
+        } else if (status === "challenging") {
+          if (Sfx.spellChallenging) Sfx.spellChallenging();
+          toast("🔴 Marked as Difficult — Queued for practice (+5 XP)");
+        } else {
+          if (Sfx.click) Sfx.click();
+          toast("🟡 Marked as Okay (+5 XP)");
+        }
       } else {
         if (Sfx.click) Sfx.click();
-        Store.addXP(5);
-        toast("🟡 Marked as Okay (+5 XP)");
+        toast(status === "mastered" ? "⚡ Marked as Mastered" : status === "challenging" ? "🔴 Marked as Difficult" : "🟡 Marked as Okay");
       }
       this.renderTop();
 
-      if (cardIdx < deck.length - 1) {
-        this.vaultStudy(tomeId, filter, cardIdx + 1, deck);
-      } else {
-        // Deck completed!
-        Sfx.fanfare();
-        Fx.confetti(180);
-        modal(`
-          <div style="text-align:center;padding:12px">
-            <div style="font-size:3.5rem;margin-bottom:10px">🏆</div>
-            <h2 style="font-size:1.8rem;margin-bottom:6px">Grimoire Session Complete!</h2>
-            <p style="color:#cbd5e1;line-height:1.6">You have completed all <b>${deck.length}</b> spell cards in this revision session!</p>
-            <p style="font-family:var(--font-n);font-size:1.8rem;font-weight:800;color:#fbbf24;margin:14px 0">+50 Bonus XP</p>
-            <div style="display:flex;gap:10px;justify-content:center;margin-top:18px">
-              <button class="btn primary" id="btn-tome-restart">↻ Study Deck Again</button>
-              <button class="btn" id="btn-tome-finish">← Return to Tomes</button>
+      // Immediately advance to next word
+      setTimeout(() => {
+        if (cardIdx < deck.length - 1) {
+          this.vaultStudy(tomeId, filter, cardIdx + 1, deck);
+        } else {
+          // Deck completed!
+          Sfx.fanfare();
+          Fx.confetti(180);
+          modal(`
+            <div style="text-align:center;padding:12px">
+              <div style="font-size:3.5rem;margin-bottom:10px">🏆</div>
+              <h2 style="font-size:1.8rem;margin-bottom:6px">Grimoire Session Complete!</h2>
+              <p style="color:#cbd5e1;line-height:1.6">You have completed all <b>${deck.length}</b> spell cards in this revision session!</p>
+              <p style="font-family:var(--font-n);font-size:1.8rem;font-weight:800;color:#fbbf24;margin:14px 0">+50 Bonus XP</p>
+              <div style="display:flex;gap:10px;justify-content:center;margin-top:18px">
+                <button class="btn primary" id="btn-tome-restart">↻ Study Deck Again</button>
+                <button class="btn" id="btn-tome-finish">← Return to Tomes</button>
+              </div>
             </div>
-          </div>
-        `);
-        Store.addXP(50);
-        $("#btn-tome-restart").onclick = () => { closeModal(); this.vaultStudy(tomeId, filter, 0, deck); };
-        $("#btn-tome-finish").onclick = () => { closeModal(); this.vaultLobby(); };
-      }
+          `);
+          Store.addXP(50);
+          $("#btn-tome-restart").onclick = () => { closeModal(); this.vaultStudy(tomeId, filter, 0, deck); };
+          $("#btn-tome-finish").onclick = () => { closeModal(); this.vaultLobby(); };
+        }
+      }, 180);
     };
 
     $("#btn-mark-challenging").onclick = (e) => { e.stopPropagation(); assessCard("challenging"); };

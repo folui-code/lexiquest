@@ -211,6 +211,17 @@ const Store = {
   },
 
   /* --- XP / rank (5 Academy tiers) --- */
+  _sessionXPWords: new Set(),
+  awardWordXP(target, amount) {
+    if (!this._sessionXPWords) this._sessionXPWords = new Set();
+    const k = this.cardKey(target);
+    if (!k || this._sessionXPWords.has(k)) {
+      return { awarded: false, xp: 0 };
+    }
+    this._sessionXPWords.add(k);
+    this.addXP(amount);
+    return { awarded: true, xp: amount };
+  },
   rank(xp = this.d.xp) {
     let i = 0; while (i + 1 < RANKS.length && xp >= RANKS[i + 1][0]) i++;
     const [lo, name] = RANKS[i], hi = RANKS[i + 1]?.[0] ?? (lo + 100000);
@@ -568,26 +579,40 @@ function showWord(c, list = (window.VOCAB || [])) {
   }
 
   // Handle Self-Assessment clicks inside modal
+  let isAssessingModal = false;
   $$(".modal-status-box .arcane-status-btn").forEach(btn => {
     btn.onclick = (e) => {
       e.stopPropagation();
+      if (isAssessingModal) return;
+      isAssessingModal = true;
       const st = btn.dataset.status;
       Store.setWordStatus(c, st);
-      if (st === "mastered") {
-        if (Sfx.spellCast) Sfx.spellCast();
-        Fx.confetti(60);
-        Store.addXP(10);
-        toast("⚡ Marked as Mastered! (+10 XP)", true);
-      } else if (st === "challenging") {
-        if (Sfx.spellChallenging) Sfx.spellChallenging();
-        Store.addXP(5);
-        toast("🔴 Marked as Difficult — Queued for extra practice (+5 XP)");
+
+      const xpAmt = st === "mastered" ? 10 : 5;
+      const xpRes = Store.awardWordXP(c, xpAmt);
+
+      if (xpRes.awarded) {
+        if (st === "mastered") {
+          if (Sfx.spellCast) Sfx.spellCast();
+          Fx.confetti(60);
+          toast("⚡ Marked as Mastered! (+10 XP)", true);
+        } else if (st === "challenging") {
+          if (Sfx.spellChallenging) Sfx.spellChallenging();
+          toast("🔴 Marked as Difficult — Queued for practice (+5 XP)");
+        } else {
+          if (Sfx.click) Sfx.click();
+          toast("🟡 Marked as Okay (+5 XP)");
+        }
       } else {
         if (Sfx.click) Sfx.click();
-        Store.addXP(5);
-        toast("🟡 Marked as Okay (+5 XP)");
+        toast(st === "mastered" ? "⚡ Marked as Mastered" : st === "challenging" ? "🔴 Marked as Difficult" : "🟡 Marked as Okay");
       }
-      $$(".modal-status-box .arcane-status-btn").forEach(b => b.classList.toggle("active", b.dataset.status === st));
+
+      $$(".modal-status-box .arcane-status-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.status === st);
+        b.disabled = true;
+        b.style.pointerEvents = "none";
+      });
       const badgeWrap = $("#modal-status-badge-wrap");
       if (badgeWrap) {
         badgeWrap.innerHTML = st === "mastered"
@@ -600,6 +625,22 @@ function showWord(c, list = (window.VOCAB || [])) {
       if (starsWrap) starsWrap.innerHTML = stars(c.id);
 
       if (typeof App !== "undefined" && App.renderTop) App.renderTop();
+
+      // Automatically advance to the next card in list
+      if (hasNext) {
+        setTimeout(() => {
+          window.removeEventListener("keydown", arrowHandler);
+          showWord(wordList[curIdx + 1], wordList);
+        }, 320);
+      } else {
+        setTimeout(() => {
+          isAssessingModal = false;
+          $$(".modal-status-box .arcane-status-btn").forEach(b => {
+            b.disabled = false;
+            b.style.pointerEvents = "auto";
+          });
+        }, 400);
+      }
     };
   });
 }

@@ -594,6 +594,13 @@ const Rush = {
     const n = $("#r-time"); if (n) n.textContent = this.time < 10 ? this.time.toFixed(1) : Math.ceil(this.time);
     const bar = $("#r-bar"); if (bar) bar.style.width = Math.min(100, (this.time / 60) * 100) + "%";
     const w = $("#r-timer"); if (w) w.classList.toggle("danger", this.time < 10);
+    const hintBtn = $("#r-hint-btn");
+    if (hintBtn) {
+      const canHint = this.time > 2.0 && !this.locked && !this.over;
+      hintBtn.style.opacity = canHint ? "1" : "0.45";
+      hintBtn.style.cursor = canHint ? "pointer" : "not-allowed";
+      hintBtn.classList.toggle("disabled", !canHint);
+    }
   },
 
   getDuelOpponent() {
@@ -841,6 +848,11 @@ const Rush = {
 
   useHintLetter() {
     if (this.locked || this.over) return;
+    if (this.time <= 2.0) {
+      this.floatTime("Need >2s!", "minus");
+      if (typeof Sfx !== "undefined" && Sfx.wrong) Sfx.wrong();
+      return;
+    }
     const idx = this.slots.findIndex(s => s.isLetter && !s.correct);
     if (idx === -1) return;
     const slot = this.slots[idx];
@@ -848,16 +860,24 @@ const Rush = {
     if (!tile) return;
     tile.used = true; tile.isHint = true;
     Object.assign(slot, { typedCh: tile.val, tileId: tile.id, correct: true, isHint: true, hasError: false });
-    this.time = Math.max(1, this.time - 2);
+    this.time -= 2.0;
     this.floatTime("−2s", "minus");
     Sfx.click();
-    this.advanceCursor(); this.renderSlots(); this.renderTiles(); this.checkCompletion();
+    this.advanceCursor(); this.renderSlots(); this.renderTiles();
+    if (this.time <= 0) {
+      this.time = 0;
+      this.renderTimer();
+      this.stop();
+      this.end();
+      return;
+    }
+    this.checkCompletion();
   },
 
   skipCard() {
     if (this.locked || this.over) return;
     this.locked = true;
-    this.time = Math.max(1, this.time - 5);
+    this.time -= 5.0;
     this.floatTime("−5s", "minus");
     this.combo = 0;
     $("#r-combo").innerHTML = "";
@@ -867,6 +887,12 @@ const Rush = {
     this.renderSlots(); this.renderTiles();
     this.missed.set(this.card.key || this.card.id, this.card);
     Store.review(this.card, 1);
+    if (this.time <= 0) {
+      this.time = 0;
+      this.renderTimer();
+      setTimeout(() => { if (!this.over) { this.stop(); this.end(); } }, 600);
+      return;
+    }
     setTimeout(() => { if (!this.over) this.nextCard(); }, 1200);
   },
 
@@ -875,21 +901,39 @@ const Rush = {
     this.locked = true;
     const rt = (performance.now() - this.qStart) / 1000;
     this.correct++;
-    this.combo++;
-    this.maxCombo = Math.max(this.maxCombo, this.combo);
 
-    const add = Math.min(8, this.BASE_ADD + Math.floor(this.combo / 3));
-    const speedBonus = rt < 5 ? 80 : rt < 8 ? 30 : 0;
-    const mixedMult = this.isMixed ? 1.25 : 1.0;
-    const gained = Math.round((120 * this.mult() + speedBonus) * mixedMult);
+    const hintsUsed = this.slots.filter(s => s.isHint).length;
+    const totalLetters = this.slots.filter(s => s.isLetter).length;
+
+    let add = 0;
+    let gained = 0;
+
+    if (hintsUsed > 0) {
+      // Break combo and penalize score/time if hints were used to eliminate infinite loops
+      this.combo = 0;
+      $("#r-combo").innerHTML = "";
+      // Time refill capped at +1s (or 0s if >= half letters hinted), guaranteeing net time loss (-2s hint vs +1s refill)
+      add = hintsUsed >= Math.ceil(totalLetters / 2) ? 0 : 1;
+      const unassistedRatio = Math.max(0, (totalLetters - hintsUsed) / (totalLetters || 1));
+      gained = Math.round(30 * unassistedRatio);
+    } else {
+      this.combo++;
+      this.maxCombo = Math.max(this.maxCombo, this.combo);
+      add = Math.min(8, this.BASE_ADD + Math.floor(this.combo / 3));
+      const speedBonus = rt < 5 ? 80 : rt < 8 ? 30 : 0;
+      const mixedMult = this.isMixed ? 1.25 : 1.0;
+      gained = Math.round((120 * this.mult() + speedBonus) * mixedMult);
+    }
 
     this.time += add;
     this.score += gained;
     this.timeline.push([Math.round(this.elapsed * 10), this.score]);
-    this.floatTime(`+${add}s`, "plus");
+    if (add > 0) {
+      this.floatTime(`+${add}s`, "plus");
+    }
     Sfx.correct(this.combo);
-    Fx.confetti(40, innerWidth / 2, innerHeight / 2.5);
-    Store.review(this.card, rt < 6 ? 5 : 4);
+    Fx.confetti(hintsUsed > 0 ? 15 : 40, innerWidth / 2, innerHeight / 2.5);
+    Store.review(this.card, hintsUsed > 0 ? 3 : (rt < 6 ? 5 : 4));
 
     if (this.combo >= 2) $("#r-combo").innerHTML = `<span>🔥 ${this.combo} COMBO! (+${add}s${this.isMixed ? " · +25% Mixed" : ""})</span>`;
     if (this.combo === 5) Store.unlock("combo10");
