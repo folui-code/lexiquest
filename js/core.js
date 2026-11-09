@@ -35,10 +35,10 @@ function posGroup(card) {
 /* ---------------- Ranks & achievements ---------------- */
 const RANKS = [
   [0, "Apprentice"],
-  [1000, "Adept"],
+  [1000, "Seeker"],
   [10000, "Scholar"],
   [50000, "Sorcerer"],
-  [150000, "Arch-Mage"]
+  [150000, "Master"]
 ];
 const ACHIEVEMENTS = {
   first: ["🎮", "First Steps", "Finish your first game"],

@@ -51,7 +51,7 @@ const HOUSE_DATA = {
   DRAGON: {
     key: "DRAGON",
     name: "DRAGON",
-    role: "FACULTY ARCH-MAGE",
+    role: "FACULTY MASTER",
     mascot: "Shadow Dragon",
     color: "#c084fc",
     badge: "🐉 House of Dragon · Faculty",
@@ -246,7 +246,7 @@ const App = {
     $("#streak-pill").title = `Daily streak · 🧊 ${Store.d.freezes} freeze(s)`;
     
     if (isStaff) {
-      $("#rank-name").textContent = `Faculty Arch-Mage`;
+      $("#rank-name").textContent = `Faculty Master`;
       $("#xp-fill").style.width = "100%";
     } else {
       $("#rank-name").textContent = `${r.name} · ${fmt(Store.d.xp)} XP`;
@@ -389,7 +389,7 @@ const App = {
     const isStaff = isStaffMember(d.name, auth.role);
     const houseKey = isStaff ? "DRAGON" : (d.house || auth.house || "TAK").toUpperCase();
     const hInfo = HOUSE_DATA[houseKey] || HOUSE_DATA.DRAGON;
-    const r = isStaff ? { name: "Faculty Arch-Mage" } : (Store.rank ? Store.rank() : { name: "Apprentice" });
+    const r = isStaff ? { name: "Faculty Master" } : (Store.rank ? Store.rank() : { name: "Apprentice" });
 
     let className = isStaff ? "Staff" : "4A";
     let formName = isStaff ? "Faculty High Council" : "S4";
