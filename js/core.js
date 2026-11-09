@@ -220,7 +220,11 @@ const Store = {
     const before = this.rank().idx;
     this.d.xp += Math.round(n); this.save();
     const r = this.rank();
-    if (r.idx > before) setTimeout(() => { toast(`🎖️ Rank up! You are now a <b>${r.name}</b>`, true); Sfx.fanfare(); Fx.confetti(160); }, 900);
+    if (r.idx > before) setTimeout(() => {
+      toast(`🎖️ Rank up! You are now a <b>${r.name}</b> · Tier ${r.idx + 1} Avatar Unlocked! 🪄`, true);
+      Sfx.fanfare(); Fx.confetti(160);
+      if (window.App && App.renderWizardProfile) App.renderWizardProfile();
+    }, 900);
   },
 
   /* --- streak with loss aversion + streak freezes --- */

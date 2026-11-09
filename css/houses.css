@@ -520,6 +520,22 @@
 .wp-avatar-frame:hover .wp-avatar-img {
   transform: scale(1.05);
 }
+.wp-avatar-tier-pill {
+  position: absolute;
+  bottom: 5px;
+  right: 6px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  z-index: 2;
+}
 
 /* 3. Personal Info (Middle) */
 .wp-info-col {

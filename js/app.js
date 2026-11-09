@@ -427,8 +427,9 @@ const App = {
 
       <!-- AVATAR PICTURE -->
       <div class="wp-avatar-col">
-        <div class="wp-avatar-frame" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
+        <div class="wp-avatar-frame" title="${isStaff ? 'Faculty High Council' : `Tier ${tierNum} Avatar · ${esc(r.name)}`}" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
           <img src="${avatarImg}" alt="${esc(cleanName)} Avatar (Tier ${tierNum})" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
+          ${!isStaff ? `<span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>` : ''}
         </div>
       </div>
 
