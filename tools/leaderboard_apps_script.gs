@@ -143,8 +143,15 @@ function handleRequest(params) {
     }
   }
 
-  // Always return the latest Top 10 leaderboard for all modes
-  const leaderboard = getAllLeaderboards(lbSheet);
+  // Action: Force rebuild all leaderboard modes from PlayLogs
+  if (action === "rebuild" || action === "refresh") {
+    ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+      updateLeaderboard(lbSheet, logSheet, m);
+    });
+  }
+
+  // Always return the latest Top 10 leaderboard for all 4 active modes
+  const leaderboard = getAllLeaderboards(lbSheet, logSheet);
 
   const output = {
     status: "success",
@@ -192,11 +199,14 @@ function updateLeaderboard(lbSheet, logSheet, targetMode) {
   const data = logSheet.getDataRange().getValues();
   if (data.length <= 1) return;
 
-  // Filter logs for target mode, keep max score per student
+  const baseTarget = String(targetMode || "rush").toLowerCase().trim().split("_")[0];
+
+  // Filter logs for target mode (matching both "mode" and "mode_s1"), keep max score per student
   const scoresByPlayer = {};
   for (let i = 1; i < data.length; i++) {
-    const rowMode = String(data[i][1]).toLowerCase();
-    if (rowMode === targetMode) {
+    const rowRaw = String(data[i][1]).toLowerCase().trim();
+    const rowBase = rowRaw.split("_")[0];
+    if (rowBase === baseTarget) {
       const pName = String(data[i][2]);
       const pScore = Number(data[i][3]) || 0;
       const pRole = String(data[i][4]) || "student";
@@ -217,18 +227,19 @@ function updateLeaderboard(lbSheet, logSheet, targetMode) {
   // Clear existing rows for this mode in Leaderboard sheet
   const lbData = lbSheet.getDataRange().getValues();
   for (let i = lbData.length - 1; i >= 1; i--) {
-    if (String(lbData[i][0]).toLowerCase() === targetMode) {
+    const curBase = String(lbData[i][0]).toLowerCase().trim().split("_")[0];
+    if (curBase === baseTarget) {
       lbSheet.deleteRow(i + 1);
     }
   }
 
-  // Re-insert top 10
+  // Re-insert top 10 under clean base name
   sorted.forEach((entry, idx) => {
-    lbSheet.appendRow([targetMode, idx + 1, entry.n, entry.s, entry.role, new Date()]);
+    lbSheet.appendRow([baseTarget, idx + 1, entry.n, entry.s, entry.role, new Date()]);
   });
 }
 
-function getAllLeaderboards(lbSheet) {
+function getAllLeaderboards(lbSheet, logSheet) {
   const data = lbSheet.getDataRange().getValues();
   const res = { rush: [], alchemy: [], blitz: [], reading: [] };
 
@@ -251,11 +262,31 @@ function getAllLeaderboards(lbSheet) {
       res[mode] = [];
     }
     res[mode].push({ n: name, s: score, rank: rank, role: role });
-    // Also keep the exact rawMode key if it has a suffix like _s1
-    if (mode !== rawMode) {
-      if (!res[rawMode]) res[rawMode] = [];
-      res[rawMode].push({ n: name, s: score, rank: rank, role: role });
-    }
+  }
+
+  // If any active game mode has 0 entries in Leaderboard sheet, automatically backfill from PlayLogs!
+  if (logSheet) {
+    const logData = logSheet.getDataRange().getValues();
+    ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+      if (!res[m] || res[m].length === 0) {
+        const topForMode = {};
+        for (let j = 1; j < logData.length; j++) {
+          const lMode = String(logData[j][1]).toLowerCase().trim().split("_")[0];
+          if (lMode === m) {
+            const pName = String(logData[j][2]).trim();
+            const pScore = Number(logData[j][3]) || 0;
+            const pRole = String(logData[j][4]) || "student";
+            if (pRole === "staff" || pName.indexOf("(VP)") !== -1 || pName.indexOf("(Staff)") !== -1) continue;
+            if (!topForMode[pName] || pScore > topForMode[pName].s) {
+              topForMode[pName] = { n: pName, s: pScore, role: pRole };
+            }
+          }
+        }
+        const sorted = Object.values(topForMode).sort((a, b) => b.s - a.s).slice(0, 10);
+        sorted.forEach((e, idx) => { e.rank = idx + 1; });
+        res[m] = sorted;
+      }
+    });
   }
 
   // Ensure sorted by score

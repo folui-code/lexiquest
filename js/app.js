@@ -905,29 +905,6 @@ const App = {
   syncClassHonorRollFromLeaderboard(leaderboardData) {
     if (typeof CLASS_HONOR_ROLL === "undefined") return;
 
-    // Official Form Launch: Start fresh without legacy hardcoded fallbacks
-    const defaults = {
-      rush: [],
-      alchemy: [],
-      blitz: [],
-      reading: []
-    };
-
-    const combinedData = Object.assign({}, defaults, leaderboardData || {});
-    ["rush", "alchemy", "blitz", "reading", "wordle"].forEach(m => {
-      if (!combinedData[m] || !combinedData[m].length) {
-        if (defaults[m]) combinedData[m] = defaults[m];
-      }
-    });
-
-    const allRows = [];
-    Object.keys(combinedData).forEach(m => {
-      const rows = combinedData[m];
-      if (Array.isArray(rows)) allRows.push(...rows);
-    });
-
-    if (!allRows.length) return;
-
     const roster = window.HPCCSS_ROSTER || {};
     const houseMap = window.HPCCSS_HOUSE_MAP || {};
     const nameToHouse = {};
@@ -947,55 +924,41 @@ const App = {
       return cls === "4D" ? "TAK" : "TAK";
     };
 
-    // Group by student and keep highest score (STRICTLY EXCLUDE TEACHERS/STAFF)
-    const studentScores = {};
-    allRows.forEach(r => {
-      if (!r.n || !r.s) return;
-      if (isStaffMember(r.n, r.role)) return; // Exclude teachers!
-      const raw = String(r.n).trim();
-      const cm = raw.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
-      if (!cm) return; // Must have valid student class
-      const cls = cm[1].toUpperCase();
-      const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-      if (isStaffMember(clean, r.role)) return;
-
-      const house = resolveHouse(clean, cls);
-      const score = Number(r.s) || 0;
-      if (score <= 0) return;
-
-      if (!studentScores[clean] || score > studentScores[clean].xp) {
-        studentScores[clean] = { name: clean, class: cls, house: house, xp: score };
-      }
-    });
-
-    // Merge into CLASS_HONOR_ROLL
-    const byClass = {};
-    Object.values(studentScores).forEach(st => {
-      if (!byClass[st.class]) byClass[st.class] = [];
-      byClass[st.class].push(st);
-    });
-
     let updated = false;
-    Object.keys(byClass).forEach(cls => {
-      const form = "S" + cls.charAt(0);
-      if (CLASS_HONOR_ROLL[form]) {
-        const existing = (CLASS_HONOR_ROLL[form][cls] || []).filter(e => !isStaffMember(e.name, e.role) && Number(e.xp) > 0);
-        const merged = [...byClass[cls]];
-        existing.forEach(e => {
-          if (!merged.find(m => m.name.toUpperCase() === e.name.toUpperCase())) {
-            merged.push(e);
+
+    // Check currently logged-in student to ensure their live Store.d.xp is reflected in their class
+    const curName = (Store && Store.d && Store.d.name) || "";
+    const curAuth = (Store && Store.d && Store.d.auth) || {};
+    const isStaff = isStaffMember(curName, curAuth.role);
+
+    if (!isStaff && curName && Store.d && Store.d.xp > 0) {
+      const cm = curName.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
+      if (cm) {
+        const cls = cm[1].toUpperCase();
+        const form = "S" + cls.charAt(0);
+        const clean = curName.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+        if (CLASS_HONOR_ROLL[form] && CLASS_HONOR_ROLL[form][cls]) {
+          const list = CLASS_HONOR_ROLL[form][cls];
+          const exist = list.find(st => st.name.toUpperCase() === clean);
+          if (exist) {
+            if (Store.d.xp > exist.xp) {
+              exist.xp = Store.d.xp;
+              updated = true;
+            }
+          } else {
+            list.push({
+              rank: list.length + 1,
+              name: clean,
+              house: (Store.d.house || resolveHouse(clean, cls)).toUpperCase(),
+              xp: Store.d.xp
+            });
+            updated = true;
           }
-        });
-        merged.sort((a, b) => b.xp - a.xp);
-        CLASS_HONOR_ROLL[form][cls] = merged.map((st, idx) => ({
-          rank: idx + 1,
-          name: st.name,
-          house: st.house,
-          xp: st.xp
-        }));
-        updated = true;
+          list.sort((a, b) => b.xp - a.xp);
+          list.forEach((st, idx) => { st.rank = idx + 1; });
+        }
       }
-    });
+    }
 
     if (updated) {
       this.renderClassHonorRoll();
@@ -1004,68 +967,33 @@ const App = {
   },
 
   renderHouseCup() {
-    const d = Store.d;
+    const d = Store.d || {};
     const auth = d.auth || {};
     const isStaff = isStaffMember(d.name, auth.role);
     const myHouse = isStaff ? null : (d.house || auth.house || "").toUpperCase();
 
-    // Official Form Launch: Baseline house points from verified launch sessions
-    const basePoints = {
-      TAK: 1860,
-      CHI: 3868,
-      KAN: 0,
-      KIN: 0
-    };
+    // Sum points for each house directly from verified Class Honor Roll scholars
+    const basePoints = { TAK: 0, CHI: 0, KIN: 0, KAN: 0 };
 
-    // Calculate live totals from real cloud players if cache is available
-    if (typeof Leaderboard !== "undefined" && Leaderboard.cache) {
-      const houseTotals = { TAK: 0, CHI: 0, KIN: 0, KAN: 0 };
-      const roster = window.HPCCSS_ROSTER || {};
-      const houseMap = window.HPCCSS_HOUSE_MAP || {};
-      const nameToHouse = {};
-      Object.keys(roster).forEach(h => {
-        const raw = roster[h];
-        const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-        nameToHouse[clean] = (houseMap[h] || "TAK").toUpperCase();
-      });
-
-      const resolveHouse = (cleanName) => {
-        if (nameToHouse[cleanName]) return nameToHouse[cleanName];
-        for (const rName in nameToHouse) {
-          if (rName.includes(cleanName) || cleanName.includes(rName)) {
-            return nameToHouse[rName];
-          }
-        }
-        return "TAK";
-      };
-
-      let hasScores = false;
-      const seenPlayers = new Set();
-      Object.keys(Leaderboard.cache).forEach(mode => {
-        const rows = Leaderboard.cache[mode] || [];
-        rows.forEach(r => {
-          if (!r.n || !r.s) return;
-          if (isStaffMember(r.n, r.role)) return; // Strictly exclude staff from house cup
-          const clean = String(r.n).replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-          if (seenPlayers.has(clean)) return;
-          seenPlayers.add(clean);
-          const h = resolveHouse(clean);
-          if (houseTotals[h] !== undefined) {
-            houseTotals[h] += Number(r.s) || 0;
-            hasScores = true;
-          }
+    if (typeof CLASS_HONOR_ROLL !== "undefined") {
+      Object.keys(CLASS_HONOR_ROLL).forEach(form => {
+        Object.keys(CLASS_HONOR_ROLL[form]).forEach(cls => {
+          (CLASS_HONOR_ROLL[form][cls] || []).forEach(st => {
+            if (!isStaffMember(st.name)) {
+              const h = (st.house || "TAK").toUpperCase();
+              if (basePoints[h] !== undefined) {
+                basePoints[h] += (Number(st.xp) || 0);
+              }
+            }
+          });
         });
       });
-
-      if (hasScores) {
-        Object.keys(houseTotals).forEach(h => {
-          basePoints[h] = houseTotals[h];
-        });
-      }
     }
 
-    if (myHouse && basePoints[myHouse] !== undefined) {
-      basePoints[myHouse] += (d.xp || 0);
+    // Fallback baseline safety check for verified launch points
+    if (basePoints.TAK === 0 && basePoints.CHI === 0) {
+      basePoints.TAK = 1860;
+      basePoints.CHI = 3868;
     }
 
     const totalXP = Object.values(basePoints).reduce((a, b) => a + b, 0);
@@ -1178,12 +1106,23 @@ const App = {
 
     let rows = Store.d.lb && Store.d.lb[mode] ? [...Store.d.lb[mode]] : [];
 
-    // Official Form Launch: Hall of fame starts completely blank until students play
+    // Verified launch student top scores across school arena
     const defaults = {
-      rush: [],
-      alchemy: [],
-      blitz: [],
-      reading: []
+      rush: [
+        { n: "LEE SHING YU (4D)", s: 5000, role: "student" },
+        { n: "TSAI TSZ CHING (4D)", s: 239, role: "student" },
+        { n: "LI TSZ YU (4D)", s: 52, role: "student" }
+      ],
+      alchemy: [
+        { n: "LI TSZ YU (4D)", s: 8300, role: "student" },
+        { n: "TSAI TSZ CHING (4D)", s: 7200, role: "student" }
+      ],
+      blitz: [
+        { n: "LI TSZ YU (4D)", s: 1550, role: "student" }
+      ],
+      reading: [
+        { n: "LI TSZ YU (4D)", s: 500, role: "student" }
+      ]
     };
 
     if (rows.length === 0) {
@@ -1195,8 +1134,9 @@ const App = {
     // Fetch live scores from Google Sheets if configured
     if (typeof Leaderboard !== "undefined" && Leaderboard.getTopScores) {
       Leaderboard.getTopScores(mode).then((cloudRows) => {
-        if (cloudRows && cloudRows.length > 0 && this.currentSbTab === mode) {
-          renderList(cloudRows);
+        const toShow = (cloudRows && cloudRows.length > 0) ? cloudRows : (defaults[mode] || []);
+        if (this.currentSbTab === mode && toShow.length > 0) {
+          renderList(toShow);
         }
         if (Leaderboard.cache) {
           this.syncClassHonorRollFromLeaderboard(Leaderboard.cache);
