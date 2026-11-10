@@ -1128,8 +1128,16 @@ const App = {
       t.onclick = () => {
         Sfx.click();
         this.renderScoreboard(t.dataset.tab);
+        t.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       };
     });
+
+    const activeTab = $(`#sb-tabs .sb-tab[data-tab="${mode}"]`);
+    if (activeTab && activeTab.scrollIntoView) {
+      activeTab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+
+    this.enableTabsDragScroll();
 
     const listEl = $("#sb-list");
     if (!listEl) return;
@@ -1207,6 +1215,29 @@ const App = {
         }
       });
     }
+  },
+
+  enableTabsDragScroll() {
+    const el = $("#sb-tabs");
+    if (!el || el._dragBound) return;
+    el._dragBound = true;
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    el.addEventListener("mousedown", (e) => {
+      isDown = true;
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+    });
+    window.addEventListener("mouseup", () => { isDown = false; });
+    el.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      el.scrollLeft = scrollLeft - walk;
+    });
   },
 
   startAutoSyncLoop() {

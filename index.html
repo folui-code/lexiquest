@@ -15,10 +15,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="css/base.css?v=6.2" />
-  <link rel="stylesheet" href="css/style.css?v=6.6" />
-  <link rel="stylesheet" href="css/modes.css?v=6.6" />
-  <link rel="stylesheet" href="css/houses.css?v=6.6" />
+  <link rel="stylesheet" href="css/base.css?v=7.8" />
+  <link rel="stylesheet" href="css/style.css?v=7.8" />
+  <link rel="stylesheet" href="css/modes.css?v=7.8" />
+  <link rel="stylesheet" href="css/houses.css?v=7.8" />
   <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -201,23 +201,25 @@
       <!-- Constantly visible / pinned Arena Scoreboard -->
       <section class="card scoreboard-card" id="main-scoreboard">
         <div class="scoreboard-head">
-          <div class="scoreboard-title-group">
-            <span class="scoreboard-icon">👑</span>
-            <div>
-              <h2>HPCCSS Hall of Fame</h2>
-              <p class="muted">Top scores across the school arena</p>
+          <div class="scoreboard-title-row">
+            <div class="scoreboard-title-group">
+              <span class="scoreboard-icon">👑</span>
+              <div>
+                <h2>HPCCSS Hall of Fame</h2>
+                <p class="muted">Top scores across the school arena</p>
+              </div>
             </div>
+            <button id="btn-refresh-scores" class="sb-refresh-btn" title="Refresh live scores from cloud">
+              <span class="sb-refresh-icon">🔄</span> Live Sync
+            </button>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div class="scoreboard-tabs-container">
             <div class="scoreboard-tabs" id="sb-tabs">
               <button class="sb-tab active" data-tab="rush">⚡ Cryptic Rush</button>
               <button class="sb-tab" data-tab="alchemy">⚗️ Alchemy</button>
               <button class="sb-tab" data-tab="blitz">⚡ Grammar Blitz</button>
               <button class="sb-tab" data-tab="reading">📜 Reading Oracle</button>
             </div>
-            <button id="btn-refresh-scores" class="sb-refresh-btn" title="Refresh live scores from cloud">
-              <span class="sb-refresh-icon">🔄</span> Live Sync
-            </button>
           </div>
         </div>
         <div class="scoreboard-body" id="sb-list">
@@ -243,16 +245,16 @@
   <script src="data/vocab.js?v=5.6"></script>
   <script src="data/collocations.js?v=5.5"></script>
   <script src="data/dse_reading.js?v=5.5"></script>
-  <script src="data/class_leaderboard.js?v=7.7"></script>
-  <script src="js/core.js?v=7.7"></script>
-  <script src="js/auth.js?v=7.7"></script>
-  <script src="js/leaderboard.js?v=7.7"></script>
-  <script src="js/blitz.js?v=7.7"></script>
-  <script src="js/qrcode.js?v=7.7"></script>
-  <script src="js/rush.js?v=7.7"></script>
-  <script src="js/alchemy.js?v=7.7"></script>
-  <script src="js/reading.js?v=7.7"></script>
-  <script src="js/app.js?v=7.7"></script>
+  <script src="data/class_leaderboard.js?v=7.8"></script>
+  <script src="js/core.js?v=7.8"></script>
+  <script src="js/auth.js?v=7.8"></script>
+  <script src="js/leaderboard.js?v=7.8"></script>
+  <script src="js/blitz.js?v=7.8"></script>
+  <script src="js/qrcode.js?v=7.8"></script>
+  <script src="js/rush.js?v=7.8"></script>
+  <script src="js/alchemy.js?v=7.8"></script>
+  <script src="js/reading.js?v=7.8"></script>
+  <script src="js/app.js?v=7.8"></script>
 </body>
 
 </html>

@@ -332,13 +332,19 @@
 
 .scoreboard-head {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 14px;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
+}
+
+.scoreboard-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
 }
 
 .scoreboard-title-group {
@@ -363,6 +369,12 @@
   font-weight: 800;
 }
 
+.scoreboard-tabs-container {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+}
+
 .scoreboard-tabs {
   display: flex;
   gap: 8px;
@@ -371,8 +383,12 @@
   border-radius: 12px;
   border: 1px solid var(--line);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
   max-width: 100%;
+  width: 100%;
 }
 
 .scoreboard-tabs::-webkit-scrollbar {
@@ -2215,6 +2231,54 @@
 }
 
 @media (max-width: 600px) {
+  .scoreboard-card {
+    padding: 18px 14px;
+  }
+  .scoreboard-head {
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+  .scoreboard-title-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .scoreboard-title-group h2 {
+    font-size: 1.15rem;
+  }
+  .scoreboard-title-group p {
+    font-size: 0.76rem;
+  }
+  .scoreboard-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 1.7rem;
+    border-radius: 12px;
+  }
+  .scoreboard-tabs {
+    gap: 6px;
+    padding: 4px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 4px;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  .sb-tab {
+    padding: 7px 13px;
+    font-size: 0.8rem;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .scoreboard-row {
+    padding: 10px 12px;
+  }
+  .sb-player-name {
+    font-size: 0.85rem;
+  }
+  .sb-score-val {
+    font-size: 0.95rem;
+  }
+
   .vault-hero-card {
     flex-direction: column;
     align-items: stretch;
