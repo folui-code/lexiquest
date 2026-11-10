@@ -902,7 +902,7 @@ const App = {
     });
   },
 
-  syncClassHonorRollFromLeaderboard(leaderboardData) {
+  syncClassHonorRollFromLeaderboard(leaderboardData, profilesData) {
     if (typeof CLASS_HONOR_ROLL === "undefined") return;
 
     const roster = window.HPCCSS_ROSTER || {};
@@ -924,41 +924,105 @@ const App = {
       return cls === "4D" ? "TAK" : "TAK";
     };
 
-    let updated = false;
+    // Convert per-mode high scores into XP using each game's exact conversion formula
+    const modeToXP = (mode, score) => {
+      const s = Number(score) || 0;
+      if (s <= 0) return 0;
+      const m = String(mode).toLowerCase().split("_")[0];
+      if (m === "rush") return Math.max(30, Math.round(s / 4));
+      if (m === "alchemy") return Math.max(10, Math.round(s / 5));
+      if (m === "blitz") return Math.round(s * 0.435);
+      if (m === "reading") return Math.round(s / 2);
+      return 0;
+    };
 
-    // Check currently logged-in student to ensure their live Store.d.xp is reflected in their class
+    // Track per-student converted XP per mode so we can sum across all 4 modes
+    const studentMap = {}; // cleanName -> { name, class, house, modes: {}, profileXP: 0 }
+    const ensureStudent = (rawName, role) => {
+      if (!rawName || isStaffMember(rawName, role)) return null;
+      const raw = String(rawName).trim();
+      const cm = raw.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
+      if (!cm) return null;
+      const cls = cm[1].toUpperCase();
+      const clean = raw.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+      if (!clean || isStaffMember(clean, role)) return null;
+      if (!studentMap[clean]) {
+        studentMap[clean] = {
+          name: clean,
+          class: cls,
+          house: resolveHouse(clean, cls),
+          modes: {},
+          profileXP: 0
+        };
+      }
+      return studentMap[clean];
+    };
+
+    if (leaderboardData && typeof leaderboardData === "object") {
+      ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+        const rows = leaderboardData[m];
+        if (!Array.isArray(rows)) return;
+        rows.forEach(r => {
+          const st = ensureStudent(r && r.n, r && r.role);
+          if (!st) return;
+          const xpVal = modeToXP(m, r.s);
+          if (xpVal > (st.modes[m] || 0)) {
+            st.modes[m] = xpVal;
+          }
+        });
+      });
+    }
+
+    // Also incorporate full cloud UserProfiles XP if returned by Apps Script
+    if (Array.isArray(profilesData)) {
+      profilesData.forEach(p => {
+        const st = ensureStudent(p && p.n, p && p.role);
+        if (!st) return;
+        const pxp = Number(p.xp) || 0;
+        if (pxp > st.profileXP) st.profileXP = pxp;
+      });
+    }
+
+    // Also incorporate currently logged-in student's live Store.d.xp
     const curName = (Store && Store.d && Store.d.name) || "";
     const curAuth = (Store && Store.d && Store.d.auth) || {};
-    const isStaff = isStaffMember(curName, curAuth.role);
-
-    if (!isStaff && curName && Store.d && Store.d.xp > 0) {
-      const cm = curName.match(/\((4[A-E]|5[A-E]|6[A-E])\)/i);
-      if (cm) {
-        const cls = cm[1].toUpperCase();
-        const form = "S" + cls.charAt(0);
-        const clean = curName.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-        if (CLASS_HONOR_ROLL[form] && CLASS_HONOR_ROLL[form][cls]) {
-          const list = CLASS_HONOR_ROLL[form][cls];
-          const exist = list.find(st => st.name.toUpperCase() === clean);
-          if (exist) {
-            if (Store.d.xp > exist.xp) {
-              exist.xp = Store.d.xp;
-              updated = true;
-            }
-          } else {
-            list.push({
-              rank: list.length + 1,
-              name: clean,
-              house: (Store.d.house || resolveHouse(clean, cls)).toUpperCase(),
-              xp: Store.d.xp
-            });
-            updated = true;
-          }
-          list.sort((a, b) => b.xp - a.xp);
-          list.forEach((st, idx) => { st.rank = idx + 1; });
-        }
+    if (curName && Store && Store.d && Store.d.xp > 0) {
+      const st = ensureStudent(curName, curAuth.role);
+      if (st && Store.d.xp > st.profileXP) {
+        st.profileXP = Store.d.xp;
+        if (Store.d.house) st.house = Store.d.house.toUpperCase();
       }
     }
+
+    let updated = false;
+
+    Object.values(studentMap).forEach(st => {
+      const modeSumXP = Object.values(st.modes).reduce((a, b) => a + b, 0);
+      const calcXP = Math.max(modeSumXP, st.profileXP);
+      if (calcXP <= 0) return;
+
+      const form = "S" + st.class.charAt(0);
+      if (CLASS_HONOR_ROLL[form] && CLASS_HONOR_ROLL[form][st.class]) {
+        const list = CLASS_HONOR_ROLL[form][st.class];
+        const exist = list.find(e => e.name.toUpperCase() === st.name);
+        if (exist) {
+          if (calcXP > exist.xp) {
+            exist.xp = calcXP;
+            updated = true;
+          }
+        } else {
+          list.push({
+            rank: list.length + 1,
+            name: st.name,
+            house: st.house,
+            xp: calcXP
+          });
+          updated = true;
+        }
+        list.sort((a, b) => b.xp - a.xp);
+        list.forEach((item, idx) => { item.rank = idx + 1; });
+      }
+    });
 
     if (updated) {
       this.renderClassHonorRoll();

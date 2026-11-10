@@ -79,6 +79,9 @@ const Leaderboard = {
 
         // Seed with default scores for any mode not yet in cloud return
         this.cache = Object.assign({}, this.DEFAULT_SCORES, data.leaderboard, normalized);
+        if (Array.isArray(data.profiles)) {
+          this.profiles = data.profiles;
+        }
         ["rush", "alchemy", "blitz", "reading"].forEach(m => {
           if (!this.cache[m] || !this.cache[m].length) {
             this.cache[m] = [...(this.DEFAULT_SCORES[m] || [])];
@@ -88,7 +91,7 @@ const Leaderboard = {
 
         // Sync real scores to Class Honor Roll and House Cup
         if (typeof App !== "undefined" && App.syncClassHonorRollFromLeaderboard) {
-          App.syncClassHonorRollFromLeaderboard(this.cache);
+          App.syncClassHonorRollFromLeaderboard(this.cache, this.profiles);
         }
 
         const out = this.cache[cleanMode] || this.cache[mode];
@@ -160,6 +163,9 @@ const Leaderboard = {
           });
 
           this.cache = Object.assign({}, this.DEFAULT_SCORES, data.leaderboard, normalized);
+          if (Array.isArray(data.profiles)) {
+            this.profiles = data.profiles;
+          }
           ["rush", "alchemy", "blitz", "reading"].forEach(m => {
             if (!this.cache[m] || !this.cache[m].length) {
               this.cache[m] = [...(this.DEFAULT_SCORES[m] || [])];
@@ -168,7 +174,7 @@ const Leaderboard = {
           this.lastFetch = Date.now();
           if (typeof App !== "undefined") {
             if (App.renderScoreboard) App.renderScoreboard(mode);
-            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(this.cache);
+            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(this.cache, this.profiles);
             if (App.renderHouseCup) App.renderHouseCup();
             if (App.renderWizardProfile) App.renderWizardProfile();
           }

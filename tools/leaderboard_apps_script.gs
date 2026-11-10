@@ -150,17 +150,34 @@ function handleRequest(params) {
     });
   }
 
-  // Always return the latest Top 10 leaderboard for all 4 active modes
+  // Always return the latest Top 10 leaderboard for all 4 active modes + student XP profiles
   const leaderboard = getAllLeaderboards(lbSheet, logSheet);
+  const profiles = getAllProfiles(profileSheet);
 
   const output = {
     status: "success",
     timestamp: new Date().toISOString(),
-    leaderboard: leaderboard
+    leaderboard: leaderboard,
+    profiles: profiles
   };
 
   return ContentService.createTextOutput(JSON.stringify(output))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function getAllProfiles(profileSheet) {
+  if (!profileSheet) return [];
+  const data = profileSheet.getDataRange().getValues();
+  const list = [];
+  for (let i = 1; i < data.length; i++) {
+    const name = String(data[i][1] || "").trim();
+    const role = String(data[i][2] || "student").trim();
+    const xp = Number(data[i][3]) || 0;
+    if (!name || xp <= 0) continue;
+    if (role === "staff" || name.indexOf("(VP)") !== -1 || name.indexOf("(Staff)") !== -1) continue;
+    list.push({ n: name, xp: xp, role: role });
+  }
+  return list;
 }
 
 function getUserProfile(profileSheet, hash) {
