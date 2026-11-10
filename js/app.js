@@ -905,49 +905,12 @@ const App = {
   syncClassHonorRollFromLeaderboard(leaderboardData) {
     if (typeof CLASS_HONOR_ROLL === "undefined") return;
 
-    // Default student achievements across all modes if cloud mode tables are empty
+    // Official Form Launch: Start fresh without legacy hardcoded fallbacks
     const defaults = {
-      rush: [
-        { n: "LEE SHING YU (4D)", s: 318520 },
-        { n: "WAN CHEUK NAM (4D)", s: 300430 },
-        { n: "SIU HOI CHUN (4D)", s: 218970 },
-        { n: "YAN JACKY TSZ HIM (4B)", s: 72990 },
-        { n: "HO YUK YEE (4D)", s: 69490 },
-        { n: "KAN PUI KEI (4D)", s: 63520 },
-        { n: "CHUI TSZ KO (4D)", s: 44010 },
-        { n: "LAN ZE CHENG (4D)", s: 40150 }
-      ],
-      alchemy: [
-        { n: "WAN CHEUK NAM (4D)", s: 4200 },
-        { n: "YAN JACKY TSZ HIM (4B)", s: 3600 },
-        { n: "AU-YEUNG SZE YAN (4A)", s: 3100 },
-        { n: "SIU HOI CHUN (4D)", s: 2650 },
-        { n: "LEE SHING YU (4D)", s: 2100 }
-      ],
-      blitz: [
-        { n: "YAN JACKY TSZ HIM (4B)", s: 3850 },
-        { n: "LEE SHING YU (4D)", s: 3400 },
-        { n: "WAN CHEUK NAM (4D)", s: 3120 },
-        { n: "SIU HOI CHUN (4D)", s: 2750 },
-        { n: "AU YEUNG HOI MAN (4B)", s: 2100 }
-      ],
-      reading: [
-        { n: "LEE SHING YU (4D)", s: 600 },
-        { n: "WAN CHEUK NAM (4D)", s: 550 },
-        { n: "YAN JACKY TSZ HIM (4B)", s: 500 },
-        { n: "AU-YEUNG SZE YAN (4A)", s: 450 },
-        { n: "SIU HOI CHUN (4D)", s: 400 }
-      ],
-      wordle: [
-        { n: "CHIU DEX HOI TING (4B)", s: 700 },
-        { n: "CHU YAT CHUN (4B)", s: 700 },
-        { n: "TAN HUNG YU (4B)", s: 700 },
-        { n: "YEUNG SUNG YAN (4B)", s: 700 },
-        { n: "TSUI CHEUK TUNG (4B)", s: 700 },
-        { n: "CHUI TSZ KO (4D)", s: 700 },
-        { n: "KAN PUI KEI (4D)", s: 700 },
-        { n: "WONG YEE MAN (4D)", s: 700 }
-      ]
+      rush: [],
+      alchemy: [],
+      blitz: [],
+      reading: []
     };
 
     const combinedData = Object.assign({}, defaults, leaderboardData || {});
