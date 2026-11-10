@@ -1350,6 +1350,9 @@ const Alchemy = {
               <h2>Student Roster (<span id="cah-count">0</span> Joined)</h2>
               <div class="cah-controls">
                 <button class="btn primary" id="btn-cah-start">⚡ Launch Class Battle</button>
+                <button class="btn small secondary hidden" id="btn-cah-export-csv" title="Download Excel (.csv) with student scores" style="background:#10b981;border-color:#059669;color:#fff">📥 Excel (.csv)</button>
+                <button class="btn small secondary hidden" id="btn-cah-email-gmail" title="Open Gmail with formatted report" style="background:#ea4335;border-color:#d93025;color:#fff">✉️ Gmail</button>
+                <button class="btn small secondary hidden" id="btn-cah-copy-sheets" title="Copy table to paste directly into Google Sheets" style="background:#0284c7;border-color:#0369a1;color:#fff">📋 Copy for Sheets</button>
                 <button class="btn small secondary" id="btn-cah-reset">🔄 Reset</button>
               </div>
             </div>
@@ -1393,6 +1396,9 @@ const Alchemy = {
         toast("🔄 Room reset!");
       } catch (e) { toast("Error: " + e.message); }
     };
+    $("#btn-cah-export-csv").onclick = () => this.exportClassCsv(this.lastArenaSnap?.players || [], a.room, "Collocation Alchemy");
+    $("#btn-cah-email-gmail").onclick = () => this.emailClassResults(this.lastArenaSnap?.players || [], a.room, "Collocation Alchemy");
+    $("#btn-cah-copy-sheets").onclick = () => this.copyForGoogleSheets(this.lastArenaSnap?.players || []);
 
     // Poll teacher whiteboard state
     if (this.arenaPollTimer) clearInterval(this.arenaPollTimer);
@@ -1406,6 +1412,7 @@ const Alchemy = {
 
   updateTeacherBoardUI(snap) {
     if (!snap) return;
+    this.lastArenaSnap = snap;
     const countEl = $("#cah-count");
     if (countEl) countEl.textContent = snap.players.length;
 
@@ -1414,6 +1421,11 @@ const Alchemy = {
       statusEl.textContent = snap.status === "live" ? "🔥 BATTLE IN PROGRESS" : (snap.status === "ended" ? "🏆 MATCH COMPLETED" : "WAITING IN LOBBY");
       statusEl.className = "cah-status " + snap.status;
     }
+
+    const showExports = (snap.status === "ended" || snap.players.some(p => p.d || p.s > 0)) && snap.players.length > 0;
+    $("#btn-cah-export-csv")?.classList.toggle("hidden", !showExports);
+    $("#btn-cah-email-gmail")?.classList.toggle("hidden", !showExports);
+    $("#btn-cah-copy-sheets")?.classList.toggle("hidden", !showExports);
 
     const rosterEl = $("#cah-roster");
     if (rosterEl) {
@@ -1459,6 +1471,84 @@ const Alchemy = {
           </div>
         `;
       }).join("");
+    }
+  },
+
+  exportClassCsv(players, room, mode = "Collocation Alchemy") {
+    if (!players || !players.length) { toast("No student scores to export yet."); return; }
+    const sorted = [...players].sort((a, b) => (b.s || 0) - (a.s || 0));
+    const rows = [
+      ["Rank", "Student Name", "Class", "House", "Score", "Collocations Forged", "Finished", "Mode", "Room Code", "Timestamp"]
+    ];
+    sorted.forEach((p, idx) => {
+      const cleanName = (p.n || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const cls = ((p.n || "").match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+      rows.push([
+        idx + 1,
+        cleanName || p.n,
+        cls,
+        p.h || "",
+        p.s || 0,
+        p.c || 0,
+        p.d ? "Yes" : "No",
+        mode,
+        room,
+        new Date().toLocaleString()
+      ]);
+    });
+    const csvContent = "\uFEFF" + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `HPCCSS_${mode.replace(/\s+/g, "_")}_Room_${room}_Results.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast("📥 Class results downloaded as Excel (.csv)!", true);
+  },
+
+  emailClassResults(players, room, mode = "Collocation Alchemy") {
+    if (!players || !players.length) { toast("No student scores to email yet."); return; }
+    const sorted = [...players].sort((a, b) => (b.s || 0) - (a.s || 0));
+    const dateStr = new Date().toLocaleDateString();
+    const subject = encodeURIComponent(`HPCCSS LexiQuest Class Results — ${mode} (Room ${room} · ${dateStr})`);
+    let body = `HPCCSS LexiQuest — Class Battle Summary\n`;
+    body += `Game Mode: ${mode}\nRoom Code: ${room}\nDate: ${new Date().toLocaleString()}\nTotal Participants: ${sorted.length}\n\n`;
+    body += `RANK | STUDENT NAME | CLASS | HOUSE | SCORE | COLLOCATIONS FORGED\n`;
+    body += `--------------------------------------------------------------------\n`;
+    sorted.forEach((p, idx) => {
+      const cleanName = (p.n || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const cls = ((p.n || "").match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "-";
+      body += `#${idx + 1} | ${cleanName} | ${cls} | ${p.h || "-"} | ${fmt(p.s || 0)} pts | ${p.c || 0} solved\n`;
+    });
+    body += `\nGenerated automatically from HPCCSS LexiQuest Class Arena.`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, "_blank");
+  },
+
+  copyForGoogleSheets(players) {
+    if (!players || !players.length) { toast("No student scores to copy yet."); return; }
+    const sorted = [...players].sort((a, b) => (b.s || 0) - (a.s || 0));
+    const tsv = ["Rank\tStudent Name\tClass\tHouse\tScore\tCollocations Forged\tFinished"].concat(
+      sorted.map((p, idx) => {
+        const cleanName = (p.n || "").replace(/\s*\([^)]*\)/g, "").trim();
+        const cls = ((p.n || "").match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+        return `${idx + 1}\t${cleanName}\t${cls}\t${p.h || ""}\t${p.s || 0}\t${p.c || 0}\t${p.d ? "Yes" : "No"}`;
+      })
+    ).join("\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(tsv).then(() => {
+        toast("📋 Copied to clipboard! Open Google Sheets and press Paste (Ctrl+V).", true);
+      }).catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = tsv;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        toast("📋 Copied to clipboard! Open Google Sheets and press Paste (Ctrl+V).", true);
+      });
     }
   },
 
@@ -1863,71 +1953,101 @@ const Alchemy = {
     $("#btn-alch-modes").onclick = () => this.intro();
   },
 
-  async renderDuelResult() {
+  renderDuelResult() {
+    if (this.duelPollTimer) clearInterval(this.duelPollTimer);
     const el = $("#screen-alchemy");
     const me = AlchemyNet.me();
-    let opp = { n: "Rival", s: 0, c: 0, h: "" };
+    this._celebratedAlchDuel = false;
 
-    try {
-      const res = await AlchemyNet.call("arena_state", { room: this.duel.room });
-      const snap = res.arena;
-      if (snap && snap.players) {
-        const found = snap.players.find(p => p.pid !== me.pid);
-        if (found) opp = found;
+    const updateView = async () => {
+      let opp = { n: "Rival", s: 0, c: 0, h: "", d: 0 };
+
+      try {
+        const res = await AlchemyNet.call("arena_state", { room: this.duel.room });
+        const snap = res.arena;
+        if (snap && snap.players) {
+          const found = snap.players.find(p => p.pid !== me.pid);
+          if (found) opp = found;
+        }
+      } catch {}
+
+      const oppDone = Boolean(opp.d === "1" || opp.d === 1);
+      const won = this.score > (opp.s || 0);
+      const tied = this.score === (opp.s || 0);
+
+      const myClass = (me.name.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+      const oppClass = (opp.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+      const isCrossClass = Boolean(myClass && oppClass && myClass !== oppClass);
+
+      if (isCrossClass && !this._alchDuelCrossGiven) {
+        this._alchDuelCrossGiven = true;
+        Store.addXP(50);
+        toast(`⚔️ Inter-Class Rivalry Bonus: +50 XP for dueling ${oppClass}!`, true);
       }
-    } catch {}
 
-    const won = this.score > (opp.s || 0);
-    const tied = this.score === (opp.s || 0);
+      const title = oppDone
+        ? (won ? "🏆 VICTORY!" : (tied ? "⚖️ A Perfect Tie!" : "💀 Defeated…"))
+        : `⏳ ${esc(opp.n)} is brewing live (${fmt(opp.s || 0)} pts)…`;
 
-    const myClass = (me.name.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
-    const oppClass = (opp.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
-    const isCrossClass = Boolean(myClass && oppClass && myClass !== oppClass);
+      el.innerHTML = `
+        <div class="card duel-result-podium ${oppDone ? (won ? 'win' : 'lose') : ''}" style="max-width:580px;margin:30px auto;text-align:center">
+          <div class="duel-result-banner">${title}</div>
+          ${isCrossClass ? `
+            <div style="background:rgba(251,191,36,0.14);border:1px solid #fbbf24;color:#fbbf24;font-weight:700;padding:6px 14px;border-radius:8px;margin:8px auto;max-width:440px;font-size:0.88rem">
+              ⚔️ Inter-Class Rivalry (${myClass} vs ${oppClass}): +50 Bonus XP Awarded! 🚀
+            </div>
+          ` : ""}
+          <p class="muted">Collocation Alchemy 1v1 Wizards' Duel · Room ${esc(this.duel.room)}</p>
 
-    if (isCrossClass && !this._alchDuelCrossGiven) {
-      this._alchDuelCrossGiven = true;
-      Store.addXP(50);
-      toast(`⚔️ Inter-Class Rivalry Bonus: +50 XP for dueling ${oppClass}!`, true);
-    }
-
-    el.innerHTML = `
-      <div class="card duel-result-podium ${won ? 'win' : 'lose'}" style="max-width:580px;margin:30px auto;text-align:center">
-        <div class="duel-result-banner">${won ? "🏆 VICTORY!" : (tied ? "⚔️ TIED BATTLE" : "💀 DEFEAT")}</div>
-        ${isCrossClass ? `
-          <div style="background:rgba(251,191,36,0.14);border:1px solid #fbbf24;color:#fbbf24;font-weight:700;padding:6px 14px;border-radius:8px;margin:8px auto;max-width:440px;font-size:0.88rem">
-            ⚔️ Inter-Class Rivalry (${myClass} vs ${oppClass}): +50 Bonus XP Awarded! 🚀
+          <div class="duel-podium-row">
+            <div class="duel-podium-col ${oppDone && won ? 'top' : ''}">
+              <div class="dpc-crown">${oppDone && won ? "👑" : ""}</div>
+              <div class="dpc-name">${esc(me.name)} (You)</div>
+              <div class="dpc-house">${me.house || "ROGUE"}</div>
+              <div class="dpc-bar" style="--hc:${ALCH_HOUSE_COLORS[me.house] || "#38bdf8"}"><i style="height:${Math.min(100, Math.round((this.score / Math.max(1, this.score, opp.s || 0)) * 100))}%"></i></div>
+              <div class="dpc-score">${fmt(this.score)}</div>
+              <div class="dpc-meta">${this.solvedCount} solved</div>
+            </div>
+            <div class="duel-podium-col ${oppDone && !won && !tied ? 'top' : ''}">
+              <div class="dpc-crown">${oppDone && !won && !tied ? "👑" : ""}</div>
+              <div class="dpc-name">${esc(opp.n)}</div>
+              <div class="dpc-house">${opp.h || "ROGUE"}</div>
+              <div class="dpc-bar" style="--hc:${ALCH_HOUSE_COLORS[opp.h] || "#fda4af"}"><i style="height:${Math.min(100, Math.round(((opp.s || 0) / Math.max(1, this.score, opp.s || 0)) * 100))}%"></i></div>
+              <div class="dpc-score">${oppDone || opp.s ? fmt(opp.s || 0) : "—"}</div>
+              <div class="dpc-meta">${oppDone ? `${opp.c || 0} solved ✅` : `Playing live (${opp.c || 0} solved)…`}</div>
+            </div>
           </div>
-        ` : ""}
-        <p class="muted">Collocation Alchemy 1v1 Wizards' Duel</p>
 
-        <div class="duel-podium-row">
-          <div class="duel-podium-col">
-            <div class="dpc-crown">${won ? "👑" : ""}</div>
-            <div class="dpc-name">${esc(me.name)} (You)</div>
-            <div class="dpc-house">${me.house || "ROGUE"}</div>
-            <div class="dpc-bar" style="--hc:${ALCH_HOUSE_COLORS[me.house] || "#38bdf8"}"><i style="height:${Math.min(100, Math.round((this.score / Math.max(1, this.score, opp.s)) * 100))}%"></i></div>
-            <div class="dpc-score">${fmt(this.score)}</div>
-            <div class="dpc-meta">${this.solvedCount} solved</div>
-          </div>
-          <div class="duel-podium-col">
-            <div class="dpc-crown">${!won && !tied ? "👑" : ""}</div>
-            <div class="dpc-name">${esc(opp.n)}</div>
-            <div class="dpc-house">${opp.h || "ROGUE"}</div>
-            <div class="dpc-bar" style="--hc:${ALCH_HOUSE_COLORS[opp.h] || "#fda4af"}"><i style="height:${Math.min(100, Math.round(((opp.s || 0) / Math.max(1, this.score, opp.s)) * 100))}%"></i></div>
-            <div class="dpc-score">${fmt(opp.s || 0)}</div>
-            <div class="dpc-meta">${opp.c || 0} solved</div>
+          <div style="display:flex;gap:12px;justify-content:center;margin-top:20px">
+            <button class="btn primary" id="btn-alch-duel-rematch">⚔️ Rematch</button>
+            <button class="btn secondary" id="btn-alch-duel-home">← Mode Select</button>
           </div>
         </div>
+      `;
 
-        <div style="display:flex;gap:12px;justify-content:center;margin-top:20px">
-          <button class="btn primary" id="btn-alch-duel-rematch">⚔️ Rematch</button>
-          <button class="btn secondary" id="btn-alch-duel-home">← Mode Select</button>
-        </div>
-      </div>
-    `;
+      if (oppDone && won && !this._celebratedAlchDuel) {
+        this._celebratedAlchDuel = true;
+        Sfx.fanfare();
+        Fx.confetti(200);
+      }
 
-    $("#btn-alch-duel-rematch").onclick = () => this.createDuel();
-    $("#btn-alch-duel-home").onclick = () => this.intro();
+      $("#btn-alch-duel-rematch").onclick = () => {
+        if (this.duelPollTimer) clearInterval(this.duelPollTimer);
+        this.createDuel();
+      };
+      $("#btn-alch-duel-home").onclick = () => {
+        if (this.duelPollTimer) clearInterval(this.duelPollTimer);
+        this.intro();
+      };
+
+      if (oppDone && this.duelPollTimer) {
+        clearInterval(this.duelPollTimer);
+        this.duelPollTimer = null;
+      }
+    };
+
+    updateView();
+    this.duelPollTimer = setInterval(updateView, 2500);
   },
 
   async renderClassStudentResult() {

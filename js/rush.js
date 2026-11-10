@@ -1546,6 +1546,9 @@ const Rush = {
               <div class="cah-controls">
                 <button class="btn rush" id="cah-start">🚀 Launch Battle</button>
                 <button class="btn hidden" id="cah-end">🏁 End Round</button>
+                <button class="btn small hidden" id="cah-export-csv" title="Download Excel (.csv) with student scores" style="background:#10b981;border-color:#059669">📥 Excel (.csv)</button>
+                <button class="btn small hidden" id="cah-email-gmail" title="Open Gmail with formatted report" style="background:#ea4335;border-color:#d93025">✉️ Gmail</button>
+                <button class="btn small hidden" id="cah-copy-sheets" title="Copy table to paste directly into Google Sheets" style="background:#0284c7;border-color:#0369a1">📋 Copy for Sheets</button>
                 <button class="btn hidden" id="cah-new">🔄 New Round</button>
               </div>
             </div>
@@ -1560,6 +1563,9 @@ const Rush = {
     $("#cah-start").onclick = () => this.hostAction("arena_start");
     $("#cah-end").onclick = () => this.hostAction("arena_end");
     $("#cah-new").onclick = () => this.hostAction("arena_reset", { seed: RushNet.newSeed() });
+    $("#cah-export-csv").onclick = () => this.exportClassCsv(this.arena.state?.players || [], a.room, "Cryptic Rush");
+    $("#cah-email-gmail").onclick = () => this.emailClassResults(this.arena.state?.players || [], a.room, "Cryptic Rush");
+    $("#cah-copy-sheets").onclick = () => this.copyForGoogleSheets(this.arena.state?.players || []);
     showScreen("rush");
     currentCleanup = () => this.stopPolling();
     this.renderHostState(a.state);
@@ -1589,6 +1595,10 @@ const Rush = {
     $("#cah-start").classList.toggle("hidden", s.status !== "lobby");
     $("#cah-end").classList.toggle("hidden", s.status !== "live");
     $("#cah-new").classList.toggle("hidden", s.status !== "ended");
+    const showExports = s.status === "ended" && players.length > 0;
+    $("#cah-export-csv")?.classList.toggle("hidden", !showExports);
+    $("#cah-email-gmail")?.classList.toggle("hidden", !showExports);
+    $("#cah-copy-sheets")?.classList.toggle("hidden", !showExports);
     const done = players.filter(p => p.d).length;
     $("#cah-board-title").innerHTML = s.status === "lobby"
       ? `Wizards in the hall: <b id="cah-count">${players.length}</b>`
@@ -1605,6 +1615,78 @@ const Rush = {
       $("#cah-podium").innerHTML = this.podiumHtml(players);
       $("#cah-house").innerHTML = `<h3>🏆 Four Houses Mark Comparison</h3>${this.houseCupHtml(players)}`;
       $("#cah-lb").innerHTML = `<h3>📋 Full Class Standings</h3>${this.leaderboardHtml(players, null)}`;
+    }
+  },
+
+  exportClassCsv(players, room, mode = "Cryptic Rush") {
+    if (!players || !players.length) { toast("No student scores to export yet."); return; }
+    const sorted = [...players].sort((a, b) => (b.s || 0) - (a.s || 0));
+    const rows = [
+      ["Rank", "Student Name", "Class", "House", "Score", "Words Solved", "Finished", "Mode", "Room Code", "Timestamp"]
+    ];
+    sorted.forEach((p, idx) => {
+      const cleanName = (p.n || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const cls = ((p.n || "").match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+      rows.push([
+        idx + 1,
+        cleanName || p.n,
+        cls,
+        p.h || "",
+        p.s || 0,
+        p.c || 0,
+        p.d ? "Yes" : "No",
+        mode,
+        room,
+        new Date().toLocaleString()
+      ]);
+    });
+    const csvContent = "\uFEFF" + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `HPCCSS_${mode.replace(/\s+/g, "_")}_Room_${room}_Results.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast("📥 Class results downloaded as Excel (.csv)!", true);
+  },
+
+  emailClassResults(players, room, mode = "Cryptic Rush") {
+    if (!players || !players.length) { toast("No student scores to email yet."); return; }
+    const sorted = [...players].sort((a, b) => (b.s || 0) - (a.s || 0));
+    const dateStr = new Date().toLocaleDateString();
+    const subject = encodeURIComponent(`HPCCSS LexiQuest Class Results — ${mode} (Room ${room} · ${dateStr})`);
+    let body = `HPCCSS LexiQuest — Class Battle Summary\n`;
+    body += `Game Mode: ${mode}\nRoom Code: ${room}\nDate: ${new Date().toLocaleString()}\nTotal Participants: ${sorted.length}\n\n`;
+    body += `RANK | STUDENT NAME | CLASS | HOUSE | SCORE | WORDS SOLVED\n`;
+    body += `--------------------------------------------------------------\n`;
+    sorted.forEach((p, idx) => {
+      const cleanName = (p.n || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const cls = ((p.n || "").match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "-";
+      body += `#${idx + 1} | ${cleanName} | ${cls} | ${p.h || "-"} | ${fmt(p.s || 0)} pts | ${p.c || 0} solved\n`;
+    });
+    body += `\nGenerated automatically from HPCCSS LexiQuest Class Arena.`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, "_blank");
+  },
+
+  copyForGoogleSheets(players) {
+    if (!players || !players.length) { toast("No student scores to copy yet."); return; }
+    const sorted = [...players].sort((a, b) => (b.s || 0) - (a.s || 0));
+    const tsv = ["Rank\tStudent Name\tClass\tHouse\tScore\tWords Solved\tFinished"].concat(
+      sorted.map((p, idx) => {
+        const cleanName = (p.n || "").replace(/\s*\([^)]*\)/g, "").trim();
+        const cls = ((p.n || "").match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+        return `${idx + 1}\t${cleanName}\t${cls}\t${p.h || ""}\t${p.s || 0}\t${p.c || 0}\t${p.d ? "Yes" : "No"}`;
+      })
+    ).join("\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(tsv).then(() => {
+        toast("📋 Copied to clipboard! Open Google Sheets and press Paste (Ctrl+V).", true);
+      }).catch(() => { RushNet.copy(tsv); });
+    } else {
+      RushNet.copy(tsv);
     }
   },
 
