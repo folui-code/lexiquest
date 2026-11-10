@@ -6,9 +6,6 @@
    =================================================================== */
 
 const Leaderboard = {
-  // Official Launch Season: s1 (Allows clean separation from pre-launch trial data)
-  SEASON: "s1",
-
   // Official HPCCSS Google Apps Script Web App URL
   API_URL: (() => {
     try {
@@ -41,35 +38,20 @@ const Leaderboard = {
     }
 
     try {
-      const modeKey = this.SEASON ? `${mode}_${this.SEASON}` : mode;
-      const target = `${url}${url.includes("?") ? "&" : "?"}action=get&mode=${encodeURIComponent(modeKey)}&season=${encodeURIComponent(this.SEASON)}&_t=${now}`;
+      const target = `${url}${url.includes("?") ? "&" : "?"}action=get&mode=${encodeURIComponent(mode)}&_t=${now}`;
       const resp = await fetch(target, { method: "GET", cache: "no-store" });
       if (!resp.ok) return null;
       const data = await resp.json();
       if (data && data.leaderboard) {
-        // Official Form Launch Filter:
-        // Only accept entries for the new launch season (e.g. rush_s1, alchemy_s1)
-        // Pre-launch trial entries (bare 'rush', 'wordle', 'matrix') are ignored so leaderboard starts at 0.
-        const mapped = { rush: [], alchemy: [], blitz: [], reading: [] };
-        let hasNewSeasonData = false;
-
-        Object.keys(data.leaderboard).forEach(k => {
-          if (k.endsWith(`_${this.SEASON}`)) {
-            const rawK = k.replace(new RegExp(`_${this.SEASON}$`), "");
-            mapped[rawK] = data.leaderboard[k];
-            hasNewSeasonData = true;
-          }
-        });
-
-        this.cache = mapped;
+        this.cache = data.leaderboard;
         this.lastFetch = now;
 
         // Sync real scores to Class Honor Roll and House Cup
         if (typeof App !== "undefined" && App.syncClassHonorRollFromLeaderboard) {
-          App.syncClassHonorRollFromLeaderboard(mapped);
+          App.syncClassHonorRollFromLeaderboard(data.leaderboard);
         }
 
-        return mapped[mode] || [];
+        return data.leaderboard[mode] || null;
       }
     } catch (e) {
       console.warn("[Leaderboard] Cloud sync unreachable, using local storage fallback.", e);
@@ -93,11 +75,9 @@ const Leaderboard = {
     const role = auth.role || "student";
 
     try {
-      const modeKey = this.SEASON ? `${mode}_${this.SEASON}` : mode;
       const params = new URLSearchParams({
         action: "submit",
-        mode: modeKey,
-        season: this.SEASON,
+        mode: mode,
         name: officialName,
         score: String(score),
         role: role,
@@ -111,18 +91,11 @@ const Leaderboard = {
       if (resp.ok) {
         const data = await resp.json();
         if (data && data.leaderboard) {
-          const mapped = { rush: [], alchemy: [], blitz: [], reading: [] };
-          Object.keys(data.leaderboard).forEach(k => {
-            if (k.endsWith(`_${this.SEASON}`)) {
-              const rawK = k.replace(new RegExp(`_${this.SEASON}$`), "");
-              mapped[rawK] = data.leaderboard[k];
-            }
-          });
-          this.cache = mapped;
+          this.cache = data.leaderboard;
           this.lastFetch = Date.now();
           if (typeof App !== "undefined") {
             if (App.renderScoreboard) App.renderScoreboard(mode);
-            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(mapped);
+            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(data.leaderboard);
             if (App.renderHouseCup) App.renderHouseCup();
             if (App.renderWizardProfile) App.renderWizardProfile();
           }
