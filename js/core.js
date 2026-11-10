@@ -128,9 +128,11 @@ const Store = {
     }
 
     // Official Form Launch Season Reset:
-    // Reset XP to 0 while keeping 100% of Word Vault mastery, study history, and spaced repetition data intact!
+    // Reset XP, personal local bests, and local leaderboard to 0 while keeping 100% of Word Vault mastery, study history, and spaced repetition data intact!
     if (!this.d.launchResetDone) {
       this.d.xp = 0;
+      this.d.best = {};
+      this.d.lb = {};
       this.d.launchResetDone = true;
       this.save();
     }
