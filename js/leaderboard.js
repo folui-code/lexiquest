@@ -43,15 +43,27 @@ const Leaderboard = {
       if (!resp.ok) return null;
       const data = await resp.json();
       if (data && data.leaderboard) {
-        this.cache = data.leaderboard;
+        // Normalize any seasoned keys (e.g. rush_s1 -> rush) so all modes map cleanly
+        const normalized = {};
+        Object.keys(data.leaderboard).forEach(k => {
+          const cleanK = k.split("_")[0];
+          if (!normalized[cleanK]) normalized[cleanK] = [];
+          normalized[cleanK].push(...(data.leaderboard[k] || []));
+        });
+        // Sort each mode descending
+        Object.keys(normalized).forEach(k => {
+          normalized[k].sort((a, b) => b.s - a.s);
+        });
+
+        this.cache = Object.assign({}, data.leaderboard, normalized);
         this.lastFetch = now;
 
         // Sync real scores to Class Honor Roll and House Cup
         if (typeof App !== "undefined" && App.syncClassHonorRollFromLeaderboard) {
-          App.syncClassHonorRollFromLeaderboard(data.leaderboard);
+          App.syncClassHonorRollFromLeaderboard(this.cache);
         }
 
-        return data.leaderboard[mode] || null;
+        return this.cache[mode] || null;
       }
     } catch (e) {
       console.warn("[Leaderboard] Cloud sync unreachable, using local storage fallback.", e);
@@ -91,11 +103,21 @@ const Leaderboard = {
       if (resp.ok) {
         const data = await resp.json();
         if (data && data.leaderboard) {
-          this.cache = data.leaderboard;
+          const normalized = {};
+          Object.keys(data.leaderboard).forEach(k => {
+            const cleanK = k.split("_")[0];
+            if (!normalized[cleanK]) normalized[cleanK] = [];
+            normalized[cleanK].push(...(data.leaderboard[k] || []));
+          });
+          Object.keys(normalized).forEach(k => {
+            normalized[k].sort((a, b) => b.s - a.s);
+          });
+
+          this.cache = Object.assign({}, data.leaderboard, normalized);
           this.lastFetch = Date.now();
           if (typeof App !== "undefined") {
             if (App.renderScoreboard) App.renderScoreboard(mode);
-            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(data.leaderboard);
+            if (App.syncClassHonorRollFromLeaderboard) App.syncClassHonorRollFromLeaderboard(this.cache);
             if (App.renderHouseCup) App.renderHouseCup();
             if (App.renderWizardProfile) App.renderWizardProfile();
           }

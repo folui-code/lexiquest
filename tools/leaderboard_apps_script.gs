@@ -233,9 +233,9 @@ function getAllLeaderboards(lbSheet) {
   const res = { rush: [], alchemy: [], blitz: [], reading: [] };
 
   for (let i = 1; i < data.length; i++) {
-    const mode = String(data[i][0]).toLowerCase();
+    const rawMode = String(data[i][0]).toLowerCase().trim();
     // Exclude deprecated Wordle and Matrix modes
-    if (mode === "wordle" || mode === "matrix") continue;
+    if (rawMode.indexOf("wordle") !== -1 || rawMode.indexOf("matrix") !== -1) continue;
     const rank = Number(data[i][1]);
     const name = String(data[i][2]);
     const score = Number(data[i][3]);
@@ -244,10 +244,18 @@ function getAllLeaderboards(lbSheet) {
     // Exclude teachers/staff from student top score list
     if (role === "staff" || name.indexOf("(VP)") !== -1 || name.indexOf("(Staff)") !== -1) continue;
 
+    // Normalize modes: whether saved as "rush" or "rush_s1", group into base mode
+    const mode = rawMode.split("_")[0];
+
     if (!res[mode]) {
       res[mode] = [];
     }
     res[mode].push({ n: name, s: score, rank: rank, role: role });
+    // Also keep the exact rawMode key if it has a suffix like _s1
+    if (mode !== rawMode) {
+      if (!res[rawMode]) res[rawMode] = [];
+      res[rawMode].push({ n: name, s: score, rank: rank, role: role });
+    }
   }
 
   // Ensure sorted by score
