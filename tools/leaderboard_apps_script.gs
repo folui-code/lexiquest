@@ -73,6 +73,28 @@ function handleRequest(params) {
   const action = params.action || "get";
   const mode = (params.mode || "rush").toLowerCase();
 
+  // Action: Admin / Teacher Launch Reset - Reset XP and Leaderboard while preserving Word Vault learning records!
+  if (action === "admin_reset_xp") {
+    const key = String(params.key || "").trim();
+    if (key === "hpccss_launch_2026") {
+      // 1. Reset all student XP to 0 in UserProfiles sheet while keeping words intact!
+      const pData = profileSheet.getDataRange().getValues();
+      for (let i = 1; i < pData.length; i++) {
+        profileSheet.getRange(i + 1, 4).setValue(0); // Col 4 is XP
+      }
+
+      // 2. Clear Leaderboard rows (rows after row 1)
+      const lastLbRow = lbSheet.getLastRow();
+      if (lastLbRow > 1) {
+        lbSheet.deleteRows(2, lastLbRow - 1);
+      }
+
+      return jsonOut({ status: "success", message: "All student XP reset to 0; Word Vault mastery safely preserved!" });
+    } else {
+      return jsonOut({ status: "error", message: "Unauthorized key." });
+    }
+  }
+
   // Action: Pull student profile for cross-device Word Vault sync
   if (action === "sync_pull") {
     const hash = String(params.hash || "").trim();

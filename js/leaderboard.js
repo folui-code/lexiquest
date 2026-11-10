@@ -144,8 +144,9 @@ const Leaderboard = {
           }
         }
 
-        // Take higher XP and streak
-        if (p.xp && p.xp > Store.d.xp) {
+        // In the official launch version, if local device has undergone launch reset (or cloud profile has legacy high XP),
+        // we ensure we do not resurrect obsolete trial XP onto the fresh launch season.
+        if (p.xp && p.xp > Store.d.xp && !Store.d.launchResetDone) {
           Store.d.xp = p.xp;
           changed = true;
         }

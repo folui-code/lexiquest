@@ -1046,12 +1046,12 @@ const App = {
     const isStaff = isStaffMember(d.name, auth.role);
     const myHouse = isStaff ? null : (d.house || auth.house || "").toUpperCase();
 
-    // Baseline house points calculated from real student scores
+    // Official Form Launch: Baseline house points start fresh at 0
     const basePoints = {
-      TAK: 626930,
-      CHI: 388010,
-      KAN: 113140,
-      KIN: 58780
+      TAK: 0,
+      CHI: 0,
+      KAN: 0,
+      KIN: 0
     };
 
     // Calculate live totals from real cloud players if cache is available

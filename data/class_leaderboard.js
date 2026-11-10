@@ -5,79 +5,10 @@
 
 const CLASS_HONOR_ROLL = {
   "S4": {
-    "4A": [
-      {
-        "rank": 1,
-        "name": "AU-YEUNG SZE YAN",
-        "house": "KIN",
-        "xp": 3100
-      }
-    ],
-    "4B": [
-      {
-        "rank": 1,
-        "name": "YAN JACKY TSZ HIM",
-        "house": "KAN",
-        "xp": 72990
-      },
-      {
-        "rank": 2,
-        "name": "AU YEUNG HOI MAN",
-        "house": "CHI",
-        "xp": 2100
-      },
-      {
-        "rank": 3,
-        "name": "CHIU DEX HOI TING",
-        "house": "KIN",
-        "xp": 700
-      },
-      {
-        "rank": 4,
-        "name": "CHU YAT CHUN",
-        "house": "KAN",
-        "xp": 700
-      },
-      {
-        "rank": 5,
-        "name": "TAN HUNG YU",
-        "house": "CHI",
-        "xp": 700
-      },
-      {
-        "rank": 6,
-        "name": "YEUNG SUNG YAN",
-        "house": "KIN",
-        "xp": 700
-      },
-      {
-        "rank": 7,
-        "name": "TSUI CHEUK TUNG",
-        "house": "KIN",
-        "xp": 700
-      }
-    ],
+    "4A": [],
+    "4B": [],
     "4C": [],
-    "4D": [
-      {
-        "rank": 1,
-        "name": "LEE SHING YU",
-        "house": "CHI",
-        "xp": 318520
-      },
-      {
-        "rank": 2,
-        "name": "WAN CHEUK NAM",
-        "house": "TAK",
-        "xp": 300430
-      },
-      {
-        "rank": 3,
-        "name": "SIU HOI CHUN",
-        "house": "TAK",
-        "xp": 218970
-      }
-    ],
+    "4D": [],
     "4E": []
   },
   "S5": {
