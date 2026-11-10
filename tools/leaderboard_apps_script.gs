@@ -78,19 +78,32 @@ function handleRequest(params) {
   if (action === "admin_reset_xp") {
     const key = String(params.key || "").trim();
     if (key === "hpccss_launch_2026") {
-      // 1. Reset all student XP to 0 in UserProfiles sheet while keeping words intact!
+      const verifiedLaunchStudents = {
+        "LI TSZ YU": 2618,
+        "TSAI TSZ CHING": 1860,
+        "LEE SHING YU": 1250,
+        "SUEN HO YAN": 100
+      };
+
+      // 1. Reset all student XP to 0 in UserProfiles sheet while keeping verified launch scholars and words intact!
       const pData = profileSheet.getDataRange().getValues();
       for (let i = 1; i < pData.length; i++) {
-        profileSheet.getRange(i + 1, 4).setValue(0); // Col 4 is XP
+        const rawName = String(pData[i][1] || "");
+        const cleanName = rawName.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+        if (verifiedLaunchStudents[cleanName] !== undefined) {
+          profileSheet.getRange(i + 1, 4).setValue(verifiedLaunchStudents[cleanName]);
+        } else {
+          profileSheet.getRange(i + 1, 4).setValue(0);
+        }
       }
 
-      // 2. Clear Leaderboard rows (rows after row 1)
-      const lastLbRow = lbSheet.getLastRow();
-      if (lastLbRow > 1) {
-        lbSheet.deleteRows(2, lastLbRow - 1);
-      }
+      // 2. Rebuild Leaderboard sheet cleanly from PlayLogs
+      cleanLegacyModesInPlayLogs(logSheet);
+      ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+        updateLeaderboard(lbSheet, logSheet, m);
+      });
 
-      return jsonOut({ status: "success", message: "All student XP reset to 0; Word Vault mastery safely preserved!" });
+      return jsonOut({ status: "success", message: "All student XP reset to 0 (except verified launch scholars); Word Vault mastery safely preserved!" });
     } else {
       return jsonOut({ status: "error", message: "Unauthorized key." });
     }
