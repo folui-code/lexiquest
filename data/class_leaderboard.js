@@ -8,7 +8,26 @@ const CLASS_HONOR_ROLL = {
     "4A": [],
     "4B": [],
     "4C": [],
-    "4D": [],
+    "4D": [
+      {
+        "rank": 1,
+        "name": "LI TSZ YU",
+        "house": "CHI",
+        "xp": 2618
+      },
+      {
+        "rank": 2,
+        "name": "TSAI TSZ CHING",
+        "house": "TAK",
+        "xp": 1860
+      },
+      {
+        "rank": 3,
+        "name": "LEE SHING YU",
+        "house": "CHI",
+        "xp": 1250
+      }
+    ],
     "4E": []
   },
   "S5": {

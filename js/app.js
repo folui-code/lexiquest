@@ -1009,10 +1009,10 @@ const App = {
     const isStaff = isStaffMember(d.name, auth.role);
     const myHouse = isStaff ? null : (d.house || auth.house || "").toUpperCase();
 
-    // Official Form Launch: Baseline house points start fresh at 0
+    // Official Form Launch: Baseline house points from verified launch sessions
     const basePoints = {
-      TAK: 0,
-      CHI: 0,
+      TAK: 1860,
+      CHI: 3868,
       KAN: 0,
       KIN: 0
     };
