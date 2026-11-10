@@ -1880,9 +1880,24 @@ const Alchemy = {
     const won = this.score > (opp.s || 0);
     const tied = this.score === (opp.s || 0);
 
+    const myClass = (me.name.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+    const oppClass = (opp.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+    const isCrossClass = Boolean(myClass && oppClass && myClass !== oppClass);
+
+    if (isCrossClass && !this._alchDuelCrossGiven) {
+      this._alchDuelCrossGiven = true;
+      Store.addXP(50);
+      toast(`⚔️ Inter-Class Rivalry Bonus: +50 XP for dueling ${oppClass}!`, true);
+    }
+
     el.innerHTML = `
       <div class="card duel-result-podium ${won ? 'win' : 'lose'}" style="max-width:580px;margin:30px auto;text-align:center">
         <div class="duel-result-banner">${won ? "🏆 VICTORY!" : (tied ? "⚔️ TIED BATTLE" : "💀 DEFEAT")}</div>
+        ${isCrossClass ? `
+          <div style="background:rgba(251,191,36,0.14);border:1px solid #fbbf24;color:#fbbf24;font-weight:700;padding:6px 14px;border-radius:8px;margin:8px auto;max-width:440px;font-size:0.88rem">
+            ⚔️ Inter-Class Rivalry (${myClass} vs ${oppClass}): +50 Bonus XP Awarded! 🚀
+          </div>
+        ` : ""}
         <p class="muted">Collocation Alchemy 1v1 Wizards' Duel</p>
 
         <div class="duel-podium-row">

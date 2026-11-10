@@ -978,7 +978,7 @@ const Rush = {
       emoji: this.score >= 2000 ? "⚡" : this.score >= 1000 ? "🔥" : "⏰",
       title: "Time's Up!",
       score: this.score,
-      xp: Math.max(20, Math.round(this.score / 8)),
+      xp: Math.max(30, Math.round(this.score / 4)),
       stats: [["Mode", "🧙 Solo Rush"], ["Set", this.setLabel(this.selectedSet)], ["Solved", this.correct],
               ["Max Combo", `${this.maxCombo}x`], ["Survived", `${Math.round(this.elapsed)}s`], ["Level", this.level]],
       review: result.missed,
@@ -991,7 +991,7 @@ const Rush = {
     const isBest = Store.setBest("rush", score);
     Store.addLB("rush", score);
     if (typeof Leaderboard !== "undefined" && Leaderboard.submitScore) Leaderboard.submitScore("rush", score);
-    Store.addXP(Math.max(20, Math.round(score / 8)));
+    Store.addXP(Math.max(30, Math.round(score / 4)));
     Store.recordPlay();
     return isBest;
   },
@@ -1173,6 +1173,17 @@ const Rush = {
       const bothDone = Boolean(opp && opp.d && mine.d);
       const win = bothDone && mine.s > opp.s;
       const tie = bothDone && mine.s === opp.s;
+
+      const myClass = (mine.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+      const oppClass = (opp && opp.n ? (opp.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() : "") || "";
+      const isCrossClass = Boolean(myClass && oppClass && myClass !== oppClass);
+
+      if (isCrossClass && !this._duelCrossClassGiven) {
+        this._duelCrossClassGiven = true;
+        Store.addXP(50);
+        toast(`⚔️ Inter-Class Rivalry Bonus: +50 XP for dueling ${oppClass}!`, true);
+      }
+
       const title = bothDone
         ? (tie ? "⚖️ A Perfect Tie!" : win ? "🏆 VICTORY!" : "💀 Defeated…")
         : opp ? `⏳ ${esc(opp.n)} is battling live (${fmt(opp.s)} pts)…` : "⚔️ Target Set! Send to Your Rival";
@@ -1183,6 +1194,11 @@ const Rush = {
       box.innerHTML = `
         <div class="duel-invite-kicker">WIZARDS' DUEL · CODE ${esc(room)}</div>
         <div class="duel-result-banner">${title}</div>
+        ${isCrossClass ? `
+          <div style="background:rgba(251,191,36,0.14);border:1px solid #fbbf24;color:#fbbf24;font-weight:700;padding:6px 14px;border-radius:8px;margin:8px auto;max-width:440px;font-size:0.88rem">
+            ⚔️ Inter-Class Rivalry (${myClass} vs ${oppClass}): +50 Bonus XP Awarded! 🚀
+          </div>
+        ` : ""}
         <p class="muted">${esc(this.setLabel(s.set))}</p>
 
         <div class="duel-podium-row">
@@ -1357,11 +1373,27 @@ const Rush = {
     const left = viewOnly ? (iAmA ? a : b) : b;   // "you"
     const right = viewOnly ? (iAmA ? b : a) : a;  // opponent
     const win = left.sc > right.sc, tie = left.sc === right.sc;
+
+    const myClass = (left.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+    const oppClass = (right.n.match(/\(([4-6][A-E])\)/i) || [])[1]?.toUpperCase() || "";
+    const isCrossClass = Boolean(myClass && oppClass && myClass !== oppClass);
+
+    if (isCrossClass && !viewOnly && !this._asyncCrossClassGiven) {
+      this._asyncCrossClassGiven = true;
+      Store.addXP(50);
+      toast(`⚔️ Inter-Class Rivalry Bonus: +50 XP for dueling ${oppClass}!`, true);
+    }
+
     const title = tie ? "⚖️ A Perfect Tie!" : win ? "🏆 VICTORY!" : "💀 Defeated…";
     const el = $("#screen-rush");
     el.innerHTML = `
       <div class="card duel-result-podium ${tie ? "tie" : win ? "win" : "lose"}">
         <div class="duel-result-banner">${title}</div>
+        ${isCrossClass ? `
+          <div style="background:rgba(251,191,36,0.14);border:1px solid #fbbf24;color:#fbbf24;font-weight:700;padding:6px 14px;border-radius:8px;margin:8px auto;max-width:440px;font-size:0.88rem">
+            ⚔️ Inter-Class Rivalry (${myClass} vs ${oppClass}): +50 Bonus XP Awarded! 🚀
+          </div>
+        ` : ""}
         <p class="muted">${esc(this.setLabel(setKey))}</p>
         <div class="duel-podium-row">
           ${[left, right].map((x, i) => `

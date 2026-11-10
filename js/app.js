@@ -850,9 +850,9 @@ const App = {
                   <b style="color:#34d399">5. Word Vault &amp; Grimoire Study</b>
                   <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">
                     Review cards and self-assess your vocab mastery:<br>
-                    • <b>+10 XP</b> every time you mark a word as <b>⚡ Mastered</b><br>
-                    • <b>+5 XP</b> when marked as <b>📖 Familiar</b> or <b>🔴 Challenging</b><br>
-                    • <b>+50 Bonus XP</b> upon completing a 10-card Tome revision deck!
+                    • <b>+3 XP</b> when you mark a word as <b>⚡ Mastered</b><br>
+                    • <b>+1 XP</b> when marked as <b>📖 Familiar</b> or <b>🔴 Challenging</b><br>
+                    • <b>+20 Bonus XP</b> upon completing a 10-card Tome revision deck!
                   </p>
                 </div>
               </div>
@@ -862,6 +862,14 @@ const App = {
                 <div>
                   <b style="color:#fbbf24">6. Daily Mystery Chest</b>
                   <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Open your free chest once a day on the homepage for <b>+100 to +400 instant XP</b>!</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;background:rgba(234,179,8,0.08);padding:10px 14px;border-radius:10px;border:1px solid rgba(234,179,8,0.3)">
+                <div style="font-size:1.8rem">⚔️</div>
+                <div>
+                  <b style="color:#fde047">7. 1v1 Wizards' Duel (Cross-Class Rivalry)</b>
+                  <p style="margin:2px 0 0;font-size:0.84rem;color:#cbd5e1">Challenge students from other classes (e.g. 4A vs 4B, 4B vs 4D)! Earn regular battle XP plus <b>+50 Inter-Class Bonus XP</b> per duel to spark friendly competition across the grade!</p>
                 </div>
               </div>
             </div>
@@ -1860,20 +1868,20 @@ const App = {
       });
 
       Store.setWordStatus(c, status);
-      const xpAmt = status === "mastered" ? 10 : 5;
+      const xpAmt = status === "mastered" ? 3 : 1;
       const xpRes = Store.awardWordXP(c, xpAmt);
 
       if (xpRes.awarded) {
         if (status === "mastered") {
           if (Sfx.spellCast) Sfx.spellCast();
           Fx.confetti(75);
-          toast("⚡ Marked as Mastered! (+10 XP)", true);
+          toast("⚡ Marked as Mastered! (+3 XP)", true);
         } else if (status === "challenging") {
           if (Sfx.spellChallenging) Sfx.spellChallenging();
-          toast("🔴 Marked as Difficult — Queued for practice (+5 XP)");
+          toast("🔴 Marked as Difficult — Queued for practice (+1 XP)");
         } else {
           if (Sfx.click) Sfx.click();
-          toast("🟡 Marked as Okay (+5 XP)");
+          toast("🟡 Marked as Okay (+1 XP)");
         }
       } else {
         if (Sfx.click) Sfx.click();
@@ -1894,14 +1902,14 @@ const App = {
               <div style="font-size:3.5rem;margin-bottom:10px">🏆</div>
               <h2 style="font-size:1.8rem;margin-bottom:6px">Grimoire Session Complete!</h2>
               <p style="color:#cbd5e1;line-height:1.6">You have completed all <b>${deck.length}</b> spell cards in this revision session!</p>
-              <p style="font-family:var(--font-n);font-size:1.8rem;font-weight:800;color:#fbbf24;margin:14px 0">+50 Bonus XP</p>
+              <p style="font-family:var(--font-n);font-size:1.8rem;font-weight:800;color:#fbbf24;margin:14px 0">+20 Bonus XP</p>
               <div style="display:flex;gap:10px;justify-content:center;margin-top:18px">
                 <button class="btn primary" id="btn-tome-restart">↻ Study Deck Again</button>
                 <button class="btn" id="btn-tome-finish">← Return to Tomes</button>
               </div>
             </div>
           `);
-          Store.addXP(50);
+          Store.addXP(20);
           $("#btn-tome-restart").onclick = () => { closeModal(); this.vaultStudy(tomeId, filter, 0, deck); };
           $("#btn-tome-finish").onclick = () => { closeModal(); this.vaultLobby(); };
         }

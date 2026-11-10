@@ -588,20 +588,20 @@ function showWord(c, list = (window.VOCAB || [])) {
       const st = btn.dataset.status;
       Store.setWordStatus(c, st);
 
-      const xpAmt = st === "mastered" ? 10 : 5;
+      const xpAmt = st === "mastered" ? 3 : 1;
       const xpRes = Store.awardWordXP(c, xpAmt);
 
       if (xpRes.awarded) {
         if (st === "mastered") {
           if (Sfx.spellCast) Sfx.spellCast();
           Fx.confetti(60);
-          toast("⚡ Marked as Mastered! (+10 XP)", true);
+          toast("⚡ Marked as Mastered! (+3 XP)", true);
         } else if (st === "challenging") {
           if (Sfx.spellChallenging) Sfx.spellChallenging();
-          toast("🔴 Marked as Difficult — Queued for practice (+5 XP)");
+          toast("🔴 Marked as Difficult — Queued for practice (+1 XP)");
         } else {
           if (Sfx.click) Sfx.click();
-          toast("🟡 Marked as Okay (+5 XP)");
+          toast("🟡 Marked as Okay (+1 XP)");
         }
       } else {
         if (Sfx.click) Sfx.click();
