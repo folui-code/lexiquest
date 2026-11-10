@@ -104,7 +104,8 @@ const Leaderboard = {
   },
 
   async submitScore(mode, score) {
-    if (mode === "wordle" || mode === "matrix") return;
+    const cleanMode = String(mode || "rush").toLowerCase().trim().split("_")[0];
+    if (cleanMode === "wordle" || cleanMode === "matrix") return;
     if (!score || score <= 0) return;
     const url = this.API_URL;
     if (!url) return;
@@ -121,24 +122,24 @@ const Leaderboard = {
     // Also record into local Store.d.lb for instant feedback
     if (Store && Store.d) {
       Store.d.lb = Store.d.lb || {};
-      Store.d.lb[mode] = Store.d.lb[mode] || [];
+      Store.d.lb[cleanMode] = Store.d.lb[cleanMode] || [];
       const cleanName = officialName.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
-      const existingIdx = Store.d.lb[mode].findIndex(r => r.n && r.n.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase() === cleanName);
+      const existingIdx = Store.d.lb[cleanMode].findIndex(r => r.n && r.n.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase() === cleanName);
       if (existingIdx !== -1) {
-        if (score > (Store.d.lb[mode][existingIdx].s || 0)) {
-          Store.d.lb[mode][existingIdx].s = score;
+        if (score > (Store.d.lb[cleanMode][existingIdx].s || 0)) {
+          Store.d.lb[cleanMode][existingIdx].s = score;
         }
       } else {
-        Store.d.lb[mode].push({ n: officialName, s: score, role: role });
+        Store.d.lb[cleanMode].push({ n: officialName, s: score, role: role });
       }
-      Store.d.lb[mode].sort((a, b) => b.s - a.s);
+      Store.d.lb[cleanMode].sort((a, b) => b.s - a.s);
       Store.save();
     }
 
     try {
       const params = new URLSearchParams({
         action: "submit",
-        mode: mode,
+        mode: cleanMode,
         name: officialName,
         score: String(score),
         role: role,

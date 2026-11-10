@@ -71,7 +71,8 @@ function doPost(e) {
 function handleRequest(params) {
   const { lbSheet, logSheet, profileSheet } = setupSheets();
   const action = params.action || "get";
-  const mode = (params.mode || "rush").toLowerCase();
+  // Always strictly normalize mode: strips any _s1, _s2, etc. so it's always clean 'rush', 'alchemy', 'blitz', 'reading'
+  const mode = String(params.mode || "rush").toLowerCase().trim().split("_")[0];
 
   // Action: Admin / Teacher Launch Reset - Reset XP and Leaderboard while preserving Word Vault learning records!
   if (action === "admin_reset_xp") {
@@ -143,11 +144,20 @@ function handleRequest(params) {
     }
   }
 
-  // Action: Force rebuild all leaderboard modes from PlayLogs
-  if (action === "rebuild" || action === "refresh") {
+  // Action: Force rebuild all leaderboard modes & clean any legacy _s1 in PlayLogs
+  if (action === "rebuild" || action === "refresh" || action === "clean_modes") {
+    cleanLegacyModesInPlayLogs(logSheet);
     ["rush", "alchemy", "blitz", "reading"].forEach(m => {
       updateLeaderboard(lbSheet, logSheet, m);
     });
+    const output = {
+      status: "success",
+      message: "Unified all legacy _s1 records into clean base modes and refreshed Leaderboard sheet!",
+      leaderboard: getAllLeaderboards(lbSheet, logSheet),
+      profiles: getAllProfiles(profileSheet)
+    };
+    return ContentService.createTextOutput(JSON.stringify(output))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 
   // Always return the latest Top 10 leaderboard for all 4 active modes + student XP profiles
@@ -210,6 +220,18 @@ function saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson) 
     }
   }
   profileSheet.appendRow([hash, name, role, xp, streak, wordsJson, new Date()]);
+}
+
+function cleanLegacyModesInPlayLogs(logSheet) {
+  if (!logSheet) return;
+  const data = logSheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    const raw = String(data[i][1]).toLowerCase().trim();
+    if (raw.indexOf("_") !== -1) {
+      const clean = raw.split("_")[0];
+      logSheet.getRange(i + 1, 2).setValue(clean);
+    }
+  }
 }
 
 function updateLeaderboard(lbSheet, logSheet, targetMode) {
