@@ -144,6 +144,34 @@ function handleRequest(params) {
     }
   }
 
+  // Action: Reset legacy trial XP in UserProfiles sheet to 0 while keeping Word Vault vocabulary data intact!
+  if (action === "clean_profiles" || action === "reset_trial_xp") {
+    const verifiedLaunchStudents = {
+      "LI TSZ YU": 2618,
+      "TSAI TSZ CHING": 1860,
+      "LEE SHING YU": 1250,
+      "SUEN HO YAN": 100
+    };
+    const pData = profileSheet.getDataRange().getValues();
+    let cleanedCount = 0;
+    for (let i = 1; i < pData.length; i++) {
+      const rawName = String(pData[i][1] || "");
+      const cleanName = rawName.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+      if (verifiedLaunchStudents[cleanName] !== undefined) {
+        profileSheet.getRange(i + 1, 4).setValue(verifiedLaunchStudents[cleanName]);
+      } else {
+        profileSheet.getRange(i + 1, 4).setValue(0);
+        cleanedCount++;
+      }
+    }
+    const output = {
+      status: "success",
+      message: "Reset " + cleanedCount + " legacy trial user profiles to 0 XP while preserving launch scholars and Word Vault cards!"
+    };
+    return ContentService.createTextOutput(JSON.stringify(output))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   // Action: Force rebuild all leaderboard modes & clean any legacy _s1 in PlayLogs
   if (action === "rebuild" || action === "refresh" || action === "clean_modes") {
     cleanLegacyModesInPlayLogs(logSheet);
@@ -153,22 +181,19 @@ function handleRequest(params) {
     const output = {
       status: "success",
       message: "Unified all legacy _s1 records into clean base modes and refreshed Leaderboard sheet!",
-      leaderboard: getAllLeaderboards(lbSheet, logSheet),
-      profiles: getAllProfiles(profileSheet)
+      leaderboard: getAllLeaderboards(lbSheet, logSheet)
     };
     return ContentService.createTextOutput(JSON.stringify(output))
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  // Always return the latest Top 10 leaderboard for all 4 active modes + student XP profiles
+  // Always return the latest Top 10 leaderboard for all 4 active modes
   const leaderboard = getAllLeaderboards(lbSheet, logSheet);
-  const profiles = getAllProfiles(profileSheet);
 
   const output = {
     status: "success",
     timestamp: new Date().toISOString(),
-    leaderboard: leaderboard,
-    profiles: profiles
+    leaderboard: leaderboard
   };
 
   return ContentService.createTextOutput(JSON.stringify(output))

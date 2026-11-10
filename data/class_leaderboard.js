@@ -28,7 +28,14 @@ const CLASS_HONOR_ROLL = {
         "xp": 1250
       }
     ],
-    "4E": []
+    "4E": [
+      {
+        "rank": 1,
+        "name": "SUEN HO YAN",
+        "house": "TAK",
+        "xp": 100
+      }
+    ]
   },
   "S5": {
     "5A": [],

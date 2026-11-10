@@ -902,7 +902,7 @@ const App = {
     });
   },
 
-  syncClassHonorRollFromLeaderboard(leaderboardData, profilesData) {
+  syncClassHonorRollFromLeaderboard(leaderboardData) {
     if (typeof CLASS_HONOR_ROLL === "undefined") return;
 
     const roster = window.HPCCSS_ROSTER || {};
@@ -973,17 +973,7 @@ const App = {
       });
     }
 
-    // Also incorporate full cloud UserProfiles XP if returned by Apps Script
-    if (Array.isArray(profilesData)) {
-      profilesData.forEach(p => {
-        const st = ensureStudent(p && p.n, p && p.role);
-        if (!st) return;
-        const pxp = Number(p.xp) || 0;
-        if (pxp > st.profileXP) st.profileXP = pxp;
-      });
-    }
-
-    // Also incorporate currently logged-in student's live Store.d.xp
+    // Incorporate currently logged-in student's live Store.d.xp
     const curName = (Store && Store.d && Store.d.name) || "";
     const curAuth = (Store && Store.d && Store.d.auth) || {};
     if (curName && Store && Store.d && Store.d.xp > 0) {
