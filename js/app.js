@@ -422,10 +422,10 @@ const App = {
       if (st === "mastered") masteredCount++;
     });
 
-    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.2" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.2`;
+    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.3" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.3`;
     const tierNum = Math.min(5, Math.max(1, (r.idx !== undefined ? r.idx : 0) + 1));
-    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.2" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.2`;
-    const avatarImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.2`;
+    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.3" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.3`;
+    const avatarImg = isStaff ? defaultAvatarImg : `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.3`;
 
     showcase.innerHTML = `
       <!-- LEFT: HOUSE LOGO -->
@@ -436,10 +436,10 @@ const App = {
 
       <!-- AVATAR PICTURE -->
       <div class="wp-avatar-col">
-        <div class="wp-avatar-frame" id="wp-avatar-clickable" title="Click to view Wardrobe &amp; Tier Skin details" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
-          <img src="${avatarImg}" alt="${esc(cleanName)} Avatar (Tier ${tierNum})" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
-          <span class="wp-avatar-inspect-pill">🔍 View</span>
-          <span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>
+        <div class="wp-avatar-frame" ${!isStaff ? 'id="wp-avatar-clickable" title="Click to view Wardrobe &amp; Tier Skin details"' : 'title="House Dragon · Faculty Council"'} style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66${isStaff ? ';cursor:default' : ''}">
+          <img src="${avatarImg}" alt="${esc(cleanName)} Avatar${!isStaff ? ` (Tier ${tierNum})` : ''}" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
+          ${!isStaff ? '<span class="wp-avatar-inspect-pill">🔍 View</span>' : ''}
+          ${!isStaff ? `<span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>` : ''}
         </div>
       </div>
 
@@ -562,7 +562,7 @@ const App = {
         <!-- Large Portrait Frame -->
         <div style="width:160px;height:192px;margin:0 auto 14px;border-radius:20px;overflow:hidden;border:3px solid ${hInfo.color};box-shadow:0 0 24px -2px ${hInfo.color}88;background:#0f172a;position:relative">
           <img src="${avatarImg}" alt="${esc(cleanName)} Avatar" style="width:100%;height:100%;object-fit:cover;object-position:center center" />
-          <span style="position:absolute;bottom:8px;right:8px;font-size:0.75rem;font-weight:900;padding:2px 8px;border-radius:999px;background:rgba(15,23,42,0.9);border:1px solid ${hInfo.color};color:#fff">Tier ${tierNum}</span>
+          ${!isStaff ? `<span style="position:absolute;bottom:8px;right:8px;font-size:0.75rem;font-weight:900;padding:2px 8px;border-radius:999px;background:rgba(15,23,42,0.9);border:1px solid ${hInfo.color};color:#fff">Tier ${tierNum}</span>` : ''}
         </div>
 
         <div style="display:inline-block;padding:3px 12px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid ${hInfo.color};font-weight:800;color:${hInfo.color};font-size:0.85rem;margin-bottom:8px">
