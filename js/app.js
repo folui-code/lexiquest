@@ -421,10 +421,10 @@ const App = {
       if (st === "mastered") masteredCount++;
     });
 
-    const crestImg = isStaff ? "assets/houses/crests/dragon.png" : `assets/houses/crests/${houseKey.toLowerCase()}.png`;
+    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.1" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.1`;
     const tierNum = Math.min(5, Math.max(1, (r.idx !== undefined ? r.idx : 0) + 1));
-    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png" : `assets/houses/avatars/${houseKey.toLowerCase()}.png`;
-    const avatarImg = isStaff ? defaultAvatarImg : `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png`;
+    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.1" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.1`;
+    const avatarImg = isStaff ? defaultAvatarImg : `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.1`;
 
     showcase.innerHTML = `
       <!-- LEFT: HOUSE LOGO -->
@@ -583,7 +583,7 @@ const App = {
               ${tierDescriptions.map((td, idx) => {
                 const isUnlocked = tierNum >= td.tier;
                 const isCurrent = tierNum === td.tier;
-                const tImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${td.tier}.png`;
+                const tImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${td.tier}.png?v=8.1`;
                 return `
                   <div style="text-align:center;padding:6px 2px;border-radius:8px;border:1px solid ${isCurrent ? hInfo.color : isUnlocked ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.05)'};background:${isCurrent ? 'rgba(56,189,248,0.12)' : isUnlocked ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.3)'};opacity:${isUnlocked ? 1 : 0.45}">
                     <div style="width:40px;height:48px;margin:0 auto 4px;border-radius:6px;overflow:hidden;border:1px solid ${isCurrent ? hInfo.color : 'rgba(255,255,255,0.15)'}">
