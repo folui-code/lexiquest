@@ -285,7 +285,56 @@ function saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson, 
       const existStreak = Number(data[i][4]) || 0;
       const finalStreak = Math.max(existStreak, Number(streak) || 0);
 
-      profileSheet.getRange(i + 1, 2, 1, 8).setValues([[name, role, finalXP, finalStreak, wordsJson, new Date(), rd, bs]]);
+      // Union/merge reading completed map so a device with partial or empty completions never wipes completions done on another device
+      let mergedReading = rd;
+      try {
+        let existRd = {};
+        if (data[i][7]) {
+          existRd = typeof data[i][7] === "string" ? JSON.parse(data[i][7]) : data[i][7];
+        }
+        let inRd = {};
+        if (rd) {
+          inRd = typeof rd === "string" ? JSON.parse(rd) : rd;
+        }
+        const existCompleted = (existRd && existRd.completed) || {};
+        const inCompleted = (inRd && inRd.completed) || {};
+        const unionCompleted = Object.assign({}, existCompleted);
+        for (const passId in inCompleted) {
+          if (!unionCompleted[passId] || (inCompleted[passId].score || 0) > (unionCompleted[passId].score || 0)) {
+            unionCompleted[passId] = inCompleted[passId];
+          }
+        }
+        const finalReadingObj = {
+          completed: unionCompleted,
+          streak: Math.max(existRd.streak || 0, inRd.streak || 0),
+          lastDate: (inRd.lastDate && (!existRd.lastDate || inRd.lastDate > existRd.lastDate)) ? inRd.lastDate : (existRd.lastDate || inRd.lastDate || null)
+        };
+        mergedReading = JSON.stringify(finalReadingObj);
+      } catch (e) {
+        mergedReading = rd;
+      }
+
+      // Merge personal bests
+      let mergedBest = bs;
+      try {
+        let existBs = {};
+        if (data[i][8]) {
+          existBs = typeof data[i][8] === "string" ? JSON.parse(data[i][8]) : data[i][8];
+        }
+        let inBs = {};
+        if (bs) {
+          inBs = typeof bs === "string" ? JSON.parse(bs) : bs;
+        }
+        const unionBest = Object.assign({}, existBs);
+        for (const m in inBs) {
+          unionBest[m] = Math.max(Number(unionBest[m]) || 0, Number(inBs[m]) || 0);
+        }
+        mergedBest = JSON.stringify(unionBest);
+      } catch (e) {
+        mergedBest = bs;
+      }
+
+      profileSheet.getRange(i + 1, 2, 1, 8).setValues([[name, role, finalXP, finalStreak, wordsJson, new Date(), mergedReading, mergedBest]]);
       return;
     }
   }

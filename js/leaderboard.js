@@ -430,7 +430,9 @@ const Leaderboard = {
           role: role,
           xp: String(xp),
           streak: String(streak),
-          words: JSON.stringify(payloadWords)
+          words: JSON.stringify(payloadWords),
+          reading: JSON.stringify(readingData),
+          best: JSON.stringify(bestData)
         });
         const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}&_t=${Date.now()}`;
         await fetch(target, { method: "GET", cache: "no-store" });

@@ -54,7 +54,7 @@ const HOUSE_DATA = {
     role: "FACULTY MASTER",
     mascot: "Shadow Dragon",
     color: "#c084fc",
-    badge: "🐉 House of Dragon · Faculty",
+    badge: "🐉 House Dragon · Faculty",
     crest: "🐉",
     desc: "The High Council of Faculty and Masters of the Arcane"
   }
@@ -212,10 +212,11 @@ const App = {
         syncBtn.textContent = "⏳ Syncing...";
         syncBtn.disabled = true;
         if (typeof Leaderboard !== "undefined") {
-          if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
+          // Pull first so remote progress (like reading completions from another device) is merged into local Store
+          await Leaderboard.syncProfilePull();
+          if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0 || Object.keys((Store.d.reading && Store.d.reading.completed) || {}).length > 0) {
             await Leaderboard.syncProfilePush();
           }
-          await Leaderboard.syncProfilePull();
         }
         syncBtn.textContent = "✅ Synced!";
         toast("✅ Progress synced with Google Cloud!");
@@ -269,7 +270,7 @@ const App = {
       if (hInfo) {
         housePill.className = `pill house-pill ${houseKey.toLowerCase()}`;
         housePill.textContent = hInfo.badge;
-        housePill.title = isStaff ? "Faculty Council: House of Dragon" : `Your House: ${hInfo.name} — ${hInfo.role} (${hInfo.mascot})\nClick to view Great Hall`;
+        housePill.title = isStaff ? "Faculty Council: House Dragon" : `Your House: ${hInfo.name} — ${hInfo.role} (${hInfo.mascot})\nClick to view Great Hall`;
         housePill.classList.remove("hidden");
         housePill.onclick = () => {
           const stage = $("#great-hall-stage");
@@ -297,7 +298,7 @@ const App = {
     const houseMsg = $("#house-greeting-msg");
     if (houseMsg) {
       if (isStaff) {
-        houseMsg.innerHTML = `Faculty High Council · <b style="color:${hInfo.color}">House of Dragon</b> (✦ Shadow Dragon ✦)`;
+        houseMsg.innerHTML = `Faculty High Council · <b style="color:${hInfo.color}">House Dragon</b> (✦ Shadow Dragon ✦)`;
       } else if (hInfo) {
         houseMsg.innerHTML = `Assigned to House <b style="color:${hInfo.color}">${hInfo.name}</b> (✦ ${hInfo.role} · Mascot: ${hInfo.mascot} ✦)`;
       } else {
@@ -421,16 +422,16 @@ const App = {
       if (st === "mastered") masteredCount++;
     });
 
-    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.1" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.1`;
+    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.2" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.2`;
     const tierNum = Math.min(5, Math.max(1, (r.idx !== undefined ? r.idx : 0) + 1));
-    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.1" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.1`;
-    const avatarImg = isStaff ? defaultAvatarImg : `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.1`;
+    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.2" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.2`;
+    const avatarImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.2`;
 
     showcase.innerHTML = `
       <!-- LEFT: HOUSE LOGO -->
       <div class="wp-house-logo-col">
         <img src="${crestImg}" alt="${hInfo.name} House Crest" class="wp-house-crest" onerror="this.onerror=null;this.src='assets/houses/house_concept_design.png';" />
-        <span class="wp-house-name-tag" style="border-color:${hInfo.color};color:${hInfo.color}">${isStaff ? "HOUSE OF DRAGON" : "HOUSE " + esc(hInfo.name)}</span>
+        <span class="wp-house-name-tag" style="border-color:${hInfo.color};color:${hInfo.color}">${isStaff ? "HOUSE DRAGON" : "HOUSE " + esc(hInfo.name)}</span>
       </div>
 
       <!-- AVATAR PICTURE -->
@@ -438,7 +439,7 @@ const App = {
         <div class="wp-avatar-frame" id="wp-avatar-clickable" title="Click to view Wardrobe &amp; Tier Skin details" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
           <img src="${avatarImg}" alt="${esc(cleanName)} Avatar (Tier ${tierNum})" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
           <span class="wp-avatar-inspect-pill">🔍 View</span>
-          ${!isStaff ? `<span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>` : ''}
+          <span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>
         </div>
       </div>
 
@@ -450,7 +451,7 @@ const App = {
         <h2 class="wp-name">${esc(cleanName)}</h2>
         <div class="wp-meta-row">
           <span class="wp-meta-item">🏫 Class: <b>${isStaff ? "Faculty" : esc(className)}</b></span>
-          <span class="wp-meta-item">🛡️ Order: <b style="color:${hInfo.color}">${isStaff ? "House of Dragon" : esc(hInfo.name) + " (" + esc(hInfo.mascot) + ")"}</b></span>
+          <span class="wp-meta-item">🛡️ Order: <b style="color:${hInfo.color}">${isStaff ? "House Dragon" : esc(hInfo.name) + " (" + esc(hInfo.mascot) + ")"}</b></span>
           <span class="wp-meta-item">🎖️ Rank: <b>${esc(r.name)}</b></span>
         </div>
         <div class="wp-stats-bar">
@@ -1122,13 +1123,14 @@ const App = {
       t.onclick = () => {
         Sfx.click();
         this.renderScoreboard(t.dataset.tab);
-        t.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       };
     });
 
+    const tabsContainer = $("#sb-tabs");
     const activeTab = $(`#sb-tabs .sb-tab[data-tab="${mode}"]`);
-    if (activeTab && activeTab.scrollIntoView) {
-      activeTab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    if (tabsContainer && activeTab) {
+      const left = activeTab.offsetLeft - (tabsContainer.clientWidth / 2) + (activeTab.clientWidth / 2);
+      tabsContainer.scrollTo({ left, behavior: "smooth" });
     }
 
     this.enableTabsDragScroll();
@@ -1554,10 +1556,11 @@ const App = {
         syncBtn.textContent = "⏳ Syncing...";
         syncBtn.disabled = true;
         if (typeof Leaderboard !== "undefined") {
-          if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
+          // Pull first so remote progress (like reading completions from another device) is merged into local Store
+          await Leaderboard.syncProfilePull();
+          if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0 || Object.keys((Store.d.reading && Store.d.reading.completed) || {}).length > 0) {
             await Leaderboard.syncProfilePush();
           }
-          await Leaderboard.syncProfilePull();
         }
         syncBtn.textContent = "🔄 Cloud Sync";
         syncBtn.disabled = false;
