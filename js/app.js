@@ -422,10 +422,10 @@ const App = {
       if (st === "mastered") masteredCount++;
     });
 
-    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.3" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.3`;
+    const crestImg = isStaff ? "assets/houses/crests/dragon.png?v=8.4" : `assets/houses/crests/${houseKey.toLowerCase()}.png?v=8.4`;
     const tierNum = Math.min(5, Math.max(1, (r.idx !== undefined ? r.idx : 0) + 1));
-    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.3" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.3`;
-    const avatarImg = isStaff ? defaultAvatarImg : `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.3`;
+    const defaultAvatarImg = isStaff ? "assets/houses/avatars/dragon.png?v=8.4" : `assets/houses/avatars/${houseKey.toLowerCase()}.png?v=8.4`;
+    const avatarImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${tierNum}.png?v=8.4`;
 
     showcase.innerHTML = `
       <!-- LEFT: HOUSE LOGO -->
@@ -436,9 +436,9 @@ const App = {
 
       <!-- AVATAR PICTURE -->
       <div class="wp-avatar-col">
-        <div class="wp-avatar-frame" ${!isStaff ? 'id="wp-avatar-clickable" title="Click to view Wardrobe &amp; Tier Skin details"' : 'title="House Dragon · Faculty Council"'} style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66${isStaff ? ';cursor:default' : ''}">
+        <div class="wp-avatar-frame" id="wp-avatar-clickable" title="${isStaff ? 'House Dragon · Faculty Council' : 'Click to view Wardrobe &amp; Tier Skin details'}" style="border-color:${hInfo.color};box-shadow:0 0 18px -2px ${hInfo.color}66">
           <img src="${avatarImg}" alt="${esc(cleanName)} Avatar${!isStaff ? ` (Tier ${tierNum})` : ''}" class="wp-avatar-img" onerror="this.onerror=null;this.src='${defaultAvatarImg}';" />
-          ${!isStaff ? '<span class="wp-avatar-inspect-pill">🔍 View</span>' : ''}
+          <span class="wp-avatar-inspect-pill">🔍 View</span>
           ${!isStaff ? `<span class="wp-avatar-tier-pill" style="border-color:${hInfo.color}">T${tierNum}</span>` : ''}
         </div>
       </div>
@@ -550,13 +550,52 @@ const App = {
       }
     ];
 
-    const cur = tierDescriptions[tierNum - 1] || tierDescriptions[0];
+    const staffDescriptions = [
+      {
+        tier: 1,
+        title: "Shadow Wyrmling",
+        uniform: "🐉 Young Shadow Wyrmling",
+        desc: "An approachable young shadow wyrmling companion of nascent faculty masters.",
+        req: "Faculty"
+      },
+      {
+        tier: 2,
+        title: "Arcane Drake",
+        uniform: "🐉 Arcane Shadow Drake",
+        desc: "A sleek adolescent drake with dark purple wings and arcane flame.",
+        req: "Faculty"
+      },
+      {
+        tier: 3,
+        title: "Shadow Dragon",
+        uniform: "🐉 Majestic Shadow Dragon",
+        desc: "A powerful adult dragon wreathed in violet lightning and ancient runes.",
+        req: "Faculty"
+      },
+      {
+        tier: 4,
+        title: "Arch-Dragon",
+        uniform: "🐉 Grand Arch-Dragon",
+        desc: "A colossal dragon master wielding dual arcane cores of shadow.",
+        req: "Faculty"
+      },
+      {
+        tier: 5,
+        title: "Elder Shadow Dragon",
+        uniform: "🐉 Elder Shadow Dragon Master",
+        desc: "The supreme ancestral dragon of the High Faculty Council.",
+        req: "Faculty"
+      }
+    ];
+
+    const activeDescriptions = isStaff ? staffDescriptions : tierDescriptions;
+    const cur = activeDescriptions[tierNum - 1] || activeDescriptions[0];
 
     modal(`
       <div style="text-align:center;padding:8px 4px">
         <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
           <span style="font-size:1.4rem">✨</span>
-          <h2 style="margin:0;font-size:1.4rem">Wizard Wardrobe &amp; Avatar Skin</h2>
+          <h2 style="margin:0;font-size:1.4rem">${isStaff ? "Faculty Council · House Dragon" : "Wizard Wardrobe &amp; Avatar Skin"}</h2>
         </div>
 
         <!-- Large Portrait Frame -->
@@ -566,38 +605,36 @@ const App = {
         </div>
 
         <div style="display:inline-block;padding:3px 12px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid ${hInfo.color};font-weight:800;color:${hInfo.color};font-size:0.85rem;margin-bottom:8px">
-          ${isStaff ? "Faculty High Council" : `Tier ${tierNum} · ${cur.title}`}
+          ${isStaff ? "Faculty High Council · " + esc(cur.title) : `Tier ${tierNum} · ${cur.title}`}
         </div>
 
-        <h3 style="margin:4px 0 6px;font-size:1.15rem">${isStaff ? "Grand Dragon Master Regalia" : cur.uniform}</h3>
+        <h3 style="margin:4px 0 6px;font-size:1.15rem">${cur.uniform}</h3>
         <p style="margin:0 0 16px;color:#cbd5e1;font-size:0.88rem;line-height:1.5;max-width:380px;margin-left:auto;margin-right:auto">
-          ${isStaff ? "The ancient ceremonial dragon robe of the Faculty High Council." : cur.desc}
+          ${cur.desc}
         </p>
 
-        ${!isStaff ? `
-          <!-- 5-Tier Wardrobe Roadmap -->
-          <div style="background:rgba(255,255,255,0.025);border-radius:12px;border:1px solid rgba(255,255,255,0.07);padding:12px 10px;margin-bottom:14px;text-align:left">
-            <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;text-align:center">
-              Wardrobe Progression Roadmap
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:6px">
-              ${tierDescriptions.map((td, idx) => {
-                const isUnlocked = tierNum >= td.tier;
-                const isCurrent = tierNum === td.tier;
-                const tImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${td.tier}.png?v=8.1`;
-                return `
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;border:1px solid ${isCurrent ? hInfo.color : isUnlocked ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.05)'};background:${isCurrent ? 'rgba(56,189,248,0.12)' : isUnlocked ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.3)'};opacity:${isUnlocked ? 1 : 0.45}">
-                    <div style="width:40px;height:48px;margin:0 auto 4px;border-radius:6px;overflow:hidden;border:1px solid ${isCurrent ? hInfo.color : 'rgba(255,255,255,0.15)'}">
-                      <img src="${tImg}" alt="T${td.tier}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='${avatarImg}'" />
-                    </div>
-                    <div style="font-size:0.68rem;font-weight:800;color:${isCurrent ? hInfo.color : '#cbd5e1'}">T${td.tier}</div>
-                    <div style="font-size:0.6rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${td.req}</div>
-                  </div>
-                `;
-              }).join("")}
-            </div>
+        <!-- 5-Tier Wardrobe Roadmap -->
+        <div style="background:rgba(255,255,255,0.025);border-radius:12px;border:1px solid rgba(255,255,255,0.07);padding:12px 10px;margin-bottom:14px;text-align:left">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;text-align:center">
+            ${isStaff ? "House Dragon Faculty Progression" : "Wardrobe Progression Roadmap"}
           </div>
-        ` : ''}
+          <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:6px">
+            ${activeDescriptions.map((td, idx) => {
+              const isUnlocked = isStaff ? true : (tierNum >= td.tier);
+              const isCurrent = tierNum === td.tier;
+              const tImg = `assets/houses/avatars/${houseKey.toLowerCase()}_t${td.tier}.png?v=8.4`;
+              return `
+                <div style="text-align:center;padding:6px 2px;border-radius:8px;border:1px solid ${isCurrent ? hInfo.color : isUnlocked ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.05)'};background:${isCurrent ? 'rgba(56,189,248,0.12)' : isUnlocked ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.3)'};opacity:${isUnlocked ? 1 : 0.45}">
+                  <div style="width:40px;height:48px;margin:0 auto 4px;border-radius:6px;overflow:hidden;border:1px solid ${isCurrent ? hInfo.color : 'rgba(255,255,255,0.15)'}">
+                    <img src="${tImg}" alt="${esc(td.title)}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='${avatarImg}'" />
+                  </div>
+                  <div style="font-size:0.68rem;font-weight:800;color:${isCurrent ? hInfo.color : '#cbd5e1'}">${isStaff ? esc(td.title.replace('Shadow ', '').replace('Elder ', '')) : 'T' + td.tier}</div>
+                  <div style="font-size:0.6rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${td.req}</div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
 
         <button class="btn primary small" id="btn-close-wardrobe" style="min-width:140px">Close</button>
       </div>
