@@ -67,6 +67,9 @@ function isStaffMember(name, role) {
   if (n.includes("(VP)") || n.includes("(P)") || n.includes("(STAFF)") || n.includes("TEACHER") || n.startsWith("MR.") || n.startsWith("MS.") || n.startsWith("MRS.")) {
     return true;
   }
+  if (n.includes("TEST STUDENT") || n.includes("TEST SCHOLAR") || n.startsWith("TEST ")) {
+    return true;
+  }
   const knownStaff = [
     "AU MING TAK", "CHAN KWUN TAT", "CHOI KA LAI CARRIE", "CHU HAU YING",
     "CHU WAI KEE GEORGE", "FONG HING PAN", "HSU TING LANG", "HUI YUK WAH",
@@ -77,6 +80,7 @@ function isStaffMember(name, role) {
     "CHEUNG TSZ TUNG"
   ];
   const cleanName = n.replace(/\s*\([^)]*\)/g, "").trim();
+  if (cleanName === "TEST" || cleanName.startsWith("TEST ")) return true;
   if (knownStaff.some(s => cleanName === s || cleanName.includes(s))) return true;
   return false;
 }

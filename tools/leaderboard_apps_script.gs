@@ -38,13 +38,21 @@ function setupSheets() {
     logSheet.setFrozenRows(1);
   }
 
-  // 3. UserProfiles Sheet (cross-device Word Vault mastery & XP)
+  // 3. UserProfiles Sheet (cross-device Word Vault mastery, Reading Oracle & XP)
   let profileSheet = ss.getSheetByName("UserProfiles");
   if (!profileSheet) {
     profileSheet = ss.insertSheet("UserProfiles");
-    profileSheet.appendRow(["Email Hash", "Player Name", "Role", "XP", "Streak", "Words Data", "Last Updated"]);
-    profileSheet.getRange("A1:G1").setFontWeight("bold").setBackground("#1e293b").setFontColor("#fbbf24");
+    profileSheet.appendRow(["Email Hash", "Player Name", "Role", "XP", "Streak", "Words Data", "Last Updated", "Reading Data", "Best Scores"]);
+    profileSheet.getRange("A1:I1").setFontWeight("bold").setBackground("#1e293b").setFontColor("#fbbf24");
     profileSheet.setFrozenRows(1);
+  } else {
+    // Ensure header row has columns for Reading and Best Scores if older sheet
+    if (profileSheet.getLastColumn() < 8) {
+      profileSheet.getRange(1, 8).setValue("Reading Data").setFontWeight("bold").setBackground("#1e293b").setFontColor("#38bdf8");
+    }
+    if (profileSheet.getLastColumn() < 9) {
+      profileSheet.getRange(1, 9).setValue("Best Scores").setFontWeight("bold").setBackground("#1e293b").setFontColor("#a855f7");
+    }
   }
 
   return { lbSheet, logSheet, profileSheet };
@@ -121,7 +129,7 @@ function handleRequest(params) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  // Action: Push student profile for cross-device Word Vault sync
+  // Action: Push student profile for cross-device Word Vault, Reading Oracle & Personal Bests sync
   if (action === "sync_push") {
     const hash = String(params.hash || "").trim();
     const name = String(params.name || "").trim().substring(0, 30);
@@ -129,8 +137,10 @@ function handleRequest(params) {
     const xp = parseInt(params.xp, 10) || 0;
     const streak = parseInt(params.streak, 10) || 0;
     const wordsJson = String(params.words || "{}");
+    const readingJson = String(params.reading || "{}");
+    const bestJson = String(params.best || "{}");
 
-    saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson);
+    saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson, readingJson, bestJson);
     const output = { status: "success" };
     return ContentService.createTextOutput(JSON.stringify(output))
       .setMimeType(ContentService.MimeType.JSON);
@@ -235,29 +245,51 @@ function getUserProfile(profileSheet, hash) {
     if (String(data[i][0]).toLowerCase() === hash.toLowerCase()) {
       let words = {};
       try { words = JSON.parse(data[i][5]); } catch (e) {}
+      let reading = {};
+      if (data[i][7]) {
+        try { reading = JSON.parse(data[i][7]); } catch (e) {}
+      } else if (words && words._reading) {
+        reading = words._reading;
+      }
+      let best = {};
+      if (data[i][8]) {
+        try { best = JSON.parse(data[i][8]); } catch (e) {}
+      } else if (words && words._best) {
+        best = words._best;
+      }
       return {
         hash: data[i][0],
         name: data[i][1],
         role: data[i][2],
         xp: Number(data[i][3]) || 0,
         streak: Number(data[i][4]) || 0,
-        words: words
+        words: words,
+        reading: reading,
+        best: best
       };
     }
   }
   return null;
 }
 
-function saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson) {
+function saveUserProfile(profileSheet, hash, name, role, xp, streak, wordsJson, readingJson, bestJson) {
   if (!hash) return;
   const data = profileSheet.getDataRange().getValues();
+  const rd = readingJson || "{}";
+  const bs = bestJson || "{}";
   for (let i = 1; i < data.length; i++) {
     if (String(data[i][0]).toLowerCase() === hash.toLowerCase()) {
-      profileSheet.getRange(i + 1, 2, 1, 6).setValues([[name, role, xp, streak, wordsJson, new Date()]]);
+      // Guard against race conditions: never let incoming 0 or lower XP overwrite existing verified progress
+      const existXP = Number(data[i][3]) || 0;
+      const finalXP = Math.max(existXP, Number(xp) || 0);
+      const existStreak = Number(data[i][4]) || 0;
+      const finalStreak = Math.max(existStreak, Number(streak) || 0);
+
+      profileSheet.getRange(i + 1, 2, 1, 8).setValues([[name, role, finalXP, finalStreak, wordsJson, new Date(), rd, bs]]);
       return;
     }
   }
-  profileSheet.appendRow([hash, name, role, xp, streak, wordsJson, new Date()]);
+  profileSheet.appendRow([hash, name, role, xp, streak, wordsJson, new Date(), rd, bs]);
 }
 
 function cleanLegacyModesInPlayLogs(logSheet) {

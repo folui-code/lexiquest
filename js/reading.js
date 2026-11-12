@@ -566,6 +566,11 @@ const Reading = {
 
     Store.save();
 
+    // Immediately synchronize Reading Oracle completion to the cloud profile
+    if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePush) {
+      Leaderboard.syncProfilePush();
+    }
+
     if (score >= total / 2) {
       Sfx.correct();
       if (typeof fx !== "undefined" && fx.confetti) fx.confetti();

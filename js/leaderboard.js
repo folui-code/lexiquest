@@ -191,7 +191,7 @@ const Leaderboard = {
     }, 2000);
   },
 
-  // Pull student's cross-device Word Vault & XP record from Google Sheets
+  // Pull student's cross-device Word Vault, Reading Oracle & personal best records from Google Sheets
   async syncProfilePull() {
     const auth = (Store && Store.d && Store.d.auth) || {};
     const rawHash = auth.emailHash || "";
@@ -218,9 +218,20 @@ const Leaderboard = {
           }
         }
 
-        // In the official launch version, sync verified launch student XP from cloud profile
-        if (p.xp && p.xp > (Store.d.xp || 0)) {
-          Store.d.xp = p.xp;
+        // Verified launch student baseline protection: ensure Li (2618), Tsai (1860), Lee (1250), Suen (100) never drop
+        const verifiedLaunchStudents = {
+          "LI TSZ YU": 2618,
+          "TSAI TSZ CHING": 1860,
+          "LEE SHING YU": 1250,
+          "SUEN HO YAN": 100
+        };
+        const curOfficial = (typeof window !== "undefined" && window.HPCCSS_ROSTER && window.HPCCSS_ROSTER[emailHash]) || Store.d.name || "";
+        const cleanOfficial = curOfficial.replace(/\s*\([^)]*\)/g, "").trim().toUpperCase();
+        const baseXP = verifiedLaunchStudents[cleanOfficial] || 0;
+        const targetXP = Math.max(baseXP, Number(p.xp) || 0);
+
+        if (targetXP > (Store.d.xp || 0)) {
+          Store.d.xp = targetXP;
           changed = true;
         }
         if (p.streak && p.streak > (Store.d.streak || 0)) {
@@ -228,10 +239,11 @@ const Leaderboard = {
           changed = true;
         }
 
-        // Merge Word Vault mastery data across devices
+        // Merge Word Vault mastery data across devices (preserving SM-2 intervals and due dates)
         if (p.words && typeof p.words === "object") {
           Store.d.words = Store.d.words || {};
           for (const rawId in p.words) {
+            if (rawId.startsWith("_")) continue; // Skip metadata keys
             const k = (Store && Store.cardKey) ? Store.cardKey(rawId) : rawId;
             const rw = p.words[rawId];
             const lw = Store.d.words[k];
@@ -244,18 +256,70 @@ const Leaderboard = {
               const maxOk = Math.max(lw.ok || 0, rw.ok || 0);
               const maxBad = Math.max(lw.bad || 0, rw.bad || 0);
               const ef = rw.ef || lw.ef || 2.5;
-              if (maxSeen > (lw.seen || 0) || maxReps > (lw.reps || 0)) {
+              const status = rw.status || lw.status || "";
+              const intVal = Math.max(lw.int || 0, rw.int || 0);
+              const dueVal = Math.max(lw.due || 0, rw.due || 0);
+
+              if (maxSeen > (lw.seen || 0) || maxReps > (lw.reps || 0) || (status && status !== lw.status) || intVal > (lw.int || 0) || dueVal > (lw.due || 0)) {
                 Store.d.words[k] = Object.assign({}, lw, rw, {
                   seen: maxSeen,
                   reps: maxReps,
                   ok: maxOk,
                   bad: maxBad,
-                  ef: ef
+                  ef: ef,
+                  status: status || lw.status || "",
+                  int: intVal,
+                  due: dueVal
                 });
                 changed = true;
               }
             }
           }
+        }
+
+        // Merge Reading Oracle daily completion records across devices
+        const cloudReading = p.reading || (p.words && p.words._reading);
+        if (cloudReading && typeof cloudReading === "object") {
+          Store.d.reading = Store.d.reading || { completed: {}, streak: 0, lastDate: null };
+          Store.d.reading.completed = Store.d.reading.completed || {};
+          const cCompleted = cloudReading.completed || {};
+          for (const dateId in cCompleted) {
+            const cr = cCompleted[dateId];
+            if (!cr) continue;
+            const lr = Store.d.reading.completed[dateId];
+            if (!lr) {
+              Store.d.reading.completed[dateId] = cr;
+              changed = true;
+            } else {
+              // Keep highest score and merge answers
+              if ((cr.score || 0) > (lr.score || 0) || (!lr.answers && cr.answers)) {
+                Store.d.reading.completed[dateId] = Object.assign({}, lr, cr);
+                changed = true;
+              }
+            }
+          }
+          if ((cloudReading.streak || 0) > (Store.d.reading.streak || 0)) {
+            Store.d.reading.streak = cloudReading.streak;
+            changed = true;
+          }
+          if (cloudReading.lastDate && (!Store.d.reading.lastDate || cloudReading.lastDate > Store.d.reading.lastDate)) {
+            Store.d.reading.lastDate = cloudReading.lastDate;
+            changed = true;
+          }
+        }
+
+        // Merge personal bests for all game modes (Cryptic Rush, Alchemy, Blitz, Reading)
+        const cloudBest = p.best || (p.words && p.words._best);
+        if (cloudBest && typeof cloudBest === "object") {
+          Store.d.best = Store.d.best || {};
+          ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+            const cb = Number(cloudBest[m]) || 0;
+            const lb = Number(Store.d.best[m]) || 0;
+            if (cb > lb) {
+              Store.d.best[m] = cb;
+              changed = true;
+            }
+          });
         }
 
         if (changed) {
@@ -265,14 +329,18 @@ const Leaderboard = {
             if (App.renderHome) App.renderHome();
             if (App.renderClassHonorRoll) App.renderClassHonorRoll();
             if (App.renderHouseCup) App.renderHouseCup();
+            if (App.renderWizardProfile) App.renderWizardProfile();
             if ($("#screen-vault") && $("#screen-vault").classList.contains("active") && App.vault) {
               App.vault();
             }
           }
+          if ($("#screen-reading") && $("#screen-reading").classList.contains("active") && window.Reading && Reading.intro) {
+            Reading.intro();
+          }
         }
       } else {
         // Cloud profile not found or empty, but local device has existing progress!
-        if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0) {
+        if (Store.d.xp > 0 || Object.keys(Store.d.words || {}).length > 0 || Object.keys((Store.d.reading && Store.d.reading.completed) || {}).length > 0) {
           await this.syncProfilePush();
         }
       }
@@ -281,7 +349,7 @@ const Leaderboard = {
     }
   },
 
-  // Push student's cross-device Word Vault & XP record to Google Sheets
+  // Push student's cross-device Word Vault, Reading Oracle & Personal Bests record to Google Sheets
   async syncProfilePush() {
     const auth = (Store && Store.d && Store.d.auth) || {};
     const rawHash = auth.emailHash || "";
@@ -299,36 +367,74 @@ const Leaderboard = {
       const xp = Store.d.xp || 0;
       const streak = Store.d.streak || 0;
 
-      // Compact only active words that have been encountered
+      // Compact active vocabulary words with complete SM-2 scheduling data
       const activeWords = {};
       const allWords = Store.d.words || {};
       for (const rawId in allWords) {
-        if (allWords[rawId] && allWords[rawId].seen) {
+        if (rawId.startsWith("_")) continue;
+        const w = allWords[rawId];
+        if (w && (w.seen || w.status)) {
           const k = (Store && Store.cardKey) ? Store.cardKey(rawId) : rawId;
           activeWords[k] = {
-            reps: allWords[rawId].reps || 0,
-            seen: allWords[rawId].seen || 0,
-            ok: allWords[rawId].ok || 0,
-            bad: allWords[rawId].bad || 0,
-            ef: allWords[rawId].ef || 2.5,
-            status: allWords[rawId].status || ""
+            reps: w.reps || 0,
+            seen: w.seen || 0,
+            ok: w.ok || 0,
+            bad: w.bad || 0,
+            ef: w.ef ? Math.round(w.ef * 100) / 100 : 2.5,
+            status: w.status || "",
+            int: w.int || 0,
+            due: w.due || 0
           };
         }
       }
-      const words = JSON.stringify(activeWords);
 
-      const params = new URLSearchParams({
+      const readingData = (Store && Store.d && Store.d.reading) || { completed: {}, streak: 0, lastDate: null };
+      const bestData = (Store && Store.d && Store.d.best) || {};
+
+      // Embed reading and bests inside words payload for instant compatibility with current deployed Web App
+      const payloadWords = Object.assign({}, activeWords, {
+        _reading: readingData,
+        _best: bestData
+      });
+
+      const postPayload = {
         action: "sync_push",
         hash: emailHash,
         name: officialName,
         role: role,
-        xp: String(xp),
-        streak: String(streak),
-        words: words
-      });
+        xp: xp,
+        streak: streak,
+        words: JSON.stringify(payloadWords),
+        reading: JSON.stringify(readingData),
+        best: JSON.stringify(bestData)
+      };
 
-      const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}&_t=${Date.now()}`;
-      await fetch(target, { method: "GET", cache: "no-store" });
+      // Primary: Use POST with text/plain (CORS simple request with no size limitation)
+      let sent = false;
+      try {
+        const postResp = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(postPayload)
+        });
+        if (postResp.ok) sent = true;
+      } catch (err) {
+        // Fallback to GET below if POST is restricted by environment
+      }
+
+      if (!sent) {
+        const params = new URLSearchParams({
+          action: "sync_push",
+          hash: emailHash,
+          name: officialName,
+          role: role,
+          xp: String(xp),
+          streak: String(streak),
+          words: JSON.stringify(payloadWords)
+        });
+        const target = `${url}${url.includes("?") ? "&" : "?"}${params.toString()}&_t=${Date.now()}`;
+        await fetch(target, { method: "GET", cache: "no-store" });
+      }
     } catch (e) {
       console.warn("[Leaderboard] Cloud profile push note:", e);
     }

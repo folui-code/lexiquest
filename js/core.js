@@ -157,6 +157,9 @@ const Store = {
     if (q < 3) { w.reps = 0; w.int = 0; w.due = Date.now() + 60_000; }
     else { w.reps++; w.int = w.reps === 1 ? 1 : w.reps === 2 ? 6 : Math.round(w.int * w.ef); w.due = Date.now() + w.int * 86400000; }
     this.save();
+    if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
+      Leaderboard.queueProfilePush();
+    }
   },
   setWordStatus(target, status) {
     const k = this.cardKey(target);
@@ -183,6 +186,9 @@ const Store = {
       w.due = Date.now() + 60_000;
     }
     this.save();
+    if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
+      Leaderboard.queueProfilePush();
+    }
     return w;
   },
   getWordStatus(target) {
@@ -290,7 +296,18 @@ const Store = {
     setTimeout(() => { toast(`${ic} Achievement unlocked: <b>${name}</b>`, true); Sfx.fanfare(); }, 400);
   },
   quest(key) { if (!this.d.daily.q[key]) { this.d.daily.q[key] = true; this.save(); toast("🎯 Daily quest complete!"); } },
-  setBest(mode, score) { const prev = this.d.best[mode] || 0; if (score > prev) { this.d.best[mode] = score; this.save(); return prev > 0 || score > 0; } return false; },
+  setBest(mode, score) {
+    const prev = this.d.best[mode] || 0;
+    if (score > prev) {
+      this.d.best[mode] = score;
+      this.save();
+      if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
+        Leaderboard.queueProfilePush();
+      }
+      return prev > 0 || score > 0;
+    }
+    return false;
+  },
   addScore(mode, score) {
     this.setBest(mode, score);
     return this.addLB(mode, score);
