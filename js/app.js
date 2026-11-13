@@ -64,13 +64,14 @@ function isStaffMember(name, role) {
   if (role === "staff") return true;
   if (!name) return false;
   const n = String(name).trim().toUpperCase();
-  if (n.includes("(VP)") || n.includes("(P)") || n.includes("(STAFF)") || n.includes("TEACHER") || n.startsWith("MR.") || n.startsWith("MS.") || n.startsWith("MRS.")) {
+  if (n.includes("(VP)") || n.includes("(P)") || n.includes("(SUPERVISOR)") || n.includes("SUPERVISOR") || n.includes("(STAFF)") || n.includes("TEACHER") || n.startsWith("MR.") || n.startsWith("MS.") || n.startsWith("MRS.")) {
     return true;
   }
   if (n.includes("TEST STUDENT") || n.includes("TEST SCHOLAR") || n.startsWith("TEST ")) {
     return true;
   }
   const knownStaff = [
+    "SZETO WAI TUN",
     "AU MING TAK", "CHAN KWUN TAT", "CHOI KA LAI CARRIE", "CHU HAU YING",
     "CHU WAI KEE GEORGE", "FONG HING PAN", "HSU TING LANG", "HUI YUK WAH",
     "IP CHOI WAN", "KONG KWOK LING", "LO YIU CHUEN", "NGAI KWAI MING",
@@ -404,10 +405,10 @@ const App = {
     let formName = isStaff ? "Faculty High Council" : "S4";
 
     const rawName = auth.name || d.name || (isStaff ? "Teacher" : "Scholar");
-    const classMatch = rawName.match(/\((4[A-E]|5[A-E]|6[A-E]|\d[A-E]|Staff|VP|P)\)/i);
+    const classMatch = rawName.match(/\((4[A-E]|5[A-E]|6[A-E]|\d[A-E]|Staff|VP|P|Supervisor)\)/i);
     if (classMatch) {
       className = classMatch[1].toUpperCase();
-      if (className === "STAFF" || className === "VP" || className === "P") {
+      if (className === "STAFF" || className === "VP" || className === "P" || className === "SUPERVISOR") {
         formName = "Faculty";
       } else {
         formName = "S" + className.charAt(0);
