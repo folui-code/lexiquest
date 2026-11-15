@@ -16,7 +16,7 @@ const DSE_READING_DATA = [
     "theme": "Material Culture & Digital Fatigue",
     "source": "Adapted from The Atlantic & Financial Times",
     "lexile": "1190L (DSE Part B2)",
-    "text": "In an era where virtually every human artefact can be dematerialized into cloud-hosted code, an unexpected counter-revolution has taken root: the stubborn revival of the analog. Vinyl record sales have outstripped compact discs for the first time in decades; fountain pens, mechanical watches, and 35mm film cameras enjoy an unprecedented renaissance among digital natives. Sociologists often dismiss this trend as mere hipster nostalgia\u2014a superficial aesthetic pose orchestrated by retro-marketing agencies. Yet this cynical reading fundamentally misjudges the psychological impulse at play. In a world saturated by frictionless, **ephemeral** [*] digital streams, humans crave the grounding resistance of physical matter. To play a vinyl record requires ***deliberate ceremony*** [**]: sliding the disc from its sleeve, inspecting the grooves, and gently dropping the needle. Unlike digital media, which demands passive reception, analog artefacts demand conscious presence. In embracing the imperfect and the tactile, people are seeking refuge from the relentless exhaustion of the disembodied screen.",
+    "text": "In an era where virtually every human artefact can be dematerialized into cloud-hosted code, an unexpected counter-revolution has taken root: the stubborn revival of the analog. Vinyl record sales have outstripped compact discs for the first time in decades; fountain pens, mechanical watches, and 35mm film cameras enjoy an unprecedented renaissance among digital natives. Sociologists often dismiss this trend as mere hipster nostalgia—a superficial aesthetic pose orchestrated by retro-marketing agencies. Yet this cynical reading fundamentally misjudges the psychological impulse at play. In a world saturated by frictionless, **ephemeral** [*] digital streams, humans crave the grounding resistance of physical matter. To play a vinyl record requires ***deliberate ceremony*** [**]: sliding the disc from its sleeve, inspecting the grooves, and gently dropping the needle. Unlike digital media, which demands passive reception, analog artefacts demand conscious presence. In embracing the imperfect and the tactile, people are seeking refuge from the relentless exhaustion of the disembodied screen.",
     "questions": [
       {
         "id": "nov07-q1",
@@ -66,7 +66,7 @@ const DSE_READING_DATA = [
             "letter": "B",
             "text": "Sociologists regard it as a superficial marketing fad, whereas the writer sees it as a genuine human need for physical presence.",
             "correct": true,
-            "trap": "Correct: Sociologists see 'mere hipster nostalgia\u2014a superficial aesthetic pose'; the writer identifies a profound craving for 'grounding resistance' and 'conscious presence'."
+            "trap": "Correct: Sociologists see 'mere hipster nostalgia—a superficial aesthetic pose'; the writer identifies a profound craving for 'grounding resistance' and 'conscious presence'."
           },
           {
             "letter": "C",
@@ -81,7 +81,7 @@ const DSE_READING_DATA = [
             "trap": "Detail Distortion: Both mention multiple analog items."
           }
         ],
-        "examinerNote": "Sociologists view the trend as 'mere hipster nostalgia\u2014a superficial aesthetic pose', which the author directly counters by explaining the deep psychological need for tactile grounding."
+        "examinerNote": "Sociologists view the trend as 'mere hipster nostalgia—a superficial aesthetic pose', which the author directly counters by explaining the deep psychological need for tactile grounding."
       },
       {
         "id": "nov07-q3",
@@ -160,7 +160,7 @@ const DSE_READING_DATA = [
     "theme": "Digital Culture & Behavioral Psychology",
     "source": "Adapted from The Guardian & The Atlantic",
     "lexile": "1200L (DSE Part B2)",
-    "text": "When engineers first conceived the \"infinite scroll\" in 2006, it was heralded as a triumph of user design\u2014an elegant mechanism that eliminated the tedious friction of clicking between pages. Yet two decades later, this ubiquitous feature has **metastasized** [*] into one of modern technology's most insidious psychological traps. By removing natural stopping cues, social media platforms deliberately exploit our brain's craving for intermittent rewards, keeping users suspended in a state of perpetual anticipation. Rather than empowering human connection, ***this endless loop*** [**] breeds a subtle restlessness, where minutes dissolve into hours of mindless consumption. While tech executives often dismiss excessive screen time as a failure of personal willpower, critics argue that expecting individuals to resist algorithms calibrated by armies of behavioral scientists is not merely unrealistic\u2014it is a ****cynical abdication of corporate responsibility**** [***].",
+    "text": "When engineers first conceived the \"infinite scroll\" in 2006, it was heralded as a triumph of user design—an elegant mechanism that eliminated the tedious friction of clicking between pages. Yet two decades later, this ubiquitous feature has **metastasized** [*] into one of modern technology's most insidious psychological traps. By removing natural stopping cues, social media platforms deliberately exploit our brain's craving for intermittent rewards, keeping users suspended in a state of perpetual anticipation. Rather than empowering human connection, ***this endless loop*** [**] breeds a subtle restlessness, where minutes dissolve into hours of mindless consumption. While tech executives often dismiss excessive screen time as a failure of personal willpower, critics argue that expecting individuals to resist algorithms calibrated by armies of behavioral scientists is not merely unrealistic—it is a ****cynical abdication of corporate responsibility**** [***].",
     "questions": [
       {
         "id": "nov08-q1",
@@ -317,7 +317,7 @@ const DSE_READING_DATA = [
             "letter": "A",
             "text": "an empty or overused statement that lacks sincerity.",
             "correct": true,
-            "trap": "Correct: A platitude is a banal, clich\u00e9d remark made to sound meaningful without real substance."
+            "trap": "Correct: A platitude is a banal, clichéd remark made to sound meaningful without real substance."
           },
           {
             "letter": "B",
@@ -579,7 +579,7 @@ const DSE_READING_DATA = [
             "trap": "DSE Extreme Trap: The passage questions excessive surveillance, not basic traffic safety."
           }
         ],
-        "examinerNote": "Rhetorical concluding questions in DSE Part B2 texts challenge the reader to reconsider conventional assumptions\u2014here, confronting whether smart cities dehumanize their inhabitants."
+        "examinerNote": "Rhetorical concluding questions in DSE Part B2 texts challenge the reader to reconsider conventional assumptions—here, confronting whether smart cities dehumanize their inhabitants."
       }
     ]
   },
@@ -593,7 +593,7 @@ const DSE_READING_DATA = [
     "theme": "Modern Labor & Workplace Sociology",
     "source": "Adapted from BBC Worklife & The Economist",
     "lexile": "1180L (DSE Part B2)",
-    "text": "When the phrase \"quiet quitting\" gained viral traction across social media, corporate executives swiftly branded it as a crisis of workplace laziness\u2014a covert rebellion by disengaged employees who refuse to pull their weight. Yet organizational psychologists present a decidedly different diagnosis. Far from slacking off, the majority of self-described quiet quitters are simply completing their contracted duties while establishing clear boundaries against unpaid overtime and weekend communication. In an era where smartphones have obliterated the physical boundary between the office and the home, relentless hustle culture had effectively normalized chronic burnout. By declining to equate their self-worth with **institutional martyrdom** [*], these workers are not sabotaging their employers; they are recalibrating ***a toxic imbalance*** [**]. The dilemma for management is not how to coerce compliance, but whether corporate culture can accommodate workers who view employment as a professional contract rather than an all-consuming identity.",
+    "text": "When the phrase \"quiet quitting\" gained viral traction across social media, corporate executives swiftly branded it as a crisis of workplace laziness—a covert rebellion by disengaged employees who refuse to pull their weight. Yet organizational psychologists present a decidedly different diagnosis. Far from slacking off, the majority of self-described quiet quitters are simply completing their contracted duties while establishing clear boundaries against unpaid overtime and weekend communication. In an era where smartphones have obliterated the physical boundary between the office and the home, relentless hustle culture had effectively normalized chronic burnout. By declining to equate their self-worth with **institutional martyrdom** [*], these workers are not sabotaging their employers; they are recalibrating ***a toxic imbalance*** [**]. The dilemma for management is not how to coerce compliance, but whether corporate culture can accommodate workers who view employment as a professional contract rather than an all-consuming identity.",
     "questions": [
       {
         "id": "nov11-q1",
@@ -737,7 +737,7 @@ const DSE_READING_DATA = [
     "theme": "Environmental Science & Human Biology",
     "source": "Adapted from National Geographic & Nature",
     "lexile": "1190L (DSE Part B2)",
-    "text": "For almost all of evolutionary history, life on Earth unfolded in strict synchronization with the natural rhythm of day and night. In the brief span of a single century, however, humanity has waged an unthinking war against the dark. The rampant proliferation of artificial illumination\u2014from ubiquitous LED streetlamps to luminous digital billboards\u2014has effectively banished genuine night from modern human settlements. While lighted streets undoubtedly enhance urban safety, this **perpetual twilight** [*] carries severe biological repercussions. Ecologists warn that nocturnal ecosystems are unraveling: migratory birds are fatally disoriented by urban glares, while pollinating insects perish in droves around blazing fixtures. For humans, nocturnal light exposure disrupts the synthesis of melatonin, a critical hormone regulating cellular repair and circadian health. Light pollution is ***not merely an aesthetic nuisance for frustrated stargazers*** [**]; it is an insidious environmental disruptor that threatens both ecological stability and human physiological resilience.",
+    "text": "For almost all of evolutionary history, life on Earth unfolded in strict synchronization with the natural rhythm of day and night. In the brief span of a single century, however, humanity has waged an unthinking war against the dark. The rampant proliferation of artificial illumination—from ubiquitous LED streetlamps to luminous digital billboards—has effectively banished genuine night from modern human settlements. While lighted streets undoubtedly enhance urban safety, this **perpetual twilight** [*] carries severe biological repercussions. Ecologists warn that nocturnal ecosystems are unraveling: migratory birds are fatally disoriented by urban glares, while pollinating insects perish in droves around blazing fixtures. For humans, nocturnal light exposure disrupts the synthesis of melatonin, a critical hormone regulating cellular repair and circadian health. Light pollution is ***not merely an aesthetic nuisance for frustrated stargazers*** [**]; it is an insidious environmental disruptor that threatens both ecological stability and human physiological resilience.",
     "questions": [
       {
         "id": "nov12-q1",
@@ -788,7 +788,7 @@ const DSE_READING_DATA = [
             "letter": "B",
             "text": "To argue that astronomers are the only group harmed by urban lighting.",
             "correct": false,
-            "trap": "DSE Extreme Trap: Notice 'only group'\u2014the text explicitly says it is NOT merely their nuisance."
+            "trap": "DSE Extreme Trap: Notice 'only group'—the text explicitly says it is NOT merely their nuisance."
           },
           {
             "letter": "C",
@@ -881,7 +881,7 @@ const DSE_READING_DATA = [
     "theme": "Media & Artificial Intelligence",
     "source": "Adapted from The New Yorker & Wired",
     "lexile": "1210L (DSE Part B2)",
-    "text": "Streaming platforms once promised an unprecedented golden age of cultural democracy, granting ordinary listeners instantaneous access to every recorded sound in human history. In practice, however, predictive recommendation engines have achieved ***precisely the inverse*** [*]. Governed by engagement algorithms designed to maximize platform retention, these systems shepherd vast global audiences into narrow, self-reinforcing stylistic corridors. Rather than exposing listeners to radical novelty, streaming models prioritize audio tracks engineered to function as ambient sonic wallpaper\u2014unobtrusive, mid-tempo, and devoid of jarring artistic **idiosyncrasies** [**] that might provoke a user to skip. The consequence is an insidious musical monoculture, where regional genres are homogenized into algorithmic slurry. When cultural consumption is mediated solely by mathematical prediction, serendipity is strangled. We are left with an illusion of limitless choice that masks an increasingly standardized artistic landscape.",
+    "text": "Streaming platforms once promised an unprecedented golden age of cultural democracy, granting ordinary listeners instantaneous access to every recorded sound in human history. In practice, however, predictive recommendation engines have achieved ***precisely the inverse*** [*]. Governed by engagement algorithms designed to maximize platform retention, these systems shepherd vast global audiences into narrow, self-reinforcing stylistic corridors. Rather than exposing listeners to radical novelty, streaming models prioritize audio tracks engineered to function as ambient sonic wallpaper—unobtrusive, mid-tempo, and devoid of jarring artistic **idiosyncrasies** [**] that might provoke a user to skip. The consequence is an insidious musical monoculture, where regional genres are homogenized into algorithmic slurry. When cultural consumption is mediated solely by mathematical prediction, serendipity is strangled. We are left with an illusion of limitless choice that masks an increasingly standardized artistic landscape.",
     "questions": [
       {
         "id": "nov13-q1",
@@ -1025,7 +1025,7 @@ const DSE_READING_DATA = [
     "theme": "Environmental Economics & Climate Policy",
     "source": "Adapted from The Guardian & Financial Times",
     "lexile": "1210L (DSE Part B2)",
-    "text": "In the glitzy brochures of multinational corporations, achieving \"net-zero\" emissions is routinely depicted as a solved equation. By purchasing carbon offsets\u2014investing in distant reforestation schemes or renewable energy grids\u2014firms claim to neutralize their environmental footprint while altering almost nothing about their core operations. Yet independent climate audits reveal this lucrative market to be largely a statistical fiction. The vast majority of forest conservation credits are issued for woodlands that were never under genuine threat of deforestation, creating ***phantom reductions*** [*] on balance sheets. Rather than catalyzing structural decarbonization, offsets serve as an affordable **moral indulgence** [**], granting polluting enterprises a public relations license to expand emissions unabated. Until international regulatory frameworks mandate genuine, verifiable operational emission cuts, corporate net-zero pledges remain an elaborate exercise in commercial greenwashing.",
+    "text": "In the glitzy brochures of multinational corporations, achieving \"net-zero\" emissions is routinely depicted as a solved equation. By purchasing carbon offsets—investing in distant reforestation schemes or renewable energy grids—firms claim to neutralize their environmental footprint while altering almost nothing about their core operations. Yet independent climate audits reveal this lucrative market to be largely a statistical fiction. The vast majority of forest conservation credits are issued for woodlands that were never under genuine threat of deforestation, creating ***phantom reductions*** [*] on balance sheets. Rather than catalyzing structural decarbonization, offsets serve as an affordable **moral indulgence** [**], granting polluting enterprises a public relations license to expand emissions unabated. Until international regulatory frameworks mandate genuine, verifiable operational emission cuts, corporate net-zero pledges remain an elaborate exercise in commercial greenwashing.",
     "questions": [
       {
         "id": "nov14-q1",
@@ -1091,7 +1091,7 @@ const DSE_READING_DATA = [
             "trap": "Wildfire Distractor: The problem is paper accounting, not physical tree loss."
           }
         ],
-        "examinerNote": "Credits issued for trees 'that were never under genuine threat of deforestation' produce 'phantom reductions [*] on balance sheets'\u2014fake accounting figures."
+        "examinerNote": "Credits issued for trees 'that were never under genuine threat of deforestation' produce 'phantom reductions [*] on balance sheets'—fake accounting figures."
       },
       {
         "id": "nov14-q3",
@@ -1123,7 +1123,7 @@ const DSE_READING_DATA = [
             "trap": "Charity Trap: The text focuses on corporate purchasing to protect balance sheets."
           }
         ],
-        "examinerNote": "The text explains offsets grant companies 'a public relations license to expand emissions unabated'\u2014permitting real pollution under the cover of green marketing."
+        "examinerNote": "The text explains offsets grant companies 'a public relations license to expand emissions unabated'—permitting real pollution under the cover of green marketing."
       },
       {
         "id": "nov14-q4",
@@ -1156,6 +1156,1014 @@ const DSE_READING_DATA = [
           }
         ],
         "examinerNote": "Concluding with 'commercial greenwashing' and calling for mandatory international frameworks indicates deep skepticism of voluntary corporate claims and a demand for rigorous accountability."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15",
+    "date": "2026-11-15",
+    "displayDate": "15 Nov 2026",
+    "dayLabel": "15 Nov",
+    "dayOfWeek": "Sun",
+    "title": "The Fragile Legacy: Heritage Tourism and Cultural Erosion",
+    "theme": "Heritage Conservation & Tourism Ethics",
+    "source": "Adapted from UNESCO Courier & National Geographic",
+    "lexile": "1200L (DSE Part B2)",
+    "text": "Across historic enclaves from Kyoto to Venice, the sheer volume of global travelers has transformed sacred sanctuaries and centuries-old neighborhoods into crowded consumer hubs. While local authorities frequently extol tourism as an engine of economic vitality, heritage preservationists offer a far bleaker diagnosis: the relentless **commodification** [*] of living culture. In the pursuit of photogenic spectacles for social media platforms, authentic communal customs are sanitized, packaged, and staged for external consumption. Long-standing craft workshops are systematically displaced by souvenir kiosks, and residents are driven out by soaring rents. What remains is not a thriving community, but a ***hollow spectacle*** [**]—an architectural museum inhabited by transient tourists rather than custodians of tradition. True preservation requires recognizing that heritage is not an inert asset to be milked for municipal revenue, but a delicate, living ecology that perishes the moment it is severed from the daily lives of its people.",
+    "questions": [
+      {
+        "id": "nov15-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"commodification\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "the intentional destruction of historical monuments during wartime.",
+            "correct": false,
+            "trap": "Physical Violence Trap: Commodification refers to economic exploitation, not armed conflict."
+          },
+          {
+            "letter": "B",
+            "text": "the legal registration of traditional buildings as protected public parks.",
+            "correct": false,
+            "trap": "Bureaucratic Trap: The passage discusses commercializing culture, not state preservation laws."
+          },
+          {
+            "letter": "C",
+            "text": "the transformation of intangible culture and traditions into commercial goods.",
+            "correct": true,
+            "trap": "Correct: 'Commodification' denotes turning traditions, customs, and community life into marketable products for profit."
+          },
+          {
+            "letter": "D",
+            "text": "the architectural restoration of damaged antique timber structures.",
+            "correct": false,
+            "trap": "Physical Repair Distractor: The passage contrasts living culture with mere architectural preservation."
+          }
+        ],
+        "examinerNote": "The surrounding context ('sanitized, packaged, and staged for external consumption') directly clarifies that 'commodification' [*] means treating living culture as commercial merchandise."
+      },
+      {
+        "id": "nov15-q2",
+        "skill": "Specific Detail & Cause-and-Effect",
+        "q": "According to the passage, what is the primary consequence of soaring rents in historic enclaves?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Local artisans expand their workshops into larger regional factories.",
+            "correct": false,
+            "trap": "Optimistic Distortion: The text states workshops are displaced, not expanded."
+          },
+          {
+            "letter": "B",
+            "text": "Indigenous residents and craftspersons are forced out of their own neighborhoods.",
+            "correct": true,
+            "trap": "Correct: 'craft workshops are systematically displaced by souvenir kiosks, and residents are driven out by soaring rents'."
+          },
+          {
+            "letter": "C",
+            "text": "Municipal governments permanently ban overseas travelers from entering sanctuaries.",
+            "correct": false,
+            "trap": "Extreme Policy Trap: Municipal authorities promote tourism for revenue, rather than banning travelers."
+          },
+          {
+            "letter": "D",
+            "text": "Traditional craftsmen begin producing luxury automobiles for wealthy tourists.",
+            "correct": false,
+            "trap": "Fabricated Detail: No mention of automobile production exists in the text."
+          }
+        ],
+        "examinerNote": "The text directly states that soaring rents drive residents out while craft workshops are systematically displaced by souvenir kiosks."
+      },
+      {
+        "id": "nov15-q3",
+        "skill": "Reference & Deixis",
+        "q": "The phrase \"hollow spectacle\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "an optical illusion generated by virtual reality headsets in digital museums.",
+            "correct": false,
+            "trap": "Technological Distortion: The passage discusses physical tourist towns, not digital VR equipment."
+          },
+          {
+            "letter": "B",
+            "text": "a theatrical drama performed by school children during cultural heritage day.",
+            "correct": false,
+            "trap": "Literal Performance Trap: Confuses the figurative critique of the city with a literal school play."
+          },
+          {
+            "letter": "C",
+            "text": "a historic district that retains its picturesque buildings but has lost its living community and soul.",
+            "correct": true,
+            "trap": "Correct: Defined in the dash immediately after: 'an architectural museum inhabited by transient tourists rather than custodians of tradition'."
+          },
+          {
+            "letter": "D",
+            "text": "a deep archaeological trench excavated beneath ancient temple foundations.",
+            "correct": false,
+            "trap": "Literal Physical Cavity: Misinterprets 'hollow' as an underground archaeological hole."
+          }
+        ],
+        "examinerNote": "The dash after 'hollow spectacle' [**] defines the term as an architectural facade where the original residents have been displaced, leaving only superficial displays for visitors."
+      },
+      {
+        "id": "nov15-q4",
+        "skill": "Inference & Author Stance",
+        "q": "What core philosophy regarding heritage preservation does the writer advocate in the final sentence?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Preservation must prioritize maximizing revenue so that local councils remain solvent.",
+            "correct": false,
+            "trap": "Direct Contradiction: The author states heritage is 'not an inert asset to be milked for municipal revenue'."
+          },
+          {
+            "letter": "B",
+            "text": "Heritage survives only when it remains woven into the everyday lives of local inhabitants.",
+            "correct": true,
+            "trap": "Correct: The author warns that heritage is a 'living ecology that perishes the moment it is severed from the daily lives of its people'."
+          },
+          {
+            "letter": "C",
+            "text": "All historic cities should be enclosed under protective glass domes to prevent weather damage.",
+            "correct": false,
+            "trap": "Absurd Engineering Solution: The writer advocates living communal integration, not artificial encapsulation."
+          },
+          {
+            "letter": "D",
+            "text": "Souvenir manufacturing should be handed over entirely to foreign digital platforms.",
+            "correct": false,
+            "trap": "Irrelevant Distractor: The author laments the rise of souvenir kiosks and does not endorse foreign production."
+          }
+        ],
+        "examinerNote": "The writer explicitly defines heritage as a 'living ecology' that perishes if severed from residents' daily lives, rejecting the municipal view of heritage as a financial resource."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16",
+    "date": "2026-11-16",
+    "displayDate": "16 Nov 2026",
+    "dayLabel": "16 Nov",
+    "dayOfWeek": "Mon",
+    "title": "The Micro-Merchant Dilemma: The Hidden Vulnerability of Platform Economy",
+    "theme": "Youth Entrepreneurship & Social Commerce",
+    "source": "Adapted from Financial Times & Harvard Business Review",
+    "lexile": "1210L (DSE Part B2)",
+    "text": "For ambitious young entrepreneurs, social media platforms have long been heralded as the great democratizers of commerce. With zero upfront capital, a creative teenager can launch a boutique online store, curate niche fashion items, and cultivate thousands of loyal patrons across the globe. Yet behind this glossy facade of autonomous entrepreneurship lies an inherently **precarious** [*] business model. These micro-merchants do not own their storefronts; they operate on rented digital territory controlled by monopolistic conglomerates. An unannounced tweak to a recommendation algorithm can vaporize eighty percent of a store's traffic overnight, rendering months of painstaking brand cultivation entirely worthless. Furthermore, platforms extract escalating take-rates and demand exorbitant ad-spends simply to maintain baseline organic visibility. Rather than self-directed digital pioneers, many boutique merchants find themselves at the mercy of ***arbitrary whims*** [**], trapped in a modern sharecropping system where the digital landlord captures the lion's share of value while the merchant absorbs all entrepreneurial risk.",
+    "questions": [
+      {
+        "id": "nov16-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"precarious\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "exceptionally profitable and financially lucrative.",
+            "correct": false,
+            "trap": "Opposite Meaning: The text highlights fragility, instability, and heavy risks rather than guaranteed profit."
+          },
+          {
+            "letter": "B",
+            "text": "strictly regulated by governmental financial inspectors.",
+            "correct": false,
+            "trap": "Regulatory Trap: The passage discusses platforms' algorithmic power, not government laws."
+          },
+          {
+            "letter": "C",
+            "text": "unstable, insecure, and fraught with unpredictable peril.",
+            "correct": true,
+            "trap": "Correct: 'Precarious' describes a position that lacks stability and is highly vulnerable to sudden collapse."
+          },
+          {
+            "letter": "D",
+            "text": "technologically outdated and obsolete.",
+            "correct": false,
+            "trap": "Technological Distortion: The platforms are modern, but the business model is perilous."
+          }
+        ],
+        "examinerNote": "'Precarious' [*] contrasts with 'autonomous entrepreneurship', highlighting the extreme fragility and lack of stability when operating on third-party platforms."
+      },
+      {
+        "id": "nov16-q2",
+        "skill": "Specific Detail & Cause-and-Effect",
+        "q": "According to the passage, why can an algorithm adjustment be catastrophic for a micro-merchant?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "It forces suppliers to cancel raw material shipments immediately.",
+            "correct": false,
+            "trap": "Upstream Distortion: Supply chain issues are not cited; traffic loss is the stated cause."
+          },
+          {
+            "letter": "B",
+            "text": "It instantly obliterates the vast majority of the merchant's customer traffic.",
+            "correct": true,
+            "trap": "Correct: The passage notes that 'an unannounced tweak to a recommendation algorithm can vaporize eighty percent of a store's traffic overnight'."
+          },
+          {
+            "letter": "C",
+            "text": "It mandates that the store physically relocate to an expensive brick-and-mortar mall.",
+            "correct": false,
+            "trap": "Physical World Confusion: The merchant operates online; no physical mall relocation occurs."
+          },
+          {
+            "letter": "D",
+            "text": "It automatically refunds all previous customer transactions from the previous year.",
+            "correct": false,
+            "trap": "Financial Invention: No mass refunds are mentioned."
+          }
+        ],
+        "examinerNote": "The passage explicitly explains that an unannounced algorithmic change can wipe out up to eighty percent of store traffic overnight, destroying organic reach."
+      },
+      {
+        "id": "nov16-q3",
+        "skill": "Reference & Deixis",
+        "q": "The phrase \"arbitrary whims\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "the spontaneous buying decisions of impulsive teenage shoppers.",
+            "correct": false,
+            "trap": "Consumer Distortion: The phrase targets platform conglomerates, not the whimsical habits of shoppers."
+          },
+          {
+            "letter": "B",
+            "text": "the unannounced, opaque decisions and policy changes made by platform conglomerates.",
+            "correct": true,
+            "trap": "Correct: Refers back to the platform landlords tweaking algorithms, hiking take-rates, and demanding ad-spends without consultation."
+          },
+          {
+            "letter": "C",
+            "text": "the artistic preferences of indie fashion designers creating bespoke garments.",
+            "correct": false,
+            "trap": "Designer Trap: Misidentifies platform governance as creative artistic style."
+          },
+          {
+            "letter": "D",
+            "text": "the shipping schedules enforced by overseas maritime freight companies.",
+            "correct": false,
+            "trap": "Logistics Distractor: Unrelated to freight transport."
+          }
+        ],
+        "examinerNote": "'Arbitrary whims' [**] reflects the unpredictable power exercised by platform owners over algorithmic feeds and monetization rules without warning or recourse."
+      },
+      {
+        "id": "nov16-q4",
+        "skill": "Inference & Rhetorical Purpose",
+        "q": "Why does the writer compare social media boutique merchants to \"sharecroppers\" in the final sentence?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "To suggest that online commerce is primarily focused on agricultural and organic foods.",
+            "correct": false,
+            "trap": "Literal Farming Error: Interprets 'sharecropping' as physical agriculture rather than an exploitative economic metaphor."
+          },
+          {
+            "letter": "B",
+            "text": "To emphasize the power imbalance where digital platform landlords extract profits while creators bear all the risks.",
+            "correct": true,
+            "trap": "Correct: 'Sharecropping' is a metaphor for a system where workers cultivate land they do not own, surrendering the majority of profit while assuming all operating risk."
+          },
+          {
+            "letter": "C",
+            "text": "To encourage teenagers to abandon the digital world and return to rural farming communities.",
+            "correct": false,
+            "trap": "Extreme Life Advice: The writer analyzes digital platform economics, not rural migration."
+          },
+          {
+            "letter": "D",
+            "text": "To praise platform companies for providing charitable financial support to young founders.",
+            "correct": false,
+            "trap": "Opposite Tone: The metaphor is critical and cautionary, not complimentary."
+          }
+        ],
+        "examinerNote": "The sharecropping metaphor sharply conveys the systemic disparity: the platform owner ('digital landlord') captures the profit, while the micro-merchant absorbs the financial vulnerabilities."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-17",
+    "date": "2026-11-17",
+    "displayDate": "17 Nov 2026",
+    "dayLabel": "17 Nov",
+    "dayOfWeek": "Tue",
+    "title": "The Textile Graveyard: Fast Fashion and the Illusion of Recycling",
+    "theme": "Sustainable Fashion & Circular Economy",
+    "source": "Adapted from The Guardian & Environmental Health Perspectives",
+    "lexile": "1220L (DSE Part B2)",
+    "text": "Every second, the equivalent of a rubbish truck full of garments is burned or dumped into landfill. Propelled by hyper-accelerated micro-trends and ultra-cheap online storefronts, modern fashion operates at an **insatiable** [*] velocity, churning out over one hundred billion garments annually. In response to mounting public scrutiny, apparel giants have prominently rolled out in-store clothing take-back bins and garments tagged as 'circular'. Yet environmental auditors reveal that this recycling narrative is largely a ***greenwashing mirage*** [**]. Less than one percent of discarded clothing is ever truly recycled into new apparel; the technical limitations of separating blended synthetic fibers like polyester-cotton blends render true circularity economically unfeasible. Instead, massive bales of synthetic waste are shipped to the Global South under the guise of secondhand trade, suffocating coastlines in Ghana and the Atacama Desert. Genuine ecological stewardship cannot be achieved by appeasing consumer guilt with drop-off bins; it requires dismantling a production model premised on intentional disposability.",
+    "questions": [
+      {
+        "id": "nov17-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"insatiable\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "incapable of ever being satisfied or quenched.",
+            "correct": true,
+            "trap": "Correct: 'Insatiable' describes an appetite or pace that can never be satiated or fulfilled, illustrated by the production of over 100 billion garments a year."
+          },
+          {
+            "letter": "B",
+            "text": "ethically conscious and responsible.",
+            "correct": false,
+            "trap": "Direct Contradiction: Insatiable points to reckless overconsumption, not ethical restraint."
+          },
+          {
+            "letter": "C",
+            "text": "slow and deliberately calculated.",
+            "correct": false,
+            "trap": "Opposite Speed Trap: The passage describes hyper-accelerated velocity, not a slow pace."
+          },
+          {
+            "letter": "D",
+            "text": "inexpensive to manufacture.",
+            "correct": false,
+            "trap": "Price Distractor: While clothing may be cheap, 'insatiable' describes the unquenchable rate of production."
+          }
+        ],
+        "examinerNote": "The phrase 'insatiable velocity' [*] combined with 'churning out over one hundred billion garments annually' denotes a pace of production that can never be satisfied."
+      },
+      {
+        "id": "nov17-q2",
+        "skill": "Argument & Contrast",
+        "q": "Why is true fiber-to-fiber garment recycling virtually impossible on a commercial scale today?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Consumers uniformly refuse to donate worn garments to recycling stations.",
+            "correct": false,
+            "trap": "Contradicted by Text: Take-back bins are widely used by consumers to relieve guilt."
+          },
+          {
+            "letter": "B",
+            "text": "Governments have outlawed the importation of textile recycling machinery.",
+            "correct": false,
+            "trap": "Imagined Legislation: No such legal ban is cited."
+          },
+          {
+            "letter": "C",
+            "text": "Complex synthetic-natural fiber blends are technically and economically unfeasible to separate.",
+            "correct": true,
+            "trap": "Correct: The passage states 'the technical limitations of separating blended synthetic fibers like polyester-cotton blends render true circularity economically unfeasible'."
+          },
+          {
+            "letter": "D",
+            "text": "Natural cotton decays too rapidly during maritime shipping.",
+            "correct": false,
+            "trap": "Fabricated Science: The passage addresses synthetic blends, not rapid cotton decomposition."
+          }
+        ],
+        "examinerNote": "The passage explicitly names 'the technical limitations of separating blended synthetic fibers' as the decisive barrier that prevents circular textile recycling."
+      },
+      {
+        "id": "nov17-q3",
+        "skill": "Reference & Deixis",
+        "q": "The phrase \"greenwashing mirage\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "a genuine scientific breakthrough that eliminates greenhouse gas emissions in factories.",
+            "correct": false,
+            "trap": "Genuine Progress Distortion: 'Mirage' and 'greenwashing' signify deception, not a true breakthrough."
+          },
+          {
+            "letter": "B",
+            "text": "the misleading marketing campaign that presents token recycling bins as a solution to mass overproduction.",
+            "correct": true,
+            "trap": "Correct: 'Greenwashing mirage' characterizes corporate claims of circularity that mask the reality that less than 1% is recycled."
+          },
+          {
+            "letter": "C",
+            "text": "a visual desert phenomenon caused by heat haze in the Atacama Desert.",
+            "correct": false,
+            "trap": "Literal Desert Mirage: Misinterprets the figurative use of 'mirage' as an optical atmospheric effect."
+          },
+          {
+            "letter": "D",
+            "text": "a high-tech dye that reflects sunlight away from cotton sportswear.",
+            "correct": false,
+            "trap": "Product Chemistry Trap: Concocts a literal optical dye from the term 'green'."
+          }
+        ],
+        "examinerNote": "The author uses 'greenwashing mirage' [**] to condemn the deceptive impression created by apparel brands who promote circularity while dumping synthetic waste overseas."
+      },
+      {
+        "id": "nov17-q4",
+        "skill": "Tone & Writer's Stance",
+        "q": "The writer's primary conclusion in the final sentence is that real environmental change requires...",
+        "options": [
+          {
+            "letter": "A",
+            "text": "imposing heavier fines on shoppers who discard garments in household trash.",
+            "correct": false,
+            "trap": "Consumer Punishment: The text rejects appeasing consumer guilt and targets systemic manufacturing."
+          },
+          {
+            "letter": "B",
+            "text": "dismantling the core economic model that manufactures ultra-cheap, disposable garments.",
+            "correct": true,
+            "trap": "Correct: The passage concludes: 'it requires dismantling a production model premised on intentional disposability'."
+          },
+          {
+            "letter": "C",
+            "text": "building more incinerators in major European port cities.",
+            "correct": false,
+            "trap": "Opposite Proposal: Incineration is introduced as part of the waste crisis, not the remedy."
+          },
+          {
+            "letter": "D",
+            "text": "increasing the volume of synthetic clothing exported to developing nations.",
+            "correct": false,
+            "trap": "Harm Aggravation: Exporting waste is condemned for suffocating foreign coastlines."
+          }
+        ],
+        "examinerNote": "The author concludes with a call for structural overhaul, asserting that true stewardship demands dismantling the business model based on intentional obsolescence."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-18",
+    "date": "2026-11-18",
+    "displayDate": "18 Nov 2026",
+    "dayLabel": "18 Nov",
+    "dayOfWeek": "Wed",
+    "title": "The Architecture of Belonging: Combatting Urban Solitude",
+    "theme": "Urban Sociology & Mental Wellbeing",
+    "source": "Adapted from The Economist & British Journal of Sociology",
+    "lexile": "1190L (DSE Part B2)",
+    "text": "In contemporary hyper-dense metropolises, millions of citizens reside in vertical proximity yet suffer from acute psychological isolation. High-rise residential towers, gated condominium compounds, and frictionless digital delivery apps have inadvertently eliminated the incidental human encounters that historically stitched urban neighborhoods together. Sociologists warn that urban loneliness is not merely an unfortunate personal state, but a **pervasive** [*] public health crisis associated with elevated cardiovascular disease, depression, and premature mortality. Modern architectural design has compounded this estrangement by treating apartments as hermetically sealed pods optimized for speculative financial investment rather than human communal warmth. The private entrance lobby and high-speed elevator function as an ***invisible barrier*** [**], whisking tenants from underground transit directly into domestic seclusion without exchanging a single word with neighbors. Rebuilding social cohesion requires deliberate urban intervention: resurrecting 'third places' such as subsidized community gardens, shared kitchens, and intergenerational library hubs where cross-demographic empathy can flourish.",
+    "questions": [
+      {
+        "id": "nov18-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"pervasive\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "extremely rare and isolated to rural villages.",
+            "correct": false,
+            "trap": "Direct Opposite: 'Pervasive' means widespread throughout a population, not rare."
+          },
+          {
+            "letter": "B",
+            "text": "widespread and affecting almost every segment of a community.",
+            "correct": true,
+            "trap": "Correct: 'Pervasive' means spreading widely throughout an area or society, here describing an epidemic scale."
+          },
+          {
+            "letter": "C",
+            "text": "easily cured with over-the-counter medication.",
+            "correct": false,
+            "trap": "Medical Trivialization: The passage states it is a severe systemic crisis linked to serious health risks."
+          },
+          {
+            "letter": "D",
+            "text": "strictly limited to elderly nursing homes.",
+            "correct": false,
+            "trap": "Demographic Restriction: The text describes urban millions across high-rise cities."
+          }
+        ],
+        "examinerNote": "'Pervasive' [*] is paired with 'public health crisis', illustrating that urban loneliness is widespread and deeply entrenched across the population."
+      },
+      {
+        "id": "nov18-q2",
+        "skill": "Specific Detail & Cause-and-Effect",
+        "q": "According to the passage, how has contemporary high-rise architecture contributed to loneliness?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "By designing living units as isolated, enclosed units focused on financial investment rather than shared interaction.",
+            "correct": true,
+            "trap": "Correct: Text states design treats 'apartments as hermetically sealed pods optimized for speculative financial investment rather than human communal warmth'."
+          },
+          {
+            "letter": "B",
+            "text": "By eliminating private elevators and forcing residents to climb exterior stairs.",
+            "correct": false,
+            "trap": "Opposite Fact: High-speed elevators are present and whisk tenants directly into seclusion."
+          },
+          {
+            "letter": "C",
+            "text": "By requiring tenants to cook all meals in crowded communal dining halls.",
+            "correct": false,
+            "trap": "Inverted Living Style: The text proposes shared kitchens as a future solution, not the current problem."
+          },
+          {
+            "letter": "D",
+            "text": "By outlawing the use of smartphones and digital delivery services in lobbies.",
+            "correct": false,
+            "trap": "Opposite Factor: Digital delivery apps are cited as contributing to isolation, not being banned."
+          }
+        ],
+        "examinerNote": "The passage explicitly faults architecture that prioritizes apartments as 'sealed pods optimized for speculative financial investment' over communal living spaces."
+      },
+      {
+        "id": "nov18-q3",
+        "skill": "Reference & Deixis",
+        "q": "The phrase \"invisible barrier\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "an ultrasonic perimeter fence that repels stray animals from private gardens.",
+            "correct": false,
+            "trap": "Sci-Fi Security Trap: Interprets 'invisible barrier' as a literal electronic security weapon."
+          },
+          {
+            "letter": "B",
+            "text": "the high-speed vertical infrastructure that isolates tenants from spontaneous social contact.",
+            "correct": true,
+            "trap": "Correct: Directly precedes the description: 'whisking tenants from underground transit directly into domestic seclusion without exchanging a single word'."
+          },
+          {
+            "letter": "C",
+            "text": "a strict government quarantine protocol preventing cross-district travel.",
+            "correct": false,
+            "trap": "Pandemic Confabulation: Concocts a government travel restriction."
+          },
+          {
+            "letter": "D",
+            "text": "a soundproof glass partition in an underground railway control booth.",
+            "correct": false,
+            "trap": "Transit Distortion: Confuses the vertical apartment commute with transit staff booths."
+          }
+        ],
+        "examinerNote": "'Invisible barrier' [**] metaphorically describes the building layout (private lobbies, rapid lifts) that seamlessly prevents neighbors from interacting."
+      },
+      {
+        "id": "nov18-q4",
+        "skill": "Inference & Main Idea",
+        "q": "What practical remedy does the writer recommend to revive urban community bonding?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Tearing down all existing high-rise residential towers across city centres.",
+            "correct": false,
+            "trap": "Extreme Demolition: The writer calls for deliberate urban design interventions, not city-wide demolition."
+          },
+          {
+            "letter": "B",
+            "text": "Creating vibrant third places like shared gardens and communal library spaces that foster casual social contact.",
+            "correct": true,
+            "trap": "Correct: Recommends 'resurrecting third places such as subsidized community gardens, shared kitchens, and intergenerational library hubs'."
+          },
+          {
+            "letter": "C",
+            "text": "Mandating compulsory daily attendance at municipal political rallies.",
+            "correct": false,
+            "trap": "Authoritarian Imposition: The proposed spaces are civic and recreational, not forced political events."
+          },
+          {
+            "letter": "D",
+            "text": "Taxing residents who order food via mobile applications.",
+            "correct": false,
+            "trap": "Punitive Taxation: The passage mentions apps as part of the context, but does not advocate taxing food delivery."
+          }
+        ],
+        "examinerNote": "The final sentence points to the resurrection of accessible 'third places' (community gardens, shared kitchens, libraries) where genuine social bonding can happen."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-19",
+    "date": "2026-11-19",
+    "displayDate": "19 Nov 2026",
+    "dayLabel": "19 Nov",
+    "dayOfWeek": "Thu",
+    "title": "Outsourcing Cognition: Generative AI and the Atrophy of Critical Thought",
+    "theme": "Cognitive Science & Artificial Intelligence in Education",
+    "source": "Adapted from MIT Technology Review & Nature Human Behaviour",
+    "lexile": "1230L (DSE Part B2)",
+    "text": "The integration of generative language models into academic classrooms is frequently praised by educational technologists as a democratization of intellectual capability. Students can now synthesize vast historical archives in seconds, translate complex syntax effortlessly, and draft coherent essays with conversational prompts. However, cognitive neuroscientists sound an urgent note of caution regarding the unintended consequence of cognitive offloading: the progressive **atrophy** [*] of independent analytical capability. The human intellect does not develop critical reasoning in the absence of productive struggle; it is precisely through the demanding friction of organizing chaotic thoughts, discerning nuanced bias, and resolving logical paradoxes that synaptic pathways are forged. When learners offload this mental heavy lifting to automated predictive algorithms, they bypass the essential developmental crucible. What emerges is not an empowered scholar, but an intellectually dependent consumer operating on ***cognitive scaffolding*** [**] that they can neither evaluate nor reproduce. True education must not confuse the superficial eloquence of machine-generated prose with the rigorous cultivation of an autonomous mind.",
+    "questions": [
+      {
+        "id": "nov19-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"atrophy\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "sudden expansion and miraculous advancement.",
+            "correct": false,
+            "trap": "Opposite Meaning: Atrophy signifies decline, deterioration, and wasting away, not advancement."
+          },
+          {
+            "letter": "B",
+            "text": "gradual weakening and loss of function through disuse.",
+            "correct": true,
+            "trap": "Correct: 'Atrophy' originates from biology/medicine, meaning the degeneration or wasting away of faculties due to lack of exercise."
+          },
+          {
+            "letter": "C",
+            "text": "mechanical overheating in digital microchips.",
+            "correct": false,
+            "trap": "Hardware Confusion: 'Atrophy' applies to the human brain and faculties, not computer processors."
+          },
+          {
+            "letter": "D",
+            "text": "strict legal enforcement of intellectual property patents.",
+            "correct": false,
+            "trap": "Legal Distractor: Unrelated to patent law."
+          }
+        ],
+        "examinerNote": "'Atrophy' [*] refers to the weakening or deterioration of students' independent analytical abilities when they stop actively exercising critical thinking."
+      },
+      {
+        "id": "nov19-q2",
+        "skill": "Argument & Contrast",
+        "q": "According to the passage, why is \"productive struggle\" vital for intellectual development?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "It guarantees that students achieve the highest scores on competitive standardized tests.",
+            "correct": false,
+            "trap": "Testing Trap: The text focuses on synaptic and cognitive growth, not standardized exam metrics."
+          },
+          {
+            "letter": "B",
+            "text": "It proves that human writers will always produce fewer factual errors than digital algorithms.",
+            "correct": false,
+            "trap": "Unsubstantiated Accuracy Claim: The passage does not claim humans make fewer errors than AI."
+          },
+          {
+            "letter": "C",
+            "text": "The mental effort required to resolve complex problems builds essential neural pathways for independent thought.",
+            "correct": true,
+            "trap": "Correct: The passage notes that 'through the demanding friction of organizing chaotic thoughts... synaptic pathways are forged'."
+          },
+          {
+            "letter": "D",
+            "text": "It reduces the amount of time teachers spend grading written assignments.",
+            "correct": false,
+            "trap": "Teacher Convenience: The passage discusses student cognitive development, not teacher workload."
+          }
+        ],
+        "examinerNote": "The passage argues that grappling with difficult problems creates the cognitive 'friction' needed to forge new neural pathways for analytical reasoning."
+      },
+      {
+        "id": "nov19-q3",
+        "skill": "Reference & Deixis",
+        "q": "The phrase \"cognitive scaffolding\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "temporary steel framework used during the renovation of school libraries.",
+            "correct": false,
+            "trap": "Literal Construction Trap: Conflates the figurative psychological concept of 'scaffolding' with building construction."
+          },
+          {
+            "letter": "B",
+            "text": "artificial intelligence tools and predictive algorithms that perform reasoning tasks on behalf of the student.",
+            "correct": true,
+            "trap": "Correct: The external automated systems that hold up the student's work without the student mastering the underlying concepts."
+          },
+          {
+            "letter": "C",
+            "text": "traditional hand-written flashcards used for foreign language memorization.",
+            "correct": false,
+            "trap": "Low-Tech Nostalgia: The text is discussing generative AI, not physical flashcards."
+          },
+          {
+            "letter": "D",
+            "text": "standardized curricula set by governmental examination boards.",
+            "correct": false,
+            "trap": "Policy Distractor: 'Scaffolding' here refers to automated software crutches."
+          }
+        ],
+        "examinerNote": "'Cognitive scaffolding' [**] metaphorically represents the automated AI systems that support the output, which learners cannot recreate once the software is removed."
+      },
+      {
+        "id": "nov19-q4",
+        "skill": "Rhetorical Purpose",
+        "q": "What is the writer's primary message regarding education in the final sentence?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Schools must entirely ban all personal computers and mobile devices from campus.",
+            "correct": false,
+            "trap": "Extreme Luddite Reaction: The author warns against mental complacency, not advocating total technological bans."
+          },
+          {
+            "letter": "B",
+            "text": "Educators must distinguish polished computer output from the genuine internal cultivation of student thinking.",
+            "correct": true,
+            "trap": "Correct: The final sentence warns not to 'confuse the superficial eloquence of machine-generated prose with the rigorous cultivation of an autonomous mind'."
+          },
+          {
+            "letter": "C",
+            "text": "Generative AI should be utilized exclusively for mathematics rather than essay writing.",
+            "correct": false,
+            "trap": "Arbitrary Subject Distinction: Mathematics is not mentioned in the text."
+          },
+          {
+            "letter": "D",
+            "text": "Students should be trained solely as computer programmers rather than creative writers.",
+            "correct": false,
+            "trap": "Career Shift Trap: Completely misses the humanistic and cognitive focus of the passage."
+          }
+        ],
+        "examinerNote": "The writer urges educators not to mistake smooth, machine-generated language for real intellectual growth, stressing the need to preserve students' independent mental faculties."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-20",
+    "date": "2026-11-20",
+    "displayDate": "20 Nov 2026",
+    "dayLabel": "20 Nov",
+    "dayOfWeek": "Fri",
+    "title": "The Currency of Humility: Navigating Dogmatism in a Polarized World",
+    "theme": "Values Education & Civic Philosophy",
+    "source": "Adapted from Philosophy Now & Stanford Social Innovation Review",
+    "lexile": "1210L (DSE Part B2)",
+    "text": "In the hyper-accelerated arena of online discourse, unwavering certainty is rewarded as a sign of strength, while hesitation is derided as weakness. Influencers and commentators build devoted followings not by exploring ambiguity, but by declaring absolute, uncompromising verdicts on complex moral and geopolitical issues. Yet political philosophers argue that this pervasive dogmatism constitutes a grave threat to democratic deliberation, entrenching tribal polarization and blinding individuals to their own cognitive blind spots. What society desperately requires is a revival of intellectual humility: the psychological willingness to acknowledge that one's **entrenched** [*] beliefs may be incomplete, biased, or demonstrably mistaken. Far from representing intellectual timidity, intellectual humility is an active epistemic discipline. It demands that an individual dismantle their defensive ***intellectual fortress*** [**], actively seek out challenging counter-evidence, and view debate not as a battlefield to conquer adversaries, but as a collaborative quest to illuminate truth.",
+    "questions": [
+      {
+        "id": "nov20-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"entrenched\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "firmly established and difficult to modify or dislodge.",
+            "correct": true,
+            "trap": "Correct: 'Entrenched' comes from defensive military trenches, meaning beliefs that are deeply embedded and stubbornly resistant to change."
+          },
+          {
+            "letter": "B",
+            "text": "recently formulated and easily abandoned.",
+            "correct": false,
+            "trap": "Direct Opposite: Entrenched means deep-seated, not recently made or easily dropped."
+          },
+          {
+            "letter": "C",
+            "text": "scientifically verified beyond any shadow of doubt.",
+            "correct": false,
+            "trap": "Truth Trap: An entrenched belief can be entirely false; it merely refers to how stubborn it is held."
+          },
+          {
+            "letter": "D",
+            "text": "popular among preschool teachers.",
+            "correct": false,
+            "trap": "Demographic Nonsense: Irrelevant distractor."
+          }
+        ],
+        "examinerNote": "'Entrenched beliefs' [*] describes convictions that are so deeply rooted that individuals refuse to reconsider them even in the face of counter-evidence."
+      },
+      {
+        "id": "nov20-q2",
+        "skill": "Argument & Contrast",
+        "q": "How does social media discourse treat uncertainty compared to unwavering certainty?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "It rewards certainty as strength while scorning hesitation as a sign of weakness.",
+            "correct": true,
+            "trap": "Correct: Direct textual evidence: 'unwavering certainty is rewarded as a sign of strength, while hesitation is derided as weakness'."
+          },
+          {
+            "letter": "B",
+            "text": "It algorithmically suppresses creators who express strong, passionate opinions.",
+            "correct": false,
+            "trap": "Inverted Dynamic: Passionate, uncompromising verdicts build massive devoted followings online."
+          },
+          {
+            "letter": "C",
+            "text": "It encourages users to conduct peer-reviewed laboratory trials before posting comments.",
+            "correct": false,
+            "trap": "Academic Fantasy: Social discourse prioritizes speed and outrage over scientific verification."
+          },
+          {
+            "letter": "D",
+            "text": "It requires influencers to sign neutrality oaths before discussing politics.",
+            "correct": false,
+            "trap": "Fictional Policy: No such oath exists."
+          }
+        ],
+        "examinerNote": "The text directly states that online discourse elevates rigid certainty as strength while mocking nuance and hesitation as weakness."
+      },
+      {
+        "id": "nov20-q3",
+        "skill": "Reference & Deixis",
+        "q": "The metaphor \"intellectual fortress\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "a prestigious university campus with fortified security gates.",
+            "correct": false,
+            "trap": "Literal Stone Fortress: Interprets the architectural metaphor as a physical university campus."
+          },
+          {
+            "letter": "B",
+            "text": "the defensive psychological barriers a person builds to protect their fixed beliefs from opposing evidence.",
+            "correct": true,
+            "trap": "Correct: Metaphor for defensive psychological walls that block new viewpoints and shield dogmatic opinions from being challenged."
+          },
+          {
+            "letter": "C",
+            "text": "a supercomputer facility that stores classified national intelligence.",
+            "correct": false,
+            "trap": "Cybersecurity Distractor: Conflates the mental fortress with data centers."
+          },
+          {
+            "letter": "D",
+            "text": "an ancient stone castle preserved by heritage tourism trusts.",
+            "correct": false,
+            "trap": "Topic Contamination: Confuses the philosophical argument with Sunday's heritage text."
+          }
+        ],
+        "examinerNote": "'Intellectual fortress' [**] symbolizes the psychological defenses and biases individuals erect around their convictions to prevent dissenting evidence from penetrating."
+      },
+      {
+        "id": "nov20-q4",
+        "skill": "Inference & Author Stance",
+        "q": "According to the writer, what is the true purpose of debate in a healthy society?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "To utterly humiliate and cancel political adversaries in front of a live audience.",
+            "correct": false,
+            "trap": "Aggressive Fallacy: This is the dogmatic behavior the author criticizes."
+          },
+          {
+            "letter": "B",
+            "text": "To generate advertising revenue for multinational social media platforms.",
+            "correct": false,
+            "trap": "Commercial Cynicism: Describes the platform incentive, not the author's philosophical goal."
+          },
+          {
+            "letter": "C",
+            "text": "To participate in a collaborative exploration to uncover truth rather than treating discussions as battles.",
+            "correct": true,
+            "trap": "Correct: The final sentence asserts debate is 'not as a battlefield to conquer adversaries, but as a collaborative quest to illuminate truth'."
+          },
+          {
+            "letter": "D",
+            "text": "To reach quick superficial agreements without ever examining complex disagreements.",
+            "correct": false,
+            "trap": "Conflict Avoidance: Humility involves rigorous engagement with counter-evidence, not avoiding disagreement."
+          }
+        ],
+        "examinerNote": "The author concludes by redefining debate from a competitive battlefield intended to conquer opponents into a collaborative partnership focused on discovering truth."
+      }
+    ]
+  },
+  {
+    "id": "2026-11-21",
+    "date": "2026-11-21",
+    "displayDate": "21 Nov 2026",
+    "dayLabel": "21 Nov",
+    "dayOfWeek": "Sat",
+    "title": "The Silent Cacophony: Anthropogenic Noise and Marine Collapse",
+    "theme": "Marine Ecology & Environmental Science",
+    "source": "Adapted from Science Magazine & Yale Environment 360",
+    "lexile": "1200L (DSE Part B2)",
+    "text": "For centuries, humanity envisioned the deep ocean as a tranquil abyss—a silent sanctuary untouched by the industrial roar of terrestrial civilization. In reality, the marine realm has become an auditory battleground choked by anthropogenic noise. Container supertankers, high-powered sonar arrays, and seismic airgun blasts detonated for offshore oil exploration generate an incessant, low-frequency din that carries across thousands of kilometers under water. Marine biologists warn that this acoustic intrusion is profoundly **detrimental** [*] to ocean life. Unlike terrestrial animals that rely heavily on vision, aquatic fauna depend almost exclusively on sound to navigate, forage for prey, avoid predators, and communicate with prospective mates. The perpetual hum of international shipping creates an impenetrable veil of ***acoustic smog*** [**], effectively blinding whales and dolphins by scrambling their biological echolocation. While chemical spills and plastic islands ignite immediate global outrage, underwater acoustic pollution remains a largely invisible peril, slowly dismantling marine ecosystems without generating a single drop of visible waste.",
+    "questions": [
+      {
+        "id": "nov21-q1",
+        "skill": "Vocabulary in Context",
+        "q": "The word \"detrimental\" [*] most closely means...",
+        "targetMarker": "[*]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "immensely beneficial to species survival.",
+            "correct": false,
+            "trap": "Direct Antonym: Detrimental means causing damage or harm, the exact opposite of beneficial."
+          },
+          {
+            "letter": "B",
+            "text": "causing significant injury, disruption, or harm.",
+            "correct": true,
+            "trap": "Correct: 'Detrimental' describes an effect that is damaging, harmful, or deleterious to wellbeing."
+          },
+          {
+            "letter": "C",
+            "text": "completely undetectable by scientific instruments.",
+            "correct": false,
+            "trap": "False Fact: Sonar and acoustics are measurable, though invisible to the naked human eye."
+          },
+          {
+            "letter": "D",
+            "text": "temporarily beneficial before turning toxic.",
+            "correct": false,
+            "trap": "Compound Distractor: Fabricates a delayed toxic effect."
+          }
+        ],
+        "examinerNote": "'Detrimental' [*] is elaborated in the following lines: scrambling echolocation, disrupting navigation, and endangering feeding and mating."
+      },
+      {
+        "id": "nov21-q2",
+        "skill": "Specific Detail & Cause-and-Effect",
+        "q": "Why are marine species far more vulnerable to noise pollution than terrestrial animals?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Marine animals lack eyes and are completely incapable of perceiving light.",
+            "correct": false,
+            "trap": "Absolute Error: Marine life is not universally eyeless; the issue is that light penetrates poorly through water."
+          },
+          {
+            "letter": "B",
+            "text": "Aquatic fauna depend primarily on sound rather than sight for critical life functions like feeding, navigation, and mating.",
+            "correct": true,
+            "trap": "Correct: The passage notes that 'aquatic fauna depend almost exclusively on sound to navigate, forage for prey, avoid predators, and communicate'."
+          },
+          {
+            "letter": "C",
+            "text": "Human vessels only travel along routes where protected whale pods congregate.",
+            "correct": false,
+            "trap": "Unwarranted Generalization: Shipping routes are global commercial corridors, not deliberately targeting pods."
+          },
+          {
+            "letter": "D",
+            "text": "Saltwater prevents sound vibrations from traveling more than a few meters.",
+            "correct": false,
+            "trap": "Scientific Fallacy: Sound travels faster and farther in water ('across thousands of kilometers')."
+          }
+        ],
+        "examinerNote": "The passage contrasts terrestrial animals with aquatic fauna, stating that marine organisms depend almost exclusively on sound rather than vision for essential survival tasks."
+      },
+      {
+        "id": "nov21-q3",
+        "skill": "Reference & Deixis",
+        "q": "The metaphor \"acoustic smog\" [**] refers to...",
+        "targetMarker": "[**]",
+        "options": [
+          {
+            "letter": "A",
+            "text": "toxic airborne exhaust fumes emitted by container supertankers into the atmosphere.",
+            "correct": false,
+            "trap": "Atmospheric Confusion: 'Smog' is used metaphorically for underwater acoustic noise, not air pollution."
+          },
+          {
+            "letter": "B",
+            "text": "the pervasive background haze of human-generated underwater noise that blocks natural sound transmission.",
+            "correct": true,
+            "trap": "Correct: Blends the concept of blinding atmospheric smog with pervasive underwater shipping engine noise that scrambles echolocation."
+          },
+          {
+            "letter": "C",
+            "text": "dense radioactive steam released by deep-sea volcanic thermal vents.",
+            "correct": false,
+            "trap": "Geological Distractor: Confuses human maritime noise with hydrothermal vents."
+          },
+          {
+            "letter": "D",
+            "text": "a microscopic layer of microplastic particles suspended in shallow surface waters.",
+            "correct": false,
+            "trap": "Physical Waste Trap: The passage explicitly contrasts noise pollution with plastic islands."
+          }
+        ],
+        "examinerNote": "'Acoustic smog' [**] metaphorically describes the dense, inescapable background roar created by commercial ships, which drowns out the acoustic signals marine mammals rely on."
+      },
+      {
+        "id": "nov21-q4",
+        "skill": "Inference & Author Stance",
+        "q": "In the concluding sentence, what contrast does the writer draw between underwater noise pollution and plastic waste?",
+        "options": [
+          {
+            "letter": "A",
+            "text": "Plastic waste has been completely eradicated, whereas acoustic noise is worsening.",
+            "correct": false,
+            "trap": "Unsubstantiated Eradication: The passage does not claim plastic pollution is solved."
+          },
+          {
+            "letter": "B",
+            "text": "Acoustic pollution is far more lethal to humans than chemical oil spills.",
+            "correct": false,
+            "trap": "Human Impact Shift: The text discusses oceanic damage, not direct human mortality."
+          },
+          {
+            "letter": "C",
+            "text": "Noise pollution is just as destructive as plastic debris but receives less public attention because it leaves no visible waste.",
+            "correct": true,
+            "trap": "Correct: 'While chemical spills and plastic islands ignite immediate global outrage, underwater acoustic pollution remains a largely invisible peril'."
+          },
+          {
+            "letter": "D",
+            "text": "International shipping companies have voluntarily replaced sonar with plastic recycling plants.",
+            "correct": false,
+            "trap": "Bizarre Synthesis: Conflates unrelated concepts into a nonsensical narrative."
+          }
+        ],
+        "examinerNote": "The final sentence highlights the paradox: visible pollutants provoke public outrage, while invisible sound pollution causes severe ecological damage unnoticed."
       }
     ]
   }
