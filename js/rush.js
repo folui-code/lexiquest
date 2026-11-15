@@ -1,7 +1,7 @@
 /* ===================================================================
    MODE 1 — CRYPTIC RUSH (Scrambled Tile Bank / Anagram Mode)
    Three play modes (practice now lives in the Word Vault):
-     1) 🧙 Solo Rush     — classic 60s countdown, combos, time refills.
+     1) 🧙 Solo Rush     — classic 90s countdown, combos, time refills.
      2) ⚔️ Wizards' Duel — play a seeded run, share a link / code; your
                            friend races your live "ghost" on the SAME
                            questions and identical tile scrambles.
@@ -279,8 +279,8 @@ const RushNet = {
 const HOUSE_COLORS = { TAK: "#e11d48", CHI: "#10b981", KIN: "#f59e0b", KAN: "#3b82f6" };
 
 const Rush = {
-  START: 60,
-  BASE_ADD: 4,
+  START: 90,
+  BASE_ADD: 6,
   playMode: "solo",      // "solo" | "duel" | "class"
   selectedSet: "all",    // "all" or set topic key
   seed: null,            // non-null => deterministic question order + scrambles
@@ -334,7 +334,7 @@ const Rush = {
             <div class="rush-mode-card" data-mode="solo">
               <div class="rush-mode-header"><span class="rush-mode-badge game">🧙 SOLO</span><span class="rush-check-icon">✓</span></div>
               <div class="rush-mode-name">Solo Rush</div>
-              <div class="rush-mode-desc">60s countdown. Fast solves add +4s to +8s and build combo multipliers.</div>
+              <div class="rush-mode-desc">90s countdown. Fast solves add +6s to +10s and build combo multipliers.</div>
             </div>
             <div class="rush-mode-card" data-mode="duel">
               <div class="rush-mode-header"><span class="rush-mode-badge duel">⚔️ 1 v 1</span><span class="rush-check-icon">✓</span></div>
@@ -401,7 +401,7 @@ const Rush = {
     if (!panel) return;
     const rules = `
       <div class="rush-rules-box"><ul>
-        <li>⏳ <b>60s on the clock</b> — every solve refills <b style="color:var(--emerald)">+4s to +8s</b>; hints cost 2s, skips 5s</li>
+        <li>⏳ <b>90s on the clock</b> — every solve refills <b style="color:var(--emerald)">+6s to +10s</b>; hints cost 2s, skips 5s</li>
         <li>🧩 <b>Unscramble tiles</b> word-by-word, first letter pre-placed</li>
         <li>⚡ <b>Combos</b> multiply your score up to 5x · All Sets Mixed gives <b style="color:var(--amber)">+25%</b></li>
       </ul></div>`;
@@ -474,7 +474,7 @@ const Rush = {
     this.onEndHook = opts.onEnd || null;
     this.pool = this.resolvePool(this.selectedSet);
     this.isMixed = (this.selectedSet === "all");
-    this.START = 60;
+    this.START = 90;
 
     // Deterministic queue for duels & class arena: identical order on every device
     this.queue = [];
@@ -592,7 +592,7 @@ const Rush = {
 
   renderTimer() {
     const n = $("#r-time"); if (n) n.textContent = this.time < 10 ? this.time.toFixed(1) : Math.ceil(this.time);
-    const bar = $("#r-bar"); if (bar) bar.style.width = Math.min(100, (this.time / 60) * 100) + "%";
+    const bar = $("#r-bar"); if (bar) bar.style.width = Math.min(100, (this.time / (this.START || 90)) * 100) + "%";
     const w = $("#r-timer"); if (w) w.classList.toggle("danger", this.time < 10);
     const hintBtn = $("#r-hint-btn");
     if (hintBtn) {
@@ -919,7 +919,7 @@ const Rush = {
     } else {
       this.combo++;
       this.maxCombo = Math.max(this.maxCombo, this.combo);
-      add = Math.min(8, this.BASE_ADD + Math.floor(this.combo / 3));
+      add = Math.min(10, this.BASE_ADD + Math.floor(this.combo / 3));
       const speedBonus = rt < 5 ? 80 : rt < 8 ? 30 : 0;
       const mixedMult = this.isMixed ? 1.25 : 1.0;
       gained = Math.round((120 * this.mult() + speedBonus) * mixedMult);
@@ -1114,7 +1114,7 @@ const Rush = {
     if (startBtn) {
       startBtn.innerHTML = opp
         ? (opp.d ? `⚔️ Beat ${esc(opp.n)}'s ${fmt(opp.s)} pts!` : `⚔️ Launch Live 1v1 vs ${esc(opp.n)}!`)
-        : `⚡ Start My 60s Duel Run Now`;
+        : `⚡ Start My 90s Duel Run Now`;
     }
     // If the rival clicked "Launch Live 1v1" while both of us are in the chamber, auto-start!
     if (s.status === "live" && opp && !opp.d) {
@@ -1329,7 +1329,7 @@ const Rush = {
         <ul class="duel-invite-rules">
           <li>🎯 Same questions, same tile scrambles as ${esc(p.n)}</li>
           <li>👻 Their ghost score climbs live next to yours</li>
-          <li>⏳ 60s countdown — normal Rush rules</li>
+          <li>⏳ 90s countdown — normal Rush rules</li>
         </ul>
         <button class="btn rush big-cta" id="inv-accept">⚔️ Accept Duel</button>
       </div>`;

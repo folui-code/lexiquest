@@ -467,7 +467,7 @@ add_header(s10, "IMPLEMENTATION ROADMAP", "How Teachers Can Deploy LexiQuest Tom
            "Ready out-of-the-box: Zero installation friction, immediate pedagogical visibility, and measurable student progress.")
 
 add_card(s10, 0.8, 1.8, 3.65, 5.0, "1. In the Classroom", [
-    ("Morning Warm-Up (5 Mins)", "Begin English lesson with a 60-second Cryptic Rush or a live 1v1 duel to activate focus."),
+    ("Morning Warm-Up (5 Mins)", "Begin English lesson with a 90-second Cryptic Rush or a live 1v1 duel to activate focus."),
     ("Interactive Class Battles", "Display leaderboard on projector screen; pit row vs row or class vs class."),
     ("Exit Ticket Review", "Assign a quick Word Vault session to consolidate the day's target academic collocations.")
 ], accent_color=BRIGHT_RED)
