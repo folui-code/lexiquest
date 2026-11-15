@@ -493,8 +493,24 @@ function arenaSnapshot(cache, room) {
     try { players.push(JSON.parse(raw)); } catch (e) {}
   });
   players.sort(function (a, b) { return (b.s || 0) - (a.s || 0); });
-  return { room: meta.room, seed: meta.seed, set: meta.set, host: meta.host, status: meta.status,
-           startAt: meta.startAt || 0, now: Date.now(), players: players };
+  const answers = readJson(cache, base + ":answers") || {};
+  return {
+    room: meta.room,
+    seed: meta.seed,
+    set: meta.set,
+    cat: meta.cat || "all",
+    host: meta.host,
+    status: meta.status,
+    startAt: meta.startAt || 0,
+    qIndex: meta.qIndex !== undefined ? meta.qIndex : 0,
+    qPhase: meta.qPhase || "question",
+    qStartAt: meta.qStartAt || 0,
+    qDuration: meta.qDuration || 10,
+    totalQ: meta.totalQ || 10,
+    answers: answers,
+    now: Date.now(),
+    players: players
+  };
 }
 
 function handleMultiplayer(action, p) {
@@ -534,10 +550,24 @@ function handleMultiplayer(action, p) {
 
   if (action === "arena_create") {
     if (String(p.role || "") !== "staff") return { status: "error", msg: "Only teachers can host a Class Arena." };
-    const meta = { room: room, seed: String(p.seed || ""), set: String(p.set || "all"),
-                   host: String(p.name || "Teacher").substring(0, 40), status: "lobby", startAt: 0, created: Date.now() };
+    const meta = {
+      room: room,
+      seed: String(p.seed || ""),
+      set: String(p.set || "all"),
+      cat: String(p.cat || "all"),
+      host: String(p.name || "Teacher").substring(0, 40),
+      status: "lobby",
+      startAt: 0,
+      qIndex: 0,
+      qPhase: "question",
+      qStartAt: 0,
+      qDuration: 10,
+      totalQ: parseInt(p.totalQ, 10) || 10,
+      created: Date.now()
+    };
     cache.put(base, JSON.stringify(meta), ARENA_TTL);
     cache.put(base + ":roster", "[]", ARENA_TTL);
+    cache.put(base + ":answers", "{}", ARENA_TTL);
     return { status: "success", arena: arenaSnapshot(cache, room) };
   }
 
@@ -560,12 +590,64 @@ function handleMultiplayer(action, p) {
     return { status: "success", arena: arenaSnapshot(cache, room) };
   }
 
+  if (action === "arena_sync_state") {
+    const meta = readJson(cache, base);
+    if (!meta) return { status: "error", msg: "Room not found" };
+    if (p.status) meta.status = String(p.status);
+    if (p.qIndex !== undefined) meta.qIndex = parseInt(p.qIndex, 10);
+    if (p.qPhase) meta.qPhase = String(p.qPhase);
+    if (p.qStartAt !== undefined) meta.qStartAt = parseInt(p.qStartAt, 10);
+    if (p.qDuration !== undefined) meta.qDuration = parseInt(p.qDuration, 10);
+    if (p.totalQ !== undefined) meta.totalQ = parseInt(p.totalQ, 10);
+    cache.put(base, JSON.stringify(meta), ARENA_TTL);
+    return { status: "success", arena: arenaSnapshot(cache, room) };
+  }
+
+  if (action === "arena_submit") {
+    const pid = String(p.pid || "").replace(/[^0-9A-Za-z_-]/g, "").substring(0, 24);
+    if (!pid) return { status: "error", msg: "Missing player id" };
+    const qIndex = parseInt(p.qIndex, 10) || 0;
+    const choice = String(p.choice || "");
+    const isCorrect = p.isCorrect === true || p.isCorrect === "true" || p.isCorrect === 1;
+
+    const lock = LockService.getScriptLock();
+    lock.waitLock(8000);
+    try {
+      const answers = readJson(cache, base + ":answers") || {};
+      if (!answers[qIndex]) answers[qIndex] = {};
+      answers[qIndex][pid] = { choice: choice, isCorrect: isCorrect, t: Date.now() };
+      cache.put(base + ":answers", JSON.stringify(answers), ARENA_TTL);
+
+      // Update player score (+100 if correct)
+      let player = readJson(cache, base + ":p:" + pid);
+      if (player) {
+        if (isCorrect) {
+          player.s = (player.s || 0) + 100;
+          player.c = (player.c || 0) + 1;
+        }
+        player.t = Date.now();
+        cache.put(base + ":p:" + pid, JSON.stringify(player), ARENA_TTL);
+      }
+    } finally {
+      lock.releaseLock();
+    }
+    return { status: "success", arena: arenaSnapshot(cache, room) };
+  }
+
   if (action === "arena_start" || action === "arena_end" || action === "arena_reset") {
     if (String(p.role || "") !== "staff") return { status: "error", msg: "Teacher only." };
     const meta = readJson(cache, base);
     if (action === "arena_start") { meta.status = "live"; meta.startAt = Date.now() + 5000; }
     if (action === "arena_end") { meta.status = "ended"; }
-    if (action === "arena_reset") { meta.status = "lobby"; meta.startAt = 0; meta.seed = String(p.seed || meta.seed); }
+    if (action === "arena_reset") {
+      meta.status = "lobby";
+      meta.startAt = 0;
+      meta.qIndex = 0;
+      meta.qPhase = "question";
+      meta.qStartAt = 0;
+      meta.seed = String(p.seed || meta.seed);
+      cache.put(base + ":answers", "{}", ARENA_TTL);
+    }
     cache.put(base, JSON.stringify(meta), ARENA_TTL);
     return { status: "success", arena: arenaSnapshot(cache, room) };
   }
