@@ -74,19 +74,24 @@ const AlchemyNet = {
     this.localPut(key, obj);
     const url = this.apiUrl();
     if (!url) return { status: "success" };
-    const qs = new URLSearchParams({
-      action: "sync_push",
-      hash: "alch_" + key,
-      name: String(label || "Alchemy").slice(0, 30),
-      role: "staff",
-      xp: "0",
-      streak: "0",
-      words: JSON.stringify(obj),
-      _t: Date.now()
-    });
-    const resp = await fetch(`${url}${url.includes("?") ? "&" : "?"}${qs}`, { method: "GET", cache: "no-store" });
-    if (!resp.ok) throw new Error("HTTP " + resp.status);
-    return await resp.json();
+    try {
+      const qs = new URLSearchParams({
+        action: "sync_push",
+        hash: "alch_" + key,
+        name: String(label || "Alchemy").slice(0, 30),
+        role: "staff",
+        xp: "0",
+        streak: "0",
+        words: JSON.stringify(obj),
+        _t: Date.now()
+      });
+      const resp = await fetch(`${url}${url.includes("?") ? "&" : "?"}${qs}`, { method: "GET", cache: "no-store" });
+      if (!resp.ok) throw new Error("HTTP " + resp.status);
+      return await resp.json();
+    } catch (e) {
+      console.warn("[AlchemyNet] cloudPut fallback:", e);
+      return { status: "local_only" };
+    }
   },
 
   mergeRoom(a, b) {
@@ -114,6 +119,13 @@ const AlchemyNet = {
         t: Math.max(x.t || 0, y.t || 0)
       };
     });
+
+    const ansA = a.answers || {}, ansB = b.answers || {};
+    const answers = {};
+    new Set([...Object.keys(ansA), ...Object.keys(ansB)]).forEach(qid => {
+      answers[qid] = { ...(ansA[qid] || {}), ...(ansB[qid] || {}) };
+    });
+
     return {
       room: b.room || a.room,
       roundId: rb,
@@ -122,6 +134,12 @@ const AlchemyNet = {
       host: b.host || a.host || "Teacher",
       status,
       startAt: b.startAt || a.startAt || 0,
+      qIndex: b.qIndex !== undefined ? b.qIndex : (a.qIndex !== undefined ? a.qIndex : 0),
+      qPhase: b.qPhase || a.qPhase || "question",
+      qStartAt: b.qStartAt || a.qStartAt || 0,
+      qDuration: b.qDuration || a.qDuration || 10,
+      totalQ: b.totalQ || a.totalQ || 10,
+      answers,
       pMap
     };
   },
@@ -137,6 +155,12 @@ const AlchemyNet = {
       host: raw.host || "Teacher",
       status: raw.status || "lobby",
       startAt: raw.startAt || 0,
+      qIndex: raw.qIndex !== undefined ? raw.qIndex : 0,
+      qPhase: raw.qPhase || "question",
+      qStartAt: raw.qStartAt || 0,
+      qDuration: raw.qDuration || 10,
+      totalQ: raw.totalQ || 10,
+      answers: raw.answers || {},
       now: Date.now(),
       players
     };
@@ -173,6 +197,12 @@ const AlchemyNet = {
         host: String(params.name || "Teacher").slice(0, 40),
         status: "lobby",
         startAt: 0,
+        qIndex: 0,
+        qPhase: "question",
+        qStartAt: 0,
+        qDuration: 10,
+        totalQ: parseInt(params.totalQ, 10) || 10,
+        answers: {},
         pMap: {}
       };
       this.memRooms[room] = raw;
@@ -217,8 +247,50 @@ const AlchemyNet = {
         cur.roundId = (cur.roundId || 1) + 1;
         cur.status = "lobby";
         cur.startAt = 0;
+        cur.qIndex = 0;
+        cur.qPhase = "question";
+        cur.qStartAt = 0;
+        cur.answers = {};
         cur.seed = String(params.seed || this.newSeed());
         Object.values(cur.pMap || {}).forEach(p => { p.s = 0; p.c = 0; p.d = 0; p.tl = []; p.t = Date.now(); });
+      }
+      this.memRooms[room] = cur;
+      await this.cloudPut(key, cur, cur.host);
+      return { status: "success", arena: this.toSnapshot(cur) };
+    }
+
+    if (action === "arena_sync_state") {
+      if (params.status) cur.status = params.status;
+      if (params.qIndex !== undefined) cur.qIndex = parseInt(params.qIndex, 10);
+      if (params.qPhase) cur.qPhase = params.qPhase;
+      if (params.qStartAt !== undefined) cur.qStartAt = parseInt(params.qStartAt, 10);
+      if (params.qDuration !== undefined) cur.qDuration = parseInt(params.qDuration, 10);
+      if (params.totalQ !== undefined) cur.totalQ = parseInt(params.totalQ, 10);
+      this.memRooms[room] = cur;
+      await this.cloudPut(key, cur, cur.host);
+      return { status: "success", arena: this.toSnapshot(cur) };
+    }
+
+    if (action === "arena_submit") {
+      const pid = String(params.pid || "").replace(/[^0-9A-Za-z_-]/g, "").slice(0, 24);
+      const qIndex = parseInt(params.qIndex, 10) || 0;
+      const choice = String(params.choice || "").trim();
+      const isCorrect = params.isCorrect === true || params.isCorrect === 1 || params.isCorrect === "1";
+
+      cur.answers = cur.answers || {};
+      cur.answers[qIndex] = cur.answers[qIndex] || {};
+      cur.answers[qIndex][pid] = { choice, isCorrect, t: Date.now() };
+
+      if (cur.pMap && cur.pMap[pid]) {
+        if (isCorrect) {
+          cur.pMap[pid].s = (cur.pMap[pid].s || 0) + 100;
+          cur.pMap[pid].c = (cur.pMap[pid].c || 0) + 1;
+        }
+        cur.pMap[pid].t = Date.now();
+        if (this.myRecord[room] && this.myRecord[room].player && this.myRecord[room].player.pid === pid) {
+          this.myRecord[room].player.s = cur.pMap[pid].s;
+          this.myRecord[room].player.c = cur.pMap[pid].c;
+        }
       }
       this.memRooms[room] = cur;
       await this.cloudPut(key, cur, cur.host);
@@ -1129,24 +1201,51 @@ const Alchemy = {
     } else if (this.playMode === "class") {
       catPanel.style.display = "block";
       const isTeacher = AlchemyNet.isTeacher();
-      if (!isTeacher) {
-        stage.innerHTML = `
-          <div class="card" style="max-width:560px;margin:20px auto;text-align:center">
-            <h3>🔒 Teacher Authentication Required</h3>
-            <p class="muted">Class Arena generates a classroom whiteboard QR code for live student matches. Please sign in with an authorized staff account or enter the teacher passkey.</p>
-            <button class="btn primary" id="btn-alch-teacher-auth" style="margin-top:12px">🔑 Teacher Unlock</button>
+      stage.innerHTML = `
+        <div class="card" style="max-width:580px;margin:20px auto;text-align:center">
+          <div style="font-size:2.8rem;margin-bottom:6px">🏰</div>
+          <h3 style="margin:0 0 6px">Collocation Class Arena</h3>
+          <p class="muted" style="margin:0 0 16px;font-size:0.9rem">Live synchronized class battle! Questions and options appear on the big whiteboard and students' devices for 10s each.</p>
+
+          <!-- STUDENT PIN JOIN -->
+          <div style="margin:16px 0;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:16px">
+            <h4 style="margin:0 0 8px;color:#fde68a;font-size:1rem">📱 Students: Join with Room PIN</h4>
+            <div style="display:flex;gap:10px;justify-content:center;max-width:340px;margin:0 auto">
+              <input type="text" id="alch-arena-pin-input" maxlength="6" placeholder="Room PIN (e.g. 4821)" autocomplete="off" style="text-transform:uppercase;text-align:center;font-size:1.1rem;font-weight:800;letter-spacing:0.1em;padding:10px;margin:0" />
+              <button class="btn primary" id="btn-alch-join-arena" style="white-space:nowrap">Join Match →</button>
+            </div>
           </div>
-        `;
-        $("#btn-alch-teacher-auth").onclick = () => this.promptTeacherAuth();
-      } else {
-        stage.innerHTML = `
-          <div class="card" style="max-width:580px;margin:20px auto;text-align:center">
-            <h3>🏰 Host Class Arena Match</h3>
-            <p class="muted">Projects a big-screen Whiteboard with a live QR Code. Students scan to join from their mobile devices!</p>
-            <button class="btn primary big-cta" id="btn-alch-host-arena" style="margin-top:16px">🏰 Launch Whiteboard Room</button>
+
+          <!-- TEACHER HOST SECTION -->
+          <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:16px">
+            <h4 style="margin:0 0 6px;color:#38bdf8;font-size:1rem">🎓 Teachers: Project Whiteboard</h4>
+            <p class="muted" style="font-size:0.85rem;margin-bottom:12px">Project the live big-screen Whiteboard with QR Code &amp; 10s synchronized timer.</p>
+            ${isTeacher ? `
+              <button class="btn big-cta" id="btn-alch-host-arena" style="background:#10b981;border-color:#059669;color:#fff;font-size:1.1rem;padding:12px 28px">
+                🏰 Launch Classroom Whiteboard
+              </button>
+            ` : `
+              <button class="btn secondary" id="btn-alch-teacher-auth" style="font-size:0.95rem">
+                🔑 Teacher Unlock (Host Room)
+              </button>
+            `}
           </div>
-        `;
+        </div>
+      `;
+
+      $("#btn-alch-join-arena").onclick = () => {
+        const pin = ($("#alch-arena-pin-input")?.value || "").trim().toUpperCase();
+        if (!pin) return toast("Please enter the 4-digit Room PIN");
+        this.handleArenaUrl(pin);
+      };
+      $("#alch-arena-pin-input")?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") $("#btn-alch-join-arena")?.click();
+      });
+
+      if (isTeacher) {
         $("#btn-alch-host-arena").onclick = () => this.createArenaRoom();
+      } else {
+        $("#btn-alch-teacher-auth").onclick = () => this.promptTeacherAuth();
       }
     }
   },
@@ -1321,11 +1420,38 @@ const Alchemy = {
     }
   },
 
+  /* ---------------------------------------------------------
+     SYNCHRONIZED CLASS ARENA (TEACHER WHITEBOARD & STUDENT SCREEN)
+     --------------------------------------------------------- */
+  qrSvg(text) {
+    if (typeof qrcode === "function") {
+      try {
+        const qr = qrcode(0, "M");
+        qr.addData(text);
+        qr.make();
+        return qr.createSvgTag(6, 2);
+      } catch (e) {
+        console.warn("[Alchemy] QR SVG error:", e);
+      }
+    }
+    return "";
+  },
+
+  getSyncQuestion(qIndex, totalQ, seed) {
+    if (!this.cachedSyncQuestions || this.cachedSyncSeed !== seed || this.cachedSyncTotal !== totalQ) {
+      this.cachedSyncQuestions = this.buildQuestionQueue(Math.max(totalQ, 30), seed);
+      this.cachedSyncSeed = seed;
+      this.cachedSyncTotal = totalQ;
+    }
+    return this.cachedSyncQuestions[qIndex % this.cachedSyncQuestions.length];
+  },
+
   renderTeacherWhiteboard() {
     const a = this.arena;
     if (!a) return;
     const el = $("#screen-alchemy");
     const link = `${AlchemyNet.baseUrl()}?alchclass=${a.room}`;
+    const qrSvgHtml = this.qrSvg(link);
 
     el.innerHTML = `
       <div class="class-arena-host">
@@ -1341,29 +1467,34 @@ const Alchemy = {
               <span>Room PIN</span>
               <b>${a.room}</b>
             </div>
-            <div class="arena-qr-box" id="cah-qr-box"></div>
-            <div class="cah-hint muted">Scan with phone camera or visit: <b>${link}</b></div>
+            <div class="arena-qr-box" id="cah-qr-box" style="display:flex;align-items:center;justify-content:center;background:#fff;border-radius:16px;padding:12px;margin:12px auto;width:240px;height:240px;box-shadow:0 10px 25px rgba(0,0,0,0.4)">
+              ${qrSvgHtml || '<div class="muted" style="color:#000;font-size:0.85rem">Scan with phone camera</div>'}
+            </div>
+            <div style="margin:10px auto;max-width:260px">
+              <button class="btn small secondary" id="btn-cah-copy-link" style="width:100%;font-size:0.85rem">📋 Copy Student Join Link</button>
+            </div>
+            <div class="cah-hint muted" style="font-size:0.82rem;word-break:break-all">Direct URL: <b>${link}</b></div>
           </div>
 
           <div class="cah-board">
             <div class="cah-board-head">
               <h2>Student Roster (<span id="cah-count">0</span> Joined)</h2>
               <div class="cah-controls">
+                <select id="cah-total-q-select" style="background:#1e293b;color:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:0.9rem;font-weight:700">
+                  <option value="10" selected>10 Questions (10s each)</option>
+                  <option value="15">15 Questions (10s each)</option>
+                  <option value="20">20 Questions (10s each)</option>
+                </select>
                 <button class="btn primary" id="btn-cah-start">⚡ Launch Class Battle</button>
-                <button class="btn small secondary hidden" id="btn-cah-export-csv" title="Download Excel (.csv) with student scores" style="background:#10b981;border-color:#059669;color:#fff">📥 Excel (.csv)</button>
-                <button class="btn small secondary hidden" id="btn-cah-email-gmail" title="Open Gmail with formatted report" style="background:#ea4335;border-color:#d93025;color:#fff">✉️ Gmail</button>
-                <button class="btn small secondary hidden" id="btn-cah-copy-sheets" title="Copy table to paste directly into Google Sheets" style="background:#0284c7;border-color:#0369a1;color:#fff">📋 Copy for Sheets</button>
+                <button class="btn small secondary hidden" id="btn-cah-export-csv" title="Download Excel (.csv)" style="background:#10b981;border-color:#059669;color:#fff">📥 Excel (.csv)</button>
+                <button class="btn small secondary hidden" id="btn-cah-email-gmail" title="Open Gmail report" style="background:#ea4335;border-color:#d93025;color:#fff">✉️ Gmail</button>
+                <button class="btn small secondary hidden" id="btn-cah-copy-sheets" title="Copy for Google Sheets" style="background:#0284c7;border-color:#0369a1;color:#fff">📋 Copy for Sheets</button>
                 <button class="btn small secondary" id="btn-cah-reset">🔄 Reset</button>
               </div>
             </div>
 
-            <div class="arena-top3-section" id="cah-top3-box" style="display:none">
-              <h3 style="margin:0 0 8px;font-size:1.05rem;color:#fde68a">👑 Top 3 Wizards (Highest Scores)</h3>
-              <div class="arena-podium" id="cah-podium"></div>
-            </div>
-
             <div class="arena-roster" id="cah-roster">
-              <div class="arena-empty muted">Waiting for students to scan the QR code...</div>
+              <div class="arena-empty muted">Waiting for students to enter Room PIN or scan QR code...</div>
             </div>
 
             <div class="card" id="cah-house-card" style="margin-top:14px">
@@ -1375,39 +1506,570 @@ const Alchemy = {
       </div>
     `;
 
-    // Render QR Code
-    if (typeof QrCode !== "undefined") {
-      QrCode.render($("#cah-qr-box"), link, 220);
-    }
+    $("#btn-cah-copy-link").onclick = () => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(() => toast("📋 Join link copied to clipboard!"));
+      } else {
+        prompt("Copy join link:", link);
+      }
+    };
 
     $("#btn-cah-close").onclick = () => {
       if (this.arenaPollTimer) clearInterval(this.arenaPollTimer);
+      if (this.syncTimerInterval) clearInterval(this.syncTimerInterval);
       this.intro();
     };
+
     $("#btn-cah-start").onclick = async () => {
-      try {
-        await AlchemyNet.call("arena_start", { room: a.room, role: "staff" });
-        toast("🚀 Battle started!");
-      } catch (e) { toast("Error: " + e.message); }
+      const qSel = $("#cah-total-q-select");
+      const totalQ = qSel ? parseInt(qSel.value, 10) : 10;
+      await this.startSynchronizedBattle(totalQ);
     };
+
     $("#btn-cah-reset").onclick = async () => {
       try {
         await AlchemyNet.call("arena_reset", { room: a.room, role: "staff", seed: AlchemyNet.newSeed() });
         toast("🔄 Room reset!");
       } catch (e) { toast("Error: " + e.message); }
     };
+
     $("#btn-cah-export-csv").onclick = () => this.exportClassCsv(this.lastArenaSnap?.players || [], a.room, "Collocation Alchemy");
     $("#btn-cah-email-gmail").onclick = () => this.emailClassResults(this.lastArenaSnap?.players || [], a.room, "Collocation Alchemy");
     $("#btn-cah-copy-sheets").onclick = () => this.copyForGoogleSheets(this.lastArenaSnap?.players || []);
 
-    // Poll teacher whiteboard state
+    // Poll teacher lobby state
     if (this.arenaPollTimer) clearInterval(this.arenaPollTimer);
     this.arenaPollTimer = setInterval(async () => {
       try {
         const res = await AlchemyNet.call("arena_state", { room: a.room });
         this.updateTeacherBoardUI(res.arena);
       } catch {}
-    }, 2000);
+    }, 1500);
+  },
+
+  async startSynchronizedBattle(totalQ = 10) {
+    const a = this.arena;
+    if (!a) return;
+    toast("🚀 Starting Class Battle! 10s per question...");
+    if (this.arenaPollTimer) clearInterval(this.arenaPollTimer);
+
+    try {
+      const res = await AlchemyNet.call("arena_sync_state", {
+        room: a.room,
+        status: "live",
+        qIndex: 0,
+        qPhase: "question",
+        qStartAt: Date.now(),
+        qDuration: 10,
+        totalQ
+      });
+      this.lastArenaSnap = res.arena;
+      this.renderTeacherLiveQuestion(res.arena);
+    } catch (e) {
+      toast("❌ Error starting match: " + e.message);
+    }
+  },
+
+  renderTeacherLiveQuestion(snap) {
+    if (!snap) return;
+    this.lastArenaSnap = snap;
+    const a = this.arena;
+    const el = $("#screen-alchemy");
+
+    if (snap.status === "ended") {
+      this.renderTeacherFinalPodium(snap);
+      return;
+    }
+
+    const qIndex = snap.qIndex || 0;
+    const totalQ = snap.totalQ || 10;
+    const qDuration = snap.qDuration || 10;
+    const qStartAt = snap.qStartAt || Date.now();
+    const q = this.getSyncQuestion(qIndex, totalQ, snap.seed);
+
+    const answersMap = (snap.answers && snap.answers[qIndex]) || {};
+    const answeredCount = Object.keys(answersMap).length;
+    const correctCount = Object.values(answersMap).filter(ans => ans.isCorrect).length;
+    const totalStudents = Math.max(snap.players.length, 1);
+    const correctPct = Math.round((correctCount / totalStudents) * 100);
+
+    const elapsed = Math.floor((Date.now() - qStartAt) / 1000);
+    const remaining = Math.max(0, qDuration - elapsed);
+    const isReveal = snap.qPhase === "reveal" || remaining === 0;
+
+    let sentenceDisplay = q.sentenceWithBlank;
+    if (isReveal) {
+      sentenceDisplay = sentenceDisplay.replace("****", `<span class="sync-blank correct">${esc(q.correctVal)}</span>`);
+    } else {
+      sentenceDisplay = sentenceDisplay.replace("****", `<span class="sync-blank">______</span>`);
+    }
+
+    const letters = ["A", "B", "C", "D"];
+    const optionCounts = {};
+    (q.options || []).forEach(opt => { optionCounts[opt] = 0; });
+    Object.values(answersMap).forEach(ans => {
+      if (optionCounts[ans.choice] !== undefined) optionCounts[ans.choice]++;
+    });
+
+    const timerClass = remaining <= 2 ? "danger" : (remaining <= 5 ? "warning" : "");
+
+    el.innerHTML = `
+      <div class="sync-arena-stage">
+        <!-- HEADER HUD -->
+        <div class="sync-arena-header">
+          <button class="back-btn" id="btn-sync-exit" style="padding:6px 14px">← Exit Room</button>
+          <div class="sync-q-badge">🎯 Question ${qIndex + 1} of ${totalQ}</div>
+          <div class="sync-timer-box ${timerClass}" id="sync-timer-display">
+            ⏱️ <span>${isReveal ? "TIME UP" : remaining + "s"}</span>
+          </div>
+          <div class="sync-answered-pill" id="sync-answered-display">
+            👥 ${answeredCount} / ${snap.players.length} Answered
+          </div>
+        </div>
+
+        <!-- MAIN QUESTION CARD -->
+        <div class="sync-question-card">
+          <div class="sync-pattern-tag">⚗️ ${esc(q.item.cat || "Collocation Pattern")}</div>
+          <div class="sync-sentence">${sentenceDisplay}</div>
+          <div class="sync-clues">
+            <span>📖 Meaning: <b class="sync-clue-chin">${esc(q.item.chin || "")}</b></span>
+            <span>💡 Target: <b>${esc(q.directionText || "Fill in missing word")}</b></span>
+          </div>
+        </div>
+
+        <!-- REVEAL STATISTICS (WHEN TIME UP) -->
+        ${isReveal ? `
+          <div class="sync-reveal-card">
+            <div class="sync-reveal-title">✅ Correct Collocation: <span style="color:#a7f3d0">${esc(q.item.phrase)}</span></div>
+            <div class="sync-reveal-stats">
+              🎉 <b>${correctCount}</b> of <b>${totalStudents}</b> students answered correctly! (<b>${correctPct}%</b>)
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- OPTIONS GRID -->
+        <div class="sync-options-grid">
+          ${(q.options || []).map((opt, idx) => {
+            const isCorr = opt.toLowerCase() === q.correctVal.toLowerCase();
+            let optClass = "sync-opt-btn";
+            if (isReveal) {
+              if (isCorr) optClass += " correct";
+              else optClass += " dimmed";
+            }
+            const countForOpt = optionCounts[opt] || 0;
+            return `
+              <div class="${optClass}">
+                <span class="sync-opt-letter">${letters[idx]}</span>
+                <span class="sync-opt-text">${esc(opt)}</span>
+                ${isReveal ? `<span class="sync-opt-stats">👥 ${countForOpt}</span>` : ''}
+              </div>
+            `;
+          }).join("")}
+        </div>
+
+        <!-- TEACHER CONTROL FOOTER -->
+        <div style="display:flex;justify-content:center;gap:14px;margin-top:20px;flex-wrap:wrap">
+          ${isReveal ? (
+            qIndex + 1 < totalQ ? `
+              <button class="btn primary big-cta" id="btn-sync-next-q" style="font-size:1.15rem;padding:12px 32px">
+                Next Question (Q${qIndex + 2}/${totalQ}) ➔
+              </button>
+            ` : `
+              <button class="btn primary big-cta" id="btn-sync-finish-battle" style="font-size:1.15rem;padding:12px 32px;background:#10b981;border-color:#059669">
+                🏆 View Final Results ➔
+              </button>
+            `
+          ) : `
+            <button class="btn secondary" id="btn-sync-force-reveal">Skip Timer &amp; Reveal Answer ➔</button>
+          `}
+        </div>
+      </div>
+    `;
+
+    $("#btn-sync-exit").onclick = () => {
+      if (this.syncTimerInterval) clearInterval(this.syncTimerInterval);
+      if (this.arenaPollTimer) clearInterval(this.arenaPollTimer);
+      this.intro();
+    };
+
+    if ($("#btn-sync-force-reveal")) {
+      $("#btn-sync-force-reveal").onclick = () => this.triggerRevealPhase();
+    }
+    if ($("#btn-sync-next-q")) {
+      $("#btn-sync-next-q").onclick = () => this.nextSynchronizedQuestion();
+    }
+    if ($("#btn-sync-finish-battle")) {
+      $("#btn-sync-finish-battle").onclick = () => this.endSynchronizedBattle();
+    }
+
+    // Start teacher live countdown & polling loop
+    this.startTeacherSyncLoop();
+  },
+
+  startTeacherSyncLoop() {
+    if (this.syncTimerInterval) clearInterval(this.syncTimerInterval);
+    const a = this.arena;
+    if (!a) return;
+
+    this.syncTimerInterval = setInterval(async () => {
+      const snap = this.lastArenaSnap;
+      if (!snap || snap.status !== "live") return;
+
+      const qDuration = snap.qDuration || 10;
+      const qStartAt = snap.qStartAt || Date.now();
+      const elapsed = Math.floor((Date.now() - qStartAt) / 1000);
+      const remaining = Math.max(0, qDuration - elapsed);
+
+      // Update timer HUD directly
+      const timerEl = $("#sync-timer-display span");
+      if (timerEl && snap.qPhase === "question") {
+        timerEl.textContent = remaining + "s";
+        const box = $("#sync-timer-display");
+        if (box) {
+          box.className = "sync-timer-box " + (remaining <= 2 ? "danger" : (remaining <= 5 ? "warning" : ""));
+        }
+      }
+
+      // If time expired and still in question phase, trigger reveal!
+      if (remaining === 0 && snap.qPhase === "question") {
+        clearInterval(this.syncTimerInterval);
+        await this.triggerRevealPhase();
+        return;
+      }
+
+      // Refresh answers and student count from server every 1s
+      try {
+        const res = await AlchemyNet.call("arena_state", { room: a.room });
+        const curSnap = res.arena;
+        if (!curSnap) return;
+        this.lastArenaSnap = curSnap;
+
+        const answersMap = (curSnap.answers && curSnap.answers[curSnap.qIndex]) || {};
+        const answeredCount = Object.keys(answersMap).length;
+        const ansEl = $("#sync-answered-display");
+        if (ansEl) ansEl.textContent = `👥 ${answeredCount} / ${curSnap.players.length} Answered`;
+
+        // If everyone answered before 10s, auto-reveal!
+        if (curSnap.players.length > 0 && answeredCount >= curSnap.players.length && curSnap.qPhase === "question") {
+          clearInterval(this.syncTimerInterval);
+          await this.triggerRevealPhase();
+        }
+      } catch {}
+    }, 1000);
+  },
+
+  async triggerRevealPhase() {
+    const a = this.arena;
+    if (!a) return;
+    try {
+      const res = await AlchemyNet.call("arena_sync_state", {
+        room: a.room,
+        qPhase: "reveal"
+      });
+      this.lastArenaSnap = res.arena;
+      this.renderTeacherLiveQuestion(res.arena);
+    } catch (e) {
+      console.warn("Reveal trigger error", e);
+    }
+  },
+
+  async nextSynchronizedQuestion() {
+    const a = this.arena;
+    const snap = this.lastArenaSnap;
+    if (!a || !snap) return;
+
+    const nextQ = (snap.qIndex || 0) + 1;
+    try {
+      const res = await AlchemyNet.call("arena_sync_state", {
+        room: a.room,
+        qIndex: nextQ,
+        qPhase: "question",
+        qStartAt: Date.now()
+      });
+      this.lastArenaSnap = res.arena;
+      this.renderTeacherLiveQuestion(res.arena);
+    } catch (e) {
+      toast("Error loading next question: " + e.message);
+    }
+  },
+
+  async endSynchronizedBattle() {
+    const a = this.arena;
+    if (!a) return;
+    try {
+      const res = await AlchemyNet.call("arena_sync_state", {
+        room: a.room,
+        status: "ended"
+      });
+      this.lastArenaSnap = res.arena;
+      this.renderTeacherFinalPodium(res.arena);
+    } catch (e) {
+      toast("Error concluding match: " + e.message);
+    }
+  },
+
+  renderTeacherFinalPodium(snap) {
+    if (!snap) return;
+    const a = this.arena;
+    const el = $("#screen-alchemy");
+
+    el.innerHTML = `
+      <div class="sync-arena-stage">
+        <div class="sync-arena-header">
+          <button class="back-btn" id="btn-sync-exit-final">← Exit Room</button>
+          <div class="sync-q-badge" style="background:rgba(16,185,129,0.2);border-color:#10b981;color:#a7f3d0">🏆 Battle Concluded</div>
+          <div style="font-size:1.1rem;font-weight:800;color:#fde68a">Room PIN: ${a.room}</div>
+        </div>
+
+        <div class="arena-top3-section" style="margin:20px 0">
+          <h2 style="text-align:center;color:#fde68a;font-size:1.8rem;margin-bottom:14px">👑 Champions Podium</h2>
+          <div class="arena-podium">${this.buildPodiumHtml(snap.players)}</div>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:12px;margin:24px 0;flex-wrap:wrap">
+          <button class="btn primary" id="btn-sync-csv" style="background:#10b981;border-color:#059669;color:#fff">📥 Download Excel (.csv)</button>
+          <button class="btn secondary" id="btn-sync-sheets" style="background:#0284c7;border-color:#0369a1;color:#fff">📋 Copy for Google Sheets</button>
+          <button class="btn secondary" id="btn-sync-gmail" style="background:#ea4335;border-color:#d93025;color:#fff">✉️ Email Gmail Report</button>
+          <button class="btn secondary" id="btn-sync-restart">🔄 Host Another Match</button>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <h3>🏆 Final Four Houses Marks</h3>
+          <div class="arena-house-cup" id="sync-final-houses"></div>
+        </div>
+      </div>
+    `;
+
+    $("#btn-sync-exit-final").onclick = () => this.intro();
+    $("#btn-sync-csv").onclick = () => this.exportClassCsv(snap.players, a.room);
+    $("#btn-sync-sheets").onclick = () => this.copyForGoogleSheets(snap.players);
+    $("#btn-sync-gmail").onclick = () => this.emailClassResults(snap.players, a.room);
+    $("#btn-sync-restart").onclick = () => this.renderTeacherWhiteboard();
+
+    // Populate houses
+    const houseEl = $("#sync-final-houses");
+    if (houseEl) {
+      const houseScores = { TAK: 0, CHI: 0, KIN: 0, KAN: 0 };
+      snap.players.forEach(p => { if (houseScores[p.h] !== undefined) houseScores[p.h] += (p.s || 0); });
+      const maxH = Math.max(...Object.values(houseScores), 100);
+      houseEl.innerHTML = Object.keys(houseScores).map(h => {
+        const sc = houseScores[h];
+        const pct = Math.min(100, Math.round((sc / maxH) * 100));
+        return `
+          <div class="ahc-row" style="--hc:${ALCH_HOUSE_COLORS[h]}">
+            <span>${h}</span>
+            <div class="ahc-bar"><i style="width:${pct}%"></i></div>
+            <b>${fmt(sc)} pts</b>
+          </div>
+        `;
+      }).join("");
+    }
+  },
+
+  /* ---------------------------------------------------------
+     STUDENT LIVE ARENA SCREEN (SYNCHRONIZED WITH TEACHER)
+     --------------------------------------------------------- */
+  renderStudentLiveQuestion(snap) {
+    if (!snap) return;
+    this.lastArenaSnap = snap;
+    const a = this.arena;
+    const el = $("#screen-alchemy");
+    const me = AlchemyNet.me();
+
+    if (snap.status === "ended") {
+      this.renderStudentFinalPodium(snap);
+      return;
+    }
+
+    const qIndex = snap.qIndex || 0;
+    const totalQ = snap.totalQ || 10;
+    const qDuration = snap.qDuration || 10;
+    const qStartAt = snap.qStartAt || Date.now();
+    const q = this.getSyncQuestion(qIndex, totalQ, snap.seed);
+
+    const answersMap = (snap.answers && snap.answers[qIndex]) || {};
+    const myAns = answersMap[me.pid];
+    const hasAnswered = !!myAns;
+    const elapsed = Math.floor((Date.now() - qStartAt) / 1000);
+    const remaining = Math.max(0, qDuration - elapsed);
+    const isReveal = snap.qPhase === "reveal" || remaining === 0;
+
+    let sentenceDisplay = q.sentenceWithBlank;
+    if (isReveal) {
+      sentenceDisplay = sentenceDisplay.replace("****", `<span class="sync-blank correct">${esc(q.correctVal)}</span>`);
+    } else {
+      sentenceDisplay = sentenceDisplay.replace("****", `<span class="sync-blank">______</span>`);
+    }
+
+    const letters = ["A", "B", "C", "D"];
+    const timerClass = remaining <= 2 ? "danger" : (remaining <= 5 ? "warning" : "");
+
+    const correctCount = Object.values(answersMap).filter(ans => ans.isCorrect).length;
+    const totalStudents = Math.max(snap.players.length, 1);
+    const correctPct = Math.round((correctCount / totalStudents) * 100);
+
+    el.innerHTML = `
+      <div class="sync-arena-stage" style="max-width:680px">
+        <!-- STUDENT TOP HUD -->
+        <div class="sync-arena-header">
+          <div class="sync-q-badge">🎯 Q${qIndex + 1} of ${totalQ}</div>
+          <div class="sync-timer-box ${timerClass}" id="student-sync-timer">
+            ⏱️ <span>${isReveal ? "TIME UP" : remaining + "s"}</span>
+          </div>
+          <div class="sync-answered-pill">
+            Score: <b>${fmt(snap.players.find(p => p.id === me.pid)?.s || 0)}</b> pts
+          </div>
+        </div>
+
+        <!-- QUESTION CARD -->
+        <div class="sync-question-card" style="padding:20px 16px">
+          <div class="sync-pattern-tag">⚗️ ${esc(q.item.cat || "Collocation Pattern")}</div>
+          <div class="sync-sentence" style="font-size:1.35rem">${sentenceDisplay}</div>
+          <div class="sync-clues" style="font-size:0.95rem">
+            <span>📖 Meaning: <b class="sync-clue-chin">${esc(q.item.chin || "")}</b></span>
+          </div>
+        </div>
+
+        <!-- STATUS FEEDBACK -->
+        ${isReveal ? `
+          <div class="sync-student-status ${myAns?.isCorrect ? 'correct' : 'wrong'}">
+            ${myAns?.isCorrect ? '🎉 Correct! +100 pts' : `❌ Not quite! Correct was: <b>${esc(q.correctVal)}</b>`}
+            <div style="font-size:0.85rem;margin-top:4px;color:#cbd5e1">
+              📊 ${correctCount} of ${totalStudents} students got this right (${correctPct}%)
+            </div>
+          </div>
+        ` : (
+          hasAnswered ? `
+            <div class="sync-student-status waiting">
+              ✅ Answer locked in: <b>${esc(myAns.choice)}</b>. Waiting for time up...
+            </div>
+          ` : `
+            <div class="sync-student-status waiting" style="background:rgba(255,255,255,0.05);color:#cbd5e1;border-color:rgba(255,255,255,0.1)">
+              👆 Tap your answer below!
+            </div>
+          `
+        )}
+
+        <!-- 4 TAP OPTIONS -->
+        <div class="sync-options-grid">
+          ${(q.options || []).map((opt, idx) => {
+            const isSelected = myAns && myAns.choice === opt;
+            const isCorr = opt.toLowerCase() === q.correctVal.toLowerCase();
+            let optClass = "sync-opt-btn";
+            if (isReveal) {
+              if (isCorr) optClass += " correct";
+              else if (isSelected) optClass += " wrong";
+              else optClass += " dimmed";
+            } else if (isSelected) {
+              optClass += " selected";
+            }
+
+            return `
+              <button class="${optClass}" data-opt="${esc(opt)}" ${hasAnswered || isReveal ? 'disabled' : ''} style="cursor:${hasAnswered || isReveal ? 'default' : 'pointer'}">
+                <span class="sync-opt-letter">${letters[idx]}</span>
+                <span class="sync-opt-text">${esc(opt)}</span>
+              </button>
+            `;
+          }).join("")}
+        </div>
+      </div>
+    `;
+
+    // Bind option tap buttons
+    if (!hasAnswered && !isReveal) {
+      el.querySelectorAll(".sync-opt-btn").forEach(btn => {
+        btn.onclick = async () => {
+          const choice = btn.getAttribute("data-opt");
+          const isCorrect = choice.toLowerCase() === q.correctVal.toLowerCase();
+          btn.classList.add("selected");
+          el.querySelectorAll(".sync-opt-btn").forEach(b => b.disabled = true);
+
+          try {
+            await AlchemyNet.call("arena_submit", {
+              room: a.room,
+              pid: me.pid,
+              qIndex,
+              choice,
+              isCorrect
+            });
+            // Re-fetch snapshot and update view
+            const res = await AlchemyNet.call("arena_state", { room: a.room });
+            this.renderStudentLiveQuestion(res.arena);
+          } catch (e) {
+            console.warn("Submit error", e);
+          }
+        };
+      });
+    }
+
+    // Start student polling loop
+    this.startStudentSyncLoop();
+  },
+
+  startStudentSyncLoop() {
+    if (this.syncTimerInterval) clearInterval(this.syncTimerInterval);
+    const a = this.arena;
+    if (!a) return;
+
+    this.syncTimerInterval = setInterval(async () => {
+      try {
+        const res = await AlchemyNet.call("arena_state", { room: a.room });
+        const curSnap = res.arena;
+        if (!curSnap) return;
+
+        const prevSnap = this.lastArenaSnap;
+        this.lastArenaSnap = curSnap;
+
+        // If question or phase changed, re-render
+        if (!prevSnap || prevSnap.qIndex !== curSnap.qIndex || prevSnap.qPhase !== curSnap.qPhase || prevSnap.status !== curSnap.status) {
+          this.renderStudentLiveQuestion(curSnap);
+          return;
+        }
+
+        // Otherwise update local countdown timer
+        const qDuration = curSnap.qDuration || 10;
+        const qStartAt = curSnap.qStartAt || Date.now();
+        const elapsed = Math.floor((Date.now() - qStartAt) / 1000);
+        const remaining = Math.max(0, qDuration - elapsed);
+
+        const timerEl = $("#student-sync-timer span");
+        if (timerEl && curSnap.qPhase === "question") {
+          timerEl.textContent = remaining + "s";
+          const box = $("#student-sync-timer");
+          if (box) box.className = "sync-timer-box " + (remaining <= 2 ? "danger" : (remaining <= 5 ? "warning" : ""));
+        }
+      } catch {}
+    }, 1200);
+  },
+
+  renderStudentFinalPodium(snap) {
+    if (this.syncTimerInterval) clearInterval(this.syncTimerInterval);
+    const el = $("#screen-alchemy");
+    const me = AlchemyNet.me();
+    const myPlayer = snap.players.find(p => p.id === me.pid) || {};
+
+    el.innerHTML = `
+      <div class="sync-arena-stage" style="max-width:580px;text-align:center">
+        <div style="font-size:3.5rem;margin:16px 0 6px">🏆</div>
+        <h2 style="color:#fde68a;margin-bottom:4px">Class Battle Finished!</h2>
+        <p class="muted">Collocation Alchemy · Room ${this.arena?.room || ""}</p>
+
+        <div class="card" style="margin:20px auto;max-width:320px;padding:20px;border-color:var(--gold)">
+          <div style="font-size:0.85rem;color:var(--muted);text-transform:uppercase;font-weight:800">Your Final Mark</div>
+          <div style="font-size:2.8rem;font-weight:900;color:#fde68a;margin:8px 0">${fmt(myPlayer.s || 0)}</div>
+          <div style="font-size:0.95rem;color:#a7f3d0;font-weight:800">Solved ${myPlayer.c || 0} questions</div>
+        </div>
+
+        <div class="arena-top3-section" style="margin:20px 0">
+          <h3 style="color:#fde68a;margin-bottom:12px">👑 Class Champions</h3>
+          <div class="arena-podium">${this.buildPodiumHtml(snap.players)}</div>
+        </div>
+
+        <button class="btn primary" id="btn-student-leave-final" style="margin-top:16px">Back to Main Menu</button>
+      </div>
+    `;
+
+    $("#btn-student-leave-final").onclick = () => this.intro();
   },
 
   updateTeacherBoardUI(snap) {
@@ -1619,11 +2281,9 @@ const Alchemy = {
 
         if (curSnap.status === "live") {
           clearInterval(this.arenaPollTimer);
-          toast("🚀 Teacher launched the battle!");
+          toast("🚀 Teacher launched the battle! 10s per question...");
           this.playMode = "class";
-          this.seed = curSnap.seed;
-          this.selectedCategory = curSnap.cat || "all";
-          this.start();
+          this.renderStudentLiveQuestion(curSnap);
         }
       } catch {}
     }, 2000);
