@@ -1660,6 +1660,16 @@ const App = {
 
     cardIdx = Math.max(0, Math.min(cardIdx, deck.length - 1));
     const c = deck[cardIdx];
+
+    // Track card encounter in study deck & queue cloud sync
+    if (typeof Store !== "undefined" && Store.w) {
+      const w = Store.w(c);
+      w.seen = Math.max(1, (w.seen || 0) + 1);
+      Store.save();
+      if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
+        Leaderboard.queueProfilePush();
+      }
+    }
     const curStatus = Store.getWordStatus ? Store.getWordStatus(c) : "new";
     const pct = Math.round(((cardIdx + 1) / deck.length) * 100);
 

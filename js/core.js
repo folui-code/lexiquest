@@ -532,6 +532,17 @@ function wordCardHTML(c) {
 
 function showWord(c, list = (window.VOCAB || [])) {
   if (!c) return;
+
+  // Track word encounter in Word Vault & queue cloud sync
+  if (typeof Store !== "undefined" && Store.w) {
+    const w = Store.w(c);
+    w.seen = Math.max(1, (w.seen || 0) + 1);
+    Store.save();
+    if (typeof Leaderboard !== "undefined" && Leaderboard.queueProfilePush) {
+      Leaderboard.queueProfilePush();
+    }
+  }
+
   const wordList = list && list.length ? list : (window.VOCAB || []);
   let curIdx = wordList.findIndex(item => item.id === c.id);
   if (curIdx === -1) curIdx = 0;

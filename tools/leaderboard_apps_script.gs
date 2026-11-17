@@ -773,16 +773,28 @@ function updateUserSummarySheet() {
         best = words._best;
       }
 
-      const profObj = { hash: h, rawName: rawName, cleanName: cName, role: role, xp: xp, streak: streak, lastUpdated: lastUp, reading: reading, best: best };
+      const profObj = { hash: h, rawName: rawName, cleanName: cName, role: role, xp: xp, streak: streak, words: words, lastUpdated: lastUp, reading: reading, best: best };
 
       if (h) {
-        if (!profilesByHash[h] || (profObj.xp > profilesByHash[h].xp)) {
+        if (!profilesByHash[h]) {
           profilesByHash[h] = profObj;
+        } else {
+          profilesByHash[h].xp = Math.max(profilesByHash[h].xp, profObj.xp);
+          profilesByHash[h].words = Object.assign({}, profilesByHash[h].words || {}, profObj.words || {});
+          if (profObj.lastUpdated && (!profilesByHash[h].lastUpdated || profObj.lastUpdated > profilesByHash[h].lastUpdated)) {
+            profilesByHash[h].lastUpdated = profObj.lastUpdated;
+          }
         }
       }
       if (cName) {
-        if (!profilesByName[cName] || (profObj.xp > profilesByName[cName].xp)) {
+        if (!profilesByName[cName]) {
           profilesByName[cName] = profObj;
+        } else {
+          profilesByName[cName].xp = Math.max(profilesByName[cName].xp, profObj.xp);
+          profilesByName[cName].words = Object.assign({}, profilesByName[cName].words || {}, profObj.words || {});
+          if (profObj.lastUpdated && (!profilesByName[cName].lastUpdated || profObj.lastUpdated > profilesByName[cName].lastUpdated)) {
+            profilesByName[cName].lastUpdated = profObj.lastUpdated;
+          }
         }
       }
     }
@@ -878,22 +890,21 @@ function updateUserSummarySheet() {
       const wObj = pWords[wKey];
       if (!wObj) continue;
       const seen = Number(wObj.seen) || 0;
-      if (seen > 0 || wObj.status) {
+      const reps = Number(wObj.reps) || 0;
+      const ok = Number(wObj.ok) || 0;
+      const bad = Number(wObj.bad) || 0;
+      if (seen > 0 || reps > 0 || ok > 0 || bad > 0 || wObj.status) {
         vaultWordsCount++;
-        totalReps += (Number(wObj.reps) || 1);
+        totalReps += (reps || 1);
         const st = wObj.status;
         if (st === "mastered") {
           vaultXP += 3;
         } else if (st === "familiar" || st === "challenging") {
           vaultXP += 1;
+        } else if (reps >= 2 || ok >= 3) {
+          vaultXP += 3;
         } else {
-          const reps = Number(wObj.reps) || 0;
-          const ok = Number(wObj.ok) || 0;
-          if (reps >= 2 || ok >= 3) {
-            vaultXP += 3;
-          } else {
-            vaultXP += 1;
-          }
+          vaultXP += 1;
         }
       }
     }
