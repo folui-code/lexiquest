@@ -370,12 +370,26 @@ const Leaderboard = {
             if (App.renderClassHonorRoll) App.renderClassHonorRoll();
             if (App.renderHouseCup) App.renderHouseCup();
             if (App.renderWizardProfile) App.renderWizardProfile();
-            if ($("#screen-vault") && $("#screen-vault").classList.contains("active") && App.vault) {
-              App.vault();
+
+            // ONLY refresh the vault screen if user is currently on the vault screen AND in the lobby view.
+            // NEVER reset or exit if the student is actively studying flashcards (.vault-study-chamber) or browsing spell index (.vault-spell-index)!
+            const vaultScreen = $("#screen-vault");
+            if (vaultScreen && vaultScreen.classList.contains("active")) {
+              const inStudy = vaultScreen.querySelector(".vault-study-chamber");
+              const inIndex = vaultScreen.querySelector(".vault-spell-index");
+              if (!inStudy && !inIndex && App.vaultLobby) {
+                App.vaultLobby();
+              }
             }
           }
-          if ($("#screen-reading") && $("#screen-reading").classList.contains("active") && window.Reading && Reading.intro) {
-            Reading.intro();
+
+          // ONLY refresh reading screen if user is on intro/calendar view, NEVER while actively reading a passage or answering questions!
+          const readingScreen = $("#screen-reading");
+          if (readingScreen && readingScreen.classList.contains("active") && window.Reading) {
+            const inChamber = readingScreen.querySelector(".reading-chamber-view");
+            if (!inChamber && Reading.intro) {
+              Reading.intro();
+            }
           }
         }
       } else {

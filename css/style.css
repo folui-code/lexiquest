@@ -1099,6 +1099,9 @@
 .magic-card-stage {
   perspective: 1200px;
   margin: 12px 0 20px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .magic-card-flipper {
@@ -1108,6 +1111,8 @@
   transform-style: preserve-3d;
   transition: transform 0.65s cubic-bezier(0.35, 1.4, 0.4, 1);
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .magic-card-flipper.flipped {

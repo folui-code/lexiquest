@@ -1535,15 +1535,18 @@ const App = {
     return tomes;
   },
 
-  vault(view = "lobby", tomeId = "all", filter = "all", extra = {}) {
+  vault(view = null, tomeId = "all", filter = "all", extra = {}) {
     if (typeof Leaderboard !== "undefined" && Leaderboard.syncProfilePull) {
       Leaderboard.syncProfilePull();
     }
     if (!$("#screen-vault").classList.contains("active")) showScreen("vault");
 
-    if (view === "study") {
-      this.vaultStudy(tomeId, filter, extra.cardIdx || 0, extra.deck || null);
-    } else if (view === "index") {
+    // Preserve active study or index view if already engaged and no explicit view requested
+    const targetView = view || this.currentVaultView || "lobby";
+
+    if (targetView === "study") {
+      this.vaultStudy(tomeId || this.activeStudyTomeId || "all", filter || this.activeStudyFilter || "all", extra.cardIdx || this.activeStudyCardIdx || 0, extra.deck || null);
+    } else if (targetView === "index") {
       this.vaultIndex(tomeId, filter, extra.search || "");
     } else {
       this.vaultLobby();
@@ -1551,6 +1554,7 @@ const App = {
   },
 
   vaultLobby() {
+    this.currentVaultView = "lobby";
     if (this.activeStudyKeyHandler) {
       window.removeEventListener("keydown", this.activeStudyKeyHandler);
       this.activeStudyKeyHandler = null;
@@ -1677,6 +1681,11 @@ const App = {
   },
 
   vaultStudy(tomeId = "all", filter = "all", cardIdx = 0, customDeck = null) {
+    this.currentVaultView = "study";
+    this.activeStudyTomeId = tomeId;
+    this.activeStudyFilter = filter;
+    this.activeStudyCardIdx = cardIdx;
+
     if (this.activeStudyKeyHandler) {
       window.removeEventListener("keydown", this.activeStudyKeyHandler);
       this.activeStudyKeyHandler = null;
@@ -2034,9 +2043,45 @@ const App = {
 
     this.activeStudyKeyHandler = keyHandler;
     window.addEventListener("keydown", keyHandler);
+
+    // Touch swipe navigation for iPad and mobile devices
+    const cardStage = $("#magic-card-stage");
+    if (cardStage) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
+
+      cardStage.addEventListener("touchstart", (e) => {
+        if (!e.touches || e.touches.length !== 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+      }, { passive: true });
+
+      cardStage.addEventListener("touchend", (e) => {
+        if (!e.changedTouches || e.changedTouches.length !== 1) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        const dt = Date.now() - touchStartTime;
+
+        // If swipe was horizontal (> 45px horizontal, < 65px vertical, within 450ms)
+        if (dt < 450 && Math.abs(dx) > 45 && Math.abs(dy) < 65) {
+          if (dx < 0 && cardIdx < deck.length - 1) {
+            // Swipe Left -> Next Card
+            if (Sfx.click) Sfx.click();
+            this.vaultStudy(tomeId, filter, cardIdx + 1, deck);
+          } else if (dx > 0 && cardIdx > 0) {
+            // Swipe Right -> Previous Card
+            if (Sfx.click) Sfx.click();
+            this.vaultStudy(tomeId, filter, cardIdx - 1, deck);
+          }
+        }
+      }, { passive: true });
+    }
   },
 
   vaultIndex(tomeId = "all", filter = "all", search = "") {
+    this.currentVaultView = "index";
     if (this.activeStudyKeyHandler) {
       window.removeEventListener("keydown", this.activeStudyKeyHandler);
       this.activeStudyKeyHandler = null;
