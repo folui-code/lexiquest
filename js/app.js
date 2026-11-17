@@ -1542,9 +1542,9 @@ const App = {
     if (!$("#screen-vault").classList.contains("active")) showScreen("vault");
 
     // Preserve active study or index view if already engaged and no explicit view requested
-    const targetView = view || this.currentVaultView || "lobby";
+    const targetView = view || (this._isStudyingVault ? "study" : this.currentVaultView) || "lobby";
 
-    if (targetView === "study") {
+    if (targetView === "study" || this._isStudyingVault) {
       this.vaultStudy(tomeId || this.activeStudyTomeId || "all", filter || this.activeStudyFilter || "all", extra.cardIdx || this.activeStudyCardIdx || 0, extra.deck || null);
     } else if (targetView === "index") {
       this.vaultIndex(tomeId, filter, extra.search || "");
@@ -1555,6 +1555,7 @@ const App = {
 
   vaultLobby() {
     this.currentVaultView = "lobby";
+    this._isStudyingVault = false;
     if (this.activeStudyKeyHandler) {
       window.removeEventListener("keydown", this.activeStudyKeyHandler);
       this.activeStudyKeyHandler = null;
@@ -1682,6 +1683,7 @@ const App = {
 
   vaultStudy(tomeId = "all", filter = "all", cardIdx = 0, customDeck = null) {
     this.currentVaultView = "study";
+    this._isStudyingVault = true;
     this.activeStudyTomeId = tomeId;
     this.activeStudyFilter = filter;
     this.activeStudyCardIdx = cardIdx;
@@ -1722,7 +1724,10 @@ const App = {
         </div>
       `;
       $("#btn-study-all-fallback").onclick = () => this.vaultStudy(tomeId, "all", 0);
-      $("#btn-study-return-lobby").onclick = () => this.vaultLobby();
+      $("#btn-study-return-lobby").onclick = () => {
+        this._isStudyingVault = false;
+        this.vaultLobby();
+      };
       return;
     }
 
@@ -1890,31 +1895,64 @@ const App = {
       </div>
     `;
 
-    // Navigation bindings
-    $("#btn-study-back-tomes").onclick = () => this.vaultLobby();
-    $("#btn-study-index").onclick = () => this.vaultIndex(tomeId);
+    // Navigation bindings with ghost-click & accidental tap protection
+    const studyEnterTime = Date.now();
+    const backBtn = $("#btn-study-back-tomes");
+    if (backBtn) {
+      backBtn.onclick = (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        // Ignore ghost-clicks / touch bleed-through within 500ms of entering study chamber
+        if (Date.now() - studyEnterTime < 500) {
+          console.log("[Vault] Ignored back click within 500ms entry cooldown");
+          return;
+        }
+        this._isStudyingVault = false;
+        this.vaultLobby();
+      };
+    }
 
-    $("#btn-study-shuffle").onclick = () => {
+    const indexBtn = $("#btn-study-index");
+    if (indexBtn) {
+      indexBtn.onclick = (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (Date.now() - studyEnterTime < 500) return;
+        this._isStudyingVault = false;
+        this.vaultIndex(tomeId);
+      };
+    }
+
+    $("#btn-study-shuffle").onclick = (e) => {
+      if (e && e.stopPropagation) e.stopPropagation();
       const remaining = shuffle([...deck]);
       toast("🔀 Grimoire Deck Shuffled!");
       this.vaultStudy(tomeId, filter, 0, remaining);
     };
 
     $$("[data-drill-f]").forEach((b) => {
-      b.onclick = () => this.vaultStudy(tomeId, b.dataset.drillF, 0);
+      b.onclick = (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        this.vaultStudy(tomeId, b.dataset.drillF, 0);
+      };
     });
 
-    // Flip logic
+    // Flip logic with swipe guard
+    let justSwiped = false;
     const flipper = $("#card-flipper");
     const toggleFlip = (e) => {
-      if (e) e.stopPropagation();
+      if (justSwiped) {
+        justSwiped = false;
+        return;
+      }
+      if (e && e.stopPropagation) e.stopPropagation();
       if (flipper) flipper.classList.toggle("flipped");
       if (Sfx.cardFlip) Sfx.cardFlip();
     };
 
-    flipper.onclick = toggleFlip;
-    $("#btn-flip-front").onclick = toggleFlip;
-    $("#btn-flip-back").onclick = toggleFlip;
+    if (flipper) flipper.onclick = toggleFlip;
+    const flipFront = $("#btn-flip-front");
+    if (flipFront) flipFront.onclick = toggleFlip;
+    const flipBack = $("#btn-flip-back");
+    if (flipBack) flipBack.onclick = toggleFlip;
 
     // Speech bindings
     $("#btn-chant-spell").onclick = (e) => {
@@ -1995,7 +2033,7 @@ const App = {
           `);
           Store.addXP(20);
           $("#btn-tome-restart").onclick = () => { closeModal(); this.vaultStudy(tomeId, filter, 0, deck); };
-          $("#btn-tome-finish").onclick = () => { closeModal(); this.vaultLobby(); };
+          $("#btn-tome-finish").onclick = () => { closeModal(); this._isStudyingVault = false; this.vaultLobby(); };
         }
       }, 180);
     };
@@ -2044,7 +2082,7 @@ const App = {
     this.activeStudyKeyHandler = keyHandler;
     window.addEventListener("keydown", keyHandler);
 
-    // Touch swipe navigation for iPad and mobile devices
+    // Touch swipe navigation for iPad and mobile devices (calibrated to prevent accidental triggers)
     const cardStage = $("#magic-card-stage");
     if (cardStage) {
       let touchStartX = 0;
@@ -2064,8 +2102,11 @@ const App = {
         const dy = e.changedTouches[0].clientY - touchStartY;
         const dt = Date.now() - touchStartTime;
 
-        // If swipe was horizontal (> 45px horizontal, < 65px vertical, within 450ms)
-        if (dt < 450 && Math.abs(dx) > 45 && Math.abs(dy) < 65) {
+        // Deliberate horizontal swipe: >= 70px, dx > 2 * dy, within 500ms
+        if (dt < 500 && Math.abs(dx) >= 70 && Math.abs(dx) > Math.abs(dy) * 2) {
+          justSwiped = true;
+          setTimeout(() => { justSwiped = false; }, 320);
+
           if (dx < 0 && cardIdx < deck.length - 1) {
             // Swipe Left -> Next Card
             if (Sfx.click) Sfx.click();
@@ -2082,6 +2123,7 @@ const App = {
 
   vaultIndex(tomeId = "all", filter = "all", search = "") {
     this.currentVaultView = "index";
+    this._isStudyingVault = false;
     if (this.activeStudyKeyHandler) {
       window.removeEventListener("keydown", this.activeStudyKeyHandler);
       this.activeStudyKeyHandler = null;

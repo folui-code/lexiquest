@@ -372,11 +372,11 @@ const Leaderboard = {
             if (App.renderWizardProfile) App.renderWizardProfile();
 
             // ONLY refresh the vault screen if user is currently on the vault screen AND in the lobby view.
-            // NEVER reset or exit if the student is actively studying flashcards (.vault-study-chamber) or browsing spell index (.vault-spell-index)!
+            // NEVER reset or exit if the student is actively studying flashcards (.vault-study-chamber) or browsing spell index (.vault-index-chamber)!
             const vaultScreen = $("#screen-vault");
             if (vaultScreen && vaultScreen.classList.contains("active")) {
-              const inStudy = vaultScreen.querySelector(".vault-study-chamber");
-              const inIndex = vaultScreen.querySelector(".vault-spell-index");
+              const inStudy = (typeof App !== "undefined" && App._isStudyingVault) || vaultScreen.querySelector(".vault-study-chamber");
+              const inIndex = (typeof App !== "undefined" && App.currentVaultView === "index") || vaultScreen.querySelector(".vault-index-chamber");
               if (!inStudy && !inIndex && App.vaultLobby) {
                 App.vaultLobby();
               }

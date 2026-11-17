@@ -427,6 +427,9 @@ window.addEventListener("keydown", (e) => {
 });
 let currentCleanup = null;
 function showScreen(id) {
+  if (id !== "vault" && typeof App !== "undefined") {
+    App._isStudyingVault = false;
+  }
   if (typeof App !== "undefined" && App.activeStudyKeyHandler) {
     window.removeEventListener("keydown", App.activeStudyKeyHandler);
     App.activeStudyKeyHandler = null;
