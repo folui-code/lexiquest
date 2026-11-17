@@ -22,19 +22,36 @@ const Leaderboard = {
   // Verified launch student top scores across school arena
   DEFAULT_SCORES: {
     rush: [
-      { n: "LEE SHING YU (4D)", s: 5000, role: "student", rank: 1 },
-      { n: "TSAI TSZ CHING (4D)", s: 239, role: "student", rank: 2 },
-      { n: "LI TSZ YU (4D)", s: 52, role: "student", rank: 3 }
+      { n: "LEE KWOK HUEN (4D)", s: 9930, role: "student", rank: 1 },
+      { n: "LEE SHING YU (4D)", s: 5000, role: "student", rank: 2 },
+      { n: "QIU WING LAM (4D)", s: 4570, role: "student", rank: 3 }
     ],
     alchemy: [
-      { n: "LI TSZ YU (4D)", s: 8300, role: "student", rank: 1 },
-      { n: "TSAI TSZ CHING (4D)", s: 7200, role: "student", rank: 2 }
+      { n: "LI TSZ YU (4D)", s: 47200, role: "student", rank: 1 },
+      { n: "TSAI TSZ CHING (4D)", s: 11300, role: "student", rank: 2 },
+      { n: "WAN CHEUK NAM (4D)", s: 7000, role: "student", rank: 3 }
     ],
     blitz: [
-      { n: "LI TSZ YU (4D)", s: 1550, role: "student", rank: 1 }
+      { n: "LEUNG YEE SHUN EASON (4E)", s: 3880, role: "student", rank: 1 },
+      { n: "WU PEI JIN (4D)", s: 3740, role: "student", rank: 2 },
+      { n: "LI TSZ YU (4D)", s: 3190, role: "student", rank: 3 }
     ],
     reading: [
-      { n: "LI TSZ YU (4D)", s: 500, role: "student", rank: 1 }
+      { n: "LI TSZ YU (4D)", s: 500, role: "student", rank: 1 },
+      { n: "TSAI TSZ CHING (4D)", s: 500, role: "student", rank: 2 },
+      { n: "WU PEI JIN (4D)", s: 500, role: "student", rank: 3 }
+    ],
+    vault: [
+      { n: "LI TSZ YU (4D)", s: 450, role: "student", rank: 1 },
+      { n: "WU PEI JIN (4D)", s: 380, role: "student", rank: 2 },
+      { n: "LEUNG YEE SHUN EASON (4E)", s: 320, role: "student", rank: 3 }
+    ],
+    overall: [
+      { n: "LEUNG YEE SHUN EASON (4E)", s: 52619, role: "student", rank: 1 },
+      { n: "LI TSZ YU (4D)", s: 47036, role: "student", rank: 2 },
+      { n: "WU PEI JIN (4D)", s: 17843, role: "student", rank: 3 },
+      { n: "WAN CHEUK NAM (4D)", s: 7662, role: "student", rank: 4 },
+      { n: "SIU HOI CHUN (4D)", s: 2609, role: "student", rank: 5 }
     ]
   },
 
@@ -79,11 +96,34 @@ const Leaderboard = {
 
         // Seed with default scores for any mode not yet in cloud return
         this.cache = Object.assign({}, this.DEFAULT_SCORES, data.leaderboard, normalized);
-        ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+        ["rush", "alchemy", "blitz", "reading", "vault", "overall"].forEach(m => {
           if (!this.cache[m] || !this.cache[m].length) {
             this.cache[m] = [...(this.DEFAULT_SCORES[m] || [])];
           }
         });
+
+        // Store and synchronize cloud profiles
+        if (data.profiles && Array.isArray(data.profiles)) {
+          this.cache.profiles = data.profiles;
+
+          // If overall leaderboard wasn't already provided by backend, synthesize from profiles
+          if (!data.leaderboard || !data.leaderboard.overall || data.leaderboard.overall.length === 0) {
+            this.cache.overall = data.profiles
+              .filter(p => !isStaffMember(p.n, p.role) && (Number(p.xp) || 0) > 0)
+              .sort((a, b) => b.xp - a.xp)
+              .slice(0, 10)
+              .map((p, idx) => ({ n: p.n, s: p.xp, rank: idx + 1, role: p.role || "student" }));
+          }
+
+          // If vault leaderboard wasn't already provided by backend, synthesize from profiles
+          if (!data.leaderboard || !data.leaderboard.vault || data.leaderboard.vault.length === 0) {
+            this.cache.vault = data.profiles
+              .filter(p => !isStaffMember(p.n, p.role) && (Number(p.vault) || 0) > 0)
+              .sort((a, b) => (b.vault || 0) - (a.vault || 0))
+              .slice(0, 10)
+              .map((p, idx) => ({ n: p.n, s: p.vault, rank: idx + 1, role: p.role || "student" }));
+          }
+        }
         this.lastFetch = now;
 
         // Sync real scores to Class Honor Roll and House Cup

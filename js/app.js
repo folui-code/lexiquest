@@ -976,10 +976,11 @@ const App = {
       if (m === "alchemy") return Math.max(10, Math.round(s / 5));
       if (m === "blitz") return Math.round(s * 0.435);
       if (m === "reading") return Math.round(s / 2);
+      if (m === "vault") return s;
       return 0;
     };
 
-    // Track per-student converted XP per mode so we can sum across all 4 modes
+    // Track per-student converted XP per mode so we can sum across all modes
     const studentMap = {}; // cleanName -> { name, class, house, modes: {}, profileXP: 0 }
     const ensureStudent = (rawName, role) => {
       if (!rawName || isStaffMember(rawName, role)) return null;
@@ -1002,7 +1003,7 @@ const App = {
     };
 
     if (leaderboardData && typeof leaderboardData === "object") {
-      ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+      ["rush", "alchemy", "blitz", "reading", "vault"].forEach(m => {
         const rows = leaderboardData[m];
         if (!Array.isArray(rows)) return;
         rows.forEach(r => {
@@ -1014,16 +1015,38 @@ const App = {
           }
         });
       });
+
+      // Crucial: Incorporate true cumulative student XP from Google Sheets profiles
+      if (Array.isArray(leaderboardData.profiles)) {
+        leaderboardData.profiles.forEach(p => {
+          const st = ensureStudent(p && p.n, p && p.role);
+          if (st) {
+            const pXP = Number(p.xp) || 0;
+            if (pXP > st.profileXP) {
+              st.profileXP = pXP;
+            }
+            if (p.vault && Number(p.vault) > (st.modes.vault || 0)) {
+              st.modes.vault = Number(p.vault);
+            }
+          }
+        });
+      }
     }
 
-    // Incorporate currently logged-in student's live Store.d.xp
+    // Incorporate currently logged-in student's live Store.d.xp & vaultXP
     const curName = (Store && Store.d && Store.d.name) || "";
     const curAuth = (Store && Store.d && Store.d.auth) || {};
     if (curName && Store && Store.d && Store.d.xp > 0) {
       const st = ensureStudent(curName, curAuth.role);
-      if (st && Store.d.xp > st.profileXP) {
-        st.profileXP = Store.d.xp;
+      if (st) {
+        if (Store.d.xp > st.profileXP) {
+          st.profileXP = Store.d.xp;
+        }
         if (Store.d.house) st.house = Store.d.house.toUpperCase();
+        if (Store.getVaultXP) {
+          const myV = Store.getVaultXP();
+          if (myV > (st.modes.vault || 0)) st.modes.vault = myV;
+        }
       }
     }
 
@@ -1197,6 +1220,9 @@ const App = {
         const rankClass = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : rank === 3 ? "rank-3" : "";
         const isUser = userName && entry.n.toLowerCase().includes(userName);
         const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
+        const isXP = (mode === "vault" || mode === "overall");
+        const unit = isXP ? "XP" : "pts";
+        const unitColor = isXP ? "var(--gold)" : "var(--muted)";
 
         return `
           <div class="scoreboard-row ${rankClass} ${isUser ? "is-user" : ""}">
@@ -1204,7 +1230,7 @@ const App = {
               <span class="sb-rank-badge">${medal}</span>
               <span class="sb-player-name">${esc(entry.n)} ${isUser ? '<span style="color:var(--cyan);font-size:0.75rem">(You)</span>' : ''}</span>
             </div>
-            <div class="sb-score-val">${fmt(entry.s)} <span style="font-size:0.75rem;color:var(--muted);font-weight:500">pts</span></div>
+            <div class="sb-score-val">${fmt(entry.s)} <span style="font-size:0.75rem;color:${unitColor};font-weight:600">${unit}</span></div>
           </div>
         `;
       }).join("");
@@ -1212,22 +1238,55 @@ const App = {
 
     let rows = Store.d.lb && Store.d.lb[mode] ? [...Store.d.lb[mode]] : [];
 
+    // Local user self-inclusion if mode is vault or overall
+    if (mode === "overall" && Store && Store.d && Store.d.xp > 0) {
+      const myName = Store.d.name || "You";
+      if (!rows.some(r => r.n && r.n.toLowerCase().includes(myName.toLowerCase()))) {
+        rows.push({ n: myName, s: Store.d.xp, role: (Store.d.auth && Store.d.auth.role) || "student" });
+      }
+    } else if (mode === "vault" && Store && Store.getVaultXP) {
+      const myV = Store.getVaultXP();
+      if (myV > 0) {
+        const myName = Store.d.name || "You";
+        if (!rows.some(r => r.n && r.n.toLowerCase().includes(myName.toLowerCase()))) {
+          rows.push({ n: myName, s: myV, role: (Store.d.auth && Store.d.auth.role) || "student" });
+        }
+      }
+    }
+
     // Verified launch student top scores across school arena
     const defaults = {
       rush: [
+        { n: "LEE KWOK HUEN (4D)", s: 9930, role: "student" },
         { n: "LEE SHING YU (4D)", s: 5000, role: "student" },
-        { n: "TSAI TSZ CHING (4D)", s: 239, role: "student" },
-        { n: "LI TSZ YU (4D)", s: 52, role: "student" }
+        { n: "QIU WING LAM (4D)", s: 4570, role: "student" }
       ],
       alchemy: [
-        { n: "LI TSZ YU (4D)", s: 8300, role: "student" },
-        { n: "TSAI TSZ CHING (4D)", s: 7200, role: "student" }
+        { n: "LI TSZ YU (4D)", s: 47200, role: "student" },
+        { n: "TSAI TSZ CHING (4D)", s: 11300, role: "student" },
+        { n: "WAN CHEUK NAM (4D)", s: 7000, role: "student" }
       ],
       blitz: [
-        { n: "LI TSZ YU (4D)", s: 1550, role: "student" }
+        { n: "LEUNG YEE SHUN EASON (4E)", s: 3880, role: "student" },
+        { n: "WU PEI JIN (4D)", s: 3740, role: "student" },
+        { n: "LI TSZ YU (4D)", s: 3190, role: "student" }
       ],
       reading: [
-        { n: "LI TSZ YU (4D)", s: 500, role: "student" }
+        { n: "LI TSZ YU (4D)", s: 500, role: "student" },
+        { n: "TSAI TSZ CHING (4D)", s: 500, role: "student" },
+        { n: "WU PEI JIN (4D)", s: 500, role: "student" }
+      ],
+      vault: [
+        { n: "LI TSZ YU (4D)", s: 450, role: "student" },
+        { n: "WU PEI JIN (4D)", s: 380, role: "student" },
+        { n: "LEUNG YEE SHUN EASON (4E)", s: 320, role: "student" }
+      ],
+      overall: [
+        { n: "LEUNG YEE SHUN EASON (4E)", s: 52619, role: "student" },
+        { n: "LI TSZ YU (4D)", s: 47036, role: "student" },
+        { n: "WU PEI JIN (4D)", s: 17843, role: "student" },
+        { n: "WAN CHEUK NAM (4D)", s: 7662, role: "student" },
+        { n: "SIU HOI CHUN (4D)", s: 2609, role: "student" }
       ]
     };
 

@@ -238,6 +238,37 @@ const Store = {
     this.addXP(amount);
     return { awarded: true, xp: amount };
   },
+  getVaultXP() {
+    let vaultXP = 0;
+    let totalReps = 0;
+    const words = (this.d && this.d.words) || {};
+    for (const k in words) {
+      if (k.startsWith("_")) continue;
+      const w = words[k];
+      if (!w) continue;
+      const seen = Number(w.seen) || 0;
+      const reps = Number(w.reps) || 0;
+      const ok = Number(w.ok) || 0;
+      const bad = Number(w.bad) || 0;
+      if (seen > 0 || reps > 0 || ok > 0 || bad > 0 || w.status) {
+        totalReps += (reps || 1);
+        const st = w.status;
+        if (st === "mastered") {
+          vaultXP += 3;
+        } else if (st === "familiar" || st === "challenging") {
+          vaultXP += 1;
+        } else if (reps >= 2 || ok >= 3) {
+          vaultXP += 3;
+        } else {
+          vaultXP += 1;
+        }
+      }
+    }
+    if (totalReps >= 10) {
+      vaultXP += Math.floor(totalReps / 10) * 20;
+    }
+    return vaultXP;
+  },
   rank(xp = this.d.xp) {
     let i = 0; while (i + 1 < RANKS.length && xp >= RANKS[i + 1][0]) i++;
     const [lo, name] = RANKS[i], hi = RANKS[i + 1]?.[0] ?? (lo + 100000);

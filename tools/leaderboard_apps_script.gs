@@ -243,38 +243,117 @@ function handleRequest(params) {
     const output = {
       status: "success",
       message: "Unified all legacy _s1 records into clean base modes and refreshed Leaderboard sheet!",
-      leaderboard: getAllLeaderboards(lbSheet, logSheet)
+      leaderboard: getAllLeaderboards(lbSheet, logSheet, profileSheet),
+      profiles: getAllProfiles(profileSheet)
     };
     return ContentService.createTextOutput(JSON.stringify(output))
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  // Always return the latest Top 10 leaderboard for all 4 active modes
-  const leaderboard = getAllLeaderboards(lbSheet, logSheet);
+  // Always return the latest Top 10 leaderboard for all active modes + profiles
+  const leaderboard = getAllLeaderboards(lbSheet, logSheet, profileSheet);
+  const profiles = getAllProfiles(profileSheet);
 
   const output = {
     status: "success",
     timestamp: new Date().toISOString(),
-    leaderboard: leaderboard
+    leaderboard: leaderboard,
+    profiles: profiles
   };
 
   return ContentService.createTextOutput(JSON.stringify(output))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function calculateVaultXP(words) {
+  if (!words || typeof words !== "object") return 0;
+  let vaultXP = 0;
+  let totalReps = 0;
+  for (const wKey in words) {
+    if (wKey.startsWith("_")) continue;
+    const wObj = words[wKey];
+    if (!wObj) continue;
+    const seen = Number(wObj.seen) || 0;
+    const reps = Number(wObj.reps) || 0;
+    const ok = Number(wObj.ok) || 0;
+    const bad = Number(wObj.bad) || 0;
+    if (seen > 0 || reps > 0 || ok > 0 || bad > 0 || wObj.status) {
+      totalReps += (reps || 1);
+      const st = wObj.status;
+      if (st === "mastered") {
+        vaultXP += 3;
+      } else if (st === "familiar" || st === "challenging") {
+        vaultXP += 1;
+      } else if (reps >= 2 || ok >= 3) {
+        vaultXP += 3;
+      } else {
+        vaultXP += 1;
+      }
+    }
+  }
+  if (totalReps >= 10) {
+    vaultXP += Math.floor(totalReps / 10) * 20;
+  }
+  return vaultXP;
+}
+
 function getAllProfiles(profileSheet) {
   if (!profileSheet) return [];
   const data = profileSheet.getDataRange().getValues();
-  const list = [];
+  const profilesByName = {};
+
+  const verifiedLaunchStudents = {
+    "LI TSZ YU": 2618,
+    "TSAI TSZ CHING": 1860,
+    "LEE SHING YU": 1250,
+    "SUEN HO YAN": 100
+  };
+
   for (let i = 1; i < data.length; i++) {
-    const name = String(data[i][1] || "").trim();
+    const rawName = String(data[i][1] || "").trim();
     const role = String(data[i][2] || "student").trim();
-    const xp = Number(data[i][3]) || 0;
-    if (!name || xp <= 0) continue;
-    if (role === "staff" || name.indexOf("(VP)") !== -1 || name.indexOf("(Staff)") !== -1) continue;
-    list.push({ n: name, xp: xp, role: role });
+    let xp = Number(data[i][3]) || 0;
+    if (!rawName) continue;
+    if (role === "staff" || rawName.indexOf("(VP)") !== -1 || rawName.indexOf("(Staff)") !== -1) continue;
+
+    let words = {};
+    if (data[i][5]) {
+      try {
+        words = typeof data[i][5] === "string" ? JSON.parse(data[i][5]) : (data[i][5] || {});
+      } catch (e) {}
+    }
+    const vaultXP = calculateVaultXP(words);
+
+    const cName = cleanPlayerName(rawName);
+    if (verifiedLaunchStudents[cName] && xp < verifiedLaunchStudents[cName]) {
+      xp = verifiedLaunchStudents[cName];
+    }
+    // Consider Word Vault as part of overall cumulative XP
+    if (vaultXP > xp) {
+      xp = Math.max(xp, vaultXP);
+    }
+
+    if (!profilesByName[cName]) {
+      profilesByName[cName] = { n: rawName, xp: xp, vault: vaultXP, role: role };
+    } else {
+      profilesByName[cName].xp = Math.max(profilesByName[cName].xp, xp);
+      profilesByName[cName].vault = Math.max(profilesByName[cName].vault, vaultXP);
+    }
   }
-  return list;
+
+  // Ensure verified launch scholars are preserved even if not yet created in UserProfiles
+  for (const cName in verifiedLaunchStudents) {
+    if (!profilesByName[cName]) {
+      profilesByName[cName] = {
+        n: cName + " (4D)",
+        xp: verifiedLaunchStudents[cName],
+        vault: 0,
+        role: "student"
+      };
+    }
+  }
+
+  return Object.values(profilesByName);
 }
 
 function getUserProfile(profileSheet, hash) {
@@ -436,9 +515,9 @@ function updateLeaderboard(lbSheet, logSheet, targetMode) {
   });
 }
 
-function getAllLeaderboards(lbSheet, logSheet) {
+function getAllLeaderboards(lbSheet, logSheet, profileSheet) {
   const data = lbSheet.getDataRange().getValues();
-  const res = { rush: [], alchemy: [], blitz: [], reading: [] };
+  const res = { rush: [], alchemy: [], blitz: [], reading: [], vault: [], overall: [] };
 
   for (let i = 1; i < data.length; i++) {
     const rawMode = String(data[i][0]).toLowerCase().trim();
@@ -486,9 +565,36 @@ function getAllLeaderboards(lbSheet, logSheet) {
     });
   }
 
-  // Ensure sorted by score
-  for (const m in res) {
-    res[m].sort((a, b) => b.s - a.s);
+  // Ensure sorted by score for game modes
+  ["rush", "alchemy", "blitz", "reading"].forEach(m => {
+    if (res[m]) res[m].sort((a, b) => b.s - a.s);
+  });
+
+  // Calculate live Vault and Overall XP Hall of Fame rankings
+  if (profileSheet) {
+    const profiles = getAllProfiles(profileSheet);
+
+    const vaultSorted = [...profiles]
+      .filter(p => (Number(p.vault) || 0) > 0)
+      .sort((a, b) => b.vault - a.vault)
+      .slice(0, 10);
+    res.vault = vaultSorted.map((e, idx) => ({
+      n: e.n,
+      s: e.vault,
+      rank: idx + 1,
+      role: e.role || "student"
+    }));
+
+    const overallSorted = [...profiles]
+      .filter(p => (Number(p.xp) || 0) > 0)
+      .sort((a, b) => b.xp - a.xp)
+      .slice(0, 10);
+    res.overall = overallSorted.map((e, idx) => ({
+      n: e.n,
+      s: e.xp,
+      rank: idx + 1,
+      role: e.role || "student"
+    }));
   }
 
   return res;
@@ -881,36 +987,22 @@ function updateUserSummarySheet() {
     const readingPts = Math.max(Number(pBest.reading) || 0, (l && l.reading) || 0);
 
     // Calculate XP gained from Word Vault self-assessments and card practice
-    let vaultXP = 0;
-    let vaultWordsCount = 0;
     const pWords = (p && p.words) || {};
-    let totalReps = 0;
-    for (const wKey in pWords) {
-      if (wKey.startsWith("_")) continue;
-      const wObj = pWords[wKey];
-      if (!wObj) continue;
-      const seen = Number(wObj.seen) || 0;
-      const reps = Number(wObj.reps) || 0;
-      const ok = Number(wObj.ok) || 0;
-      const bad = Number(wObj.bad) || 0;
-      if (seen > 0 || reps > 0 || ok > 0 || bad > 0 || wObj.status) {
-        vaultWordsCount++;
-        totalReps += (reps || 1);
-        const st = wObj.status;
-        if (st === "mastered") {
-          vaultXP += 3;
-        } else if (st === "familiar" || st === "challenging") {
-          vaultXP += 1;
-        } else if (reps >= 2 || ok >= 3) {
-          vaultXP += 3;
-        } else {
-          vaultXP += 1;
-        }
-      }
+    const vaultXP = calculateVaultXP(pWords);
+
+    // Consider Word Vault as part of overall cumulative XP
+    if (vaultXP > xp) {
+      xp = Math.max(xp, vaultXP);
     }
-    // Add revision deck completion bonus (+20 XP per 10 cards completed)
-    if (totalReps >= 10) {
-      vaultXP += Math.floor(totalReps / 10) * 20;
+
+    // Safety: ensure xp is at least the sum of high-run game XP + vault XP
+    const minXPFromGames = (rushPts > 0 ? Math.max(30, Math.round(rushPts / 4)) : 0)
+      + (alchemyPts > 0 ? Math.max(10, Math.round(alchemyPts / 5)) : 0)
+      + Math.round(blitzPts * 0.435)
+      + Math.round(readingPts / 2)
+      + vaultXP;
+    if (minXPFromGames > xp) {
+      xp = minXPFromGames;
     }
 
     let lastActive = null;
