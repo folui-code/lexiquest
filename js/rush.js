@@ -676,6 +676,7 @@ const Rush = {
     this.card = target;
     this.qStart = performance.now();
     this.locked = false;
+    this.manualHintsUsed = 0;
 
     $("#r-pos").textContent = target.pos;
     $("#r-topic").textContent = target.topic ? `• ${target.topic}` : "";
@@ -697,10 +698,10 @@ const Rush = {
       let firstSlot = null;
       [...w.toUpperCase()].forEach(ch => {
         const isLetter = /[A-Z0-9]/.test(ch);
-        const slot = { id: sid++, wIdx, ch, norm: ch, isLetter, typedCh: isLetter ? null : ch, tileId: null, correct: !isLetter, isHint: false, hasError: false };
+        const slot = { id: sid++, wIdx, ch, norm: ch, isLetter, typedCh: isLetter ? null : ch, tileId: null, correct: !isLetter, isHint: false, isStarter: false, hasError: false };
         this.slots.push(slot);
         if (isLetter) {
-          wordTiles.push({ id: tid++, wIdx, val: ch, norm: ch, used: false, isHint: false });
+          wordTiles.push({ id: tid++, wIdx, val: ch, norm: ch, used: false, isHint: false, isStarter: false });
           if (!firstSlot) firstSlot = slot;
         }
       });
@@ -708,8 +709,8 @@ const Rush = {
       if (firstSlot && wordTiles.length) {
         const h = scrambled.find(t => t.val === firstSlot.norm && !t.used);
         if (h) {
-          h.used = true; h.isHint = true;
-          Object.assign(firstSlot, { typedCh: h.val, tileId: h.id, correct: true, isHint: true });
+          h.used = true; h.isStarter = true;
+          Object.assign(firstSlot, { typedCh: h.val, tileId: h.id, correct: true, isStarter: true });
         }
       }
       this.tiles.push(...scrambled);
@@ -760,9 +761,10 @@ const Rush = {
       let cls = "cr-slot";
       if (s.id === this.activeIdx) cls += " active";
       if (s.correct && s.typedCh !== null) cls += " correct";
+      if (s.isStarter) cls += " starter-slot";
       if (s.isHint) cls += " hint-slot";
       if (s.hasError) cls += " error";
-      if (disp && !s.isHint) cls += " has-content";
+      if (disp && !s.isHint && !s.isStarter) cls += " has-content";
       return `<div class="${cls}" data-idx="${s.id}"><span class="cr-char">${esc(disp)}</span>${s.isHint ? '<span class="cr-hint-badge">HINT</span>' : ''}</div>`;
     }).join("")}</div>`).join("");
     $$("#r-slots .cr-slot[data-idx]").forEach(el => el.onclick = () => this.unpickSlot(+el.dataset.idx));
@@ -772,7 +774,7 @@ const Rush = {
     const box = $("#r-tiles");
     if (!box) return;
     box.innerHTML = this.groupBy(this.tiles).map((g, gi) => `${gi ? '<div class="cr-tile-group-sep"></div>' : ''}<div class="cr-tile-group" style="--tlen:${g.length}">${g.map(t =>
-      `<button class="cr-tile${t.used ? " used" : ""}${t.isHint ? " hint-tile" : ""}" data-tid="${t.id}" ${t.used ? "disabled" : ""}>${esc(t.val)}</button>`).join("")}</div>`).join("");
+      `<button class="cr-tile${t.used ? " used" : ""}${t.isHint ? " hint-tile" : t.isStarter ? " starter-tile" : ""}" data-tid="${t.id}" ${t.used ? "disabled" : ""}>${esc(t.val)}</button>`).join("")}</div>`).join("");
     $$("#r-tiles .cr-tile:not(.used)").forEach(btn => {
       let lastTap = 0;
       const act = (e) => {
@@ -809,7 +811,7 @@ const Rush = {
   unpickSlot(idx) {
     if (this.locked || this.over) return;
     const slot = this.slots[idx];
-    if (!slot || slot.typedCh === null || slot.isHint || !slot.isLetter) return;
+    if (!slot || slot.typedCh === null || slot.isHint || slot.isStarter || !slot.isLetter) return;
     if (slot.tileId !== null) { const t = this.tiles.find(t => t.id === slot.tileId); if (t) t.used = false; }
     Object.assign(slot, { typedCh: null, tileId: null, correct: false, hasError: false });
     this.activeIdx = idx; Sfx.click();
@@ -819,7 +821,7 @@ const Rush = {
   handleBackspace() {
     if (this.locked || this.over) return;
     let i = this.activeIdx - 1;
-    while (i >= 0) { const s = this.slots[i]; if (s.isLetter && !s.isHint && s.typedCh !== null) break; i--; }
+    while (i >= 0) { const s = this.slots[i]; if (s.isLetter && !s.isHint && !s.isStarter && s.typedCh !== null) break; i--; }
     if (i < 0) {
       const s = this.slots[this.activeIdx];
       if (s && s.hasError) { s.hasError = false; this.renderSlots(); }
@@ -861,6 +863,7 @@ const Rush = {
     if (!tile) return;
     tile.used = true; tile.isHint = true;
     Object.assign(slot, { typedCh: tile.val, tileId: tile.id, correct: true, isHint: true, hasError: false });
+    this.manualHintsUsed = (this.manualHintsUsed || 0) + 1;
     this.time -= 2.0;
     this.floatTime("−2s", "minus");
     Sfx.click();
@@ -903,14 +906,14 @@ const Rush = {
     const rt = (performance.now() - this.qStart) / 1000;
     this.correct++;
 
-    const hintsUsed = this.slots.filter(s => s.isHint).length;
+    const hintsUsed = this.manualHintsUsed || 0;
     const totalLetters = this.slots.filter(s => s.isLetter).length;
 
     let add = 0;
     let gained = 0;
 
     if (hintsUsed > 0) {
-      // Break combo and penalize score/time if hints were used to eliminate infinite loops
+      // Break combo and penalize score/time if manual hints were used to eliminate infinite loops
       this.combo = 0;
       $("#r-combo").innerHTML = "";
       // Time refill capped at +1s (or 0s if >= half letters hinted), guaranteeing net time loss (-2s hint vs +1s refill)
@@ -920,7 +923,9 @@ const Rush = {
     } else {
       this.combo++;
       this.maxCombo = Math.max(this.maxCombo, this.combo);
-      add = Math.min(10, this.BASE_ADD + Math.floor(this.combo / 3));
+      // Fast solves get an extra +1s to +2s speed refill up to the max 10s!
+      const fastRefill = rt < 3.5 ? 2 : rt < 5.0 ? 1 : 0;
+      add = Math.min(10, this.BASE_ADD + fastRefill + Math.floor(this.combo / 3));
       const speedBonus = rt < 5 ? 80 : rt < 8 ? 30 : 0;
       const mixedMult = this.isMixed ? 1.25 : 1.0;
       gained = Math.round((120 * this.mult() + speedBonus) * mixedMult);

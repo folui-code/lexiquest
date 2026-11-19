@@ -84,8 +84,10 @@
 }
 .cr-slot.active { border-color: var(--cyan); box-shadow: 0 0 14px -2px #22d3ee99; transform: translateY(-2px); }
 .cr-slot.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--emerald); color: #a7f3d0; animation: pop .25s; }
+.cr-slot.starter-slot { border-color: rgba(56, 189, 248, 0.45); background: rgba(56, 189, 248, 0.1); color: #bae6fd; }
 .cr-slot.hint-slot { border-color: #fbbf2488; background: rgba(251, 191, 36, 0.08); }
 .cr-slot.hint-slot:not(.correct) .cr-char { color: #fde68a; opacity: 0.85; }
+.cr-tile.starter-tile { opacity: 0.35; filter: grayscale(0.8); }
 .cr-slot.error { background: rgba(251, 113, 133, 0.25); border-color: var(--red); color: #fecdd3; animation: shake .3s; }
 .cr-slot.has-content { cursor: pointer; }
 .cr-slot.has-content:hover { border-color: rgba(251, 113, 133, 0.5); }
