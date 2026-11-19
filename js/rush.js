@@ -669,7 +669,8 @@ const Rush = {
       const exclude = new Set(this.recent);
       target = Store.pickWords(1, exclude, this.pool)[0] || shuffle([...this.pool])[0];
       this.recent.push(target.key || target.id);
-      if (this.recent.length > 10) this.recent.shift();
+      const maxRecent = Math.max(1, Math.min(10, Math.floor((this.pool.length || 10) * 0.45)));
+      if (this.recent.length > maxRecent) this.recent.shift();
     }
 
     this.card = target;
